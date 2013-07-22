@@ -38,7 +38,7 @@
 			<ImageButton android:id="@+id/start_stop_knap"
         android:contentDescription="start stop"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:gravity="center_vertical" android:background="@drawable/play" />
+				android:gravity="center_vertical" android:foreground="@drawable/play" />
 
       <!-- android:focusable="true" gør at blinde og svagtsynede der bruger
            skærmlæser kan bruge trackballen til at flytte hen på viewet og

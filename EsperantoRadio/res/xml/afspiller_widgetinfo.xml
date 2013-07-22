@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+android:minHeight="72dip"
+android:minWidth="294dip"
+android:updatePeriodMillis="3600000" android:initialLayout="@layout/vivanta_emblemo_widget">
+</appwidget-provider>

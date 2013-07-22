@@ -1,0 +1,5 @@
+<resources>
+    <style name="MitTema" parent="@android:style/Theme.DeviceDefault">
+        <!-- Inherits the DeviceDefault theme with action bar; no other styles needed. -->
+    </style>
+</resources>

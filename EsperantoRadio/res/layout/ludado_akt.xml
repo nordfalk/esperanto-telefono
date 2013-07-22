@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@color/fono"
+	>
+<!-- android:background="@drawable/main_app_bg" -->
+	<FrameLayout
+	android:id="@+id/fono"
+		android:layout_height="wrap_content" android:layout_width="fill_parent">
+
+			<ImageView android:id="@+id/player_select_channel_billede"
+				android:layout_width="fill_parent"
+				android:layout_gravity="left|center_vertical"
+				android:scaleType="fitStart"
+				android:layout_height="@dimen/ludado_kanalemblemo"
+				android:src="@drawable/kanal_p1" />
+				<!--
+				android:scaleType="centerCrop"
+				-->
+
+			<TextView android:id="@+id/player_select_channel_text"
+			android:paddingLeft="60dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="P4kbh"
+				android:textColor="#ff000000" android:textSize="@dimen/player_channel_title_size"
+		android:paddingRight="2dp" android:paddingTop="2dp"
+		android:paddingBottom="2dp"/>
+
+	</FrameLayout>
+
+
+		<LinearLayout
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:paddingLeft="5dp" android:paddingRight="5dp"
+			>
+
+			<ImageButton android:id="@+id/start_stop_knap"
+        android:contentDescription="start stop"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:gravity="center_vertical" android:background="@drawable/play" />
+
+      <!-- android:focusable="true" gør at blinde og svagtsynede der bruger
+           skærmlæser kan bruge trackballen til at flytte hen på viewet og
+           få læst teksten højt. Jacob 28. nov 2011 -->
+			<TextView android:id="@+id/status" android:text="Forbinder"
+				android:textColor="#FF000000" android:gravity="center_vertical"
+        android:focusable="true"
+				android:paddingLeft="10dp" android:layout_weight="1"
+				android:layout_width="wrap_content" android:layout_height="fill_parent" />
+
+<!--  android:layout_height="30dp" -->
+			<Button android:id="@+id/player_select_channel_button"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Elekti\nkanalon" android:textSize="@dimen/player_select_channel_size"
+        android:nextFocusDown="@+id/start_stop_knap"
+        android:nextFocusLeft="@+id/start_stop_knap"
+				android:layout_gravity="center_vertical|right" android:paddingLeft="20dp"
+				android:paddingRight="20dp" android:paddingTop="0dp"
+				android:paddingBottom="0dp">
+			</Button>
+		</LinearLayout>
+
+ <include
+ 	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:layout_weight="1" layout="@layout/ludado_ludasnun_hejmpagxo" />
+<!--
+	<ScrollView android:id="@+id/ludasNun_ScrollView"
+		android:layout_height="100dp"
+		android:layout_width="fill_parent" android:paddingLeft="5dp"
+		android:paddingRight="5dp" android:paddingTop="2dp"
+		android:paddingBottom="5dp">
+
+		<TextView android:id="@+id/ludasNun"
+			android:textSize="@dimen/player_current_program_channel_size"
+			android:text="Hvor er Emil fra Lønneberg? Vi leder efter ham forskellige steder"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:paddingRight="5dp"
+			android:focusable="true"
+			android:textColor="@android:color/black">
+		</TextView>
+	</ScrollView>
+
+	<WebView android:id="@+id/hejmpaĝo"
+	  android:layout_height="0dp"
+		android:layout_width="fill_parent"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:layout_weight="1"
+		android:paddingBottom="0dp"/>
+-->
+	<FrameLayout android:id="@+id/aliaj_elsendoj_FrameLayout"
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:paddingLeft="10dp" android:paddingRight="10dp"
+		android:paddingTop="5dp" android:paddingBottom="5dp">
+		<dk.dr.radio.diverse.MitGalleri android:id="@+id/aliaj_elsendoj_Gallery"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:paddingLeft="10dp" android:paddingRight="10dp"
+			android:paddingTop="10dp" android:paddingBottom="15dp"
+			android:layout_marginLeft="0dp" android:layout_marginRight="0dp"
+			android:layout_weight="0" android:background="@layout/ludado_elsendoj_fono"
+			android:layout_gravity="center_vertical"/>
+		<ImageView android:id="@+id/aliaj_elsendoj_venonta"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_gravity="center|center_vertical|left"
+			android:src="@drawable/button80left" android:background="@null"/>
+		<ImageView android:id="@+id/aliaj_elsendoj_antaŭa"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_gravity="center|center_vertical|right"
+			android:src="@drawable/button80right" android:background="@null" />
+	</FrameLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp" android:paddingTop="5dp"
+		android:paddingBottom="5dp">
+
+		<Button android:id="@+id/player_about_button"
+			android:layout_width="wrap_content" android:layout_height="30dp"
+			android:text="@string/about" android:textSize="@dimen/player_about_size"
+			android:layout_gravity="center_vertical|left" android:paddingLeft="20dp"
+			android:paddingRight="20dp" android:paddingTop="0dp"
+			android:paddingBottom="0dp">
+		</Button>
+
+		<Button android:id="@+id/al_la_hejmpaĝo"
+			android:layout_width="wrap_content" android:layout_height="30dp"
+			android:text="Hejmpaĝo de Muzaiko" android:textSize="@dimen/player_about_size"
+			android:layout_gravity="center_vertical|left" android:paddingLeft="20dp"
+			android:paddingRight="20dp" android:paddingTop="0dp"
+			android:paddingBottom="0dp">
+		</Button>
+<!--
+		<Button android:id="@+id/player_format_button"
+			android:layout_width="wrap_content" android:layout_height="30dp"
+			android:text="Format" android:textSize="@dimen/player_about_size"
+			android:layout_gravity="center_vertical|left" android:paddingLeft="10dp"
+			android:paddingRight="10dp" android:paddingTop="0dp"
+			android:paddingBottom="0dp">
+		</Button>
+-->
+
+	</LinearLayout>
+
+</TableLayout>

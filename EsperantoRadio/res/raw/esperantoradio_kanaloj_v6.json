@@ -1,0 +1,158 @@
+{
+	"hejmpaĝo": "http://code.google.com/p/esperanto-telefono/wiki/EsperantoRadio",
+
+// scp /home/j/android/esperanto/EsperantoRadio/res/raw/esperantoradio_kanaloj_v*.json javabog.dk:javabog.dk/privat/
+
+
+	"komenca_kanalo": "muzaiko",
+
+	"kanaloj": [
+		{
+			"kodo": "muzaiko",
+			"nomo": "Muzaiko",
+			"rektaElsendaSonoUrl": "http://listen.radionomy.com/muzaikoinfo",
+			"rektaElsendaPriskriboUrl": "http://muzaiko.info/ajax/current_song.php",
+			//"emblemoUrl": "http://muzaiko.info/images/emblemo.png",
+			"emblemoUrl": "http://muzaiko.info/reklambendoj/rb2.png",
+////			"elsendojRssUrl": "http://muzaiko.info/podkasto/podkasto.rss",
+			"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
+			"hejmpaĝoButono": "http://muzaiko.info/"
+		},
+		{
+			"kodo": "kaliningrada",
+			"nomo": "Kaliningrada E-radio",
+//			"sonoUrl": "http://esperanto-radio.com/kaliningradanun",
+//			"emblemoUrl": "http://esperanto.org/Ondo/Bildoj/Radioesp.jpg",
+			"emblemoUrl": "http://s.rpod.ru/data/users_avatars/00/00/01/21/53/ava_ava_1207503974.jpg",
+			"elsendojRssUrl": "http://la-ondo.rpod.ru/rss.xml",
+			"hejmpaĝoButono": "http://la-ondo.rpod.ru/"
+		},
+		{
+			"kodo": "3zzzradio",
+			"nomo": "3ZZZ en Esperanto",
+//			"sonoUrl": "http://esperanto-radio.com/3zzzradionun",
+//			"emblemoUrl": "http://esperanto.org/Ondo/Bildoj/Radioesp.jpg",
+// MONTRAS AL NEEKZITRANTAJ DOSIEROJ! Jacob 3.jan.2012 			"elsendojRssUrl": "http://melburno.org.au/3ZZZradio/feed/",
+//			"hejmpaĝoEkrane": "http://melburno.org.au/3ZZZradio/",
+			"hejmpaĝoButono": "http://melburno.org.au/3ZZZradio/"
+		},
+		{
+			"kodo": "krokoloko",
+			"nomo": "Krokoloko",
+//			"sonoUrl": "http://esperanto-radio.com/krokolokonun",
+			"emblemoUrl": "",
+			"elsendojRssUrl": "http://feeds.feedburner.com/krokoloko/sZRZ",
+			"uziWebViewPorElsendo": true,
+//			"hejmpaĝoEkrane": "http://www.krokoloko.cl/",
+			"hejmpaĝoButono": "http://www.krokoloko.cl/"
+		},
+		{
+			"kodo": "peranto",
+			"nomo": "Esperanta Retradio",
+//			"sonoUrl": "http://esperanto-radio.com/perantonun",
+			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
+			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
+			"uziWebViewPorElsendo": true,
+			"retpoŝto": "retradio@aldone.de",
+			//"hejmpaĝoButono": "http://peranto.posterous.com/"
+			"hejmpaĝoButono": "http://members.aon.at/aldone/retradio/"
+		},
+		{
+			"kodo": "polaretradio",
+			"nomo": "Pola Retradio",
+//			"sonoUrl": "http://esperanto-radio.com/polaretradionun",
+			"emblemoUrl": "http://files.posterous.com/user_profile_pics/1360863/Pola75.png",
+// Ne bone funkscias - reklamoj por Posterous en la fluo
+      "elsendojRssUrl": "http://feeds.feedburner.com/retradio",
+			"hejmpaĝoButono": "http://retradio.posterous.com/"
+		},
+		{
+			"kodo": "radiokubo",
+			"nomo": "Radio Havano Kubo",
+//			"sonoUrl": "http://esperanto-radio.com/radiokubonun",
+			"emblemoUrl": "http://profile.ak.fbcdn.net/hprofile-ak-ash2/195737_320996469352_1962454_q.jpg",
+// Ne ekzistas? 			"elsendojRssUrl": "",
+			"hejmpaĝoButono": "http://radiohc.cu/eo/"
+		},
+		{
+			"kodo": "radiovatikana",
+			"nomo": "Radio Vatikana",
+//			"sonoUrl": "http://esperanto-radio.com/radiovatikananun",
+			"emblemoUrl": "http://www.radiovaticana.org/esp/img/h_02.gif",
+ 			"elsendojRssUrl": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1",
+			"hejmpaĝoButono": "http://www.radiovaticana.org/esp/on_demand.asp"
+		},
+		{
+			"kodo": "radioverda",
+			"nomo": "Radio Verda",
+//			"sonoUrl": "http://esperanto-radio.com/radioverdanun",
+			"emblemoUrl": "http://radioverda.com/storage/audio/rv_144.jpg",
+// Ne facile eblas eltiri la MP3-dosierojn. Jacob 3.jan.2012			"elsendojRssUrl": "http://radioverda.squarespace.com/programoj/rss.xml",
+// Pli granda sed malpli informenhava
+			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
+			"hejmpaĝoButono": "http://radioverda.com/"
+		},
+		{
+			"kodo": "varsoviavento",
+			"nomo": "Varsovia Vento",
+//			"sonoUrl": "http://esperanto-radio.com/varsoviaventonun",
+			"emblemoUrl": "",
+// Ne bone funkscias - neniuj utilaj komentoj en la fluo 			"elsendojRssUrl": "http://feeds.feedburner.com/VarsoviaVentoPodkasto",
+			"hejmpaĝoButono": "http://www.podkasto.net/"
+		},
+		{
+			"kodo": "verdastacio",
+			"nomo": "Verda Stacio",
+//			"sonoUrl": "http://esperanto-radio.com/verdastacionun",
+			"emblemoUrl": "",
+// Ne havebla: 			"elsendojRssUrl": "",
+			"hejmpaĝoEkrane": "http://m.verdastacio.eu/eo/",
+			"hejmpaĝoButono": "http://m.verdastacio.eu/eo/"
+		},
+		/*  Vinilkosmo ne eblas, cxar ne estas podkasto, nek icekasto
+		{
+			"kodo": "vinilkosmo",
+			"nomo": "Vinilkosmo",
+//			"sonoUrl": "http://esperanto-radio.com/vinilkosmonun",
+			"emblemoUrl": "http://muzaiko.info/images/vinilkosmo-mp3.gif",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://cd1d.com/radio.php?structure=82874"
+			//"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
+		},
+		*/
+		{
+			"kodo": "vej",
+			"nomo": "Voĉoj el Japanio",
+//			"sonoUrl": "http://esperanto-radio.com/vejnun",
+			"emblemoUrl": "http://files.posterous.com/user_profile_pics/995825/VeJ40x40.png",
+ 			"elsendojRssUrl": "http://feeds.feedburner.com/vej",
+			"uziWebViewPorElsendo": true,
+//			"hejmpaĝoEkrane": "http://vej.posterous.com/",
+			"hejmpaĝoButono": "http://vej.posterous.com/"
+		}
+	],
+
+
+	"vis_spiller_nu": ["P2D", "P3", "P4", "P5D"],
+
+	"feedback_modtagere": ["jacob.nordfalk@gmail.com" ],
+
+ "feedback_brugerspørgsmål": "\
+Saluton!\n\
+Skribu viajn proponojn aux ideojn.\n\
+---\n\
+v6.json",
+
+  "drift_statusmeddelelse": "Tiu ĉi versio NE PLU ESTAS SUBTENATA.\n\
+Malfermu Guglo Play kaj ĝisdatigu vian programon\n\
+Kore, Jacob",
+
+
+
+  "xxx2_drift_statusmeddelelse": "NOVAĴOJ\n\
+Mi ĵus metis novan version en la Androjda Merkato kiu devus solvi la problemojn kiujn kelkaj spertis.\n\
+Mi petas vin ĝisdatigi kaj raporti se estus dauxre problemoj.\n\
+\n\
+Dankon!\n\
+Jacob."
+}

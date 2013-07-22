@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<string name="app_name">Esperanto-radio Muzaiko</string>
+<string name="about">About</string>
+<string name="send_feedback_mail">Email feedback</string>
+
+
+<string name="AppRater_taksu">"Rate Esperanto-radio"</string>
+<string name="AppRater_teksto">"If you enjoy using Esperanto-radio,
+please take a moment to rate it.\nThanks for your support!"</string>
+<string name="AppRater_taksi">"Rate Esperanto-radio"</string>
+<string name="AppRater_poste">"Remind me later"</string>
+<string name="AppRater_ne_dankon">"No, thanks"</string>
+
+</resources>

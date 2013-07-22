@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:gravity="center_vertical"
+	android:layout_width="fill_parent" android:layout_height="50dp">
+
+	<dk.dr.radio.util.ImageViewTilBlinde
+		android:id="@+id/billede"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		android:scaleType="centerInside"
+		android:layout_gravity="left|center_vertical"
+		android:paddingLeft="5dp"
+		android:src="@drawable/kanal_p1"
+		 />
+		 <!--
+		android:scaleType="centerInside"
+		android:scaleType="fitStart"
+		 -->
+
+	<TextView
+		android:id="@+id/tekst"
+		android:layout_width="wrap_content"
+		android:layout_height="50dp"
+		android:gravity="center_vertical"
+		android:text="DR P4 i P1"
+		android:textSize="@dimen/kanalvalg_tekststr"
+		android:paddingLeft="60dp"
+		android:textColor="#FF000000"
+		/>
+
+	<dk.dr.radio.util.ImageViewTilBlinde
+		android:id="@+id/ikon"
+		android:src="@drawable/icon_playing"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="right|center_vertical"
+		android:layout_gravity="right|center_vertical"
+		android:scaleType="fitEnd"
+		android:layout_marginRight="10dp"
+		/>
+
+</FrameLayout>

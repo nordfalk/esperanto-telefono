@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/yderstelayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_bg_png_black"
+    >
+
+    <ImageButton
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:layout_marginLeft="20dip"
+	    android:id="@+id/startStopKnap"
+	    android:src="@drawable/widget_radio_play"
+	    android:layout_gravity="center_vertical"
+	    android:background="#00000000"
+	    >
+    </ImageButton>
+
+	<FrameLayout
+	    android:layout_width="wrap_content"
+	    android:layout_weight="1"
+	    android:layout_height="wrap_content"
+	   	android:layout_gravity="center_vertical"
+	    android:layout_marginRight="20dip"
+		>
+
+
+    <ImageView
+     	android:id="@+id/billede"
+  	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+   		android:layout_gravity="left|center_vertical"
+   		android:scaleType="fitStart"
+   		android:src="@drawable/kanal_p1"
+   		 />
+
+    <TextView
+    	android:textAppearance="?android:attr/textAppearanceLarge"
+    	android:layout_width="wrap_content"
+    	android:id="@+id/kanalnavn"
+    	android:layout_height="wrap_content"
+	    android:layout_marginLeft="20dip"
+	    android:layout_gravity="center_vertical"
+    	android:text="DR P3"
+    	android:textColor="#505050"
+      android:visibility="invisible"
+    	>
+    </TextView>
+
+    <!-- fix for http://code.google.com/p/android/issues/detail?id=11040 :
+      ProgressBar's synlighed kan ikke ændres direkte, man er nødt til at indlejre den
+      i f.eks. et LinearLayout -->
+    <LinearLayout
+      android:id="@+id/progressbar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+    	android:layout_gravity="right|center_vertical"
+      android:visibility="invisible"
+      >
+	    	<ProgressBar
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		/>
+    </LinearLayout>
+
+	</FrameLayout>
+
+
+</LinearLayout>

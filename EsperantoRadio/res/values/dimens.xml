@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="about_header_size">20sp</dimen>
+    <dimen name="player_channel_title_size">20sp</dimen>
+    <dimen name="player_select_channel_size">14sp</dimen>
+    <dimen name="player_current_program_channel_size">14sp</dimen>
+    <dimen name="player_current_program_title_size">24sp</dimen>
+    <dimen name="player_current_program_description_size">11sp</dimen>
+    <dimen name="player_about_size">14sp</dimen>
+    <dimen name="player_next_program_size">11sp</dimen>
+    <dimen name="player_next_program_title_size">10sp</dimen>
+	<dimen name="player_track_header_size">10sp</dimen>
+	<dimen name="player_track_title_size">14sp</dimen>
+	<dimen name="player_track_artist_size">11sp</dimen>
+	<dimen name="player_track_starttime_size">8sp</dimen>
+	<dimen name="player_track_lastfm_size">8sp</dimen>
+    <!-- Værdier i skærmbilledet for kanalvalg -->
+    <dimen name="kanalvalg_tekststr">20sp</dimen>
+		
+    <dimen name="ludado_kanalemblemo">50dp</dimen>
+</resources>

@@ -1,0 +1,152 @@
+{
+	"hejmpaĝo": "http://code.google.com/p/esperanto-telefono/wiki/EsperantoRadio",
+
+// scp /home/j/android/esperanto/EsperantoRadio/res/raw/esperantoradio_kanaloj_v*.json javabog.dk:javabog.dk/privat/
+
+
+	"komenca_kanalo": "muzaiko",
+
+	"kanaloj": [
+		{
+			"kodo": "muzaiko",
+			"nomo": "Muzaiko",
+			"sonoUrl": "http://listen.radionomy.com/muzaikoinfo",
+			//"emblemoUrl": "http://muzaiko.info/images/emblemo.png",
+			"emblemoUrl": "http://muzaiko.info/reklambendoj/rb2.png",
+// Nenecesa:			"emblemoEnhavasLaNomon": true,
+			"nunUrl": "http://muzaiko.info/ajax/current_song.php",
+			"hejmpaĝo": "http://muzaiko.info/#aktualaprogramo"
+		},
+		{
+			"kodo": "kaliningrada",
+			"nomo": "Kaliningrada E-radio",
+			"sonoUrl": "http://esperanto-radio.com/kaliningradanun",
+//			"emblemoUrl": "http://esperanto.org/Ondo/Bildoj/Radioesp.jpg",
+			"emblemoUrl": "http://s.rpod.ru/data/users_avatars/00/00/01/21/53/ava_ava_1207503974.jpg",
+// Nenecesa: "elsendojRssUrl": "http://la-ondo.rpod.ru/rss.xml",
+			"hejmpaĝo": "http://la-ondo.rpod.ru/"
+		},
+		{
+			"kodo": "3zzzradio",
+			"nomo": "3ZZZ en Esperanto",
+			"sonoUrl": "http://esperanto-radio.com/3zzzradionun",
+//			"emblemoUrl": "http://esperanto.org/Ondo/Bildoj/Radioesp.jpg",
+// Nenecesa: 			"elsendojRssUrl": "http://melburno.org.au/3ZZZradio/feed/",
+			"hejmpaĝo": "http://melburno.org.au/3ZZZradio/"
+		},
+		{
+			"kodo": "krokoloko",
+			"nomo": "Krokoloko",
+			"sonoUrl": "http://esperanto-radio.com/krokolokonun",
+			"emblemoUrl": "",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://www.krokoloko.cl/"
+		},
+		{
+			"kodo": "peranto",
+			"nomo": "Peranto",
+			"sonoUrl": "http://esperanto-radio.com/perantonun",
+			"emblemoUrl": "",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://peranto.posterous.com/"
+		},
+		{
+			"kodo": "polaretradio",
+			"nomo": "Pola Retradio",
+			"sonoUrl": "http://esperanto-radio.com/polaretradionun",
+			"emblemoUrl": "http://files.posterous.com/user_profile_pics/1360863/Pola75.png",
+			"hejmpaĝo": "http://retradio.posterous.com/"
+		},
+		{
+			"kodo": "radiokubo",
+			"nomo": "Radio Havano Kubo",
+			"sonoUrl": "http://esperanto-radio.com/radiokubonun",
+			"emblemoUrl": "http://profile.ak.fbcdn.net/hprofile-ak-ash2/195737_320996469352_1962454_q.jpg",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://radiohc.cu/eo/"
+		},
+		{
+			"kodo": "radiovatikana",
+			"nomo": "Radio Vatikana",
+			"sonoUrl": "http://esperanto-radio.com/radiovatikananun",
+			"emblemoUrl": "http://www.radiovaticana.org/esp/img/h_02.gif",
+// Nenecesa:			"emblemoEnhavasLaNomon": true,
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://www.radiovaticana.org/esp/on_demand.asp"
+		},
+		{
+			"kodo": "radioverda",
+			"nomo": "Radio Verda",
+			"sonoUrl": "http://esperanto-radio.com/radioverdanun",
+			"emblemoUrl": "http://radioverda.com/storage/audio/rv_144.jpg",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://radioverda.com/"
+		},
+		{
+			"kodo": "varsoviavento",
+			"nomo": "Varsovia Vento",
+			"sonoUrl": "http://esperanto-radio.com/varsoviaventonun",
+			"emblemoUrl": "",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://www.podkasto.net/"
+		},
+		{
+			"kodo": "verdastacio",
+			"nomo": "Verda Stacio",
+			"sonoUrl": "http://esperanto-radio.com/verdastacionun",
+			"emblemoUrl": "",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://m.verdastacio.eu/eo/"
+		},
+		/*  Vinilkosmo ne eblas, cxar ne estas podkasto, nek icekasto
+		{
+			"kodo": "vinilkosmo",
+			"nomo": "Vinilkosmo",
+			"sonoUrl": "http://esperanto-radio.com/vinilkosmonun",
+			"emblemoUrl": "http://muzaiko.info/images/vinilkosmo-mp3.gif",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://cd1d.com/radio.php?structure=82874"
+			//"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
+		},
+		*/
+		{
+			"kodo": "vej",
+			"nomo": "Voĉoj el Japanio",
+			"sonoUrl": "http://esperanto-radio.com/vejnun",
+			"emblemoUrl": "http://files.posterous.com/user_profile_pics/995825/VeJ40x40.png",
+// Nenecesa: 			"elsendojRssUrl": "",
+			"hejmpaĝo": "http://vej.posterous.com/"
+		}
+/*		,
+		{
+			"kodo": "P3",
+			"nomo": "Dana Radio P3",
+			"sonoUrl": "http://live-icy.gss.dr.dk:8000/Channel5_LQ.mp3",
+			"hejmpaĝo": "http://dr.dk"
+		},
+		{
+			"kodo": "P6B",
+			"nomo": "Dana Radio P6 Beat",
+			"sonoUrl": "http://live-icy.gss.dr.dk:8000/Channel29_LQ.mp3",
+			"hejmpaĝo": "http://dr.dk"
+		}
+*/
+	],
+
+
+	"vis_spiller_nu": ["P2D", "P3", "P4", "P5D"],
+
+	"feedback_modtagere": ["rogier.huurman@gmail.com", "jacob.nordfalk@gmail.com" ],
+
+ "feedback_brugerspørgsmål": "\
+Saluton!\n\
+Skribu viajn proponojn aŭ ideojn.\n\
+---\n\
+",
+
+  "drift_statusmeddelelse": "Nova versio estas preta\n\
+Serĉu por 'Muzaiko' en la Androjda Merkato\n\
+Bonan novan jaron :-)\n\
+Jacob Nordfalk"
+
+}

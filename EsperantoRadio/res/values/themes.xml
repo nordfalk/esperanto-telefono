@@ -1,0 +1,5 @@
+<resources>
+    <style name="MitTema" parent="@android:style/Theme.NoTitleBar">
+        <!-- Inherits the default theme for pre-HC -->
+    </style>
+</resources>

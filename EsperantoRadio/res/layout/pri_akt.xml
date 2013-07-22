@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:id="@+id/about_relativelayout"
+    	android:orientation="vertical"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent" >
+        <LinearLayout android:id="@+id/about_header_linearlayout"
+        	android:orientation="vertical"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentTop="true" >
+
+<!--
+        	<TextView
+        		android:id="@+id/about_header_textview"
+        		android:textSize="@dimen/about_header_size"
+        		android:gravity="left"
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+        		android:textColor="@color/white"
+        		android:textStyle="bold"
+        		android:text="@string/about">
+        	</TextView>
+-->
+
+        </LinearLayout>
+        <RelativeLayout android:id="@+id/about_footer_relativelayout"
+        	android:orientation="vertical"
+        	android:layout_width="fill_parent"
+        	android:layout_height="80dp"
+        	android:layout_alignParentBottom="true" >
+
+            <Button android:id="@+id/about_footer_button"
+								android:text="Sendi mesaĝon al la kreintoj"
+								android:layout_height="wrap_content"
+								android:layout_width="wrap_content"
+								android:gravity="center_vertical|center_horizontal"
+              	android:layout_centerInParent="true"/>
+
+	    </RelativeLayout>
+
+	     <LinearLayout android:id="@+id/about_body_linearlayout"
+        	android:orientation="vertical"
+        	android:layout_below="@id/about_header_linearlayout"
+        	android:layout_above="@id/about_footer_relativelayout"
+        	android:layout_width="fill_parent"
+        	android:layout_weight="1"
+        	android:layout_height="wrap_content"  >
+
+    		<WebView
+        		android:id="@+id/about_webview"
+        		android:layout_width="fill_parent"
+        		android:layout_height="fill_parent">
+        	</WebView>
+
+    	</LinearLayout>
+
+    </RelativeLayout>
+

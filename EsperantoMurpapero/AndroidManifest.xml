@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dk.nordfalk.esperanto.murpapero"
+ 		android:versionCode="2"
+		android:versionName="0.2.0">
+
+
+    <uses-feature android:name="android.software.live_wallpaper" />
+
+    <application
+        android:label="Esperanto-murpapero"
+        android:icon="@drawable/esperantoflago">
+
+        <service
+            android:label="Esperanto-murpapero"
+            android:name="dk.nordfalk.esperanto.murpapero.SteloMurpapero"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/tapeto" />
+        </service>
+
+    </application>
+
+	<supports-screens
+        android:smallScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true" />     
+    <uses-sdk android:minSdkVersion="7" targetSdkVersion="9"/>
+</manifest>

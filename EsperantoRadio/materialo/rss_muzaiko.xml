@@ -1,0 +1,52 @@
+
+<rss version="2.0">
+	<channel>
+		<title>Muzaiko</title>
+		<description>Podkasto de la Esperanta radio Muzaiko</description>
+		<link>http://muzaiko.info/</link>
+		<language>eo</language>
+		<pubDate>Mon, 26 Dec 2011 03:01:22 UTC</pubDate>
+		<lastBuildDate>Mon, 26 Dec 2011 03:01:22 UTC</lastBuildDate>
+		<image>
+			<url>http://muzaiko.info/reklambendoj/rb7.png</url>
+			<title>Muzaiko</title>
+			<link>http://muzaiko.info/</link>
+		</image>
+		<item>
+			<title>Elsendo de 2011-12-25</title>
+			<pubDate>Mon, 26 Dec 2011 03:00:00 UTC</pubDate>
+			<description>&lt;p&gt;Pri la dan&#285;ero de iksodoj rakontas Lisa, la intervjuon muntis: Natalija Pendjiur (dua parto)&lt;/p&gt; &lt;p&gt;Pri la vivo de TEJO-volontuloj rakontas Marteno Minich (elsendo el la ar&#293;ivoj de Muzaiko)&lt;/p&gt; &lt;p&gt;&lt;a href=&quot;http://vej.posterous.com/komentario-pri-atoma-akcidento-kaj-cetero&quot;&gt;Vo&#265;oj el Japanio&lt;/a&gt;: persona komentario de Sali&#293; Zakirov pri la okaza&#309;oj &#265;e Fuku&#349;ima kaj &#285;enerale&lt;/p&gt;</description>
+			<enclosure length="6382235" type="audio/mpeg" url="http://muzaiko.info/podkasto/podkasto-2011-12-25.mp3" />
+		</item>
+		<item>
+			<title>Elsendo de 2011-12-24</title>
+			<pubDate>Sun, 25 Dec 2011 03:00:00 UTC</pubDate>
+			<description>&lt;p&gt;Pri la dan&#285;ero de iksodoj rakontas Lisa, la intervjuon muntis: Natalija Pendjiur (unua parto)&lt;/p&gt; &lt;p&gt;Mirejo rakontas pri interkultura dialogo, paco kaj Japanio&lt;/p&gt; &lt;p&gt;Pri biciklado tra E&#365;ropo en 1987 rakontas al ni Jorgos - unua parto&lt;/p&gt;</description>
+			<enclosure length="15519868" type="audio/mpeg" url="http://muzaiko.info/podkasto/podkasto-2011-12-24.mp3" />
+		</item>
+		<item>
+			<title>Elsendo de 2011-12-23</title>
+			<pubDate>Sat, 24 Dec 2011 03:00:00 UTC</pubDate>
+			<description>&lt;p&gt;Mirejo rakontas pri reprezentado de UEA &#265;e UNO (intervjuis Platano, muntis Nata&#349;a)&lt;/p&gt; &lt;p&gt;Ro&#285;er Bor&#285;es faras intervjuojn de diversaj esperantistoj el Hispanio dum la jaroj 2003-2004&lt;/p&gt; &lt;p&gt;El la rakontoj de &lt;a href=&quot;http://facila.org&quot;&gt;Facila Vento&lt;/a&gt;, ni a&#365;skultu hodia&#365; la rakontojn &quot;&#264;u niaj son&#285;oj estas gravaj?&quot;, &quot;Mi estas Klaus&quot;, &quot;Kiel anta&#365;diri veteron?&quot;&lt;/p&gt;</description>
+			<enclosure length="7993677" type="audio/mpeg" url="http://muzaiko.info/podkasto/podkasto-2011-12-23.mp3" />
+		</item>
+		<item>
+			<title>Elsendo de 2011-12-22</title>
+			<pubDate>Fri, 23 Dec 2011 03:00:00 UTC</pubDate>
+			<description>&lt;p&gt;Raportoj el eventoj prezentas la Italan Kongreson. Kia estis la 78a Itala Kongreso por la partoprenantoj? Por tion ekscii, a&#365;skultu la spertojn de Rossana GUASCONI kaj Manuel GIORGINI&lt;/p&gt; &lt;p&gt;El la kelo de RadioZam : Interkultura seminario kiu okazis en Sarajevo (2004)&lt;/p&gt; &lt;p&gt;Barbara DESPINEY rakontas pri siaj agadoj kiel reprezentanto de UEA &#265;e UNESKO (tria parto)&lt;/p&gt;</description>
+			<enclosure length="12130846" type="audio/mpeg" url="http://muzaiko.info/podkasto/podkasto-2011-12-22.mp3" />
+		</item>
+		<item>
+			<title>Elsendo de 2011-12-20</title>
+			<pubDate>Wed, 21 Dec 2011 03:00:00 UTC</pubDate>
+			<description>&lt;p&gt;El podkastoj de Varsovia Vento Platano kunmetis por vi intervjuon kun la nova prezidento de Tejo kaj intervjuon kun Melono, la esperantista &#309;azmuzikisto&lt;/p&gt; &lt;p&gt;Kulturaj minutoj prezentas projekton pri nova antologio en Britio kaj la internacian koruson Interkant'&lt;/p&gt; &lt;p&gt;Barbara DESPINEY rakontas pri siaj agadoj kiel reprezentanto de UEA &#265;e UNESKO (unua parto)&lt;/p&gt;</description>
+			<enclosure length="5984547" type="audio/mpeg" url="http://muzaiko.info/podkasto/podkasto-2011-12-20.mp3" />
+		</item>
+		<item>
+			<title>Elsendo de 2011-12-19</title>
+			<pubDate>Tue, 20 Dec 2011 03:00:00 UTC</pubDate>
+			<description>&lt;p&gt;Ro&#285;er Bor&#285;es faras intervjuojn de diversaj esperantistoj el Usono&lt;/p&gt; &lt;p&gt;Ari raportas el Kubo, Platano el Svislando kaj ni anka&#365; a&#365;dos rakonton pri La fabelo kaj la vero de Julia Noe&lt;/p&gt; &lt;p&gt;&lt;i&gt;Universitataj sistemoj tra la mondo&lt;/i&gt; prezentas la Italan sistemon (tria parto)&lt;/p&gt;</description>
+			<enclosure length="6252041" type="audio/mpeg" url="http://muzaiko.info/podkasto/podkasto-2011-12-19.mp3" />
+		</item>
+	</channel>
+</rss>

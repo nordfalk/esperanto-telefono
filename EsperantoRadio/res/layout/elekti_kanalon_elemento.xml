@@ -7,7 +7,7 @@
 		android:id="@+id/billede"
 		android:layout_width="50dp"
 		android:layout_height="50dp"
-		android:scaleType="centerInside"
+		android:scaleType="fitStart"
 		android:layout_gravity="left|center_vertical"
 		android:paddingLeft="5dp"
 		android:src="@drawable/kanal_p1"

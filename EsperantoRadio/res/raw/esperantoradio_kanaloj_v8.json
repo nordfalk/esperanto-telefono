@@ -1,7 +1,7 @@
 {
 	"hejmpaĝo": "http://code.google.com/p/esperanto-telefono/wiki/EsperantoRadio",
 
-// scp /home/j/android/esperanto/EsperantoRadio/res/raw/esperantoradio_kanaloj_v*.json javabog.dk:javabog.dk/privat/
+// scp /home/j/android/esperanto/esperanto-telefono/EsperantoRadio/res/raw/esperantoradio_kanaloj_v*.json javabog.dk:javabog.dk/privat/
 
 
 	"komenca_kanalo": "muzaiko",
@@ -27,11 +27,10 @@
 			"nomo": "Esperanta Retradio",
 //			"sonoUrl": "http://esperanto-radio.com/perantonun",
 			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
-			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
-			"uziWebViewPorElsendo": true,
+//			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
+			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
 			"retpoŝto": "retradio@aldone.de",
-			//"hejmpaĝoButono": "http://peranto.posterous.com/"
-			"hejmpaĝoButono": "http://members.aon.at/aldone/retradio/"
+			"hejmpaĝoButono": "http://aldone.de/retradio"
 		},
 		{
 			"kodo": "polaretradio",

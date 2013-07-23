@@ -21,7 +21,10 @@
 			"retpoŝto": "info@muzaiko.info",
 			"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
 			"hejmpaĝoButono": "http://muzaiko.info/"
-		},
+		}
+    /*
+    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
+    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
 		{
 			"kodo": "peranto",
 			"nomo": "Esperanta Retradio",
@@ -31,8 +34,9 @@
 			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
 			"retpoŝto": "retradio@aldone.de",
 			"hejmpaĝoButono": "http://aldone.de/retradio"
-		},
-		{
+		}
+    */
+		,{
 			"kodo": "polaretradio",
 			"nomo": "Pola Retradio",
 //			"sonoUrl": "http://esperanto-radio.com/polaretradionun",

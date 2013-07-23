@@ -101,6 +101,7 @@
 //			"hejmpaĝoEkrane": "http://m.verdastacio.eu/eo/",
 //			"hejmpaĝoButono": "http://www.verdastacio.net"
 //		},
+/*
 		{
 			"kodo": "krokoloko",
 			"nomo": "Krokoloko",
@@ -112,6 +113,7 @@
 //			"hejmpaĝoEkrane": "http://www.krokoloko.cl/",
 			"hejmpaĝoButono": "http://www.krokoloko.cl/"
 		},
+    */
 		{
 			"kodo": "kaliningrada",
 			"nomo": "Kaliningrada E-radio",
@@ -122,9 +124,9 @@
 				// RSS-fluo havas nur la daton en la titolo. Tio estas jam videbla kaj tial ni ne montru tion
 			"elsendojRssIgnoruTitolon": "true",
 			"hejmpaĝoButono": "http://la-ondo.rpod.ru/"
-		},
+		}
 		/*  Vinilkosmo ne eblas, cxar ne estas podkasto, nek icekasto
-		{
+		,{
 			"kodo": "vinilkosmo",
 			"nomo": "Vinilkosmo",
 //			"sonoUrl": "http://esperanto-radio.com/vinilkosmonun",
@@ -132,9 +134,10 @@
 // Nenecesa: 			"elsendojRssUrl": "",
 			"hejmpaĝo": "http://cd1d.com/radio.php?structure=82874"
 			//"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
-		},
+		}
 		*/
-		{
+    /*
+		,{
 			"kodo": "vej",
 			"nomo": "Voĉoj el Japanio",
 //			"sonoUrl": "http://esperanto-radio.com/vejnun",
@@ -145,6 +148,7 @@
 //			"hejmpaĝoEkrane": "http://vej.posterous.com/",
 			"hejmpaĝoButono": "http://vej.posterous.com/"
 		}
+    */
 	],
 
  "elsendojUrl": "http://esperanto-radio.com/radio.txt",

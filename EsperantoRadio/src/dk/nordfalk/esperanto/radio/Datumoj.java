@@ -387,7 +387,13 @@ public class Datumoj implements java.io.Serializable {
 				String dosiero = Kasxejo.akiriDosieron(elsendojRssUrl, false, nurLokajn);
 				Log.d((System.currentTimeMillis() - komenco)+ " akiris "+elsendojRssUrl);
 				if (dosiero == null) continue;
-				ArrayList<Elsendo> elsendoj = RssParsado.parsuElsendojnDeRss(new FileInputStream(dosiero));
+				ArrayList<Elsendo> elsendoj;
+        if (k.kodo.equals("peranto")) {
+          Log.d("xxxxxxxxxxxxx uzas specialan metodon por parsi peranton!");
+          elsendoj = RssParsado.parsuElsendojnDeRssPeranto(new FileInputStream(dosiero));
+        } else {
+          elsendoj = RssParsado.parsuElsendojnDeRss(new FileInputStream(dosiero));
+        }
 				// Kelkaj RSS-fluoj havas nur la daton en la titolo. Tio estas jam videbla kaj tial ni ne montru tion
 				if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Elsendo e : elsendoj) e.titolo = null;
 				if (elsendoj.size()>0) {
@@ -395,7 +401,7 @@ public class Datumoj implements java.io.Serializable {
 					k.elsendoj = elsendoj;
 					ioEstisSxargxita = true;
 				}
-				Log.d((System.currentTimeMillis() - komenco)+ " parsis "+elsendojRssUrl);
+				Log.d((System.currentTimeMillis() - komenco)+ " parsis "+elsendojRssUrl + " kaj ricevis "+elsendoj.size()+" elsendojn");
 			} catch (Exception ex) {
 				Log.e("Eraro parsante "+elsendojRssUrl, ex);
 			}

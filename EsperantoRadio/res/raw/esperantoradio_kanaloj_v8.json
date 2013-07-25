@@ -1,6 +1,9 @@
 {
 	"hejmpaĝo": "http://code.google.com/p/esperanto-telefono/wiki/EsperantoRadio",
 
+// ĈIAM post redaktado kontrolu ĉu la dosiero estas valida. Oni faras tion per
+// http://www.freeformatter.com/json-validator.html    kiu devas respondi 'The JSON input is valid in JavaScript.'
+//
 // scp /home/j/android/esperanto/esperanto-telefono/EsperantoRadio/res/raw/esperantoradio_kanaloj_v*.json javabog.dk:javabog.dk/privat/
 
 
@@ -22,20 +25,18 @@
 			"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
 			"hejmpaĝoButono": "http://muzaiko.info/"
 		}
-    /*
-    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
-    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
-		{
-			"kodo": "peranto",
-			"nomo": "Esperanta Retradio",
-//			"sonoUrl": "http://esperanto-radio.com/perantonun",
-			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
-//			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
-			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
-			"retpoŝto": "retradio@aldone.de",
-			"hejmpaĝoButono": "http://aldone.de/retradio"
-		}
-    */
+//    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
+//    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
+//		{
+//			"kodo": "peranto",
+//			"nomo": "Esperanta Retradio",
+////			"sonoUrl": "http://esperanto-radio.com/perantonun",
+//			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
+////			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
+//			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
+//			"retpoŝto": "retradio@aldone.de",
+//			"hejmpaĝoButono": "http://aldone.de/retradio"
+//		}
 		,{
 			"kodo": "polaretradio",
 			"nomo": "Pola Retradio",
@@ -45,8 +46,8 @@
 //      "elsendojRssUrl": "http://feeds.feedburner.com/retradio",
 			"retpoŝto": "retradio.esperanto@gmail.com",
 			"hejmpaĝoButono": "http://retradio.posterous.com/"
-		},
-		{
+		}
+		,{
 			"kodo": "3zzzradio",
 			"nomo": "3ZZZ en Esperanto",
 //			"sonoUrl": "http://esperanto-radio.com/3zzzradionun",
@@ -55,8 +56,8 @@
 //			"hejmpaĝoEkrane": "http://melburno.org.au/3ZZZradio/",
 			"retpoŝto": "leslie@heldzingen.com",
 			"hejmpaĝoButono": "http://melburno.org.au/3ZZZradio/"
-		},
-		{
+		}
+		,{
 			"kodo": "radiokubo",
 			"nomo": "Radio Havano Kubo",
 //			"sonoUrl": "http://esperanto-radio.com/radiokubonun",
@@ -65,8 +66,8 @@
 // http://radiohc.cu/eo/kontaktu-nin.html
 //			"retpoŝto": "",
 			"hejmpaĝoButono": "http://radiohc.cu/eo/"
-		},
-		{
+		}
+		,{
 			"kodo": "radiovatikana",
 			"nomo": "Radio Vatikana",
 //			"sonoUrl": "http://esperanto-radio.com/radiovatikananun",
@@ -75,8 +76,8 @@
 // 			"elsendojRssUrl": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1",
 			"retpoŝto": "esperanto@vatiradio.va",
 			"hejmpaĝoButono": "http://www.radiovaticana.org/esp/on_demand.asp"
-		},
-		{
+		}
+		,{
 			"kodo": "radioverda",
 			"nomo": "Radio Verda",
 //			"sonoUrl": "http://esperanto-radio.com/radioverdanun",
@@ -86,8 +87,8 @@
 			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
 			"retpoŝto": "arono@radioverda.com",
 			"hejmpaĝoButono": "http://radioverda.com/"
-		},
-		{
+		}
+		,{
 			"kodo": "varsoviavento",
 			"nomo": "Varsovia Vento",
 //			"sonoUrl": "http://esperanto-radio.com/varsoviaventonun",
@@ -95,7 +96,7 @@
 // Ne bone funkscias - neniuj utilaj komentoj en la fluo 			"elsendojRssUrl": "http://feeds.feedburner.com/VarsoviaVentoPodkasto",
 			"retpoŝto": "podkasto@onet.eu",
 			"hejmpaĝoButono": "http://podkasto.net/"
-		},
+		}
 //		{
 //			"kodo": "verdastacio",
 //			"nomo": "Verda Stacio",
@@ -105,20 +106,19 @@
 //			"hejmpaĝoEkrane": "http://m.verdastacio.eu/eo/",
 //			"hejmpaĝoButono": "http://www.verdastacio.net"
 //		},
-/*
-		{
-			"kodo": "krokoloko",
-			"nomo": "Krokoloko",
-//			"sonoUrl": "http://esperanto-radio.com/krokolokonun",
-			"emblemoUrl": "",
-			"elsendojRssUrl": "http://feeds.feedburner.com/krokoloko/sZRZ",
-			"uziWebViewPorElsendo": true,
-			"retpoŝto": "podkasto@krokoloko.cl",
-//			"hejmpaĝoEkrane": "http://www.krokoloko.cl/",
-			"hejmpaĝoButono": "http://www.krokoloko.cl/"
-		},
-    */
-		{
+//
+//		{
+//			"kodo": "krokoloko",
+//			"nomo": "Krokoloko",
+////			"sonoUrl": "http://esperanto-radio.com/krokolokonun",
+//			"emblemoUrl": "",
+//			"elsendojRssUrl": "http://feeds.feedburner.com/krokoloko/sZRZ",
+//			"uziWebViewPorElsendo": true,
+//			"retpoŝto": "podkasto@krokoloko.cl",
+////			"hejmpaĝoEkrane": "http://www.krokoloko.cl/",
+//			"hejmpaĝoButono": "http://www.krokoloko.cl/"
+//		}
+		,{
 			"kodo": "kaliningrada",
 			"nomo": "Kaliningrada E-radio",
 //			"sonoUrl": "http://esperanto-radio.com/kaliningradanun",
@@ -129,30 +129,26 @@
 			"elsendojRssIgnoruTitolon": "true",
 			"hejmpaĝoButono": "http://la-ondo.rpod.ru/"
 		}
-		/*  Vinilkosmo ne eblas, cxar ne estas podkasto, nek icekasto
-		,{
-			"kodo": "vinilkosmo",
-			"nomo": "Vinilkosmo",
-//			"sonoUrl": "http://esperanto-radio.com/vinilkosmonun",
-			"emblemoUrl": "http://muzaiko.info/images/vinilkosmo-mp3.gif",
-// Nenecesa: 			"elsendojRssUrl": "",
-			"hejmpaĝo": "http://cd1d.com/radio.php?structure=82874"
-			//"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
-		}
-		*/
-    /*
-		,{
-			"kodo": "vej",
-			"nomo": "Voĉoj el Japanio",
-//			"sonoUrl": "http://esperanto-radio.com/vejnun",
-			"emblemoUrl": "http://files.posterous.com/user_profile_pics/995825/VeJ40x40.png",
- 			"elsendojRssUrl": "http://feeds.feedburner.com/vej",
-			"uziWebViewPorElsendo": true,
-			"retpoŝto": "salikh@gmail.com",
-//			"hejmpaĝoEkrane": "http://vej.posterous.com/",
-			"hejmpaĝoButono": "http://vej.posterous.com/"
-		}
-    */
+//		,{
+//			"kodo": "vinilkosmo",
+//			"nomo": "Vinilkosmo",
+////			"sonoUrl": "http://esperanto-radio.com/vinilkosmonun",
+//			"emblemoUrl": "http://muzaiko.info/images/vinilkosmo-mp3.gif",
+//// Nenecesa: 			"elsendojRssUrl": "",
+//			"hejmpaĝo": "http://cd1d.com/radio.php?structure=82874"
+//			//"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
+//		}
+//		,{
+//			"kodo": "vej",
+//			"nomo": "Voĉoj el Japanio",
+////			"sonoUrl": "http://esperanto-radio.com/vejnun",
+//			"emblemoUrl": "http://files.posterous.com/user_profile_pics/995825/VeJ40x40.png",
+// 			"elsendojRssUrl": "http://feeds.feedburner.com/vej",
+//			"uziWebViewPorElsendo": true,
+//			"retpoŝto": "salikh@gmail.com",
+////			"hejmpaĝoEkrane": "http://vej.posterous.com/",
+//			"hejmpaĝoButono": "http://vej.posterous.com/"
+//		}
 	],
 
  "elsendojUrl": "http://esperanto-radio.com/radio.txt",

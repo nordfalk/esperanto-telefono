@@ -17,9 +17,6 @@ programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
 package dk.nordfalk.esperanto.radio.datumoj;
 
-import dk.dr.radio.util.Log;
-import java.io.BufferedInputStream;
-import java.util.Date;
 import java.net.HttpURLConnection;
 import java.io.Closeable;
 

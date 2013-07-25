@@ -19,17 +19,14 @@ programo. Se ne, vidu <http://www.gnu.org/licenses/>.
 package dk.nordfalk.esperanto.radio.datumoj;
 
 import dk.dr.radio.util.Log;
-import dk.nordfalk.esperanto.radio.Datumoj;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

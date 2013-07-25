@@ -51,6 +51,8 @@ public class ElektiKanalon_akt extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+    setContentView(R.layout.elekti_kanalon_akt);
+
 		adapter = new KanalAdapter();
     try {
       drData = Datumoj.kontroluInstanconSxargxita(this);

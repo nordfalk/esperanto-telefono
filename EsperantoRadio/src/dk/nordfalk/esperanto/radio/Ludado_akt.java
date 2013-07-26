@@ -281,7 +281,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 			if (internetforbindelseManglerDialog == null) {
 				internetforbindelseManglerDialog = new AlertDialog.Builder(this).create();
 				internetforbindelseManglerDialog.setTitle("Retkonekto mankas");
-				internetforbindelseManglerDialog.setMessage("Via telefono ne havas konekton al la reto.\nPor aŭskulti radion vi devas enŝalti sendratan reton (WiFI aŭ mobildatumoj).");
+				internetforbindelseManglerDialog.setMessage("Via aparato ne havas konekton al la reto. Por aŭskulti radion vi devas enŝalti Interreton.");
 			}
 			if (!internetforbindelseManglerDialog.isShowing()) {
 				internetforbindelseManglerDialog.show();

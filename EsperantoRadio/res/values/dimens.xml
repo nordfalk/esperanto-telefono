@@ -19,5 +19,5 @@
 		
     <dimen name="ludado_kanalemblemo">50dp</dimen>
 
-    <dimen name="padding">6dp</dimen>
+    <dimen name="padding">25dp</dimen>
 </resources>

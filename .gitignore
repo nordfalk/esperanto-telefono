@@ -1,3 +1,6 @@
 /EsperantoRadio/bin/
 /EsperantoRadio/gen/
 /EsperantoRadio/nbandroid/
+/EsperantoRadio/private/
+/EsperantoRadio/local.properties
+/EsperantoRadio/ant.properties

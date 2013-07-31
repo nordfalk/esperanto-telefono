@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      marĝenon de 10% por OUYA
+    -->
+    <dimen name="padding">25dp</dimen>
+</resources>

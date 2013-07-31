@@ -61,4 +61,7 @@ public class App extends Application {
     Datumoj.prefs = PreferenceManager.getDefaultSharedPreferences(this);
   }
 
+  public static boolean isUriAvailable(Context context, Intent intent) {
+    return context.getPackageManager().resolveActivity(intent, 0) != null;
+  }
 }

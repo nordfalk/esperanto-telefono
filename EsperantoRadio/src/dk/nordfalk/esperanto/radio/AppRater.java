@@ -56,6 +56,12 @@ public class AppRater {
   public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {
     final Dialog dialog = new Dialog(mContext);
     final String APP_PNAME = mContext.getPackageName();
+    final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME));
+
+    if (!App.isUriAvailable(mContext, intent)) {
+      Log.d("Tiu ĉi aparato ne havas Guglo Play, do ne montru la 'taksi' dialogon");
+      return;
+    }
 
     dialog.setTitle(R.string.AppRater_taksu);
 
@@ -76,7 +82,7 @@ public class AppRater {
         editor.commit();
         dialog.dismiss();
         try {
-          mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
+          mContext.startActivity(intent);
         } catch (Exception e) {
           App.videblaEraro(null, e);
         }

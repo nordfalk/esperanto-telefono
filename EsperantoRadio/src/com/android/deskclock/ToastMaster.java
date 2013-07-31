@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package comx.android.deskclock;
+package com.android.deskclock;
 
 import android.widget.Toast;
 
 public class ToastMaster {
+  private static Toast sToast = null;
 
-    private static Toast sToast = null;
+  private ToastMaster() {
+  }
 
-    private ToastMaster() {
+  public static void setToast(Toast toast) {
+    if (sToast != null)
+      sToast.cancel();
+    sToast = toast;
+  }
 
-    }
-
-    public static void setToast(Toast toast) {
-        if (sToast != null)
-            sToast.cancel();
-        sToast = toast;
-    }
-
-    public static void cancelToast() {
-        if (sToast != null)
-            sToast.cancel();
-        sToast = null;
-    }
-
+  public static void cancelToast() {
+    if (sToast != null)
+      sToast.cancel();
+    sToast = null;
+  }
 }

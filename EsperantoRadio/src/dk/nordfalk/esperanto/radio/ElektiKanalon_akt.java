@@ -1,24 +1,21 @@
 /**
-Esperanto-radio por Androjd, farita de Jacob Nordfalk.
-Kelkaj partoj de la kodo originas de DR Radio 2 por Android, vidu
-http://code.google.com/p/dr-radio-android/
+ Esperanto-radio por Androjd, farita de Jacob Nordfalk.
+ Kelkaj partoj de la kodo originas de DR Radio 2 por Android, vidu
+ http://code.google.com/p/dr-radio-android/
 
-Esperanto-radio por Androjd estas libera softvaro: vi povas redistribui
-ĝin kaj/aŭ modifi ĝin kiel oni anoncas en la licenco GNU Ĝenerala Publika
-Licenco (GPL) versio 2.
+ Esperanto-radio por Androjd estas libera softvaro: vi povas redistribui
+ ĝin kaj/aŭ modifi ĝin kiel oni anoncas en la licenco GNU Ĝenerala Publika
+ Licenco (GPL) versio 2.
 
-Esperanto-radio por Androjd estas distribuita en la espero ke ĝi estos utila,
-sed SEN AJNA GARANTIO; sen eĉ la implica garantio de surmerkatigindeco aŭ
-taŭgeco por iu aparta celo.
-Vidu la GNU Ĝenerala Publika Licenco por pli da detaloj.
+ Esperanto-radio por Androjd estas distribuita en la espero ke ĝi estos utila,
+ sed SEN AJNA GARANTIO; sen eĉ la implica garantio de surmerkatigindeco aŭ
+ taŭgeco por iu aparta celo.
+ Vidu la GNU Ĝenerala Publika Licenco por pli da detaloj.
 
-Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
-programo. Se ne, vidu <http://www.gnu.org/licenses/>.
+ Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
+ programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-
 package dk.nordfalk.esperanto.radio;
-
-
 
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
@@ -37,23 +34,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import dk.nordfalk.esperanto.radio.datumoj.Kanalo;
 import dk.dr.radio.util.ImageViewTilBlinde;
-import dk.dr.radio.util.Log;
-
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 
 public class ElektiKanalon_akt extends ListActivity {
-
-	private Datumoj drData;
-	private KanalAdapter adapter;
+  private Datumoj drData;
+  private KanalAdapter adapter;
   private View[] listeElementer;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  /** Called when the activity is first created. */
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
     setContentView(R.layout.elekti_kanalon_akt);
 
-		adapter = new KanalAdapter();
+    adapter = new KanalAdapter();
     try {
       drData = Datumoj.kontroluInstanconSxargxita(this);
     } catch (Exception ex) {
@@ -62,7 +57,7 @@ public class ElektiKanalon_akt extends ListActivity {
       return;
     }
 
-		registerReceiver(ĉefdatumojĜisdatigitajReciever, new IntentFilter(Datumoj.INTENT_novaj_ĉefdatumoj));
+    registerReceiver(ĉefdatumojĜisdatigitajReciever, new IntentFilter(Datumoj.INTENT_novaj_ĉefdatumoj));
 
 
     // Da der er tale om et fast lille antal kanaler er der ikke grund til det store bogholderi
@@ -74,16 +69,16 @@ public class ElektiKanalon_akt extends ListActivity {
     //getListView().setBackgroundResource(R.drawable.main_app_bg);
 
     ListView lv = getListView();
-		/*
-    // Vi ønsker en mørkere udgave af baggrunden, så vi indlæser den
-    // her og sætter et farvefilter.
-    Drawable baggrund = getResources().getDrawable(R.drawable.main_app_bg);
-    baggrund = baggrund.mutate();
-    baggrund.setColorFilter(0xffa0a0a0, Mode.MULTIPLY);
+    /*
+     // Vi ønsker en mørkere udgave af baggrunden, så vi indlæser den
+     // her og sætter et farvefilter.
+     Drawable baggrund = getResources().getDrawable(R.drawable.main_app_bg);
+     baggrund = baggrund.mutate();
+     baggrund.setColorFilter(0xffa0a0a0, Mode.MULTIPLY);
 
-    lv.setBackgroundDrawable(baggrund);
-		*/
-		int fono = 0xFFe0e0e0;
+     lv.setBackgroundDrawable(baggrund);
+     */
+    int fono = 0xFFe0e0e0;
     lv.setBackgroundColor(fono);
     lv.setDivider(new ColorDrawable(0xff808080)); // 80ffffff
     lv.setDividerHeight(2);
@@ -91,27 +86,24 @@ public class ElektiKanalon_akt extends ListActivity {
     // Sørg for at baggrunden bliver tegnet, også når listen scroller.
     // Se http://android-developers.blogspot.com/2009/01/why-is-my-list-black-android.html
     lv.setCacheColorHint(fono);
-	}
+  }
+  private BroadcastReceiver ĉefdatumojĜisdatigitajReciever = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context ctx, Intent i) {
+      //Log.d("stamdataOpdateretReciever elektikanalon");
+      listeElementer = new View[drData.stamdata.kanaloj.size()];
+      adapter.notifyDataSetChanged();
+    }
+  };
 
+  @Override
+  protected void onDestroy() {
+    unregisterReceiver(ĉefdatumojĜisdatigitajReciever);
+    super.onDestroy();
+  }
 
-	private BroadcastReceiver ĉefdatumojĜisdatigitajReciever = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context ctx, Intent i) {
-			//Log.d("stamdataOpdateretReciever elektikanalon");
-	    listeElementer = new View[drData.stamdata.kanaloj.size()];
-			adapter.notifyDataSetChanged();
-		}
-	};
-
-	@Override
-	protected void onDestroy() {
-		unregisterReceiver(ĉefdatumojĜisdatigitajReciever);
-		super.onDestroy();
-	}
-
-	private class KanalAdapter extends BaseAdapter {
-
-		public View getView(int position, View convertView, ViewGroup parent) {
+  private class KanalAdapter extends BaseAdapter {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
       View view = listeElementer[position];
 
@@ -119,11 +111,11 @@ public class ElektiKanalon_akt extends ListActivity {
 
       Kanalo kanalo = drData.stamdata.kanaloj.get(position);
 
-			//System.out.println("getView " + position + " kanal_" + kanalkode.toLowerCase() + " type = " + id);
+      //System.out.println("getView " + position + " kanal_" + kanalkode.toLowerCase() + " type = " + id);
       view = mInflater.inflate(R.layout.elekti_kanalon_elemento, null);
       ImageViewTilBlinde billede = (ImageViewTilBlinde) view.findViewById(R.id.billede);
-      ImageViewTilBlinde ikon = (ImageViewTilBlinde)view.findViewById(R.id.ikon);
-      TextView textView = (TextView)view.findViewById(R.id.tekst);
+      ImageViewTilBlinde ikon = (ImageViewTilBlinde) view.findViewById(R.id.ikon);
+      TextView textView = (TextView) view.findViewById(R.id.tekst);
 
       //Log.d("billedebilledebilledebillede"+billede+ikon+textView);
 
@@ -134,7 +126,7 @@ public class ElektiKanalon_akt extends ListActivity {
       } else
         ikon.setVisibility(View.INVISIBLE);
 
-			String aldonaTeksto = kanalo.elsendoj.size()>1? " ("+kanalo.elsendoj.size()+")":"";
+      String aldonaTeksto = kanalo.elsendoj.size() > 1 ? " (" + kanalo.elsendoj.size() + ")" : "";
 
       // tjek om der er et billede i 'drawable' med det navn filnavn
       //int id = res.getIdentifier("kanal_"+kanalkode.toLowerCase(), "drawable", getPackageName());
@@ -143,46 +135,43 @@ public class ElektiKanalon_akt extends ListActivity {
         billede.setVisibility(View.VISIBLE);
         billede.setImageBitmap(kanalo.emblemo);
         billede.blindetekst = kanalo.nomo;
-				if (kanalo.emblemo.getWidth()<kanalo.emblemo.getHeight()*2) {
-					// Emblemo kun teksto
-	        textView.setText(kanalo.nomo+aldonaTeksto);
-				} else {
-					// Emblemo kiu enhavas la tekston - do ne montru gxin
-	        //textView.setText(aldonaTeksto);
-	        textView.setVisibility(View.GONE);
-	        textView.setText("");
-					// La bildo plenigu la tutan largxon
-					billede.getLayoutParams().width = LayoutParams.FILL_PARENT;
-				}
+        if (kanalo.emblemo.getWidth() < kanalo.emblemo.getHeight() * 2) {
+          // Emblemo kun teksto
+          textView.setText(kanalo.nomo + aldonaTeksto);
+        } else {
+          // Emblemo kiu enhavas la tekston - do ne montru gxin
+          //textView.setText(aldonaTeksto);
+          textView.setVisibility(View.GONE);
+          textView.setText("");
+          // La bildo plenigu la tutan largxon
+          billede.getLayoutParams().width = LayoutParams.FILL_PARENT;
+        }
       } else {
         // Element uden billede
         billede.setVisibility(View.GONE);
-        textView.setText(kanalo.nomo+aldonaTeksto);
+        textView.setText(kanalo.nomo + aldonaTeksto);
       }
-			textView.setVisibility(View.VISIBLE);
+      textView.setVisibility(View.VISIBLE);
 
 
       listeElementer[position] = view; // husk til næste gang
-			return view;
-		}
-
-		LayoutInflater mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      return view;
+    }
+    LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     Resources res = getResources();
 
-		public int getCount() {
-			return drData.stamdata.kanaloj.size();
-		}
+    public int getCount() {
+      return drData.stamdata.kanaloj.size();
+    }
 
     public Object getItem(int position) {
-			return null;
-		}
+      return null;
+    }
 
-		public long getItemId(int position) {
-			return position;
-		}
-	}
-
-
+    public long getItemId(int position) {
+      return position;
+    }
+  }
 
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {

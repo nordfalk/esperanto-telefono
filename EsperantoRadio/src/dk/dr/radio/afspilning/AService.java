@@ -22,7 +22,8 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
+import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 import dk.nordfalk.esperanto.radio.R;
@@ -41,17 +42,15 @@ public class AService extends Service {
   public IBinder onBind(Intent intent) {
     return null;
   }
-
   private NotificationManager notificationManager;
   private Notification notification;
-  private static final Class[] mStartForegroundSignature = new Class[]{int.class, Notification.class};
-  private static final Class[] mStopForegroundSignature = new Class[]{boolean.class};
+  private static final Class[] mStartForegroundSignature = new Class[] { int.class, Notification.class };
+  private static final Class[] mStopForegroundSignature = new Class[] { boolean.class };
   private Method mStartForeground;
   private Method mStopForeground;
   private Method mSetForeground;
   private Object[] mStartForegroundArgs = new Object[2];
   private Object[] mStopForegroundArgs = new Object[1];
-
   private String PROGRAMNAVN = "Esperantoradio";
   /**
    ID til notifikation i toppen. Skal bare være unikt og det samme altid
@@ -75,7 +74,7 @@ public class AService extends Service {
         mSetForeground = getClass().getMethod("setForeground", mStopForegroundSignature);
       } catch (NoSuchMethodException ex) {
         // Running on an older platform.
-        Log.kritiskFejlStille(ex);
+        App.eraro(ex);
       }
     }
   }
@@ -87,7 +86,7 @@ public class AService extends Service {
 
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
-    Log.d("AfspillerService onStartCommand("+intent+" "+flags+" "+startId);
+    Log.d("AfspillerService onStartCommand(" + intent + " " + flags + " " + startId);
     handleCommand(intent);
     // We want this service to continue running until it is explicitly
     // stopped, so return sticky.
@@ -98,7 +97,7 @@ public class AService extends Service {
     if (Datumoj.evoluiganto) {
       Toast.makeText(this, "AfspillerService onStartCommand(" + intent, Toast.LENGTH_SHORT).show();
     }
-    Log.d("AfspillerService handleCommand("+intent);
+    Log.d("AfspillerService handleCommand(" + intent);
 
     if (notification == null) {
       notification = new Notification(R.drawable.emblemo, null, 0);
@@ -107,8 +106,8 @@ public class AService extends Service {
       notification.contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, Ludado_akt.class), 0);
       notification.flags |= (Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT);
     }
-    String kanalNavn = intent==null?null:intent.getStringExtra("kanalNavn");
-    if (kanalNavn==null) kanalNavn="";
+    String kanalNavn = intent == null ? null : intent.getStringExtra("kanalNavn");
+    if (kanalNavn == null) kanalNavn = "";
     notification.setLatestEventInfo(this, PROGRAMNAVN, kanalNavn, notification.contentIntent);
 
     // If we have the new startForeground API, then use it.
@@ -119,7 +118,7 @@ public class AService extends Service {
         mStartForeground.invoke(this, mStartForegroundArgs);
       } catch (Exception e) {
         // Should not happen.
-        Log.kritiskFejlStille(e);
+        App.eraro(e);
       }
       return;
     }
@@ -130,12 +129,10 @@ public class AService extends Service {
       mSetForeground.invoke(this, mStopForegroundArgs);
     } catch (Exception e) {
       // Should not happen.
-      Log.kritiskFejlStille(e);
+      App.eraro(e);
     }
     notificationManager.notify(NOTIFIKATION_ID, notification);
   }
-
-
 
   @Override
   public void onDestroy() {
@@ -150,7 +147,7 @@ public class AService extends Service {
         mStopForeground.invoke(this, mStopForegroundArgs);
       } catch (Exception e) {
         // Should not happen.
-        Log.kritiskFejlStille(e);
+        App.eraro(e);
       }
       return;
     }
@@ -166,7 +163,7 @@ public class AService extends Service {
       mSetForeground.invoke(this, mStopForegroundArgs);
     } catch (Exception e) {
       // Should not happen.
-      Log.kritiskFejlStille(e);
+      App.eraro(e);
     }
   }
 }

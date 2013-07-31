@@ -18,8 +18,9 @@
  * package-level logging flag
  */
 
-package comx.android.deskclock;
+package com.android.deskclock;
 
+import dk.nordfalk.esperanto.radio.App;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -43,7 +44,7 @@ final class Log {
 
     static void e(String logMe, Exception ex) {
         dk.dr.radio.util.Log.e(logMe, ex);
-        dk.dr.radio.util.Log.kritiskFejlStille(ex);
+        App.eraro(ex);
     }
 
     static void wtf(String logMe) {

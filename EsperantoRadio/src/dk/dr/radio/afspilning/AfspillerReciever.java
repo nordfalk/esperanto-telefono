@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.App;
 
 /**
  * BroadcastReceiver som aktiverer afspilleren og evt instantierer den.
@@ -52,7 +53,7 @@ public class AfspillerReciever extends BroadcastReceiver {
       }
 
     } catch (Exception ex) {
-      Log.kritiskFejlStille(ex);
+      App.eraro(ex);
     }
   }
 }

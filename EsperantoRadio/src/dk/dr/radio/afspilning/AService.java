@@ -23,6 +23,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
 import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 import dk.nordfalk.esperanto.radio.R;
@@ -75,7 +76,7 @@ public class AService extends Service {
         mSetForeground = getClass().getMethod("setForeground", mStopForegroundSignature);
       } catch (NoSuchMethodException ex) {
         // Running on an older platform.
-        Log.kritiskFejlStille(ex);
+        App.eraro(ex);
       }
     }
   }
@@ -119,7 +120,7 @@ public class AService extends Service {
         mStartForeground.invoke(this, mStartForegroundArgs);
       } catch (Exception e) {
         // Should not happen.
-        Log.kritiskFejlStille(e);
+        App.eraro(e);
       }
       return;
     }
@@ -130,7 +131,7 @@ public class AService extends Service {
       mSetForeground.invoke(this, mStopForegroundArgs);
     } catch (Exception e) {
       // Should not happen.
-      Log.kritiskFejlStille(e);
+      App.eraro(e);
     }
     notificationManager.notify(NOTIFIKATION_ID, notification);
   }
@@ -150,7 +151,7 @@ public class AService extends Service {
         mStopForeground.invoke(this, mStopForegroundArgs);
       } catch (Exception e) {
         // Should not happen.
-        Log.kritiskFejlStille(e);
+        App.eraro(e);
       }
       return;
     }
@@ -166,7 +167,7 @@ public class AService extends Service {
       mSetForeground.invoke(this, mStopForegroundArgs);
     } catch (Exception e) {
       // Should not happen.
-      Log.kritiskFejlStille(e);
+      App.eraro(e);
     }
   }
 }

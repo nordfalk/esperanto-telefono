@@ -38,9 +38,6 @@ import dk.nordfalk.esperanto.radio.Datumoj;
 public class Log {
   public static final String TAG = "EoRadio";
 
-  // Fjernet da det ser ud til at overbelaste regnearket
-  public static final boolean RAPPORTER_VELLYKKET_AFSPILNING = false;
-
   public static StringBuilder log = new StringBuilder(18000);
 
   private static void logappend(String s) {
@@ -67,33 +64,5 @@ public class Log {
     android.util.Log.e(TAG, tekst, e);
     //e.printStackTrace();
     logappend(android.util.Log.getStackTraceString(e));
-    //NEJ; IKKE FORGRUNDSTRÅD!!! if (Datumoj.evoluiganto) Toast.makeText(Datumoj.appCtx, tekst+"\n"+e, Toast.LENGTH_SHORT).show();
-  }
-
-
-  public static void kritiskFejlStille(final Exception e) {
-    BugSenseHandler.sendException(e);
-    Log.e(e);
-  }
-
-
-  public static void kritiskFejl(final Context akt, final Exception e) {
-    BugSenseHandler.sendException(e);
-    Log.e(e);
-
-    Builder ab=new AlertDialog.Builder(akt);
-    ab.setTitle("Bedaŭrinde okazis eraro");
-    ab.setMessage(e.toString());
-    ab.setNegativeButton("Ignori", null);
-    ab.setPositiveButton("Raporti", new Dialog.OnClickListener() {
-      public void onClick(DialogInterface arg0, int arg1) {
-        String brødtekst = "Skribu kio okazis:\n\n\n---\n";
-        brødtekst += "\nErarsxpuro;\n"+android.util.Log.getStackTraceString(e);
-        brødtekst += "\n\n" + new MedieafspillerInfo().lavTelefoninfo(akt);
-        Kontakt.kontakt(akt, "Eraro en EsperantoRadio", brødtekst, Log.log.toString());
-      }
-
-    });
-    ab.create().show();
   }
 }

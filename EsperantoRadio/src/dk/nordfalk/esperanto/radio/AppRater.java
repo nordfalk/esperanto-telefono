@@ -78,7 +78,7 @@ public class AppRater {
 				try {
 					mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
 				} catch (Exception e) {
-					Log.kritiskFejl(null, e);
+					App.videblaEraro(null, e);
 				}
 			}
 		});

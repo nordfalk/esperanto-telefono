@@ -69,7 +69,7 @@ import com.google.ads.AdListener;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
-import comx.android.deskclock.AlarmClock_akt;
+import com.android.deskclock.AlarmClock_akt;
 import dk.dr.radio.afspilning.AfspillerListener;
 import dk.dr.radio.afspilning.Ludado;
 import dk.dr.radio.diverse.MitGalleri;
@@ -129,7 +129,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 			ludado = datumoj.ludado;
 		} catch (Exception ex) {
 			// TODO popop-advarsel til bruger om intern fejl og rapporter til udvikler-driftmeddDialog
-			Log.kritiskFejl(this, ex);
+			App.videblaEraro(this, ex);
 			return;
 		}
 
@@ -140,7 +140,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 			montruAktualanKanalon();
 			montriAktualanElsendon();
 		} catch (Exception e) {
-			Log.kritiskFejlStille(e);
+			App.eraro(e);
 		}
 
 		// Volumen op/ned skal styre lydstyrken af medieafspilleren, uanset som noget spilles lige nu eller ej
@@ -157,7 +157,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 					startiLudadon();
 				}
 			} catch (Exception e) {
-				Log.kritiskFejlStille(e);
+				App.eraro(e);
 			}
 		}
 		montriStartStopButonon();
@@ -432,7 +432,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 			montriAktualanElsendon();
 			// Devus havi, sed ŝajnas nenecesa: invalidateOptionsMenu();
 		} catch (Exception e) {
-			Log.kritiskFejl(this, e);
+			App.videblaEraro(this, e);
 		}
 	}
 
@@ -466,8 +466,8 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 			ludado.startiLudadon();
 			montriStartStopButonon();
 		} catch (Exception e) {
-			if (Datumoj.evoluiganto) Log.kritiskFejl(this, e);
-			else Log.kritiskFejlStille(e);
+			if (Datumoj.evoluiganto) App.videblaEraro(this, e);
+			else App.eraro(e);
 		}
 
 	}
@@ -601,7 +601,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 			try {
 				montriAktualanElsendon();
 			} catch (Exception e) {
-				Log.kritiskFejlStille(e);
+				App.eraro(e);
 			}
 		}
 	};
@@ -743,7 +743,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 							"Elsendo de "+elsendo.datoStr+" de " + kanal.nomo+"<br>\n"+
 							elsendo.priskribo, "text/html", "utf-8", "");
 				} catch (Exception ex) {
-					Log.kritiskFejl(this, ex);
+					App.videblaEraro(this, ex);
 				}
 				hejmpaĝoEkrane.setVisibility(View.VISIBLE);
 			} else {

@@ -48,7 +48,7 @@ public class Salutsxildo_akt extends Activity implements Runnable {
 
     } catch (Exception ex) {
       // TODO popop-advarsel til bruger om intern fejl og rapporter til udvikler-driftmeddDialog
-      Log.kritiskFejl(this, ex);
+      App.videblaEraro(this, ex);
     }
   }
 

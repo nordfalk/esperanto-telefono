@@ -85,7 +85,7 @@ public class MontriReklamojn {
 				try {
 					mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=dk.nordfalk.esperanto.donacoj2")));
 				} catch (Exception e) {
-					Log.kritiskFejl(null, e);
+					App.videblaEraro(null, e);
 				}
 				dialog.dismiss();
 			}

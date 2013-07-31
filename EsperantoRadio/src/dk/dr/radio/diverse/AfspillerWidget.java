@@ -30,6 +30,7 @@ import android.widget.RemoteViews;
 import dk.nordfalk.esperanto.radio.R;
 import dk.dr.radio.afspilning.AfspillerReciever;
 import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class AfspillerWidget extends AppWidgetProvider {
       // for sørge for at vores knapper får tilknyttet intentsne
       opdaterUdseende(ctx, appWidgetManager, appWidgetIds[0]);
     } catch (Exception ex) {
-      Log.kritiskFejlStille(ex);
+      App.eraro(ex);
     }
   }
 

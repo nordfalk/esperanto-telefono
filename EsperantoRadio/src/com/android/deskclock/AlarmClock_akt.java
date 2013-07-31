@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package comx.android.deskclock;
+package com.android.deskclock;
 
 import android.app.Activity;
 import android.app.AlertDialog;

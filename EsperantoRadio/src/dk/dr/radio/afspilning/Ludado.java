@@ -48,10 +48,11 @@ import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-import comx.android.deskclock.AlarmAlertWakeLock;
+import com.android.deskclock.AlarmAlertWakeLock;
 import dk.dr.radio.diverse.AfspillerWidget;
 import dk.nordfalk.esperanto.radio.R;
 import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 import java.util.ArrayList;
@@ -108,7 +109,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
 
 
     opkaldshåndtering = new Opkaldshaandtering(this);
-    try { wifilock = ((WifiManager) Datumoj.appCtx.getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "DR Radio"); wifilock.setReferenceCounted(false); } catch (Exception e) { Log.kritiskFejlStille(e); } // TODO fjern try/catch
+    try { wifilock = ((WifiManager) Datumoj.appCtx.getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "DR Radio"); wifilock.setReferenceCounted(false); } catch (Exception e) { App.eraro(e); } // TODO fjern try/catch
     tm = (TelephonyManager) Datumoj.appCtx.getSystemService(Context.TELEPHONY_SERVICE);
     tm.listen(opkaldshåndtering, PhoneStateListener.LISTEN_CALL_STATE);
   }
@@ -141,7 +142,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
       // Start afspillerservicen så programmet ikke bliver lukket
       // når det kører i baggrunden under afspilning
       Datumoj.appCtx.startService(new Intent(Datumoj.appCtx, AService.class).putExtra("kanalNavn", kanalNavn));
-      if (Datumoj.prefs.getBoolean("wifilås", true) && wifilock!=null) try { wifilock.acquire(); } catch (Exception e) { Log.kritiskFejlStille(e); } // TODO fjern try/catch
+      if (Datumoj.prefs.getBoolean("wifilås", true) && wifilock!=null) try { wifilock.acquire(); } catch (Exception e) { App.eraro(e); } // TODO fjern try/catch
       startAfspilningIntern();
 
       // Skru op til 1/5 styrke hvis volumen er lavere end det
@@ -174,7 +175,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
           mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
           mediaPlayer.prepareAsync();
         } catch (Exception ex) {
-          Log.kritiskFejlStille(ex);
+          App.eraro(ex);
           handler.post(new Runnable() {
             public void run() {
               stopAfspilning();
@@ -216,7 +217,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
           gammelMediaPlayer.release();
           Log.d("gammelMediaPlayer.release() færdig");
         } catch (Exception e) {
-          Log.kritiskFejlStille(e);
+          App.eraro(e);
         }
       }
     }.start();
@@ -229,7 +230,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
 
     // Stop afspillerservicen
     Datumoj.appCtx.stopService(new Intent(Datumoj.appCtx, AService.class));
-    if (wifilock!=null) try { wifilock.release(); } catch (Exception e) { Log.kritiskFejlStille(e); } // TODO fjern try/catch
+    if (wifilock!=null) try { wifilock.release(); } catch (Exception e) { App.eraro(e); } // TODO fjern try/catch
 
     // Informer evt aktivitet der lytter
     for (AfspillerListener observatør : observantoj) {
@@ -380,7 +381,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
       try {
         startAfspilningIntern();
       } catch (Exception e) {
-        Log.kritiskFejlStille(e);
+        App.eraro(e);
       }
     }
   };

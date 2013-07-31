@@ -34,7 +34,7 @@ import com.bugsense.trace.BugSenseHandler;
 import com.google.ads.a;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import dk.dr.radio.afspilning.Ludado;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import dk.dr.radio.util.MedieafspillerInfo;
 import dk.nordfalk.esperanto.radio.datumoj.Elsendo;
 import dk.nordfalk.esperanto.radio.datumoj.Kanalo;

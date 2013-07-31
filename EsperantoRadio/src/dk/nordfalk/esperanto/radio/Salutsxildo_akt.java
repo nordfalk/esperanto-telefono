@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 
 public class Salutsxildo_akt extends Activity implements Runnable {
   /** Called when the activity is first created. */

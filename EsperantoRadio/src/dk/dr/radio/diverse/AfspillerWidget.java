@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import dk.nordfalk.esperanto.radio.R;
 import dk.dr.radio.afspilning.AfspillerReciever;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;

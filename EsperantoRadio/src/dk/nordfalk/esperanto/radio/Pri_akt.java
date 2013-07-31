@@ -30,7 +30,7 @@ import android.webkit.WebViewDatabase;
 import android.widget.Button;
 import android.widget.ImageButton;
 import dk.dr.radio.util.Kontakt;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import dk.dr.radio.util.MedieafspillerInfo;
 
 public class Pri_akt extends Activity implements OnClickListener {

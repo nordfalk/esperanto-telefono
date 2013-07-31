@@ -21,7 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import dk.nordfalk.esperanto.radio.Datumoj;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import dk.nordfalk.esperanto.radio.App;
 
 /**

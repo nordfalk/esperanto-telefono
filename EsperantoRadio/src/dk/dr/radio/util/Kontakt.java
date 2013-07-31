@@ -17,6 +17,7 @@
  */
 package dk.dr.radio.util;
 
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

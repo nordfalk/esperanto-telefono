@@ -20,7 +20,6 @@ package dk.nordfalk.esperanto.radio.datumoj;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import dk.dr.radio.util.Log;
 import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;

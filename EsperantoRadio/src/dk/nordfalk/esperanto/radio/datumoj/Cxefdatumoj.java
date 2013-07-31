@@ -17,7 +17,6 @@
  */
 package dk.nordfalk.esperanto.radio.datumoj;
 
-import dk.dr.radio.util.Log;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

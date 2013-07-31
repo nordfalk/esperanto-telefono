@@ -74,7 +74,7 @@ import dk.dr.radio.afspilning.AfspillerListener;
 import dk.dr.radio.afspilning.Ludado;
 import dk.dr.radio.diverse.MitGalleri;
 import dk.dr.radio.util.Kontakt;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import dk.dr.radio.util.Network;
 import dk.nordfalk.esperanto.radio.datumoj.Elsendo;
 import java.text.DateFormat;

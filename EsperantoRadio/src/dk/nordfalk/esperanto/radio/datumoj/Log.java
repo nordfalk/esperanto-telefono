@@ -15,17 +15,7 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.dr.radio.util;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.widget.Toast;
-import com.bugsense.trace.BugSenseHandler;
-import dk.nordfalk.esperanto.radio.Datumoj;
+package dk.nordfalk.esperanto.radio.datumoj;
 
 /**
  * Loggerklasse

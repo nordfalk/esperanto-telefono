@@ -34,7 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import dk.nordfalk.esperanto.radio.datumoj.Kanalo;
 import dk.dr.radio.util.ImageViewTilBlinde;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 
 public class ElektiKanalon_akt extends ListActivity {
   private Datumoj drData;

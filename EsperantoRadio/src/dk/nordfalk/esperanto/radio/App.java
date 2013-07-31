@@ -8,12 +8,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import com.bugsense.trace.BugSenseHandler;
 import dk.dr.radio.util.Kontakt;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 import dk.dr.radio.util.MedieafspillerInfo;
 
 /**
@@ -56,7 +59,6 @@ public class App extends Application {
       eraro(e);
     }
     Datumoj.prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-
   }
+
 }

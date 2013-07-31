@@ -21,7 +21,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Gallery;
-import dk.dr.radio.util.Log;
+import dk.nordfalk.esperanto.radio.datumoj.Log;
 
 /**
  * http://stackoverflow.com/questions/4311854/how-can-i-limit-fling-in-android-gallery-to-just-one-item-per-fling

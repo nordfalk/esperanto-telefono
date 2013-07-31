@@ -1,21 +1,20 @@
 /**
-Esperanto-radio por Androjd, farita de Jacob Nordfalk.
-Kelkaj partoj de la kodo originas de DR Radio 2 por Android, vidu
-http://code.google.com/p/dr-radio-android/
+ Esperanto-radio por Androjd, farita de Jacob Nordfalk.
+ Kelkaj partoj de la kodo originas de DR Radio 2 por Android, vidu
+ http://code.google.com/p/dr-radio-android/
 
-Esperanto-radio por Androjd estas libera softvaro: vi povas redistribui
-ĝin kaj/aŭ modifi ĝin kiel oni anoncas en la licenco GNU Ĝenerala Publika
-Licenco (GPL) versio 2.
+ Esperanto-radio por Androjd estas libera softvaro: vi povas redistribui
+ ĝin kaj/aŭ modifi ĝin kiel oni anoncas en la licenco GNU Ĝenerala Publika
+ Licenco (GPL) versio 2.
 
-Esperanto-radio por Androjd estas distribuita en la espero ke ĝi estos utila,
-sed SEN AJNA GARANTIO; sen eĉ la implica garantio de surmerkatigindeco aŭ
-taŭgeco por iu aparta celo.
-Vidu la GNU Ĝenerala Publika Licenco por pli da detaloj.
+ Esperanto-radio por Androjd estas distribuita en la espero ke ĝi estos utila,
+ sed SEN AJNA GARANTIO; sen eĉ la implica garantio de surmerkatigindeco aŭ
+ taŭgeco por iu aparta celo.
+ Vidu la GNU Ĝenerala Publika Licenco por pli da detaloj.
 
-Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
-programo. Se ne, vidu <http://www.gnu.org/licenses/>.
+ Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
+ programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-
 package dk.dr.radio.util;
 
 import android.app.Activity;
@@ -37,16 +36,15 @@ import dk.nordfalk.esperanto.radio.Datumoj;
  */
 public class Log {
   public static final String TAG = "EoRadio";
-
   public static StringBuilder log = new StringBuilder(18000);
 
   private static void logappend(String s) {
     s = s.trim();
-    if (s.length()==0) return;
+    if (s.length() == 0) return;
     // Roterende log
     log.append(s);
     log.append('\n');
-    if (log.length()>17500) log.delete(0, 7000);
+    if (log.length() > 17500) log.delete(0, 7000);
   }
 
   /** Logfunktion uden TAG som tager et objekt. Sparer bytekode og tid */

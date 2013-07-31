@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.deskclock;
 
 import android.content.Context;
@@ -27,17 +26,16 @@ import android.widget.LinearLayout;
  * the background of the indicator.
  */
 public class DontPressWithParentLayout extends LinearLayout {
+  public DontPressWithParentLayout(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
 
-    public DontPressWithParentLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
+  @Override
+  public void setPressed(boolean pressed) {
+    // If the parent is pressed, do not set to pressed.
+    if (pressed && ((View) getParent()).isPressed()) {
+      return;
     }
-
-    @Override
-    public void setPressed(boolean pressed) {
-        // If the parent is pressed, do not set to pressed.
-        if (pressed && ((View) getParent()).isPressed()) {
-            return;
-        }
-        super.setPressed(pressed);
-    }
+    super.setPressed(pressed);
+  }
 }

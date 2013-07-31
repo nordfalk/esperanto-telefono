@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.deskclock;
 
 import android.content.Context;
@@ -22,23 +21,22 @@ import android.content.BroadcastReceiver;
 import android.os.PowerManager.WakeLock;
 
 public class AlarmInitReceiver extends BroadcastReceiver {
+  /**
+   * Sets alarm on ACTION_BOOT_COMPLETED.  Resets alarm on
+   * TIME_SET, TIMEZONE_CHANGED
+   */
+  @Override
+  public void onReceive(final Context context, Intent intent) {
+    final String action = intent.getAction();
+    if (Log.LOGV) Log.v("AlarmInitReceiver" + action);
 
-    /**
-     * Sets alarm on ACTION_BOOT_COMPLETED.  Resets alarm on
-     * TIME_SET, TIMEZONE_CHANGED
-     */
-    @Override
-    public void onReceive(final Context context, Intent intent) {
-        final String action = intent.getAction();
-        if (Log.LOGV) Log.v("AlarmInitReceiver" + action);
+    //final PendingResult result = goAsync();
+    final WakeLock wl = AlarmAlertWakeLock.createPartialWakeLock(context);
+    wl.acquire();
 
-        //final PendingResult result = goAsync();
-        final WakeLock wl = AlarmAlertWakeLock.createPartialWakeLock(context);
-        wl.acquire();
-
-				Alarms.setNextAlert(context);
-	//      result.finish();
-				Log.v("AlarmInitReceiver finished");
-				wl.release();
-    }
+    Alarms.setNextAlert(context);
+    //      result.finish();
+    Log.v("AlarmInitReceiver finished");
+    wl.release();
+  }
 }

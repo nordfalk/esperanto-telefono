@@ -21,7 +21,6 @@ import dk.dr.radio.util.MedieafspillerInfo;
  * @author j
  */
 public class App extends Application {
-
   public static void eraro(final Exception e) {
     BugSenseHandler.sendException(e);
     Log.e(e);
@@ -48,17 +47,16 @@ public class App extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-      BugSenseHandler.initAndStartSession(this, "b8d4f0e8");
+    BugSenseHandler.initAndStartSession(this, "b8d4f0e8");
 
-			try {
-				PackageManager pm = getPackageManager();
-				Datumoj.appInfo = pm.getPackageInfo(getPackageName(), 0);
-			} catch (Exception e) {
-				eraro(e);
-			}
-      Datumoj.prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    try {
+      PackageManager pm = getPackageManager();
+      Datumoj.appInfo = pm.getPackageInfo(getPackageName(), 0);
+    } catch (Exception e) {
+      eraro(e);
+    }
+    Datumoj.prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-    
+
   }
-
 }

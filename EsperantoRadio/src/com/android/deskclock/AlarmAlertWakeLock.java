@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.deskclock;
 
 import android.content.Context;
@@ -24,15 +23,14 @@ import android.os.PowerManager;
  * released in the AlarmAlert activity
  */
 public class AlarmAlertWakeLock {
+  public static PowerManager.WakeLock createPartialWakeLock(Context context) {
+    PowerManager pm =
+        (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+    //return pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Log.LOGTAG);
 
-    public static PowerManager.WakeLock createPartialWakeLock(Context context) {
-        PowerManager pm =
-                (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        //return pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Log.LOGTAG);
+    return pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
+        | PowerManager.ON_AFTER_RELEASE
+        | PowerManager.ACQUIRE_CAUSES_WAKEUP, Log.LOGTAG);
 
-        return pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK|
-						PowerManager.ON_AFTER_RELEASE|
-						PowerManager.ACQUIRE_CAUSES_WAKEUP, Log.LOGTAG);
-
-    }
+  }
 }

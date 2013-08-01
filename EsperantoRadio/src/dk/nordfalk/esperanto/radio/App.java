@@ -89,7 +89,7 @@ public class App extends Application {
 
       App.tracker = GoogleAnalyticsTracker.getInstance();
       App.tracker.startNewSession("UA-29361423-1", App.app);
-      App.tracker.setProductVersion(App.appInfo.versionName, "" + Datumoj.instanco.stamdataID);
+      App.tracker.setProductVersion(App.appInfo.versionName, "" + Datumoj.instanco.ĉefdatumojID);
 
       if (App.uziAnalytics()) {
         App.tracker.trackPageView("starto:" + App.appInfo.versionName);

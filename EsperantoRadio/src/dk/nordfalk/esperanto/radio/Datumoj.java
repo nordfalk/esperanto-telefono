@@ -38,26 +38,14 @@ import org.json.JSONException;
  * Det centrale objekt som alt andet bruger til
  */
 public class Datumoj {
-  public static final int stamdataID = 8;
-  private static final String ŜLOSILO_KANALOJ = "esperantoradio_kanaloj_v" + stamdataID;
-  private static final String kanalojUrl = "http://javabog.dk/privat/" + ŜLOSILO_KANALOJ + ".json";
-  //private static String elsendojUrl = "http://esperanto-radio.com/radio.txt";
+  public static final int ĉefdatumojID = 8;
+  private static final String ŜLOSILO_ĈEFDATUMOJ = "esperantoradio_kanaloj_v" + ĉefdatumojID;
+  private static final String kanalojUrl = "http://javabog.dk/privat/" + ŜLOSILO_ĈEFDATUMOJ + ".json";
   private static final String ŜLOSILO_ELSENDOJ = "elsendoj";
-  /** Globalt flag */
   public static final boolean evoluiganto = false;
+
   public HashMap<String,Bitmap> emblemoj = new HashMap<String,Bitmap>();
 
-  private void sætKanalOgUdsendelseSikkert(String kodo) {
-    aktualaKanalkodo = kodo;
-    aktualaKanalo = ĉefdatumoj.kanalkodoAlKanalo.get(aktualaKanalkodo);
-
-    if (aktualaKanalo == null || aktualaKanalo.elsendoj.size() == 0) { // Ne devus okazi, sed tamen okazas se oni neniam ajn elektis kanalon
-      aktualaKanalo = ĉefdatumoj.kanaloj.get(0);
-      aktualaKanalkodo = aktualaKanalo.kodo;
-    }
-    // Ĉiam elektu la plej lastan elsendon
-    aktualaElsendo = aktualaKanalo.elsendoj.get(aktualaKanalo.elsendoj.size() - 1);
-  }
   public Ludado ludado;
   public Handler handler = new Handler();
   public boolean udsendelser_ikkeTilgængeligt;
@@ -91,16 +79,16 @@ public class Datumoj {
     //if (evoluiganto) Debug.startMethodTracing("/data/data/dk.nordfalk.esperanto.radio/files/trace.data");
 
 
-    int stamdataResId = App.app.getResources().getIdentifier(ŜLOSILO_KANALOJ, "raw", App.app.getPackageName());
-    if (stamdataResId == 0) throw new InternalError("Ne trovita: " + ŜLOSILO_KANALOJ);
+    int ĉefdatumojResId = App.app.getResources().getIdentifier(ŜLOSILO_ĈEFDATUMOJ, "raw", App.app.getPackageName());
+    if (ĉefdatumojResId == 0) throw new InternalError("Ne trovita: " + ŜLOSILO_ĈEFDATUMOJ);
 
-    String kanalojStr = App.prefs.getString(ŜLOSILO_KANALOJ, null);
+    String ĉefdatumojJson = App.prefs.getString(ŜLOSILO_ĈEFDATUMOJ, null);
     String elsendojStr = App.prefs.getString(ŜLOSILO_ELSENDOJ, null);
 
-    if (kanalojStr == null) {
+    if (ĉefdatumojJson == null) {
       // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
       //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
-      kanalojStr = Kasxejo.læsInputStreamSomStreng(App.app.getResources().openRawResource(stamdataResId));
+      ĉefdatumojJson = Kasxejo.læsInputStreamSomStreng(App.app.getResources().openRawResource(ĉefdatumojResId));
     }
 
     if (elsendojStr == null) {
@@ -112,10 +100,10 @@ public class Datumoj {
 
 
     instanco = new Datumoj();
-    instanco.ĉefdatumoj = new Cxefdatumoj(kanalojStr);
+    instanco.ĉefdatumoj = new Cxefdatumoj(ĉefdatumojJson);
     instanco.ĉefdatumoj.leguElsendojn(elsendojStr);
     Log.d((System.currentTimeMillis() - komenco) + " parsis datumojn ");
-    instanco.ŝarĝiKanalbildojn(true);
+    instanco.ŝarĝiKanalEmblemojn(true);
     Log.d((System.currentTimeMillis() - komenco) + " ŝarĝis kanalbildojn ");
     // Daŭras tro da tempo! Ne faru en la ĉefa fadeno!
     Log.d(instanco.ĉefdatumoj.kanaloj);
@@ -157,6 +145,18 @@ public class Datumoj {
     baggrundstrådSkalOpdatereNu();
   }
 
+  private void sætKanalOgUdsendelseSikkert(String kodo) {
+    aktualaKanalkodo = kodo;
+    aktualaKanalo = ĉefdatumoj.kanalkodoAlKanalo.get(aktualaKanalkodo);
+
+    if (aktualaKanalo == null || aktualaKanalo.elsendoj.size() == 0) { // Ne devus okazi, sed tamen okazas se oni neniam ajn elektis kanalon
+      aktualaKanalo = ĉefdatumoj.kanaloj.get(0);
+      aktualaKanalkodo = aktualaKanalo.kodo;
+    }
+    // Ĉiam elektu la plej lastan elsendon
+    aktualaElsendo = aktualaKanalo.elsendoj.get(aktualaKanalo.elsendoj.size() - 1);
+  }
+  
   public void setBaggrundsopdateringAktiv(boolean aktiv) {
     if (baggrundsopdateringAktiv == aktiv) return;
 
@@ -173,11 +173,12 @@ public class Datumoj {
       fonaFadeno.notify();
     }
   }
+  
   final Thread fonaFadeno = new Thread() {
     @Override
     public void run() {
 
-      boolean ioEstisSxargxita = ŝarĝiKanalbildojn(false);
+      boolean ioEstisSxargxita = ŝarĝiKanalEmblemojn(false);
       ioEstisSxargxita |= ĉefdatumoj.ŝarĝiElsendojnDeRss(false);
 
       if (ioEstisSxargxita) {
@@ -249,7 +250,7 @@ public class Datumoj {
         String kanalojStr = Kasxejo.hentUrlSomStreng(kanalojUrl);
         final Cxefdatumoj stamdata2 = new Cxefdatumoj(kanalojStr);
         // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
-        App.prefs.edit().putString(ŜLOSILO_KANALOJ, kanalojStr).commit();
+        App.prefs.edit().putString(ŜLOSILO_ĈEFDATUMOJ, kanalojStr).commit();
 
         try {
           String elsendojStr = Kasxejo.hentUrlSomStreng(stamdata2.elsendojUrl);
@@ -268,14 +269,14 @@ public class Datumoj {
             App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
           }
         });
-        ŝarĝiKanalbildojn(false);
+        ŝarĝiKanalEmblemojn(false);
       } catch (Exception e) {
         Log.e("Fejl parsning af stamdata. Url=" + kanalojUrl, e);
       }
 
   }
 
-  private boolean ŝarĝiKanalbildojn(boolean nurLokajn) {
+  private boolean ŝarĝiKanalEmblemojn(boolean nurLokajn) {
     boolean ioEstisSxargxita = false;
     for (Kanalo k : ĉefdatumoj.kanaloj) {
 

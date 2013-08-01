@@ -44,29 +44,27 @@ public class Cxefdatumoj {
    * Liste over de kanaloj der vises 'Spiller lige nu' med info om musiknummer på skærmen
    */
   //public Set<String> kanalojDerSkalViseSpillerNu = new HashSet<String>();
-  public Cxefdatumoj(String stamdataStr) throws JSONException {
-    leguKanalojn(stamdataStr);
-  }
+  public Cxefdatumoj(String ĉefdatumojJson) throws JSONException {
+    json = new JSONObject(ĉefdatumojJson);
+    
+    // Erstat med evt ny værdi
+    elsendojUrl = json.optString("elsendojUrl", elsendojUrl);
 
-  private void leguKanalojn(String stamdataStr) throws JSONException {
-    Cxefdatumoj d = this;
-    JSONObject json = d.json = new JSONObject(stamdataStr);
-
-    JSONArray kanaloj = json.getJSONArray("kanaloj");
-    int antal = kanaloj.length();
+    JSONArray kanalojJs = json.getJSONArray("kanaloj");
+    int antal = kanalojJs.length();
     for (int i = 0; i < antal; i++) {
-      JSONObject j = kanaloj.getJSONObject(i);
+      JSONObject kJs = kanalojJs.getJSONObject(i);
       Kanalo k = new Kanalo();
-      k.kodo = j.getString("kodo");
-      k.nomo = j.getString("nomo");
-      String rektaElsendaSonoUrl = j.optString("rektaElsendaSonoUrl", null);
-      String rektaElsendaPriskriboUrl = j.optString("rektaElsendaPriskriboUrl", null);
-      k.hejmpaĝoEkrane = j.optString("hejmpaĝoEkrane", null);
-      k.hejmpaĝoButono = j.optString("hejmpaĝoButono", null);
-      k.retpoŝto = j.optString("retpoŝto", null);
-      k.emblemoUrl = j.optString("emblemoUrl", null);
-      k.json = j;
-      d.kanaloj.add(k);
+      k.kodo = kJs.getString("kodo");
+      k.nomo = kJs.getString("nomo");
+      String rektaElsendaSonoUrl = kJs.optString("rektaElsendaSonoUrl", null);
+      String rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
+      k.hejmpaĝoEkrane = kJs.optString("hejmpaĝoEkrane", null);
+      k.hejmpaĝoButono = kJs.optString("hejmpaĝoButono", null);
+      k.retpoŝto = kJs.optString("retpoŝto", null);
+      k.emblemoUrl = kJs.optString("emblemoUrl", null);
+      k.json = kJs;
+      kanaloj.add(k);
 
       if (rektaElsendaSonoUrl != null) {
         Elsendo el = new Elsendo();
@@ -84,13 +82,10 @@ public class Cxefdatumoj {
     }
 
 
-    for (Kanalo k : d.kanaloj) {
-      d.kanalkodoAlKanalo.put(k.kodo, k);
-      d.kanalnomoAlKanalo.put(k.nomo, k);
+    for (Kanalo k : kanaloj) {
+      kanalkodoAlKanalo.put(k.kodo, k);
+      kanalnomoAlKanalo.put(k.nomo, k);
     }
-
-    // Erstat med evt ny værdi
-    elsendojUrl = json.optString("elsendojUrl", elsendojUrl);
   }
 
   public void leguElsendojn(String radioTxt) {

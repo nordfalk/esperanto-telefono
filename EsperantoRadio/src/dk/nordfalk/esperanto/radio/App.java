@@ -84,7 +84,7 @@ public class App extends Application {
 
 
       //evoluiganto = prefs.getBoolean("udvikler", false);
-      Kasxejo.init(getCacheDir().getPath());
+      Kasxejo.init(getCacheDir());
       Datumoj.ŝarĝiInstancon();
 
       App.tracker = GoogleAnalyticsTracker.getInstance();

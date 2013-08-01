@@ -23,20 +23,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import dk.nordfalk.esperanto.radio.Datumoj;
-import dk.nordfalk.esperanto.radio.Utilajxoj;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  *
  * @author j
  */
 public class Kontakt {
+
+
+  public static ArrayList<String> jsonArrayTilArrayListString(JSONArray j) throws JSONException {
+    int n = j.length();
+    ArrayList<String> res = new ArrayList<String>(n);
+    for (int i = 0; i < n; i++) {
+      res.add(j.getString(i));
+    }
+    return res;
+  }
+
   public static void kontakt(Context akt, String emne, String txt, String vedhæftning) {
 
     String[] modtagere = null;
     try {
-      modtagere = Utilajxoj.jsonArrayTilArrayListString(Datumoj.instanco.ĉefdatumoj.json.getJSONArray("feedback_modtagere")).toArray(new String[0]);
+      modtagere = jsonArrayTilArrayListString(Datumoj.instanco.ĉefdatumoj.json.getJSONArray("feedback_modtagere")).toArray(new String[0]);
     } catch (Exception ex) {
       Log.e("JSONParsning af feedback_modtagere", ex);
       modtagere = new String[] { "jacob.nordfalk@gmail.com" };

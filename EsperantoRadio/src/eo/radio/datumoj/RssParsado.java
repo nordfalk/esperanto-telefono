@@ -13,7 +13,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
  *
  * @author Jacob Nordfalk
  */
-public class RssParsado {
+class RssParsado {
 
   /* posterous poluas la fluon per la sekva, kiun ni forprenu!
    <div class='p_embed_description'>
@@ -28,19 +28,10 @@ public class RssParsado {
    */
   static Pattern puriguPosterous1 = Pattern.compile("<div class='p_embed...[^i].+?</div>", Pattern.DOTALL);
 
-  /*
-   </p>
-   D/EsperantoRadio(23188):
-   D/EsperantoRadio(23188): <p><a href="http://peranto.posterous.com/teknika-progreso-gravas-ankau-por-ni">Permalink</a>
-   D/EsperantoRadio(23188):
-   D/EsperantoRadio(23188): 	| <a href="http://peranto.posterous.com/teknika-progreso-gravas-ankau-por-ni#comment">Leave a comment&nbsp;&nbsp;&raquo;</a>
-   D/EsperantoRadio(23188):
-   D/EsperantoRadio(23188): </p>
-   */
   static Pattern puriguPosterous2 = Pattern.compile("<p><a href=\"http://\\w+.posterous.com/[\\w-]+\">Permalink</a>.+?Leave a comment.+?</a>", Pattern.DOTALL);
 
   /** Parser et youtube RSS feed og returnerer det som en liste at Elsendo-objekter */
-  public static ArrayList<Elsendo> parsuElsendojnDeRss(InputStream is) throws Exception {
+  static ArrayList<Elsendo> parsiElsendojnDeRss(InputStream is) throws Exception {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser p = factory.newPullParser();
     p.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);

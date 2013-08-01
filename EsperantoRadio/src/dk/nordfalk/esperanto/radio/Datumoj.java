@@ -18,32 +18,19 @@
 package dk.nordfalk.esperanto.radio;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Debug;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
-import com.bugsense.trace.BugSense;
-import com.bugsense.trace.BugSenseHandler;
-import com.google.ads.a;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import dk.dr.radio.afspilning.Ludado;
-import eo.radio.datumoj.Log;
+import eo.radio.datumoj.Cxefdatumoj;
 import eo.radio.datumoj.Elsendo;
 import eo.radio.datumoj.Kanalo;
 import eo.radio.datumoj.Kasxejo;
-import eo.radio.datumoj.Cxefdatumoj;
-import eo.radio.datumoj.RssParsado;
-import java.io.FileInputStream;
+import eo.radio.datumoj.Log;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.JSONException;
 
@@ -113,13 +100,13 @@ public class Datumoj {
     if (kanalojStr == null) {
       // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
       //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
-      kanalojStr = Utilajxoj.læsInputStreamSomStreng(App.app.getResources().openRawResource(stamdataResId));
+      kanalojStr = Kasxejo.læsInputStreamSomStreng(App.app.getResources().openRawResource(stamdataResId));
     }
 
     if (elsendojStr == null) {
       // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
       //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
-      elsendojStr = Utilajxoj.læsInputStreamSomStreng(App.app.getResources().openRawResource(R.raw.radio));
+      elsendojStr = Kasxejo.læsInputStreamSomStreng(App.app.getResources().openRawResource(R.raw.radio));
     }
     Log.d((System.currentTimeMillis() - komenco) + " akiris datumojn ");
 
@@ -191,7 +178,7 @@ public class Datumoj {
     public void run() {
 
       boolean ioEstisSxargxita = ŝarĝiKanalbildojn(false);
-      ioEstisSxargxita |= ŝarĝiElsendojnDeRss(ĉefdatumoj, false);
+      ioEstisSxargxita |= ĉefdatumoj.ŝarĝiElsendojnDeRss(false);
 
       if (ioEstisSxargxita) {
         App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
@@ -233,7 +220,7 @@ public class Datumoj {
 
     if (aktualaElsendo.rektaElsendaPriskriboUrl != null) try {
         // Muzaiko
-        rektaElsendaPriskribo = Utilajxoj.hentUrlSomStreng(aktualaElsendo.rektaElsendaPriskriboUrl);
+        rektaElsendaPriskribo = Kasxejo.hentUrlSomStreng(aktualaElsendo.rektaElsendaPriskriboUrl);
         if (rektaElsendaPriskribo.toLowerCase().contains("<html>")) {
           // La rektaElsendaPriskriboUrl ne devus enhavi <html>-kodojn. Se gxi havas, tiam
           // versxajne estas iu 'hotspot' kiu kaptis la adreson kaj kiu
@@ -259,21 +246,20 @@ public class Datumoj {
         // Opdater tid (hvad enten indlæsning lykkes eller ej)
         App.prefs.edit().putLong(STAMDATA_SIDST_INDLÆST, nu).commit();
 
-        String kanalojStr = Utilajxoj.hentUrlSomStreng(kanalojUrl);
+        String kanalojStr = Kasxejo.hentUrlSomStreng(kanalojUrl);
         final Cxefdatumoj stamdata2 = new Cxefdatumoj(kanalojStr);
         // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
         App.prefs.edit().putString(ŜLOSILO_KANALOJ, kanalojStr).commit();
 
         try {
-          String elsendojStr = Utilajxoj.hentUrlSomStreng(stamdata2.elsendojUrl);
+          String elsendojStr = Kasxejo.hentUrlSomStreng(stamdata2.elsendojUrl);
           stamdata2.leguElsendojn(elsendojStr);
           // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
           App.prefs.edit().putString(ŜLOSILO_ELSENDOJ, elsendojStr).commit();
         } catch (Exception e) {
           Log.e("Fejl parsning af " + stamdata2.elsendojUrl, e);
         }
-        ŝarĝiKanalbildojn(false);
-        ŝarĝiElsendojnDeRss(stamdata2, false);
+        stamdata2.ŝarĝiElsendojnDeRss(false);
         Log.d(instanco.ĉefdatumoj.kanaloj);
 
         handler.post(new Runnable() {
@@ -282,6 +268,7 @@ public class Datumoj {
             App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
           }
         });
+        ŝarĝiKanalbildojn(false);
       } catch (Exception e) {
         Log.e("Fejl parsning af stamdata. Url=" + kanalojUrl, e);
       }
@@ -308,31 +295,6 @@ public class Datumoj {
           emblemoj.put(k.emblemoUrl, res);
         } catch (Exception ex) {
           Log.e(ex);
-        }
-    }
-    return ioEstisSxargxita;
-  }
-
-  private static boolean ŝarĝiElsendojnDeRss(final Cxefdatumoj dat, boolean nurLokajn) {
-    boolean ioEstisSxargxita = false;
-    long komenco = System.currentTimeMillis();
-    for (Kanalo k : dat.kanaloj) {
-      String elsendojRssUrl = k.json.optString("elsendojRssUrl", null);
-      if (elsendojRssUrl != null) try {
-          String dosiero = Kasxejo.akiriDosieron(elsendojRssUrl, false, nurLokajn);
-          Log.d((System.currentTimeMillis() - komenco) + " akiris " + elsendojRssUrl);
-          if (dosiero == null) continue;
-          ArrayList<Elsendo> elsendoj = RssParsado.parsuElsendojnDeRss(new FileInputStream(dosiero));
-          // Kelkaj RSS-fluoj havas nur la daton en la titolo. Tio estas jam videbla kaj tial ni ne montru tion
-          if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Elsendo e : elsendoj) e.titolo = null;
-          if (elsendoj.size() > 0) {
-            if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
-            k.elsendoj = elsendoj;
-            ioEstisSxargxita = true;
-          }
-          Log.d((System.currentTimeMillis() - komenco) + " parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
-        } catch (Exception ex) {
-          Log.e("Eraro parsante " + elsendojRssUrl, ex);
         }
     }
     return ioEstisSxargxita;

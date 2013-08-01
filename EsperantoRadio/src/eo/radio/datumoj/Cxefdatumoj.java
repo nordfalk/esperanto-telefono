@@ -17,6 +17,7 @@
  */
 package eo.radio.datumoj;
 
+import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Cxefdatumoj {
+
   public JSONObject json;
   public List<Kanalo> kanaloj = new ArrayList<Kanalo>();
   public ArrayList<Elsendo> elsendoj = new ArrayList<Elsendo>();
@@ -89,7 +91,6 @@ public class Cxefdatumoj {
 
     // Erstat med evt ny værdi
     elsendojUrl = json.optString("elsendojUrl", elsendojUrl);
-
   }
 
   public void leguElsendojn(String radioTxt) {
@@ -148,5 +149,32 @@ public class Cxefdatumoj {
     }
 
     for (Kanalo k : kanaloj) Collections.reverse(k.elsendoj);
+  }
+  
+  /**
+   * @return true se io estis ŝarĝita
+   */
+  public boolean ŝarĝiElsendojnDeRss(boolean nurLokajn) {
+    boolean ioEstisSxargxita = false;
+    long komenco = System.currentTimeMillis();
+    for (Kanalo k : this.kanaloj) {
+      String elsendojRssUrl = k.json.optString("elsendojRssUrl", null);
+      if (elsendojRssUrl != null) try {
+          String dosiero = Kasxejo.akiriDosieron(elsendojRssUrl, false, nurLokajn);
+          Log.d((System.currentTimeMillis() - komenco) + " akiris " + elsendojRssUrl);
+          if (dosiero == null) continue;
+          ArrayList<Elsendo> elsendoj = RssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
+          if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Elsendo e : elsendoj) e.titolo = null;
+          if (elsendoj.size() > 0) {
+            if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
+            k.elsendoj = elsendoj;
+            ioEstisSxargxita = true;
+          }
+          Log.d((System.currentTimeMillis() - komenco) + " parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
+        } catch (Exception ex) {
+          Log.e("Eraro parsante " + elsendojRssUrl, ex);
+        }
+    }
+    return ioEstisSxargxita;
   }
 }

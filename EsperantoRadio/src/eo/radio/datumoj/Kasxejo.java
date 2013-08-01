@@ -1,137 +1,157 @@
-/**
- Esperanto-radio por Androjd, farita de Jacob Nordfalk.
- Kelkaj partoj de la kodo originas de DR Radio 2 por Android, vidu
- http://code.google.com/p/dr-radio-android/
-
- Esperanto-radio por Androjd estas libera softvaro: vi povas redistribui
- ĝin kaj/aŭ modifi ĝin kiel oni anoncas en la licenco GNU Ĝenerala Publika
- Licenco (GPL) versio 2.
-
- Esperanto-radio por Androjd estas distribuita en la espero ke ĝi estos utila,
- sed SEN AJNA GARANTIO; sen eĉ la implica garantio de surmerkatigindeco aŭ
- taŭgeco por iu aparta celo.
- Vidu la GNU Ĝenerala Publika Licenco por pli da detaloj.
-
- Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
- programo. Se ne, vidu <http://www.gnu.org/licenses/>.
- */
 package eo.radio.datumoj;
 
+import java.io.*;
 import java.net.HttpURLConnection;
-import java.io.Closeable;
-
-import java.io.IOException;
 import java.net.URL;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.zip.GZIPInputStream;
 
 /**
  *
  * @author Jacob Nordfalk
  */
 public class Kasxejo {
+
   private static final int BUFFERSTR = 4 * 1024;
   private static String lagerDir;
   public static int byteHentetOverNetværk = 0;
+  private static boolean ŝpurado = true;
+
 
   private static void log(String tekst) {
-    //Log.d(tekst);
+    Log.d(tekst);
   }
 
-  public static void init(String dir) {
+  public static void init(File dir) {
     if (lagerDir != null) {
       return; // vi skifter ikke lager midt i det hele
     }
-    lagerDir = dir;
-    new File(lagerDir).mkdirs();
+    lagerDir = dir.getPath();
+    dir.mkdirs();
     try { // skjul lyd og billeder for MP3-afspillere o.lign.
       new File(dir, ".nomedia").createNewFile();
     } catch (IOException ex) {
       ex.printStackTrace();
     }
   }
-  static long nu = System.currentTimeMillis();
 
-  public static String akiriDosieron(String url, boolean konstanta, boolean nurLoka) throws IOException {
-    log("akiriDosieron " + url + " nurLoka=" + nurLoka);
-    if (url == null) return null;
+  /**
+   * Henter en fil fra cachen eller fra webserveren
+   * @param url
+   * @param ændrerSigIkke Hvis true vil cachen aldrig forsøge at kontakte serveren hvis der er en lokal fil.
+   * God til f.eks. billeder og andre ting der ikke ændrer sig
+   * @return Stien til hvor filen findes lokalt
+   * @throws IOException
+   */
+  public static String akiriDosieron(String url, boolean ændrerSigIkke, boolean nurLoka) throws IOException {
     String cacheFilnavn = lokaDosiero(url);
     File cacheFil = new File(cacheFilnavn);
 
+    if (ŝpurado) log("cacheFil lastModified " + new Date(cacheFil.lastModified()) + " for " + url);
+    long nu = System.currentTimeMillis();
 
-    if (cacheFil.exists()) {
-      //log("- lokaDosiero ekzistas - lastModified " + new Date(cacheFil.lastModified()));
-      if (konstanta || nurLoka) {
-        log("- akiriDosieron uzas lokan dosieron " + cacheFilnavn);
+    if (cacheFil.exists() && (ændrerSigIkke || nurLoka)) {
+      if (ŝpurado) log("Læser " + cacheFilnavn);
+      return cacheFilnavn;
+    } else {
+      if (nurLoka) return null;
+      long hentHvisNyereEnd = cacheFil.lastModified();
+
+      int prøvIgen = 3;
+      while (prøvIgen > 0) {
+        prøvIgen = prøvIgen - 1;
+        log("Kontakter " + url);
+        HttpURLConnection httpForb = (HttpURLConnection) new URL(url).openConnection();
+
+        if (cacheFil.exists()) {
+          httpForb.setIfModifiedSince(hentHvisNyereEnd);
+        }
+
+        httpForb.addRequestProperty("Accept-Encoding", "gzip");
+        httpForb.setConnectTimeout(10000); // 10 sekunder
+        try {
+          httpForb.connect();
+        } catch (IOException e) {
+          if (!cacheFil.exists()) {
+            throw e; // netværksfejl - og vi har ikke en lokal kopi
+          }
+          log("Netværksfejl, men der er cachet kopi i " + cacheFilnavn);
+          return cacheFilnavn;
+        }
+        int responseCode = 0;
+        try { //Try-catch hack due to many exceptions.. this actually helped a lot with erroneous image loadings
+          responseCode = httpForb.getResponseCode();
+        } catch (IOException e) {
+          httpForb.disconnect();
+          if(prøvIgen == 0){
+            throw e;
+          }
+          continue;
+        }
+        if (responseCode == 400 && cacheFil.exists()) {
+          httpForb.disconnect();
+          log("Netværksfejl, men der er cachet kopi i " + cacheFilnavn);
+          return cacheFilnavn;
+        }
+        if (responseCode == 304) {
+          httpForb.disconnect();
+          log("Der er cachet kopi i " + cacheFilnavn);
+          return cacheFilnavn;
+        }
+        if (responseCode != 200) {
+          if (prøvIgen == 0)
+            throw new IOException(responseCode + " " + httpForb.getResponseMessage() + " for " + url);
+          // Prøv igen
+          log("Netværksfejl, vi venter lidt og prøver igen");
+          log(responseCode + " " + httpForb.getResponseMessage() + " for " + url);
+          try {
+            Thread.sleep(50);
+          } catch (InterruptedException ex) {
+          }
+          // try { Thread.sleep(100); } catch (InterruptedException ex) { }
+          continue;
+        }
+
+        if (ŝpurado) log("Henter " + url + " og gemmer i " + cacheFilnavn);
+        InputStream is = httpForb.getInputStream();
+        FileOutputStream fos = new FileOutputStream(cacheFilnavn+"_tmp");
+        String indkodning = httpForb.getHeaderField("Content-Encoding");
+        Log.d("indkodning: "+indkodning);
+        if ("gzip".equals(indkodning)) {
+          is = new GZIPInputStream(is); // Pak data ud
+        }
+        kopierOgLuk(is, fos);
+        Log.d(httpForb.getHeaderField("Content-Length") + " blev til "+new File(cacheFilnavn).length());
+        cacheFil.delete();
+        new File(cacheFilnavn+"_tmp").renameTo(cacheFil);
+
+        if (!false) {
+          long lastModified = httpForb.getHeaderFieldDate("last-modified", nu);
+          log("last-modified " + new Date(lastModified));
+          cacheFil.setLastModified(lastModified);
+        }
+
         return cacheFilnavn;
       }
-    } else {
-      //log("- lokaDosiero NE ekzistas");
     }
-
-    if (nurLoka) return null;
-
-    //log("- akiriDosieron kontaktas " + url);
-
-    HttpURLConnection httpForb = (HttpURLConnection) new URL(url).openConnection();
-
-    if (cacheFil.exists()) {
-      httpForb.setIfModifiedSince(cacheFil.lastModified());
-    }
-
-    httpForb.setConnectTimeout(10000); // 10 sekunder
-    try {
-      httpForb.connect();
-    } catch (IOException e) {
-      if (!cacheFil.exists()) {
-        throw e; // netværksfejl - og vi har ikke en lokal kopi
-      }
-      log("- akiriDosieron ricevis " + e + " kaj uzas lokan dosieron " + cacheFilnavn);
-      return cacheFilnavn;
-    }
-    int responseCode = httpForb.getResponseCode();
-    if (responseCode == 400 && cacheFil.exists()) {
-      httpForb.disconnect();
-      log("- akiriDosieron ricevis " + responseCode + " kaj uzas lokan dosieron " + cacheFilnavn);
-      return cacheFilnavn;
-    }
-    if (responseCode == 304) {
-      httpForb.disconnect();
-      log("- akiriDosieron ricevis " + responseCode + ": Loka dosiero estas suficxe fresxa, ni reuzu gxin: " + cacheFilnavn);
-      return cacheFilnavn;
-    }
-    if (responseCode != 200) {
-      throw new IOException(responseCode + " " + httpForb.getResponseMessage() + " for " + url);
-    }
-
-    log("- akiriDosieron: elsxutas datumojn de " + url);
-    boolean ok = false;
-    try {
-      InputStream is = httpForb.getInputStream();
-      FileOutputStream fos = new FileOutputStream(cacheFilnavn);
-      kopierOgLuk(is, fos);
-      ok = true;
-    } finally {
-      if (!ok) cacheFil.delete(); // gem ikke halve filer!
-    }
-
-    long lastModified = httpForb.getHeaderFieldDate("last-modified", nu);
-    //log("- akiriDosieron metas last-modified" + new Date(lastModified));
-    cacheFil.setLastModified(lastModified);
-
-    return cacheFilnavn;
+    throw new IllegalStateException("Dette burde aldrig ske!");
   }
 
+  /**
+   * Giver filnavn på hvor URL er gemt i cachet.
+   * Hvis filen ikke findes i cachen vil der stadig blive returneret et filnavn.
+   * Brug new File(FilCache.findLokaltFilnavn(url)).exists() for at afgøre om en URL findes cachet lokalt
+   * @param url
+   * @return Stien til hvor filen (muligvis) findes lokalt.
+   */
   public static String lokaDosiero(String url) {
-    //String cacheFilnavn = url.substring(url.lastIndexOf('/') + 1).replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.  byvejr_dag1?by=2500&mode=long
-    String cacheFilnavn = url.replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.  byvejr_dag1?by=2500&mode=long
+    // String cacheFilnavn = url.substring(url.lastIndexOf('/') +
+    // 1).replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.
+    // byvejr_dag1?by=2500&mode=long
+    String cacheFilnavn = url.replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.
+                                                                                     // byvejr_dag1?by=2500&mode=long
     cacheFilnavn = lagerDir + "/" + cacheFilnavn;
-    //log("lokaDosiero de " + url + " estas " + cacheFilnavn);
+    if (ŝpurado) log("URL: " + url + "  -> " + cacheFilnavn);
     return cacheFilnavn;
   }
 
@@ -161,6 +181,18 @@ public class Kasxejo {
 
   public static String læsInputStreamSomStreng(InputStream is) throws IOException, UnsupportedEncodingException {
 
+    // Det kan være nødvendigt at hoppe over BOM mark - se http://android.forums.wordpress.org/topic/xml-pull-error?replies=2
+    //is.read(); is.read(); is.read(); // - dette virker kun hvis der ALTID er en BOM
+    // Hop over BOM - hvis den er der!
+    is = new BufferedInputStream(is);  // bl.a. FileInputStream understøtter ikke mark, så brug BufferedInputStream
+    is.mark(1); // vi har faktisk kun brug for at søge én byte tilbage
+    if (is.read() == 0xef) {
+      is.read();
+      is.read();
+    } // Der var en BOM! Læs de sidste 2 byte
+    else is.reset(); // Der var ingen BOM - hop tilbage til start
+
+
     final char[] buffer = new char[0x3000];
     StringBuilder out = new StringBuilder();
     Reader in = new InputStreamReader(is, "UTF-8");
@@ -174,5 +206,10 @@ public class Kasxejo {
     in.close();
     String jsondata = out.toString();
     return jsondata;
+  }
+
+  public static String hentUrlSomStreng(String url) throws IOException {
+    String x = akiriDosieron(url, false, false);
+    return læsInputStreamSomStreng(new FileInputStream(x));
   }
 }

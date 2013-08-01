@@ -21,7 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import dk.nordfalk.esperanto.radio.Datumoj;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 import dk.nordfalk.esperanto.radio.App;
 
 /**
@@ -35,9 +35,7 @@ public class AfspillerReciever extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     try {
-      Datumoj.kontroluInstanconSxargxita(context);
-
-      Ludado afspiller = Datumoj.instans.ludado;
+      Ludado afspiller = Datumoj.instanco.ludado;
       int flag = intent.getIntExtra("flag", 0);
       Log.d("AfspillerReciever onReceive(" + intent + ") flag " + flag + " afspillerstatus =" + afspiller.ludadstatuso);
 

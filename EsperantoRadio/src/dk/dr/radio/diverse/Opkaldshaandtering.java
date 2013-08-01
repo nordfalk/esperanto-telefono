@@ -19,7 +19,7 @@ package dk.dr.radio.diverse;
 
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 import dk.dr.radio.afspilning.Ludado;
 
 

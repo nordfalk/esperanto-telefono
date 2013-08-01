@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 
 public class Salutsxildo_akt extends Activity implements Runnable {
   /** Called when the activity is first created. */
@@ -35,8 +35,7 @@ public class Salutsxildo_akt extends Activity implements Runnable {
     setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
     try {
-      Datumoj drData = Datumoj.kontroluInstanconSxargxita(this);
-      drData.kontroluFonaFadenoStartis();
+      Datumoj.instanco.kontroluFonaFadenoStartis();
 
 
       Handler handler = new Handler();

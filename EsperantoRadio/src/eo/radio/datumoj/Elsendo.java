@@ -15,31 +15,28 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.dr.radio.util;
+package eo.radio.datumoj;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.provider.Settings.Secure;
-import dk.nordfalk.esperanto.radio.Datumoj;
+import java.util.Date;
 
 /**
  *
  * @author j
  */
-public class MedieafspillerInfo {
-  public String build_prop_stagefright;
+public class Elsendo {
+  public String kanalNomo;
+  public String datoStr;
+  public Date dato;
+  public String sonoUrl;
+  public String rektaElsendaPriskriboUrl;
+  public String priskribo;
+  public String titolo;
+  public String ligilo;
+  public String emblemoUrl;
+  /** Por Muzaiko la elsenda galerio malaperu se oni elektas la rektan elsendon */
+  public boolean elektoIgasLaGalerioMalaperi;
 
-  public String lavTelefoninfo(Context a) {
-
-    String ret = "Program: " + a.getPackageName() + " version " + Datumoj.appInfo.versionName
-        + "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT
-        + "\nAndroid v" + Build.VERSION.RELEASE
-        + "\nsdk: " + Build.VERSION.SDK
-        + "\nAndroid_ID: " + Secure.getString(a.getContentResolver(), Secure.ANDROID_ID);
-
-    return ret;
+  public String toString() {
+    return kanalNomo + dato + (priskribo.length() > 30 ? priskribo.substring(0, 15) + "..." : priskribo);
   }
 }

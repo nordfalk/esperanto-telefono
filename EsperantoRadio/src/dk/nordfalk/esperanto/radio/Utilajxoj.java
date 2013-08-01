@@ -15,8 +15,9 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.nordfalk.esperanto.radio.datumoj;
+package dk.nordfalk.esperanto.radio;
 
+import eo.radio.datumoj.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;

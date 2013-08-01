@@ -18,6 +18,7 @@
 package dk.nordfalk.esperanto.radio;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,14 +35,12 @@ import com.bugsense.trace.BugSenseHandler;
 import com.google.ads.a;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import dk.dr.radio.afspilning.Ludado;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
-import dk.dr.radio.util.MedieafspillerInfo;
-import dk.nordfalk.esperanto.radio.datumoj.Elsendo;
-import dk.nordfalk.esperanto.radio.datumoj.Kanalo;
-import dk.nordfalk.esperanto.radio.datumoj.Kasxejo;
-import dk.nordfalk.esperanto.radio.datumoj.Cxefdatumoj;
-import dk.nordfalk.esperanto.radio.datumoj.RssParsado;
-import dk.nordfalk.esperanto.radio.datumoj.Utilajxoj;
+import eo.radio.datumoj.Log;
+import eo.radio.datumoj.Elsendo;
+import eo.radio.datumoj.Kanalo;
+import eo.radio.datumoj.Kasxejo;
+import eo.radio.datumoj.Cxefdatumoj;
+import eo.radio.datumoj.RssParsado;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,21 +49,14 @@ import org.json.JSONException;
 /**
  * Det centrale objekt som alt andet bruger til
  */
-public class Datumoj implements java.io.Serializable {
-  public static Context appCtx;
-  public static SharedPreferences prefs;
-  private static final int stamdataID = 8;
+public class Datumoj {
+  public static final int stamdataID = 8;
   private static final String ŜLOSILO_KANALOJ = "esperantoradio_kanaloj_v" + stamdataID;
   private static final String kanalojUrl = "http://javabog.dk/privat/" + ŜLOSILO_KANALOJ + ".json";
   //private static String elsendojUrl = "http://esperanto-radio.com/radio.txt";
   private static final String ŜLOSILO_ELSENDOJ = "elsendoj";
   /** Globalt flag */
   public static final boolean evoluiganto = false;
-  public static PackageInfo appInfo;
-
-  public static boolean uziAnalytics() {
-    return prefs.getBoolean("analytics", true);
-  }
 
   private void sætKanalOgUdsendelseSikkert(String kodo) {
     aktualaKanalkodo = kodo;
@@ -80,13 +72,12 @@ public class Datumoj implements java.io.Serializable {
   public Ludado ludado;
   public Handler handler = new Handler();
   public boolean udsendelser_ikkeTilgængeligt;
-  public static Datumoj instans;
+  public static Datumoj instanco;
   public String rektaElsendaPriskribo;
   public Cxefdatumoj stamdata;
   public String aktualaKanalkodo;
   public Kanalo aktualaKanalo;
   public Elsendo aktualaElsendo;
-  public static GoogleAnalyticsTracker tracker;
   public static final String ŜLOSILO_kanalo = "kanalo";
   /** Bruges til at sende broadcasts om nye stamdata */
   public static final String INTENT_novaj_ĉefdatumoj = "dk.dr.radio.afspiller.OPDATERING_Stamdata";
@@ -104,90 +95,58 @@ public class Datumoj implements java.io.Serializable {
   private boolean baggrundsopdateringAktiv = false;
   private boolean baggrundstrådSkalVente = true;
 
-  /** Variation der tjekker om instansen er tom og - hvis det er tilfældet - indlæser en instans fra disk - synkront
-   * SKAL kaldes fra GUI-tråden
-   */
-  public static synchronized Datumoj kontroluInstanconSxargxita(Context akt) throws IOException, JSONException {
-    appCtx = akt.getApplicationContext();
-    /*
-     // XXX TODO traktu tion ĉi
-     Locale locale = new Locale("en");
-     Locale.setDefault(locale);
-     Configuration config = new Configuration();
-     config.locale = locale;
-     //appCtx.getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-     appCtx.getResources().getConfiguration().updateFrom(config);
-     akt.getResources().getConfiguration().updateFrom(config);
-     */
+  static void ŝarĝiInstancon() throws IOException, JSONException, PackageManager.NameNotFoundException {
+    long komenco = System.currentTimeMillis();
+    if (evoluiganto) Toast.makeText(App.app, "Programo freŝe startita", Toast.LENGTH_LONG).show();
 
-    if (instans == null) {
-      long komenco = System.currentTimeMillis();
-
-      //evoluiganto = prefs.getBoolean("udvikler", false);
-      if (evoluiganto) Toast.makeText(akt, "Programo freŝe startita", Toast.LENGTH_LONG).show();
-
-      //if (evoluiganto) Debug.startMethodTracing("/data/data/dk.nordfalk.esperanto.radio/files/trace.data");
+    //if (evoluiganto) Debug.startMethodTracing("/data/data/dk.nordfalk.esperanto.radio/files/trace.data");
 
 
-      int stamdataResId = akt.getResources().getIdentifier(ŜLOSILO_KANALOJ, "raw", akt.getPackageName());
-      if (stamdataResId == 0) throw new InternalError("Ne trovita: " + ŜLOSILO_KANALOJ);
+    int stamdataResId = App.app.getResources().getIdentifier(ŜLOSILO_KANALOJ, "raw", App.app.getPackageName());
+    if (stamdataResId == 0) throw new InternalError("Ne trovita: " + ŜLOSILO_KANALOJ);
 
-      String kanalojStr = prefs.getString(ŜLOSILO_KANALOJ, null);
-      String elsendojStr = prefs.getString(ŜLOSILO_ELSENDOJ, null);
+    String kanalojStr = App.prefs.getString(ŜLOSILO_KANALOJ, null);
+    String elsendojStr = App.prefs.getString(ŜLOSILO_ELSENDOJ, null);
 
-      if (kanalojStr == null) {
-        // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
-        //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
-        kanalojStr = Utilajxoj.læsInputStreamSomStreng(akt.getResources().openRawResource(stamdataResId));
-      }
-
-      if (elsendojStr == null) {
-        // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
-        //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
-        elsendojStr = Utilajxoj.læsInputStreamSomStreng(akt.getResources().openRawResource(R.raw.radio));
-      }
-      Log.d((System.currentTimeMillis() - komenco) + " akiris datumojn ");
-
-      Kasxejo.init(akt.getCacheDir().getPath());
-      instans = new Datumoj();
-      instans.stamdata = new Cxefdatumoj(kanalojStr);
-      instans.stamdata.leguElsendojn(elsendojStr);
-      Log.d((System.currentTimeMillis() - komenco) + " parsis datumojn ");
-      sxargxiKanalbildojn(instans.stamdata, true);
-      Log.d((System.currentTimeMillis() - komenco) + " ŝarĝis kanalbildojn ");
-      // Daŭras tro da tempo! Ne faru en la ĉefa fadeno!
-      Log.d(instans.stamdata.kanaloj);
-
-      // Kanalvalg. Tjek først Preferences, brug derefter JSON-filens forvalgte kanal
-      // Por nun 'Muzaiko' estu cxiam la antauxelektita kanalo
-      //if (instans.aktualaKanalkodo == null) instans.aktualaKanalkodo = prefs.getString(ŜLOSILO_kanalo, null);
-      if (instans.aktualaKanalkodo == null) instans.aktualaKanalkodo = instans.stamdata.s("komenca_kanalo");
-      instans.sætKanalOgUdsendelseSikkert(instans.aktualaKanalkodo);
-
-      tracker = GoogleAnalyticsTracker.getInstance();
-      tracker.startNewSession("UA-29361423-1", Datumoj.appCtx);
-      tracker.setProductVersion(Datumoj.appInfo.versionName, "" + stamdataID);
-
-      if (uziAnalytics()) {
-        Datumoj.tracker.trackPageView("starto:" + Datumoj.appInfo.versionName);
-
-        boolean montriReklamojn = prefs.getBoolean(MontriReklamojn.ŜLOSILO_montri_reklamojn, false);
-        Datumoj.tracker.trackPageView("montriReklamojn:" + montriReklamojn);
-      }
-
-
-      instans.ludado = new Ludado();
-      instans.ludado.setKanalon(instans.aktualaKanalo.nomo, instans.aktualaElsendo.sonoUrl);
-      //if (evoluiganto) Debug.stopMethodTracing();
-      Log.d((System.currentTimeMillis() - komenco) + " finis initialisering");
+    if (kanalojStr == null) {
+      // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
+      //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
+      kanalojStr = Utilajxoj.læsInputStreamSomStreng(App.app.getResources().openRawResource(stamdataResId));
     }
+
+    if (elsendojStr == null) {
+      // Indlæs fra raw this vi ikke har nogle cachede stamdata i prefs
+      //InputStream is = akt.getResources().openRawResource(R.raw.stamdata_android22);
+      elsendojStr = Utilajxoj.læsInputStreamSomStreng(App.app.getResources().openRawResource(R.raw.radio));
+    }
+    Log.d((System.currentTimeMillis() - komenco) + " akiris datumojn ");
+
+
+    instanco = new Datumoj();
+    instanco.stamdata = new Cxefdatumoj(kanalojStr);
+    instanco.stamdata.leguElsendojn(elsendojStr);
+    Log.d((System.currentTimeMillis() - komenco) + " parsis datumojn ");
+    sxargxiKanalbildojn(instanco.stamdata, true);
+    Log.d((System.currentTimeMillis() - komenco) + " ŝarĝis kanalbildojn ");
+    // Daŭras tro da tempo! Ne faru en la ĉefa fadeno!
+    Log.d(instanco.stamdata.kanaloj);
+
+    // Kanalvalg. Tjek først Preferences, brug derefter JSON-filens forvalgte kanal
+    // Por nun 'Muzaiko' estu cxiam la antauxelektita kanalo
+    //if (instans.aktualaKanalkodo == null) instans.aktualaKanalkodo = prefs.getString(ŜLOSILO_kanalo, null);
+    if (instanco.aktualaKanalkodo == null) instanco.aktualaKanalkodo = instanco.stamdata.json.optString("komenca_kanalo");
+    instanco.sætKanalOgUdsendelseSikkert(instanco.aktualaKanalkodo);
+
+
+    instanco.ludado = new Ludado();
+    instanco.ludado.setKanalon(instanco.aktualaKanalo.nomo, instanco.aktualaElsendo.sonoUrl);
+    //if (evoluiganto) Debug.stopMethodTracing();
+    Log.d((System.currentTimeMillis() - komenco) + " finis ŝargadon");
 
 
     // 31. okt: Fjernet af Jacob - da baggrundstråden ikke skal startes af f.eks. widgetter
     // se kontroluFonaFadenoStartis()
     //if (!instans.fonaFadeno.isAlive()) instans.fonaFadeno.start();
-
-    return instans;
   }
 
   /**
@@ -198,18 +157,12 @@ public class Datumoj implements java.io.Serializable {
     if (!fonaFadeno.isAlive()) fonaFadeno.start();
   }
 
-  /**
-   * Skifter til en anden kanal
-   * @param nyKanalkode en af "P1", "P2", "P3", "P5D", "P6B", "P7M", "RAM", etc
-   * eller evt P4-kanal "KH4", "NV4", "AR4", "AB4", "OD4", "AL4", "HO4", "TR4", "RO4", "ES4", "NS4"],
-   * Bemærk at "P4" eller asmåtingndre uden en streamUrl IKKE er tilladt
-   */
-  public void skiftKanal(String nyKanalkode) {
-    Log.d("DRData.skiftKanal(" + nyKanalkode);
+  public void ŝanĝiKanalon(String novaKanalkodo) {
+    Log.d("DRData.skiftKanal(" + novaKanalkodo);
 
-    sætKanalOgUdsendelseSikkert(nyKanalkode);
+    sætKanalOgUdsendelseSikkert(novaKanalkodo);
 
-    prefs.edit().putString(ŜLOSILO_kanalo, aktualaKanalkodo).commit();
+    App.prefs.edit().putString(ŜLOSILO_kanalo, aktualaKanalkodo).commit();
     rektaElsendaPriskribo = null;
     // Væk baggrundstråden så den indlæser den nye kanals elsendo etc og laver broadcasts med nyt info
     baggrundstrådSkalOpdatereNu();
@@ -239,7 +192,7 @@ public class Datumoj implements java.io.Serializable {
       ioEstisSxargxita |= sxargxiElsendojnDeRss(stamdata, false);
 
       if (ioEstisSxargxita) {
-        appCtx.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
+        App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
       }
 
       // Hovedløkke
@@ -259,7 +212,7 @@ public class Datumoj implements java.io.Serializable {
 
           hentUdsendelserOgSpillerNuListe();
 
-          Datumoj.tracker.dispatch();
+          App.tracker.dispatch();
 
         } catch (Exception ex) {
           Log.e(ex);
@@ -285,7 +238,7 @@ public class Datumoj implements java.io.Serializable {
           // sendas ensalutan pagxon
           rektaElsendaPriskribo = "Ne povis elŝuti";
         }
-        appCtx.sendBroadcast(new Intent(INTENT_novaj_elsendoj));
+        App.app.sendBroadcast(new Intent(INTENT_novaj_elsendoj));
       } catch (Exception ex) {
         Log.e(ex);
         rektaElsendaPriskribo = "Ne povis elŝuti";
@@ -296,35 +249,35 @@ public class Datumoj implements java.io.Serializable {
 
     // Tjek om en evt ny udgave af stamdata skal indlæses
     final String STAMDATA_SIDST_INDLÆST = "stamdata_sidst_indlæst";
-    long sidst = prefs.getLong(STAMDATA_SIDST_INDLÆST, 0);
+    long sidst = App.prefs.getLong(STAMDATA_SIDST_INDLÆST, 0);
     long nu = System.currentTimeMillis();
     long alder = (nu - sidst) / 1000 / 60;
     if (alder >= 30) try { // stamdata er ældre end en halv time
         Log.d("Stamdata er " + alder + " minutter gamle, opdaterer dem...");
         // Opdater tid (hvad enten indlæsning lykkes eller ej)
-        prefs.edit().putLong(STAMDATA_SIDST_INDLÆST, nu).commit();
+        App.prefs.edit().putLong(STAMDATA_SIDST_INDLÆST, nu).commit();
 
         String kanalojStr = Utilajxoj.hentUrlSomStreng(kanalojUrl);
         final Cxefdatumoj stamdata2 = new Cxefdatumoj(kanalojStr);
         // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
-        prefs.edit().putString(ŜLOSILO_KANALOJ, kanalojStr).commit();
+        App.prefs.edit().putString(ŜLOSILO_KANALOJ, kanalojStr).commit();
 
         try {
           String elsendojStr = Utilajxoj.hentUrlSomStreng(stamdata2.elsendojUrl);
           stamdata2.leguElsendojn(elsendojStr);
           // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
-          prefs.edit().putString(ŜLOSILO_ELSENDOJ, elsendojStr).commit();
+          App.prefs.edit().putString(ŜLOSILO_ELSENDOJ, elsendojStr).commit();
         } catch (Exception e) {
           Log.e("Fejl parsning af " + stamdata2.elsendojUrl, e);
         }
         sxargxiKanalbildojn(stamdata2, false);
         sxargxiElsendojnDeRss(stamdata2, false);
-        Log.d(instans.stamdata.kanaloj);
+        Log.d(instanco.stamdata.kanaloj);
 
         handler.post(new Runnable() {
           public void run() {
             stamdata = stamdata2;
-            appCtx.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
+            App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
           }
         });
       } catch (Exception e) {

@@ -1,4 +1,4 @@
-package dk.nordfalk.esperanto.radio.datumoj;
+package eo.radio.datumoj;
 
 import java.io.InputStream;
 import java.util.ArrayList;

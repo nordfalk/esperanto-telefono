@@ -23,7 +23,7 @@ import android.widget.AdapterView;
 import com.google.ads.Ad;
 import com.google.ads.AdRequest.ErrorCode;
 import android.content.SharedPreferences;
-import dk.nordfalk.esperanto.radio.datumoj.Kanalo;
+import eo.radio.datumoj.Kanalo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -74,9 +74,9 @@ import dk.dr.radio.afspilning.AfspillerListener;
 import dk.dr.radio.afspilning.Ludado;
 import dk.dr.radio.diverse.MitGalleri;
 import dk.dr.radio.util.Kontakt;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 import dk.dr.radio.util.Network;
-import dk.nordfalk.esperanto.radio.datumoj.Elsendo;
+import eo.radio.datumoj.Elsendo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -123,7 +123,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     pretiguKontrolojn();
 
     try {
-      datumoj = Datumoj.kontroluInstanconSxargxita(this);
+      datumoj = Datumoj.instanco;
       datumoj.kontroluFonaFadenoStartis();
       ludado = datumoj.ludado;
     } catch (Exception ex) {
@@ -196,8 +196,8 @@ public class Ludado_akt extends Activity implements AfspillerListener {
           montriReklamojn = false;
           montriReklamojnNePluĈarJamKlakis = true;
           Toast.makeText(Ludado_akt.this, "Dankon pro via subteno :-)", Toast.LENGTH_LONG).show();
-          if (Datumoj.instans.uziAnalytics()) {
-            Datumoj.tracker.trackPageView("reklamoKlako");
+          if (App.uziAnalytics()) {
+            App.tracker.trackPageView("reklamoKlako");
           }
         }
 
@@ -219,7 +219,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     public void run() {
       adView.setVisibility(View.INVISIBLE);
       if (montriReklamojn) adView.loadAd(adRequest);
-      Datumoj.instans.handler.postDelayed(montriReklamon, 120000);
+      Datumoj.instanco.handler.postDelayed(montriReklamon, 120000);
     }
   };
 
@@ -269,7 +269,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       datumoj.setBaggrundsopdateringAktiv(true);
       if (adView != null) {
         adView.setVisibility(View.INVISIBLE);
-        Datumoj.instans.handler.postDelayed(montriReklamon, 10000);
+        Datumoj.instanco.handler.postDelayed(montriReklamon, 10000);
       }
     } else {
       // Informer brugeren hvis vi er offline
@@ -288,7 +288,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
   @Override
   protected void onPause() {
     datumoj.setBaggrundsopdateringAktiv(false);
-    Datumoj.instans.handler.removeCallbacks(montriReklamon);
+    Datumoj.instanco.handler.removeCallbacks(montriReklamon);
     super.onPause();
   }
 
@@ -533,9 +533,9 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     public void onReceive(Context ctx, Intent i) {
       //Log.d("stamdataOpdateretReciever");
 
-      mesagxo = datumoj.stamdata.s(mesagxo_hash_ŜLOSILO + Datumoj.appInfo.versionCode);
+      mesagxo = datumoj.stamdata.json.optString(mesagxo_hash_ŜLOSILO + App.appInfo.versionCode);
       // Se neniu mesaĝo por tiu ĉi versio ni montru ĝeneralan version
-      if (mesagxo.length() == 0) mesagxo = datumoj.stamdata.s(mesagxo_hash_ŜLOSILO);
+      if (mesagxo.length() == 0) mesagxo = datumoj.stamdata.json.optString(mesagxo_hash_ŜLOSILO);
 
       // Ni ignoru spacojn
       mesagxo = mesagxo.trim();
@@ -770,8 +770,8 @@ public class Ludado_akt extends Activity implements AfspillerListener {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (Datumoj.uziAnalytics()) {
-      Datumoj.tracker.trackPageView("menuo:" + item.getTitle());
+    if (App.uziAnalytics()) {
+      App.tracker.trackPageView("menuo:" + item.getTitle());
     }
 
 

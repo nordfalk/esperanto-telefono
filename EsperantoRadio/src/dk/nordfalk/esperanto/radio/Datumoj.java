@@ -44,6 +44,7 @@ import eo.radio.datumoj.RssParsado;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.json.JSONException;
 
 /**
@@ -57,13 +58,14 @@ public class Datumoj {
   private static final String ŜLOSILO_ELSENDOJ = "elsendoj";
   /** Globalt flag */
   public static final boolean evoluiganto = false;
+  public HashMap<String,Bitmap> emblemoj = new HashMap<String,Bitmap>();
 
   private void sætKanalOgUdsendelseSikkert(String kodo) {
     aktualaKanalkodo = kodo;
-    aktualaKanalo = stamdata.kanalkodoAlKanalo.get(aktualaKanalkodo);
+    aktualaKanalo = ĉefdatumoj.kanalkodoAlKanalo.get(aktualaKanalkodo);
 
     if (aktualaKanalo == null || aktualaKanalo.elsendoj.size() == 0) { // Ne devus okazi, sed tamen okazas se oni neniam ajn elektis kanalon
-      aktualaKanalo = stamdata.kanaloj.get(0);
+      aktualaKanalo = ĉefdatumoj.kanaloj.get(0);
       aktualaKanalkodo = aktualaKanalo.kodo;
     }
     // Ĉiam elektu la plej lastan elsendon
@@ -74,7 +76,7 @@ public class Datumoj {
   public boolean udsendelser_ikkeTilgængeligt;
   public static Datumoj instanco;
   public String rektaElsendaPriskribo;
-  public Cxefdatumoj stamdata;
+  public Cxefdatumoj ĉefdatumoj;
   public String aktualaKanalkodo;
   public Kanalo aktualaKanalo;
   public Elsendo aktualaElsendo;
@@ -123,18 +125,18 @@ public class Datumoj {
 
 
     instanco = new Datumoj();
-    instanco.stamdata = new Cxefdatumoj(kanalojStr);
-    instanco.stamdata.leguElsendojn(elsendojStr);
+    instanco.ĉefdatumoj = new Cxefdatumoj(kanalojStr);
+    instanco.ĉefdatumoj.leguElsendojn(elsendojStr);
     Log.d((System.currentTimeMillis() - komenco) + " parsis datumojn ");
-    sxargxiKanalbildojn(instanco.stamdata, true);
+    instanco.ŝarĝiKanalbildojn(true);
     Log.d((System.currentTimeMillis() - komenco) + " ŝarĝis kanalbildojn ");
     // Daŭras tro da tempo! Ne faru en la ĉefa fadeno!
-    Log.d(instanco.stamdata.kanaloj);
+    Log.d(instanco.ĉefdatumoj.kanaloj);
 
     // Kanalvalg. Tjek først Preferences, brug derefter JSON-filens forvalgte kanal
     // Por nun 'Muzaiko' estu cxiam la antauxelektita kanalo
     //if (instans.aktualaKanalkodo == null) instans.aktualaKanalkodo = prefs.getString(ŜLOSILO_kanalo, null);
-    if (instanco.aktualaKanalkodo == null) instanco.aktualaKanalkodo = instanco.stamdata.json.optString("komenca_kanalo");
+    if (instanco.aktualaKanalkodo == null) instanco.aktualaKanalkodo = instanco.ĉefdatumoj.json.optString("komenca_kanalo");
     instanco.sætKanalOgUdsendelseSikkert(instanco.aktualaKanalkodo);
 
 
@@ -188,8 +190,8 @@ public class Datumoj {
     @Override
     public void run() {
 
-      boolean ioEstisSxargxita = sxargxiKanalbildojn(stamdata, false);
-      ioEstisSxargxita |= sxargxiElsendojnDeRss(stamdata, false);
+      boolean ioEstisSxargxita = ŝarĝiKanalbildojn(false);
+      ioEstisSxargxita |= ŝarĝiElsendojnDeRss(ĉefdatumoj, false);
 
       if (ioEstisSxargxita) {
         App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
@@ -270,13 +272,13 @@ public class Datumoj {
         } catch (Exception e) {
           Log.e("Fejl parsning af " + stamdata2.elsendojUrl, e);
         }
-        sxargxiKanalbildojn(stamdata2, false);
-        sxargxiElsendojnDeRss(stamdata2, false);
-        Log.d(instanco.stamdata.kanaloj);
+        ŝarĝiKanalbildojn(false);
+        ŝarĝiElsendojnDeRss(stamdata2, false);
+        Log.d(instanco.ĉefdatumoj.kanaloj);
 
         handler.post(new Runnable() {
           public void run() {
-            stamdata = stamdata2;
+            ĉefdatumoj = stamdata2;
             App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
           }
         });
@@ -286,12 +288,12 @@ public class Datumoj {
 
   }
 
-  private static boolean sxargxiKanalbildojn(final Cxefdatumoj dat, boolean nurLokajn) {
+  private boolean ŝarĝiKanalbildojn(boolean nurLokajn) {
     boolean ioEstisSxargxita = false;
-    for (Kanalo k : dat.kanaloj) {
-      String emblemoUrl = k.json.optString("emblemoUrl", "");
-      if (emblemoUrl.length() > 0 && k.emblemo == null) try {
-          String dosiero = Kasxejo.akiriDosieron(emblemoUrl, true, nurLokajn);
+    for (Kanalo k : ĉefdatumoj.kanaloj) {
+
+      if (k.emblemoUrl != null && emblemoj.get(k.emblemoUrl) == null) try {
+          String dosiero = Kasxejo.akiriDosieron(k.emblemoUrl, true, nurLokajn);
           if (dosiero == null) continue;
           /*
            int kiomDaDpAlta = 50; // 50 dp
@@ -303,7 +305,7 @@ public class Datumoj {
           Bitmap res = BitmapFactory.decodeFile(dosiero);
 
           if (res != null) ioEstisSxargxita = true;
-          k.emblemo = res;
+          emblemoj.put(k.emblemoUrl, res);
         } catch (Exception ex) {
           Log.e(ex);
         }
@@ -311,7 +313,7 @@ public class Datumoj {
     return ioEstisSxargxita;
   }
 
-  private static boolean sxargxiElsendojnDeRss(final Cxefdatumoj dat, boolean nurLokajn) {
+  private static boolean ŝarĝiElsendojnDeRss(final Cxefdatumoj dat, boolean nurLokajn) {
     boolean ioEstisSxargxita = false;
     long komenco = System.currentTimeMillis();
     for (Kanalo k : dat.kanaloj) {

@@ -166,7 +166,7 @@ public class Alarms {
       alarmer = new ArrayList<Alarm>();
       String alarmoj = prefs(context).getString("alarmoj", null);
       if (alarmoj == null) try {
-          alarmoj = Datumoj.instanco.stamdata.json.optString("sugestoj_por_alarmoj");
+          alarmoj = Datumoj.instanco.ĉefdatumoj.json.optString("sugestoj_por_alarmoj");
         } catch (Exception e) {
           Log.e("Rezignas pri alarmoj!", e);
           alarmoj = "";

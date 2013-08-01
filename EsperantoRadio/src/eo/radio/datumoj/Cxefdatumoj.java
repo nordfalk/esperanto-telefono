@@ -62,6 +62,7 @@ public class Cxefdatumoj {
       k.hejmpaĝoEkrane = j.optString("hejmpaĝoEkrane", null);
       k.hejmpaĝoButono = j.optString("hejmpaĝoButono", null);
       k.retpoŝto = j.optString("retpoŝto", null);
+      k.emblemoUrl = j.optString("emblemoUrl", null);
       k.json = j;
       d.kanaloj.add(k);
 

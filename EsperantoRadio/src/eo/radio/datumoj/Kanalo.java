@@ -26,13 +26,14 @@ public class Kanalo {
   public String nomo;
   //public String rektaElsendaSonoUrl;
   //public String rektaElsendaPriskriboUrl;
-  public Bitmap emblemo;
+  //public Bitmap emblemo;
   public String hejmpaĝoEkrane;
   public String hejmpaĝoButono;
   public String retpoŝto;
   public JSONObject json;
   public ArrayList<Elsendo> elsendoj = new ArrayList<Elsendo>();
   public Elsendo rektaElsendo;
+  public String emblemoUrl;
 
   @Override
   public String toString() {

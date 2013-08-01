@@ -33,6 +33,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -533,9 +534,9 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     public void onReceive(Context ctx, Intent i) {
       //Log.d("stamdataOpdateretReciever");
 
-      mesagxo = datumoj.stamdata.json.optString(mesagxo_hash_ŜLOSILO + App.appInfo.versionCode);
+      mesagxo = datumoj.ĉefdatumoj.json.optString(mesagxo_hash_ŜLOSILO + App.appInfo.versionCode);
       // Se neniu mesaĝo por tiu ĉi versio ni montru ĝeneralan version
-      if (mesagxo.length() == 0) mesagxo = datumoj.stamdata.json.optString(mesagxo_hash_ŜLOSILO);
+      if (mesagxo.length() == 0) mesagxo = datumoj.ĉefdatumoj.json.optString(mesagxo_hash_ŜLOSILO);
 
       // Ni ignoru spacojn
       mesagxo = mesagxo.trim();
@@ -601,20 +602,21 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     ImageView aktuelKanalImageView = (ImageView) findViewById(R.id.player_select_channel_billede);
     TextView aktuelKanalTextView = (TextView) findViewById(R.id.player_select_channel_text);
 
-    if (kanalo.emblemo == null) { //
+    Bitmap kanalo_emblemo = Datumoj.instanco.emblemoj.get(kanalo.emblemoUrl);
+    if (kanalo_emblemo == null) { //
       aktuelKanalTextView.setText(kanalo.nomo);
       aktuelKanalTextView.setVisibility(View.VISIBLE);
       aktuelKanalImageView.setVisibility(View.GONE);
-    } else if (kanalo.emblemo.getWidth() < kanalo.emblemo.getHeight() * 2) {
+    } else if (kanalo_emblemo.getWidth() < kanalo_emblemo.getHeight() * 2) {
       // Emblemo kun teksto
       aktuelKanalTextView.setVisibility(View.VISIBLE);
       aktuelKanalTextView.setText(kanalo.nomo);
       aktuelKanalImageView.setVisibility(View.VISIBLE);
-      aktuelKanalImageView.setImageBitmap(kanalo.emblemo);
+      aktuelKanalImageView.setImageBitmap(kanalo_emblemo);
     } else {
       // Emblemo kiu enhavas la tekston - do ne montru gxin
       aktuelKanalTextView.setVisibility(View.GONE);
-      aktuelKanalImageView.setImageBitmap(kanalo.emblemo);
+      aktuelKanalImageView.setImageBitmap(kanalo_emblemo);
       aktuelKanalImageView.setVisibility(View.VISIBLE);
       // La bildo plenigu la tutan largxon
       //aktuelKanalImageView.getLayoutParams().width = LayoutParams.FILL_PARENT;

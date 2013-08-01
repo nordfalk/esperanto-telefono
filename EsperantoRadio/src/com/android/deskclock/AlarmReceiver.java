@@ -105,10 +105,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
     try {
-      Kanalo nyKanal = Datumoj.instanco.stamdata.kanalkodoAlKanalo.get(alarm.kanalo);
+      Kanalo nyKanal = Datumoj.instanco.ĉefdatumoj.kanalkodoAlKanalo.get(alarm.kanalo);
       if (nyKanal == null) {
         Log.wtf("Alarm: Kanal findes ikke!" + alarm.kanalo + " for alarmstr=" + data);
-        Datumoj.instanco.ŝanĝiKanalon(Datumoj.instanco.stamdata.kanaloj.get(0).kodo);
+        Datumoj.instanco.ŝanĝiKanalon(Datumoj.instanco.ĉefdatumoj.kanaloj.get(0).kodo);
       } else {
         Datumoj.instanco.ŝanĝiKanalon(alarm.kanalo);
       }

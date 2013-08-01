@@ -40,7 +40,7 @@ public class Pri_akt extends Activity implements OnClickListener {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pri_akt);
 
-    String aboutUrl = Datumoj.instanco.stamdata.json.optString("hejmpaĝo");
+    String aboutUrl = Datumoj.instanco.ĉefdatumoj.json.optString("hejmpaĝo");
 
     webview = (WebView) findViewById(R.id.about_webview);
 
@@ -66,7 +66,7 @@ public class Pri_akt extends Activity implements OnClickListener {
 
   public void onClick(View v) {
     String brødtekst = "";
-    brødtekst += Datumoj.instanco.stamdata.json.optString("feedback_brugerspørgsmål");
+    brødtekst += Datumoj.instanco.ĉefdatumoj.json.optString("feedback_brugerspørgsmål");
     brødtekst += "\n" + Datumoj.instanco.ludado.kanalUrl;
     brødtekst += "\n\n" + App.app.lavTelefoninfo();
     Kontakt.kontakt(this, EMAILSUBJECT, brødtekst, Log.log.toString());

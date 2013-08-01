@@ -36,7 +36,7 @@ public class Kontakt {
 
     String[] modtagere = null;
     try {
-      modtagere = Utilajxoj.jsonArrayTilArrayListString(Datumoj.instanco.stamdata.json.getJSONArray("feedback_modtagere")).toArray(new String[0]);
+      modtagere = Utilajxoj.jsonArrayTilArrayListString(Datumoj.instanco.ĉefdatumoj.json.getJSONArray("feedback_modtagere")).toArray(new String[0]);
     } catch (Exception ex) {
       Log.e("JSONParsning af feedback_modtagere", ex);
       modtagere = new String[] { "jacob.nordfalk@gmail.com" };

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,12 +33,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import dk.nordfalk.esperanto.radio.datumoj.Kanalo;
+import eo.radio.datumoj.Kanalo;
 import dk.dr.radio.util.ImageViewTilBlinde;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 
 public class ElektiKanalon_akt extends ListActivity {
-  private Datumoj drData;
   private KanalAdapter adapter;
   private View[] listeElementer;
 
@@ -49,20 +49,12 @@ public class ElektiKanalon_akt extends ListActivity {
     setContentView(R.layout.elekti_kanalon_akt);
 
     adapter = new KanalAdapter();
-    try {
-      drData = Datumoj.kontroluInstanconSxargxita(this);
-    } catch (Exception ex) {
-      Log.e(ex);
-      finish(); // Hop ud!
-      return;
-    }
-
     registerReceiver(ĉefdatumojĜisdatigitajReciever, new IntentFilter(Datumoj.INTENT_novaj_ĉefdatumoj));
 
 
     // Da der er tale om et fast lille antal kanaler er der ikke grund til det store bogholderi
     // Så vi husker bare viewsne i er array
-    listeElementer = new View[drData.stamdata.kanaloj.size()];
+    listeElementer = new View[Datumoj.instanco.ĉefdatumoj.kanaloj.size()];
 
     setListAdapter(adapter);
     // Sæt baggrunden normalt ville man gøre det fra XML eller med
@@ -91,7 +83,7 @@ public class ElektiKanalon_akt extends ListActivity {
     @Override
     public void onReceive(Context ctx, Intent i) {
       //Log.d("stamdataOpdateretReciever elektikanalon");
-      listeElementer = new View[drData.stamdata.kanaloj.size()];
+      listeElementer = new View[Datumoj.instanco.ĉefdatumoj.kanaloj.size()];
       adapter.notifyDataSetChanged();
     }
   };
@@ -109,7 +101,7 @@ public class ElektiKanalon_akt extends ListActivity {
 
       if (view != null) return view; // Elementet er allede konstrueret
 
-      Kanalo kanalo = drData.stamdata.kanaloj.get(position);
+      Kanalo kanalo = Datumoj.instanco.ĉefdatumoj.kanaloj.get(position);
 
       //System.out.println("getView " + position + " kanal_" + kanalkode.toLowerCase() + " type = " + id);
       view = mInflater.inflate(R.layout.elekti_kanalon_elemento, null);
@@ -120,22 +112,22 @@ public class ElektiKanalon_akt extends ListActivity {
       //Log.d("billedebilledebilledebillede"+billede+ikon+textView);
 
       // Sæt og højttalerikon for kanal
-      if (drData.aktualaKanalo == kanalo) {
+      if (Datumoj.instanco.aktualaKanalo == kanalo) {
         ikon.setImageResource(R.drawable.icon_playing);
         ikon.blindetekst = "Spiller nu";
       } else
         ikon.setVisibility(View.INVISIBLE);
 
       String aldonaTeksto = kanalo.elsendoj.size() > 1 ? " (" + kanalo.elsendoj.size() + ")" : "";
-
       // tjek om der er et billede i 'drawable' med det navn filnavn
       //int id = res.getIdentifier("kanal_"+kanalkode.toLowerCase(), "drawable", getPackageName());
-      if (kanalo.emblemo != null) {
+      Bitmap kanalo_emblemo = Datumoj.instanco.emblemoj.get(kanalo.emblemoUrl);
+      if (kanalo_emblemo != null) {
         // Element med billede
         billede.setVisibility(View.VISIBLE);
-        billede.setImageBitmap(kanalo.emblemo);
+        billede.setImageBitmap(kanalo_emblemo);
         billede.blindetekst = kanalo.nomo;
-        if (kanalo.emblemo.getWidth() < kanalo.emblemo.getHeight() * 2) {
+        if (kanalo_emblemo.getWidth() < kanalo_emblemo.getHeight() * 2) {
           // Emblemo kun teksto
           textView.setText(kanalo.nomo + aldonaTeksto);
         } else {
@@ -161,7 +153,7 @@ public class ElektiKanalon_akt extends ListActivity {
     Resources res = getResources();
 
     public int getCount() {
-      return drData.stamdata.kanaloj.size();
+      return Datumoj.instanco.ĉefdatumoj.kanaloj.size();
     }
 
     public Object getItem(int position) {
@@ -175,17 +167,17 @@ public class ElektiKanalon_akt extends ListActivity {
 
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    String kanalkode = drData.stamdata.kanaloj.get(position).kodo;
+    String kanalkode = Datumoj.instanco.ĉefdatumoj.kanaloj.get(position).kodo;
 
 
     //Kanal kanal = drData.stamdata.kanalkodoAlKanalo.get(kanalkode);
     //Toast.makeText(this, "Klik på "+position+" "+kanal.nomo, Toast.LENGTH_LONG).show();
 
-    if (kanalkode.equals(drData.aktualaKanalkodo)) setResult(RESULT_CANCELED);
+    if (kanalkode.equals(Datumoj.instanco.aktualaKanalkodo)) setResult(RESULT_CANCELED);
     else setResult(RESULT_OK);  // Signalér til kalderen at der er skiftet kanal!!
 
     // Ny kanal valgt - send valg til ludado (ændrer også drData.aktualaKanalkodo)
-    drData.skiftKanal(kanalkode);
+    Datumoj.instanco.ŝanĝiKanalon(kanalkode);
 
     // Hop tilbage til kalderen (hovedskærmen)
     finish();

@@ -15,7 +15,7 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.nordfalk.esperanto.radio.datumoj;
+package eo.radio.datumoj;
 
 import android.graphics.Bitmap;
 import java.util.ArrayList;
@@ -26,13 +26,14 @@ public class Kanalo {
   public String nomo;
   //public String rektaElsendaSonoUrl;
   //public String rektaElsendaPriskriboUrl;
-  public Bitmap emblemo;
+  //public Bitmap emblemo;
   public String hejmpaĝoEkrane;
   public String hejmpaĝoButono;
   public String retpoŝto;
   public JSONObject json;
   public ArrayList<Elsendo> elsendoj = new ArrayList<Elsendo>();
   public Elsendo rektaElsendo;
+  public String emblemoUrl;
 
   @Override
   public String toString() {

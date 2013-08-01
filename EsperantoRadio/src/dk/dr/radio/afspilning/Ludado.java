@@ -50,7 +50,7 @@ import android.widget.Toast;
 import com.android.deskclock.AlarmAlertWakeLock;
 import dk.dr.radio.diverse.AfspillerWidget;
 import dk.nordfalk.esperanto.radio.R;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
@@ -83,7 +83,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
     mediaPlayer.setOnPreparedListener(lytter);
     mediaPlayer.setOnBufferingUpdateListener(lytter);
     mediaPlayer.setOnSeekCompleteListener(lytter);
-    if (holdSkærmTændt && lytter != null) mediaPlayer.setWakeMode(Datumoj.appCtx, PowerManager.SCREEN_DIM_WAKE_LOCK);
+    if (holdSkærmTændt && lytter != null) mediaPlayer.setWakeMode(App.app, PowerManager.SCREEN_DIM_WAKE_LOCK);
   }
   private final Opkaldshaandtering opkaldshåndtering;
   private final TelephonyManager tm;
@@ -102,12 +102,12 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
 
     opkaldshåndtering = new Opkaldshaandtering(this);
     try {
-      wifilock = ((WifiManager) Datumoj.appCtx.getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "DR Radio");
+      wifilock = ((WifiManager) App.app.getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "DR Radio");
       wifilock.setReferenceCounted(false);
     } catch (Exception e) {
       App.eraro(e);
     } // TODO fjern try/catch
-    tm = (TelephonyManager) Datumoj.appCtx.getSystemService(Context.TELEPHONY_SERVICE);
+    tm = (TelephonyManager) App.app.getSystemService(Context.TELEPHONY_SERVICE);
     tm.listen(opkaldshåndtering, PhoneStateListener.LISTEN_CALL_STATE);
   }
 
@@ -120,9 +120,9 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
     // Xperia Play har brug for at holde skærmen tændt. Muligvis også andre....
     holdSkærmTændt = "R800i".equals(Build.MODEL);
     String ŜLOSILOholdSkærmTændt = "holdSkærmTændt";
-    holdSkærmTændt = Datumoj.prefs.getBoolean(ŜLOSILOholdSkærmTændt, holdSkærmTændt);
+    holdSkærmTændt = App.prefs.getBoolean(ŜLOSILOholdSkærmTændt, holdSkærmTændt);
     // Gem værdi hvis den ikke findes, sådan at indstillingsskærm viser det rigtige
-    if (!Datumoj.prefs.contains(ŜLOSILOholdSkærmTændt)) Datumoj.prefs.edit().putBoolean(ŜLOSILOholdSkærmTændt, holdSkærmTændt).commit();
+    if (!App.prefs.contains(ŜLOSILOholdSkærmTændt)) App.prefs.edit().putBoolean(ŜLOSILOholdSkærmTændt, holdSkærmTændt).commit();
   }
   private int onErrorTæller;
   private long onErrorTællerNultid;
@@ -137,8 +137,8 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
     if (ludadstatuso == STATUSO_HALTIS) {
       // Start afspillerservicen så programmet ikke bliver lukket
       // når det kører i baggrunden under afspilning
-      Datumoj.appCtx.startService(new Intent(Datumoj.appCtx, AService.class).putExtra("kanalNavn", kanalNavn));
-      if (Datumoj.prefs.getBoolean("wifilås", true) && wifilock != null) try {
+      App.app.startService(new Intent(App.app, AService.class).putExtra("kanalNavn", kanalNavn));
+      if (App.prefs.getBoolean("wifilås", true) && wifilock != null) try {
           wifilock.acquire();
         } catch (Exception e) {
           App.eraro(e);
@@ -152,7 +152,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
   }
 
   public static void minimumaLaŭteco(int minimumKvinono) {
-    AudioManager audioManager = (AudioManager) Datumoj.appCtx.getSystemService(Context.AUDIO_SERVICE);
+    AudioManager audioManager = (AudioManager) App.app.getSystemService(Context.AUDIO_SERVICE);
     int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     int nu = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     if (nu < minimumKvinono * max / 5) {
@@ -190,10 +190,10 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
     opdaterWidgets();
     handler.removeCallbacks(startAfspilningIntern);
 
-    if (Datumoj.uziAnalytics()) {
-      Datumoj.tracker.trackPageView(kanalNavn);
-      Datumoj.tracker.trackPageView(kanalUrl);
-      Datumoj.tracker.trackEvent(
+    if (App.uziAnalytics()) {
+      App.tracker.trackPageView(kanalNavn);
+      App.tracker.trackPageView(kanalUrl);
+      App.tracker.trackEvent(
           "Ludado", // Category
           "Komenco", // Action
           kanalNavn, // Label
@@ -229,7 +229,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
     opdaterWidgets();
 
     // Stop afspillerservicen
-    Datumoj.appCtx.stopService(new Intent(Datumoj.appCtx, AService.class));
+    App.app.stopService(new Intent(App.app, AService.class));
     if (wifilock != null) try {
         wifilock.release();
       } catch (Exception e) {
@@ -241,8 +241,8 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
       observatør.onAfspilningStoppet();
     }
 
-    if (Datumoj.uziAnalytics()) {
-      Datumoj.tracker.trackEvent(
+    if (App.uziAnalytics()) {
+      App.tracker.trackEvent(
           "Ludado", // Category
           "Fino", // Action
           kanalNavn, // Label
@@ -291,11 +291,11 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
 
   private void opdaterWidgets() {
 
-    AppWidgetManager mAppWidgetManager = AppWidgetManager.getInstance(Datumoj.appCtx);
-    int[] appWidgetId = mAppWidgetManager.getAppWidgetIds(new ComponentName(Datumoj.appCtx, AfspillerWidget.class));
+    AppWidgetManager mAppWidgetManager = AppWidgetManager.getInstance(App.app);
+    int[] appWidgetId = mAppWidgetManager.getAppWidgetIds(new ComponentName(App.app, AfspillerWidget.class));
 
     for (int id : appWidgetId) {
-      AfspillerWidget.opdaterUdseende(Datumoj.appCtx, mAppWidgetManager, id);
+      AfspillerWidget.opdaterUdseende(App.app, mAppWidgetManager, id);
     }
   }
 
@@ -354,7 +354,7 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
       mediaPlayer = new MediaPlayer();
       sætMediaPlayerLytter(mediaPlayer, this); // registrér lyttere på den nye instans
       // Tenu telefonon veka por 3 sekundoj
-      AlarmAlertWakeLock.createPartialWakeLock(Datumoj.appCtx).acquire(3000);
+      AlarmAlertWakeLock.createPartialWakeLock(App.app).acquire(3000);
 
       startAfspilningIntern();
     } else {
@@ -419,8 +419,8 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
 
       } else {
         stopAfspilning(); // Vi giver op efter 10. forsøg
-        Toast.makeText(Datumoj.appCtx, "Bedaŭrinde ne eblas ludi tiun ĉi elsendon", Toast.LENGTH_LONG).show();
-        Toast.makeText(Datumoj.appCtx, "Provu elekti alian kanalon", Toast.LENGTH_LONG).show();
+        Toast.makeText(App.app, "Bedaŭrinde ne eblas ludi tiun ĉi elsendon", Toast.LENGTH_LONG).show();
+        Toast.makeText(App.app, "Provu elekti alian kanalon", Toast.LENGTH_LONG).show();
 
         if (eraroSignifasBrui) {
           Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -446,10 +446,10 @@ public class Ludado implements OnPreparedListener, OnSeekCompleteListener,
   private void vibru(int ms) {
     Log.d("vibru " + ms);
     try {
-      Vibrator vibrator = (Vibrator) Datumoj.appCtx.getSystemService(Activity.VIBRATOR_SERVICE);
+      Vibrator vibrator = (Vibrator) App.app.getSystemService(Activity.VIBRATOR_SERVICE);
       vibrator.vibrate(ms);
       // Tenu telefonon veka por 1/2a sekundo
-      AlarmAlertWakeLock.createPartialWakeLock(Datumoj.appCtx).acquire(500);
+      AlarmAlertWakeLock.createPartialWakeLock(App.app).acquire(500);
     } catch (Exception e) {
       e.printStackTrace();
     }

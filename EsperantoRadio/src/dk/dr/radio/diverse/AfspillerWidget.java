@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import dk.nordfalk.esperanto.radio.R;
 import dk.dr.radio.afspilning.AfspillerReciever;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 import dk.nordfalk.esperanto.radio.App;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
@@ -49,9 +49,6 @@ public class AfspillerWidget extends AppWidgetProvider {
     Log.d(this + " onUpdate (levende ikon oprettet) - appWidgetIds = " + Arrays.toString(appWidgetIds));
 
     try {
-      // Instans indlæses så vi kender kanalen
-      Datumoj.kontroluInstanconSxargxita(ctx);
-
       // for sørge for at vores knapper får tilknyttet intentsne
       opdaterUdseende(ctx, appWidgetManager, appWidgetIds[0]);
     } catch (Exception ex) {
@@ -93,7 +90,7 @@ public class AfspillerWidget extends AppWidgetProvider {
      int startStopKnapResId = R.drawable.widget_radio_play;
      */
 
-    Datumoj drData = Datumoj.instans;
+    Datumoj drData = Datumoj.instanco;
     if (drData != null) {
       Resources res = ctx.getResources();
       String kanalkode = drData.aktualaKanalkodo;

@@ -17,7 +17,6 @@
  */
 package dk.nordfalk.esperanto.radio;
 
-import dk.nordfalk.esperanto.radio.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,8 +29,7 @@ import android.webkit.WebViewDatabase;
 import android.widget.Button;
 import android.widget.ImageButton;
 import dk.dr.radio.util.Kontakt;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
-import dk.dr.radio.util.MedieafspillerInfo;
+import eo.radio.datumoj.Log;
 
 public class Pri_akt extends Activity implements OnClickListener {
   WebView webview;
@@ -42,15 +40,7 @@ public class Pri_akt extends Activity implements OnClickListener {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pri_akt);
 
-    Datumoj drData;
-    try {
-      drData = Datumoj.kontroluInstanconSxargxita(this);
-    } catch (Exception ex) {
-      Log.e(ex);
-      finish(); // Hop ud!
-      return;
-    }
-    String aboutUrl = drData.stamdata.s("hejmpaĝo");
+    String aboutUrl = Datumoj.instanco.ĉefdatumoj.json.optString("hejmpaĝo");
 
     webview = (WebView) findViewById(R.id.about_webview);
 
@@ -76,10 +66,9 @@ public class Pri_akt extends Activity implements OnClickListener {
 
   public void onClick(View v) {
     String brødtekst = "";
-    brødtekst += Datumoj.instans.stamdata.s("feedback_brugerspørgsmål");
-    brødtekst += "\n" + Datumoj.instans.ludado.kanalUrl;
-    brødtekst += "\n\n" + new MedieafspillerInfo().lavTelefoninfo(Pri_akt.this);
-
+    brødtekst += Datumoj.instanco.ĉefdatumoj.json.optString("feedback_brugerspørgsmål");
+    brødtekst += "\n" + Datumoj.instanco.ludado.kanalUrl;
+    brødtekst += "\n\n" + App.app.lavTelefoninfo();
     Kontakt.kontakt(this, EMAILSUBJECT, brødtekst, Log.log.toString());
   }
 }

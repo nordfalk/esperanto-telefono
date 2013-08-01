@@ -15,7 +15,7 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.nordfalk.esperanto.radio.datumoj;
+package eo.radio.datumoj;
 
 /**
  * Loggerklasse

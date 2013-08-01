@@ -15,8 +15,9 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.nordfalk.esperanto.radio.datumoj;
+package eo.radio.datumoj;
 
+import java.io.FileInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,13 +31,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Cxefdatumoj {
-  /** Grunddata */
+
   public JSONObject json;
-  //public List<String> kanalkodoj = new ArrayList<String>();
   public List<Kanalo> kanaloj = new ArrayList<Kanalo>();
   public ArrayList<Elsendo> elsendoj = new ArrayList<Elsendo>();
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-//	private final HashMap<String, ArrayList<Elsendo>> programerojLaŭKanalo = new HashMap<String, ArrayList<Elsendo>>();
   public HashMap<String, Kanalo> kanalkodoAlKanalo = new HashMap<String, Kanalo>();
   public HashMap<String, Kanalo> kanalnomoAlKanalo = new HashMap<String, Kanalo>();
   public String elsendojUrl = "http://esperanto-radio.com/radio.txt";
@@ -65,6 +64,7 @@ public class Cxefdatumoj {
       k.hejmpaĝoEkrane = j.optString("hejmpaĝoEkrane", null);
       k.hejmpaĝoButono = j.optString("hejmpaĝoButono", null);
       k.retpoŝto = j.optString("retpoŝto", null);
+      k.emblemoUrl = j.optString("emblemoUrl", null);
       k.json = j;
       d.kanaloj.add(k);
 
@@ -84,8 +84,6 @@ public class Cxefdatumoj {
     }
 
 
-    //Log.d("TIDSTAGNING parsning tog "+dt("parsning stamdataUrl"));
-    //d.lavKanalkodeTilKanalMap();
     for (Kanalo k : d.kanaloj) {
       d.kanalkodoAlKanalo.put(k.kodo, k);
       d.kanalnomoAlKanalo.put(k.nomo, k);
@@ -93,7 +91,6 @@ public class Cxefdatumoj {
 
     // Erstat med evt ny værdi
     elsendojUrl = json.optString("elsendojUrl", elsendojUrl);
-
   }
 
   public void leguElsendojn(String radioTxt) {
@@ -153,11 +150,31 @@ public class Cxefdatumoj {
 
     for (Kanalo k : kanaloj) Collections.reverse(k.elsendoj);
   }
-
+  
   /**
-   * Slår en streng op efter en ŜLOSILO. Giver "" i fald ŜLOSILOn ikke findes
+   * @return true se io estis ŝarĝita
    */
-  public String s(String ŝlosilo) {
-    return json.optString(ŝlosilo, "");
+  public boolean ŝarĝiElsendojnDeRss(boolean nurLokajn) {
+    boolean ioEstisSxargxita = false;
+    long komenco = System.currentTimeMillis();
+    for (Kanalo k : this.kanaloj) {
+      String elsendojRssUrl = k.json.optString("elsendojRssUrl", null);
+      if (elsendojRssUrl != null) try {
+          String dosiero = Kasxejo.akiriDosieron(elsendojRssUrl, false, nurLokajn);
+          Log.d((System.currentTimeMillis() - komenco) + " akiris " + elsendojRssUrl);
+          if (dosiero == null) continue;
+          ArrayList<Elsendo> elsendoj = RssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
+          if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Elsendo e : elsendoj) e.titolo = null;
+          if (elsendoj.size() > 0) {
+            if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
+            k.elsendoj = elsendoj;
+            ioEstisSxargxita = true;
+          }
+          Log.d((System.currentTimeMillis() - komenco) + " parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
+        } catch (Exception ex) {
+          Log.e("Eraro parsante " + elsendojRssUrl, ex);
+        }
+    }
+    return ioEstisSxargxita;
   }
 }

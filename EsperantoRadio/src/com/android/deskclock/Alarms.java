@@ -23,7 +23,7 @@ import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 
 import dk.nordfalk.esperanto.radio.Datumoj;
-import dk.nordfalk.esperanto.radio.datumoj.Cxefdatumoj;
+import eo.radio.datumoj.Cxefdatumoj;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -166,8 +166,7 @@ public class Alarms {
       alarmer = new ArrayList<Alarm>();
       String alarmoj = prefs(context).getString("alarmoj", null);
       if (alarmoj == null) try {
-          Datumoj.kontroluInstanconSxargxita(context);
-          alarmoj = Datumoj.instans.stamdata.json.optString("sugestoj_por_alarmoj");
+          alarmoj = Datumoj.instanco.ĉefdatumoj.json.optString("sugestoj_por_alarmoj");
         } catch (Exception e) {
           Log.e("Rezignas pri alarmoj!", e);
           alarmoj = "";

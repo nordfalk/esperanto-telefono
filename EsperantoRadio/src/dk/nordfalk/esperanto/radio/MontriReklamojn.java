@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import dk.nordfalk.esperanto.radio.datumoj.Log;
+import eo.radio.datumoj.Log;
 import java.util.Date;
 
 public class MontriReklamojn {
@@ -21,7 +21,7 @@ public class MontriReklamojn {
   static String ŜLOSILO_montri_reklamojn = "montri_reklamojn";
 
   public static void app_launched(Context mContext, boolean novaInstalo, boolean launch) {
-    SharedPreferences prefs = Datumoj.prefs;
+    SharedPreferences prefs = App.prefs;
     SharedPreferences.Editor editor = prefs.edit();
 
     // Increment launch counter

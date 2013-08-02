@@ -247,25 +247,25 @@ public class Datumoj {
         // Opdater tid (hvad enten indlæsning lykkes eller ej)
         App.prefs.edit().putLong(STAMDATA_SIDST_INDLÆST, nu).commit();
 
-        String kanalojStr = Kasxejo.hentUrlSomStreng(kanalojUrl);
-        final Cxefdatumoj stamdata2 = new Cxefdatumoj(kanalojStr);
+        String ĉefdatumoj2Str = Kasxejo.hentUrlSomStreng(kanalojUrl);
+        final Cxefdatumoj ĉefdatumoj2 = new Cxefdatumoj(ĉefdatumoj2Str);
         // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
-        App.prefs.edit().putString(ŜLOSILO_ĈEFDATUMOJ, kanalojStr).commit();
+        App.prefs.edit().putString(ŜLOSILO_ĈEFDATUMOJ, ĉefdatumoj2Str).commit();
 
         try {
-          String elsendojStr = Kasxejo.hentUrlSomStreng(stamdata2.elsendojUrl);
-          stamdata2.leguElsendojn(elsendojStr);
+          String elsendojStr = Kasxejo.hentUrlSomStreng(ĉefdatumoj2.elsendojUrl);
+          ĉefdatumoj2.leguElsendojn(elsendojStr);
           // Hentning og parsning gik godt - vi gemmer den nye udgave i prefs
           App.prefs.edit().putString(ŜLOSILO_ELSENDOJ, elsendojStr).commit();
         } catch (Exception e) {
-          Log.e("Fejl parsning af " + stamdata2.elsendojUrl, e);
+          Log.e("Fejl parsning af " + ĉefdatumoj2.elsendojUrl, e);
         }
-        stamdata2.ŝarĝiElsendojnDeRss(false);
+        ĉefdatumoj2.ŝarĝiElsendojnDeRss(false);
         Log.d(instanco.ĉefdatumoj.kanaloj);
 
         handler.post(new Runnable() {
           public void run() {
-            ĉefdatumoj = stamdata2;
+            ĉefdatumoj = ĉefdatumoj2;
             App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
           }
         });

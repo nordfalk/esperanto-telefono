@@ -17,7 +17,6 @@
  */
 package eo.radio.datumoj;
 
-import android.graphics.Bitmap;
 import java.util.ArrayList;
 import org.json.JSONObject;
 

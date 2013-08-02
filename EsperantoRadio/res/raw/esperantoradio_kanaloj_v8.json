@@ -25,18 +25,6 @@
 			"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
 			"hejmpaĝoButono": "http://muzaiko.info/"
 		}
-//    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
-//    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
-//		{
-//			"kodo": "peranto",
-//			"nomo": "Esperanta Retradio",
-////			"sonoUrl": "http://esperanto-radio.com/perantonun",
-//			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
-////			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
-//			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
-//			"retpoŝto": "retradio@aldone.de",
-//			"hejmpaĝoButono": "http://aldone.de/retradio"
-//		}
 		,{
 			"kodo": "polaretradio",
 			"nomo": "Pola Retradio",
@@ -97,7 +85,7 @@
 			"retpoŝto": "podkasto@onet.eu",
 			"hejmpaĝoButono": "http://podkasto.net/"
 		}
-//		{
+//		,{
 //			"kodo": "verdastacio",
 //			"nomo": "Verda Stacio",
 //			"emblemoUrl": "",
@@ -129,6 +117,22 @@
 			"elsendojRssIgnoruTitolon": "true",
 			"hejmpaĝoButono": "http://la-ondo.rpod.ru/"
 		}
+	],
+
+
+  "FORPRENITAJ_KANALOJ" : [
+//    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
+//    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
+//		{
+//			"kodo": "peranto",
+//			"nomo": "Esperanta Retradio",
+////			"sonoUrl": "http://esperanto-radio.com/perantonun",
+//			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
+////			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
+//			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
+//			"retpoŝto": "retradio@aldone.de",
+//			"hejmpaĝoButono": "http://aldone.de/retradio"
+//		}
 //		,{
 //			"kodo": "vinilkosmo",
 //			"nomo": "Vinilkosmo",
@@ -138,7 +142,7 @@
 //			"hejmpaĝo": "http://cd1d.com/radio.php?structure=82874"
 //			//"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
 //		}
-//		,{
+//		{
 //			"kodo": "vej",
 //			"nomo": "Voĉoj el Japanio",
 ////			"sonoUrl": "http://esperanto-radio.com/vejnun",
@@ -149,11 +153,11 @@
 ////			"hejmpaĝoEkrane": "http://vej.posterous.com/",
 //			"hejmpaĝoButono": "http://vej.posterous.com/"
 //		}
-	],
+
+  ],
+
 
  "elsendojUrl": "http://esperanto-radio.com/radio.txt",
-
-// "elsendojUrl": "http://radio.saluton.dk/radio.txt",
 
 	"sugestoj_por_alarmoj":
 "10000/0/6/45/31/0/=muzaiko/=Muzaiko+matene+labortago/\

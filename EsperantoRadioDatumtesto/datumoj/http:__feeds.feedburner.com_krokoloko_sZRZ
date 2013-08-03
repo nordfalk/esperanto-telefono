@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" media="screen" href="/~d/styles/rss2enclosuresfull.xsl"?><?xml-stylesheet type="text/css" media="screen" href="http://feeds.feedburner.com/~d/styles/itemcontent.css"?><rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+
+<channel>
+	<title>Krokoloko</title>
+	
+	<link>http://www.krokoloko.cl</link>
+	<description>Esperanta Podkasto</description>
+	<lastBuildDate>Sat, 31 Dec 2011 20:03:39 +0000</lastBuildDate>
+	<language>eo</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.5.1</generator>
+<!-- podcast_generator="Blubrry PowerPress/4.0.8" -->
+	<itunes:summary>Kio estas krokoloko? Ĝi estas nia loko, nia propra spaco por ŝanĝi la mondon! (aŭ almenaŭ kredi ke ni ŝanĝos la mondon) kaj samtempe amuziĝi. Ĉi tie vi trovos iom da ĉio: muziko, novaĵoj, videoj, interesaj elsendoj kaj multaj aliaj, ĉio farita de ni mem por la tuta esperantistaro, por la tuta mondo.</itunes:summary>
+	<itunes:author>Krokoloko</itunes:author>
+	<itunes:explicit>no</itunes:explicit>
+	<itunes:image href="http://www.krokoloko.cl/wp-content/uploads/2011/03/kroko1.jpg" />
+	<itunes:subtitle>La plej bona podkasto de la mondo kaj konata universo</itunes:subtitle>
+	<image>
+		<title>Krokoloko</title>
+		<url>http://www.krokoloko.cl/wp-content/plugins/powerpress/rss_default.jpg</url>
+		<link>http://www.krokoloko.cl</link>
+	</image>
+		<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="http://feeds.feedburner.com/krokoloko/sZRZ" /><feedburner:info uri="krokoloko/szrz" /><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/" /><media:thumbnail url="http://www.krokoloko.cl/wp-content/uploads/2011/03/kroko1.jpg" /><media:keywords>esperanto,krokoloko,muziko,amuza,podkasto,podcast,cxilio,mazi,gondolando</media:keywords><itunes:owner><itunes:email>podkasto@krokoloko.cl</itunes:email><itunes:name>Krokoloko</itunes:name></itunes:owner><itunes:keywords>esperanto,krokoloko,muziko,amuza,podkasto,podcast,cxilio,mazi,gondolando</itunes:keywords><item>
+		<title>12a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/RLX2ikrNlQU/</link>
+		<comments>http://www.krokoloko.cl/?p=219&amp;lang=eo#comments</comments>
+		<pubDate>Sat, 31 Dec 2011 20:03:39 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=219&amp;lang=eo</guid>
+		<description><![CDATA[Ĉio kio okazas en tiu ĉi epizodo estas tro grava, do ni ne povis resumi ĝin. Aŭskultu! Ah, ankaŭ ni prezentas tro bonan kanton farita de Ŝofi. Rimarko: Dum la venonta jaro ni metos ĉi tie la nomojn de la kantoj.]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<p><a href="http://www.krokoloko.cl/wp-content/uploads/2011/12/mazi_delorean.jpg"><img class="size-full wp-image-220 alignleft" title="mazi_delorean" src="http://www.krokoloko.cl/wp-content/uploads/2011/12/mazi_delorean.jpg" alt="" width="300" height="173" /></a> Ĉio kio okazas en tiu ĉi epizodo estas tro grava, do ni ne povis resumi ĝin. Aŭskultu! Ah, ankaŭ ni prezentas tro bonan kanton farita de Ŝofi.</p>
+<p>Rimarko: Dum la venonta jaro ni metos ĉi tie la nomojn de la kantoj.</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/RLX2ikrNlQU" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=219</wfw:commentRss>
+		<slash:comments>33</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/12a_podkasto.mp3" length="49186067" type="audio/mpeg" />
+		<itunes:subtitle>Ĉio kio okazas en tiu ĉi epizodo estas tro grava, do ni ne povis resumi ĝin. Aŭskultu! Ah, ankaŭ ni prezentas tro bonan kanton farita de Ŝofi. Rimarko: Dum la venonta jaro ni metos ĉi tie la nomojn de la kantoj.</itunes:subtitle>
+		<itunes:summary>Ĉio kio okazas en tiu ĉi epizodo estas tro grava, do ni ne povis resumi ĝin. Aŭskultu! Ah, ankaŭ ni prezentas tro bonan kanton farita de Ŝofi.
+
+
+
+
+
+
+Rimarko: Dum la venonta jaro ni metos ĉi tie la nomojn de la kantoj.</itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>51:14</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/12a_podkasto.mp3" fileSize="49186067" type="audio/mpeg" /><itunes:keywords>esperanto,krokoloko,muziko,amuza,podkasto,podcast,cxilio,mazi,gondolando</itunes:keywords><feedburner:origLink>http://www.krokoloko.cl/?p=219&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>11a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/Z9ePL0TQFJo/</link>
+		<comments>http://www.krokoloko.cl/?p=212&amp;lang=eo#comments</comments>
+		<pubDate>Fri, 30 Sep 2011 01:45:24 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=212&amp;lang=eo</guid>
+		<description><![CDATA[Hodiaŭ ni prezentas terure mallonga epizodo, sed especiale farita pro la patrolandaj festoj kiuj okazis dum la pasinta monato (Septembro) en Ĉilio, do en ĉi tiu epizodo vi nur aŭskultos ĉilian muzikon. Ankaŭ vi lernos kiel kuiri pebre-on, kiu estas ĉilia tradicia saŭco por viaj plej ŝatataj manĝaĵoj. Mazi estis tre stranga dum ĉi tiu [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<p><a href="http://www.krokoloko.cl/wp-content/uploads/2011/09/chupallas.gif"><img class="alignleft size-full wp-image-213" title="chupallas" src="http://www.krokoloko.cl/wp-content/uploads/2011/09/chupallas.gif" alt="" width="300" height="225" /></a> Hodiaŭ ni prezentas terure mallonga epizodo, sed especiale farita pro la patrolandaj festoj kiuj okazis dum la pasinta monato (Septembro) en Ĉilio, do en ĉi tiu epizodo vi nur aŭskultos ĉilian muzikon. Ankaŭ vi lernos kiel kuiri pebre-on, kiu estas ĉilia tradicia saŭco por viaj plej ŝatataj manĝaĵoj. Mazi estis tre stranga dum ĉi tiu epizodo… kial?</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/Z9ePL0TQFJo" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=212</wfw:commentRss>
+		<slash:comments>187</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/11a_podkasto.mp3" length="27657582" type="audio/mpeg" />
+		<itunes:subtitle>Hodiaŭ ni prezentas terure mallonga epizodo, sed especiale farita pro la patrolandaj festoj kiuj okazis dum la pasinta monato (Septembro) en Ĉilio, do en ĉi tiu epizodo vi nur aŭskultos ĉilian muzikon. Ankaŭ vi lernos kiel kuiri pebre-on,</itunes:subtitle>
+		<itunes:summary>Hodiaŭ ni prezentas terure mallonga epizodo, sed especiale farita pro la patrolandaj festoj kiuj okazis dum la pasinta monato (Septembro) en Ĉilio, do en ĉi tiu epizodo vi nur aŭskultos ĉilian muzikon. Ankaŭ vi lernos kiel kuiri pebre-on, kiu estas ĉilia tradicia saŭco por viaj plej ŝatataj manĝaĵoj. Mazi estis tre stranga dum ĉi tiu epizodo… kial?</itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>29:26</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/11a_podkasto.mp3" fileSize="27657582" type="audio/mpeg" /><itunes:keywords>esperanto,krokoloko,muziko,amuza,podkasto,podcast,cxilio,mazi,gondolando</itunes:keywords><feedburner:origLink>http://www.krokoloko.cl/?p=212&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>10a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/tBx1ajX2AmU/</link>
+		<comments>http://www.krokoloko.cl/?p=203&amp;lang=eo#comments</comments>
+		<pubDate>Wed, 31 Aug 2011 04:36:51 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=203&amp;lang=eo</guid>
+		<description><![CDATA[Saluton geamikoj! Ni petas pardonon pro la malfruo, ni supoze lanĉus tiun ĉi epizodon dum la pasinta semajno sed iu stulta krokolokano vojaĝis al Argentino do, ni ne povis ĝisdatigi la retpaĝon… Unue ni komencas la programon kun multe da muziko kiel ĉiam, kaj ankaŭ la salutoj de unu el niaj aŭskultantoj (se vi komprenas [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<p><div id="attachment_204" class="wp-caption alignleft" style="width: 310px"><img class="size-full wp-image-204" title="10a_krokoloko" src="http://www.krokoloko.cl/wp-content/uploads/2011/08/10a_krokoloko.jpg" alt="" width="300" height="200" /><p class="wp-caption-text">Mi ne scias kion meti ĉi tie...</p></div><justify>Saluton geamikoj! Ni petas pardonon pro la malfruo, ni supoze lanĉus tiun ĉi epizodon dum la pasinta semajno sed iu stulta krokolokano vojaĝis al Argentino do, ni ne povis ĝisdatigi la retpaĝon… Unue ni komencas la programon kun multe da muziko kiel ĉiam, kaj ankaŭ la salutoj de unu el niaj aŭskultantoj (se vi komprenas la hispanan, bonvolu pardonu al Mazi pro la teruraj esprimoj kiujn li diris senvole), poste “Kuirante kun Ŝofi”, “vi ne diru tion” “la horo de la interkonsiliĝo” “novaĵoj” kaj multajn pli sensencajn sekciojn vi trovos por via amuziĝo, samkiel multe da ĉilia kaj ne tre konata nekomerca muziko. Ankaŭ Diego Armando klarigas al Mazi la signifon de argentina esprimo. Tiu ĉi estas tre sensenca epizodo, sed tio ne gravas.</p>
+<p>Jen la listo de kantoj:</p>
+<p>- Pasio en katen&#8217; &#8211; Supernova<br />
+- Ne atendu! &#8211; Ŝofi<br />
+- Qué manera &#8211; Illapu<br />
+- Churi churin fun flais &#8211; Los Mox!<br />
+- Everything means nothing &#8211; Toe<br />
+- Chupatron &#8211; Sinergia</justify></p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/tBx1ajX2AmU" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=203</wfw:commentRss>
+		<slash:comments>72</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/10a_podkasto.mp3" length="38052888" type="audio/mpeg" />
+		<itunes:subtitle>Saluton geamikoj! Ni petas pardonon pro la malfruo, ni supoze lanĉus tiun ĉi epizodon dum la pasinta semajno sed iu stulta krokolokano vojaĝis al Argentino do, ni ne povis ĝisdatigi la retpaĝon… Unue ni komencas la programon kun multe da muziko kiel ĉi...</itunes:subtitle>
+		<itunes:summary>Saluton geamikoj! Ni petas pardonon pro la malfruo, ni supoze lanĉus tiun ĉi epizodon dum la pasinta semajno sed iu stulta krokolokano vojaĝis al Argentino do, ni ne povis ĝisdatigi la retpaĝon… Unue ni komencas la programon kun multe da muziko kiel ĉiam, kaj ankaŭ la salutoj de unu el niaj aŭskultantoj (se vi komprenas la hispanan, bonvolu pardonu al Mazi pro la teruraj esprimoj kiujn li diris senvole), poste “Kuirante kun Ŝofi”, “vi ne diru tion” “la horo de la interkonsiliĝo” “novaĵoj” kaj multajn pli sensencajn sekciojn vi trovos por via amuziĝo, samkiel multe da ĉilia kaj ne tre konata nekomerca muziko. Ankaŭ Diego Armando klarigas al Mazi la signifon de argentina esprimo. Tiu ĉi estas tre sensenca epizodo, sed tio ne gravas.
+
+Jen la listo de kantoj:
+
+- Pasio en katen' - Supernova
+- Ne atendu! - Ŝofi
+- Qué manera - Illapu
+- Churi churin fun flais - Los Mox!
+- Everything means nothing - Toe
+- Chupatron - Sinergia</itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>39:38</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/10a_podkasto.mp3" fileSize="38052888" type="audio/mpeg" /><itunes:keywords>esperanto,krokoloko,muziko,amuza,podkasto,podcast,cxilio,mazi,gondolando</itunes:keywords><feedburner:origLink>http://www.krokoloko.cl/?p=203&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>9a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/DpThrtm_ujQ/</link>
+		<comments>http://www.krokoloko.cl/?p=192&amp;lang=eo#comments</comments>
+		<pubDate>Thu, 28 Jul 2011 03:33:57 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+		<category><![CDATA[?ofi]]></category>
+		<category><![CDATA[esperanta radio]]></category>
+		<category><![CDATA[kuiro]]></category>
+		<category><![CDATA[kulturo]]></category>
+		<category><![CDATA[mazi]]></category>
+		<category><![CDATA[muziko]]></category>
+		<category><![CDATA[nova?oj]]></category>
+		<category><![CDATA[podcast]]></category>
+		<category><![CDATA[podkasto]]></category>
+		<category><![CDATA[radio]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=192&amp;lang=eo</guid>
+		<description><![CDATA[Saluton karaj fanatikuloj en tiu ĉi epizodo ni havas multe da amuza senenhaveco por ĉiuj kiuj ŝatas niajn stultaĵojn. Franĉo rakontas mallonge (jes, tre mallonge) pri sia partoprenado en la pasinta TAKE (tutamerika kongreso de esperanto) kaj aliaj aferoj de la vivo. Roĝener Pavinski prezentas unu el la kantoj de lia bando Supernova speciale por [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<div id="attachment_190" class="wp-caption alignleft" style="width: 310px"><a href="http://www.krokoloko.cl/wp-content/uploads/2011/07/krokoloko_jxurnalisto.jpg"><img class="size-full wp-image-190" title="krokoloko_jxurnalisto" src="http://www.krokoloko.cl/wp-content/uploads/2011/07/krokoloko_jxurnalisto.jpg" alt="" width="300" height="198" /></a><p class="wp-caption-text">La teamo de Krokoloko kaj Carlos Reyes (ĵurnalisto)</p></div>
+<p style="text-align: justify;">Saluton karaj fanatikuloj en tiu ĉi epizodo ni havas multe da amuza senenhaveco por ĉiuj kiuj ŝatas niajn stultaĵojn. Franĉo rakontas mallonge (jes, tre mallonge) pri sia partoprenado en la pasinta TAKE (tutamerika kongreso de esperanto) kaj aliaj aferoj de la vivo. Roĝener Pavinski prezentas unu el la kantoj de lia bando Supernova speciale por krokoloko. Ni premieras novan sekcion “kuirante kun Ŝofi” kie ŝi instruas kiel oni kuiras diversajn manĝaĵojn aperantaj en la libro <strong>“Kiel kuiri sen viando”</strong> de la verkinto Clara de Hess. Ankaŭ Ŝofi parolas pri la sensenca filmo Zeitgeist, kaj mazi pri la malhela estonteco kiu estas venonta. Poste ni intervjuas ĵurnaliston (jes, vera ĵurnalisto) kiu intervjuis nin por sia hispanlingva retpaĝo <strong><a href="http://www.tiempodebalas.cl/monos-porfiaos/krokoloko-los-tres-mosqueteros-del-esperanto-en-chile/">Tiempo de Balas</a></strong> sekve ni interkonsiliĝas uzante la belega kaj laŭdinda libro de José de Paiva Netto kiun vi povas trovi <strong><a href="http://www.boavontade.com/esperanto/">ĉi tie</a> </strong>. Tion vi povas ĝoji kaj multe pli kiel, sencencaj novaĵoj, ne tre konata muziko&#8230; ho kaj finfine Ŝofi prezentas novan kanton verkita de ŝi por ĉiuj la idealistoj de la mondo (mi preskaŭ forgesis).</p>
+<p style="text-align: justify;">Rimarko: Eble vi ne komprenas la hispanan do tio ne gravas, sed ni volas diri ke la artikolo de “<a href="http://www.tiempodebalas.cl/monos-porfiaos/krokoloko-los-tres-mosqueteros-del-esperanto-en-chile/">Tiempo de balas</a>” (esperante “Tempo de kugloj”) ne estas perfekta, kaj ni ne konsentas kun ĉio kio tie aperas, ĉar la artikolo igas nin aperi kiel la plej gravaj kaj preskaŭ unikaj esperantistoj de nia lando, kaj tio certe ne estas tiel, kaj ni parolis serioze por la unua fojo.</p>
+<p>Jen la listo de kantoj kiuj aperas en la programo:</p>
+<p>La Blondulineto &#8211; JoMo kaj Liberecanoj<br />
+Mundos Suspendidos &#8211; Inverness<br />
+Alia Mondo Eblas &#8211; Supernova<br />
+Boicot &#8211; Huinca<br />
+Ne Atendu! &#8211; Ŝofi</p>
+<p>&nbsp;</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/DpThrtm_ujQ" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=192</wfw:commentRss>
+		<slash:comments>29</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/9a_podkasto.mp3" length="38689439" type="audio/mpeg" />
+			<itunes:keywords>?ofi,esperanta radio,kuiro,kulturo,mazi,muziko,nova?oj,podcast,podkasto,radio</itunes:keywords>
+	<itunes:subtitle>Saluton karaj fanatikuloj en tiu ĉi epizodo ni havas multe da amuza senenhaveco por ĉiuj kiuj ŝatas niajn stultaĵojn. Franĉo rakontas mallonge (jes, tre mallonge) pri sia partoprenado en la pasinta TAKE (tutamerika kongreso de esperanto) kaj aliaj afer...</itunes:subtitle>
+		<itunes:summary>Saluton karaj fanatikuloj en tiu ĉi epizodo ni havas multe da amuza senenhaveco por ĉiuj kiuj ŝatas niajn stultaĵojn. Franĉo rakontas mallonge (jes, tre mallonge) pri sia partoprenado en la pasinta TAKE (tutamerika kongreso de esperanto) kaj aliaj aferoj de la vivo. Roĝener Pavinski prezentas unu el la kantoj de lia bando Supernova speciale por krokoloko. Ni premieras novan sekcion “kuirante kun Ŝofi” kie ŝi instruas kiel oni kuiras diversajn manĝaĵojn aperantaj en la libro “Kiel kuiri sen viando” de la verkinto Clara de Hess. Ankaŭ Ŝofi parolas pri la sensenca filmo Zeitgeist, kaj mazi pri la malhela estonteco kiu estas venonta. Poste ni intervjuas ĵurnaliston (jes, vera ĵurnalisto) kiu intervjuis nin por sia hispanlingva retpaĝo Tiempo de Balas sekve ni interkonsiliĝas uzante la belega kaj laŭdinda libro de José de Paiva Netto kiun vi povas trovi ĉi tie . Tion vi povas ĝoji kaj multe pli kiel, sencencaj novaĵoj, ne tre konata muziko... ho kaj finfine Ŝofi prezentas novan kanton verkita de ŝi por ĉiuj la idealistoj de la mondo (mi preskaŭ forgesis).
+Rimarko: Eble vi ne komprenas la hispanan do tio ne gravas, sed ni volas diri ke la artikolo de “Tiempo de balas” (esperante “Tempo de kugloj”) ne estas perfekta, kaj ni ne konsentas kun ĉio kio tie aperas, ĉar la artikolo igas nin aperi kiel la plej gravaj kaj preskaŭ unikaj esperantistoj de nia lando, kaj tio certe ne estas tiel, kaj ni parolis serioze por la unua fojo.
+Jen la listo de kantoj kiuj aperas en la programo:
+
+La Blondulineto - JoMo kaj Liberecanoj
+Mundos Suspendidos - Inverness
+Alia Mondo Eblas - Supernova
+Boicot - Huinca
+Ne Atendu! - Ŝofi
+
+ </itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>40:18</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/9a_podkasto.mp3" fileSize="38689439" type="audio/mpeg" /><feedburner:origLink>http://www.krokoloko.cl/?p=192&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>Pri la protestoj por la ĉilia eduko</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/WiG4ZKYFL3E/</link>
+		<comments>http://www.krokoloko.cl/?p=176&amp;lang=eo#comments</comments>
+		<pubDate>Sat, 23 Jul 2011 20:09:48 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Krokoaferoj]]></category>
+		<category><![CDATA[?ilio]]></category>
+		<category><![CDATA[edukado]]></category>
+		<category><![CDATA[eduko]]></category>
+		<category><![CDATA[kulturo]]></category>
+		<category><![CDATA[manifestacioj]]></category>
+		<category><![CDATA[protestoj]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=176&amp;lang=eo</guid>
+		<description><![CDATA[Unu el la temoj de niaj lastaj programoj (unu el malmulte da enhavoj, kiuj vere havas sencon) estas la konstantaj kaj gravaj manifestacioj kiuj okazas en nia lando pri la eduksistemo, kaj tiu grava afero por ni, eble ne estas tiom komprenata de ĉiuj kiuj aŭskultas nian programon, pro tio ni parolos iomete pri kio [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<p><a href="http://www.krokoloko.cl/wp-content/uploads/2011/07/marcha-moneda.jpg"><img class="aligncenter size-full wp-image-178" title="Marŝo la moneda" src="http://www.krokoloko.cl/wp-content/uploads/2011/07/marcha-moneda.jpg" alt="" width="500" height="260" /></a></p>
+<p style="text-align: justify;">Unu el la temoj de niaj lastaj programoj (unu el malmulte da enhavoj, kiuj vere havas sencon) estas la konstantaj kaj gravaj manifestacioj kiuj okazas en nia lando pri la eduksistemo, kaj tiu grava afero por ni, eble ne estas tiom komprenata de ĉiuj kiuj aŭskultas nian programon, pro tio ni parolos iomete pri kio okazas en Ĉilio. Eduko estas la plej forta instrumento kiun la personoj, familioj kaj landoj havas por disvolviĝi en la civito kaj la mondo kaj, kompreneble, plibonigi siajn vivojn. Edukado estas fakte fundamenta bazo de la ŝancoj kiujn homoj havas dum siaj vivoj kaj signifas bazan subtenon de sociaj kaj landaj produktecoj. Tial la eduko, tiom grava afero devus esti rajto de ĉiuj, liberaj kaj egalaj por ĉiuj, sed nuntempe en Ĉilio tiu ideo ankoraŭ ne estas reala.</p>
+<p style="text-align: justify;">En Ĉilio, kiel rezulto de la milita registaro de la diktatoro Pinochet, kiu regis la Landon ekde 1973 ĝis 1990, la ĉilia konstitucio estis ŝanĝita. Unu el multaj ŝanĝoj, kiuj okazis pro la nova konstitucio, afekciis la sistemon de edukado. Uzante simplaj vortoj, la nova konstitucio neglektis la ĉilian eduksistemon, kiu estis transdonita al la privataj entreprenoj. Tiu ŝanĝo supoze kreus konkurencon inter la diversaj universitatoj, lernejoj kaj institutoj, kaj pro tio supoze ilia kvalito pliboniĝus,  sed vere tio nur pligrandigis la kostojn kaj la diferencojn inter la diversaj sociaj klasoj.</p>
+<p style="text-align: justify;">Ekzemple, por studi en unu el ŝtataj universitatoj de Ĉilio oni devas enŝuldiĝi uzante unu el multaj kreditoj por pagi la karieron (la ŝtato nuntempe nur financas 10% de la publikaj universitatoj). Tiuj kreditoj havas diversajn interezojn, komencante de 2%  por ĉiuj pli malriĉaj studantoj ĝis 7%  pro tiuj ne tiom malriĉaj, kaj la ceteraj studantoj devas pagi ĉion aŭ peti aliajn kreditojn al la privataj bankoj. La problemo de tio estas ke la ĉilia studantaro enŝuldiĝas dum eĉ 20 jaroj por pagi siajn karierojn (en multaj okazoj pagante du aŭ tri fojoj la komencan koston pro la uzuraj interezoj). Kompreneble, ekzistas stipendioj por la studantoj, sed eĉ ili ĉiujare estas malpliigitaj de la ministerio de edukado. Tio okazas en la ŝtataj kaj publikaj universitatoj, tiuj privataj preskaŭ ne havas stipendiojn por siaj studantoj. Tiel multe da junuloj ne povas studi, ĉar iliaj familioj ne havas sufiĉe da mono por pagi.</p>
+<p style="text-align: justify;"><a href="http://www.krokoloko.cl/wp-content/uploads/2011/07/plaza-italia-marcha.jpg"><img class="aligncenter size-full wp-image-179" title="Estudiantes y profesores iniciaron marcha desde Plaza Italia" src="http://www.krokoloko.cl/wp-content/uploads/2011/07/plaza-italia-marcha.jpg" alt="" width="500" height="260" /></a></p>
+<p>Pro ĉiuj tiuj motivoj, la junuloj de Ĉilio ĉiusemajne kaj diversmaniere organizas protestojn por haltigi la profiton en la eduksistemo de Ĉilio. La universitatoj kaj lernejoj strikas kaj miloj da homoj marŝas sur la stratoj de la ĉefaj urboj. La ĉilianoj deziras novajn sistemojn de edukado, plibona kaj senkosta, tamen la problemo estas ke por ŝanĝi la sistemon de edukado oni bezonas ŝanĝojn en la konstitucio, sed la registaro ne volas fari tion ĉar la konstitucio heredita el la milita diktatoreco favoras la negocon de la edukado kaj multaj politikistoj ankaŭ estas mastroj de multaj lernejoj kaj universitatoj.</p>
+<p>Unu el plej interesaj karakteristikoj de la protestoj organizitaj de la studantoj en Ĉilio estas sia originaleco kaj inteligenta uzado de la sociaj retoj. Tiel miloj da homoj organiziĝas kaj faras amuzajn pacajn eventojn kiel dancoj kaj koreografioj.</p>
+<p><span class='embed-youtube' style='text-align:center; display: block;'><iframe class='youtube-player' type='text/html' width='517' height='321' src='http://www.youtube.com/embed/QGQfPj6VVJI?version=3&#038;rel=1&#038;fs=1&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;wmode=transparent' frameborder='0'></iframe></span></p>
+<p>En ĉi tiu <strong><a href="http://www.youtube.com/user/FREEEDUCATIONINCHILE">kanalo</a></strong> oni povas koni kial la studantoj de Ĉilio batalas (en diversaj naciaj ligvoj)</p>
+<p>Ĝis nun, la nacia registaro nur oferas pli kvanton da mono por la publikaj universitatoj kaj malpliigi la interezojn de la universitataj kreditoj sed la studantoj respondas ke tio ne estas sufiĉa ĉar tio ne solvas la veran problemon.</p>
+<p>Kion vi opinias pri tiuj movadoj en ĉilio? Komentu!</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/WiG4ZKYFL3E" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=176</wfw:commentRss>
+		<slash:comments>27</slash:comments>
+		<feedburner:origLink>http://www.krokoloko.cl/?p=176&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>Eta saluto de la muzikgrupo Los Jaivas</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/vPiN0xi93cM/</link>
+		<comments>http://www.krokoloko.cl/?p=172&amp;lang=eo#comments</comments>
+		<pubDate>Wed, 06 Jul 2011 04:47:37 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Krokoaferoj]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=172&amp;lang=eo</guid>
+		<description><![CDATA[httpv://www.youtube.com/watch?v=BN1QpnMvlSk &#160; Eta saluto de la plej grava rokbando de Ĉilio, Los Jaivas (Los Ĥaivas) por la esperantistoj de la tuta mondo. Dankon!]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<p>httpv://www.youtube.com/watch?v=BN1QpnMvlSk</p>
+<p>&nbsp;</p>
+<p>Eta saluto de la plej grava rokbando de Ĉilio, Los Jaivas (Los Ĥaivas) por la esperantistoj de la tuta mondo. Dankon!</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/vPiN0xi93cM" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=172</wfw:commentRss>
+		<slash:comments>17</slash:comments>
+		<feedburner:origLink>http://www.krokoloko.cl/?p=172&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>8a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/gPgQcZndUn8/</link>
+		<comments>http://www.krokoloko.cl/?p=163&amp;lang=eo#comments</comments>
+		<pubDate>Mon, 04 Jul 2011 04:42:48 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=163&amp;lang=eo</guid>
+		<description><![CDATA[Ĉiuj membroj de krokoloko estas same gravaj pro tio kiam unu el krokolokanoj mankas ĉiuj perdas la sencon (eĉ pli) bonvenon al la plej sensenca kaj senenhava elsendo en multe da tempo (sed la muziko ankoraŭ estas tre bona) hodiaŭ nia nova amiko Diego Armando vizitas nin dum la podksto kaj mazi klopodas lerni kelkaj [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<div id="attachment_164" class="wp-caption alignleft" style="width: 310px"><a href="http://www.krokoloko.cl/wp-content/uploads/2011/07/take_krokoloko.jpg"><img class="size-full wp-image-164" title="take_krokoloko" src="http://www.krokoloko.cl/wp-content/uploads/2011/07/take_krokoloko.jpg" alt="" width="300" height="150" /></a><p class="wp-caption-text">TAKE 2011</p></div>
+<p>Ĉiuj membroj de krokoloko estas same gravaj pro tio kiam unu el krokolokanoj mankas ĉiuj perdas la sencon (eĉ pli) bonvenon al la plej sensenca kaj senenhava elsendo en multe da tempo (sed la muziko ankoraŭ estas tre bona) hodiaŭ nia nova amiko Diego Armando vizitas nin dum la podksto kaj mazi klopodas lerni kelkaj ĉiliaj sprimoj kiel &#8220;guachita rica”.</p>
+<p>&nbsp;</p>
+<p>Pli informo pri Tutamerika Kongreso de Esperanto ĉi tie: <a title="www.kongreso2011.org" href="http://www.kongreso2011.org" target="_blank">www.kongreso2011.org</a></p>
+<p>Jen la listo de kantoj:</p>
+<p>En la mateno – Esperanto Desperado<br />
+Treasure &#8211; The Gathering<br />
+Everything &#8211; Anathema<br />
+Mirinda mondo &#8211; La Porkoj<br />
+Wide Open &#8211; Anneke van Giersbergen &amp; Agua De Annique<br />
+Esta luz nunca se apagará &#8211; Mikel Erentxun</p>
+<p>&nbsp;</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/gPgQcZndUn8" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=163</wfw:commentRss>
+		<slash:comments>18</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/8a_podkasto.mp3" length="38754641" type="audio/mpeg" />
+		<itunes:subtitle>Ĉiuj membroj de krokoloko estas same gravaj pro tio kiam unu el krokolokanoj mankas ĉiuj perdas la sencon (eĉ pli) bonvenon al la plej sensenca kaj senenhava elsendo en multe da tempo (sed la muziko ankoraŭ estas tre bona) hodiaŭ nia nova amiko Diego A...</itunes:subtitle>
+		<itunes:summary>Ĉiuj membroj de krokoloko estas same gravaj pro tio kiam unu el krokolokanoj mankas ĉiuj perdas la sencon (eĉ pli) bonvenon al la plej sensenca kaj senenhava elsendo en multe da tempo (sed la muziko ankoraŭ estas tre bona) hodiaŭ nia nova amiko Diego Armando vizitas nin dum la podksto kaj mazi klopodas lerni kelkaj ĉiliaj sprimoj kiel "guachita rica”.
+
+ 
+
+Pli informo pri Tutamerika Kongreso de Esperanto ĉi tie: www.kongreso2011.org
+
+Jen la listo de kantoj:
+
+En la mateno – Esperanto Desperado
+Treasure - The Gathering
+Everything - Anathema
+Mirinda mondo - La Porkoj
+Wide Open - Anneke van Giersbergen &amp; Agua De Annique
+Esta luz nunca se apagará - Mikel Erentxun
+
+ </itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>40:22</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/8a_podkasto.mp3" fileSize="38754641" type="audio/mpeg" /><itunes:keywords>esperanto,krokoloko,muziko,amuza,podkasto,podcast,cxilio,mazi,gondolando</itunes:keywords><feedburner:origLink>http://www.krokoloko.cl/?p=163&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>La mort’ de PoMo</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/whtBh5Hqf04/</link>
+		<comments>http://www.krokoloko.cl/?p=154&amp;lang=eo#comments</comments>
+		<pubDate>Mon, 04 Jul 2011 01:51:45 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Krokoaferoj]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=154&amp;lang=eo</guid>
+		<description><![CDATA[httpv://www.youtube.com/watch?v=LbkuOhC94wM Diras la legendo ke Zamenhof pensis pri Esperanto kiam pomo falis kaj batis lian kapon dum li estis ripozanta sub arboj (jes tio ne havas sencon, sed neniu legendo reale havas sencon) tiu pomo, kiu kontribuis al la kreado de Esperanto, estis PoMo. Ekde tiu momento PoMo portis la verdan stelon al la regno [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch"></ul>
+<p>httpv://www.youtube.com/watch?v=LbkuOhC94wM<br />
+Diras la legendo ke Zamenhof pensis pri Esperanto kiam pomo falis kaj batis lian kapon dum li estis ripozanta sub arboj (jes tio ne havas sencon, sed neniu legendo reale havas sencon) tiu pomo, kiu kontribuis al la kreado de Esperanto, estis PoMo. Ekde tiu momento PoMo portis la verdan stelon al la regno de la fruktoj, kaj fariĝis la reĝo de tiu bela regno kaj talenta muzikisto kiu poste inspiris aliajn esperantistajn muzikistojn kiel JoMo. Paco regnis la belajn landojn de la fruktoj dum multaj jaroj, ĝis nun&#8230; PoMo ĵus estis mortigita, la malbona oranĝo volas regi fruktolandon kaj la mondon kaj nur unu frukto povas haltigi ĝin&#8230; ToMaTo, la perdita frato de PoMo (jes tio ankaŭ ne havas sencon) batalos por venĝi la honoron de PoMo. Epopea historio estas komenconta&#8230;</p>
+<p>&nbsp;</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/whtBh5Hqf04" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=154</wfw:commentRss>
+		<slash:comments>13</slash:comments>
+		<feedburner:origLink>http://www.krokoloko.cl/?p=154&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>7a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/Jj6uZlhQAW0/</link>
+		<comments>http://www.krokoloko.cl/?p=142&amp;lang=eo#comments</comments>
+		<pubDate>Tue, 07 Jun 2011 02:23:51 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+		<category><![CDATA[muziko]]></category>
+		<category><![CDATA[podcast]]></category>
+		<category><![CDATA[podkasto]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=142&amp;lang=eo</guid>
+		<description><![CDATA[Jen nia tro tre plej serioza podkasto ĝis nun (aŭ tion ni kredas almenaŭ) tiu ĉi estas speciala epizodo por ĉiuj kiuj diras ke nia podkasto ne havas enhavon. En tiu ĉi epizodo vi trovos multe de krokodiladoj, Mazi kaj siaj frenezaj agoj, kaj ankaŭ multe da muziko kaj novaĵoj (kaj protestoj?) &#160; Ĉu tiu [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch">
+<li class="lang_switch"><a href="http://www.krokoloko.cl/?p=142&#038;lang=en"><img src="http://www.krokoloko.cl/wp-content/plugins/zdmultilang/flags/en_US.png" alt="English" title="English" border="0"></a></li>
+<li class="lang_switch"><a href="http://www.krokoloko.cl/?p=142&#038;lang=es"><img src="http://www.krokoloko.cl/wp-content/plugins/zdmultilang/flags/es_ES.png" alt="Español" title="Español" border="0"></a></li>
+</ul>
+<div id="attachment_147" class="wp-caption alignleft" style="width: 310px"><a href="http://www.krokoloko.cl/wp-content/uploads/2011/06/mazi_protestas.jpg"><img class="size-full wp-image-147" title="Mazi protestas" src="http://www.krokoloko.cl/wp-content/uploads/2011/06/mazi_protestas.jpg" alt="" width="300" height="200" /></a><p class="wp-caption-text">Mazi protestas</p></div>
+<p>Jen nia tro tre plej serioza podkasto ĝis nun (aŭ tion ni kredas almenaŭ) tiu ĉi estas speciala epizodo por ĉiuj kiuj diras ke nia podkasto ne havas enhavon. En tiu ĉi epizodo vi trovos multe de krokodiladoj, Mazi kaj siaj frenezaj agoj, kaj ankaŭ multe da muziko kaj novaĵoj (kaj protestoj?)</p>
+<p>&nbsp;</p>
+<p>Ĉu tiu ĉi nova formato de podkasto funkcios? Vi decidos!</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Jen la listo de bonegaj kantoj kiuj aperis en tiu cxi epizodo:</p>
+<p>Esti sola – Jxomart kaj Natasxa<br />
+Té &#8211; Anxiety is not about the issue. It is actually about people&#8217;s &#8216;mind&#8217; related to the issue that they are afraid of.<br />
+Sinergia – Mi señora<br />
+Congelador – En mi lugar<br />
+Huinca – ruca<br />
+Los miserables – Preparo mi voz</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/Jj6uZlhQAW0" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=142</wfw:commentRss>
+		<slash:comments>39</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/7a_podkasto.mp3" length="34369848" type="audio/mpeg" />
+			<itunes:keywords>muziko,podcast,podkasto</itunes:keywords>
+	<itunes:subtitle>Jen nia tro tre plej serioza podkasto ĝis nun (aŭ tion ni kredas almenaŭ) tiu ĉi estas speciala epizodo por ĉiuj kiuj diras ke nia podkasto ne havas enhavon. En tiu ĉi epizodo vi trovos multe de krokodiladoj, Mazi kaj siaj frenezaj agoj,</itunes:subtitle>
+		<itunes:summary>Jen nia tro tre plej serioza podkasto ĝis nun (aŭ tion ni kredas almenaŭ) tiu ĉi estas speciala epizodo por ĉiuj kiuj diras ke nia podkasto ne havas enhavon. En tiu ĉi epizodo vi trovos multe de krokodiladoj, Mazi kaj siaj frenezaj agoj, kaj ankaŭ multe da muziko kaj novaĵoj (kaj protestoj?)
+
+ 
+
+Ĉu tiu ĉi nova formato de podkasto funkcios? Vi decidos!
+
+ 
+
+ 
+
+
+Jen la listo de bonegaj kantoj kiuj aperis en tiu cxi epizodo:
+
+Esti sola – Jxomart kaj Natasxa
+Té - Anxiety is not about the issue. It is actually about people's 'mind' related to the issue that they are afraid of.
+Sinergia – Mi señora
+Congelador – En mi lugar
+Huinca – ruca
+Los miserables – Preparo mi voz</itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>35:48</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/7a_podkasto.mp3" fileSize="34369848" type="audio/mpeg" /><feedburner:origLink>http://www.krokoloko.cl/?p=142&amp;lang=eo</feedburner:origLink></item>
+		<item>
+		<title>6a Krokoloko Podkasto</title>
+		<link>http://feedproxy.google.com/~r/krokoloko/sZRZ/~3/x6Ra-7g8v-I/</link>
+		<comments>http://www.krokoloko.cl/?p=135&amp;lang=eo#comments</comments>
+		<pubDate>Mon, 16 May 2011 03:58:35 +0000</pubDate>
+		<dc:creator>podkasto@krokoloko.cl (Krokoloko)</dc:creator>
+				<category><![CDATA[Podkasto]]></category>
+		<category><![CDATA[esperanta radio]]></category>
+		<category><![CDATA[esperanto]]></category>
+		<category><![CDATA[krokoloko]]></category>
+		<category><![CDATA[muziko]]></category>
+		<category><![CDATA[podcast]]></category>
+		<category><![CDATA[podkasto]]></category>
+		<category><![CDATA[radio]]></category>
+
+		<guid isPermaLink="false">http://www.krokoloko.cl/?p=135&amp;lang=eo</guid>
+		<description><![CDATA[﻿﻿Saluton krokolokanoj! Jam vi povas aŭskulti nian 6an elsendon. En tiu ĉi epizodo la patrino de Franĉo vizitas nin, ankaŭ mazi respondas demandon de korvaks kaj ni prezentas novan sekciojn kaj aliajn sensencajn aferojn, multe da muziko kaj niajn krokodiladojn&#8230; memoru! Skribu komentojn, ideojn, aŭ ion ajn kion vi volas al nia retpoŝtadreso podkasto@krokoloko.cl ni [...]]]></description>
+				<content:encoded><![CDATA[<ul class="lang_switch">
+<li class="lang_switch"><a href="http://www.krokoloko.cl/?p=135&#038;lang=en"><img src="http://www.krokoloko.cl/wp-content/plugins/zdmultilang/flags/en_US.png" alt="English" title="English" border="0"></a></li>
+<li class="lang_switch"><a href="http://www.krokoloko.cl/?p=135&#038;lang=es"><img src="http://www.krokoloko.cl/wp-content/plugins/zdmultilang/flags/es_ES.png" alt="Español" title="Español" border="0"></a></li>
+</ul>
+<div id="attachment_137" class="wp-caption alignleft" style="width: 310px"><a href="http://www.krokoloko.cl/wp-content/uploads/2011/05/6a_podkasto.jpg"><img class="size-full wp-image-137" title="6a_podkasto" src="http://www.krokoloko.cl/wp-content/uploads/2011/05/6a_podkasto.jpg" alt="" width="300" height="183" /></a><p class="wp-caption-text">Krokolokanoj</p></div>
+<p>﻿﻿Saluton krokolokanoj! Jam vi povas aŭskulti nian 6an elsendon. En tiu ĉi epizodo la patrino de Franĉo vizitas nin, ankaŭ mazi respondas demandon de korvaks kaj ni prezentas novan sekciojn kaj aliajn sensencajn aferojn, multe da muziko kaj niajn krokodiladojn&#8230; memoru! Skribu komentojn, ideojn, aŭ ion ajn kion vi volas al nia retpoŝtadreso <a href="mailto:podkasto@krokoloko.cl">podkasto@krokoloko.cl</a> ni legos ilin kaj respondos en niaj sekvantaj elsendoj!</p>
+<p>Jen la listo de kantoj:</p>
+<p>Grava – Esperanto Desperado<br />
+Despierta – Alejandro Filio<span style="font-family: Arial Unicode MS;"><br />
+愛も信仰も同じ様に日々のささやかな勤行でのみ『維持』される – </span>Té<br />
+Faux semblants &#8211; Amesoeurs<br />
+Amaneceres – Inverness -&gt; Elŝutu la diskon &#8220;Fuegos Distantes&#8221; ĉi tie!  (<a title="MP3" href="http://www.archive.org/download/Inverness-FuegosDistantes/Inverness-FuegosDistantes2011Lerockpsicophoniquemp3.zip" target="_blank">MP3</a>) (<a title="FLAC" href="http://www.archive.org/download/Inverness-FuegosDistantes_939/Inverness-FuegosDistantes2011Lerockpsicophoniqueflac.zip" target="_blank">FLAC</a>)<br />
+El desatinao – Keko Yoma<br />
+Y volveré – Los angeles negros</p>
+<img src="http://feeds.feedburner.com/~r/krokoloko/sZRZ/~4/x6Ra-7g8v-I" height="1" width="1"/>]]></content:encoded>
+			<wfw:commentRss>http://www.krokoloko.cl/?feed=rss2&amp;p=135</wfw:commentRss>
+		<slash:comments>50</slash:comments>
+<enclosure url="http://www.fileden.com/files/2013/4/22/3439469/6a_podkasto.mp3" length="44698877" type="audio/mpeg" />
+			<itunes:keywords>esperanta radio,esperanto,krokoloko,muziko,podcast,podkasto,radio</itunes:keywords>
+	<itunes:subtitle>﻿﻿Saluton krokolokanoj! Jam vi povas aŭskulti nian 6an elsendon. En tiu ĉi epizodo la patrino de Franĉo vizitas nin, ankaŭ mazi respondas demandon de korvaks kaj ni prezentas novan sekciojn kaj aliajn sensencajn aferojn,</itunes:subtitle>
+		<itunes:summary>﻿﻿Saluton krokolokanoj! Jam vi povas aŭskulti nian 6an elsendon. En tiu ĉi epizodo la patrino de Franĉo vizitas nin, ankaŭ mazi respondas demandon de korvaks kaj ni prezentas novan sekciojn kaj aliajn sensencajn aferojn, multe da muziko kaj niajn krokodiladojn... memoru! Skribu komentojn, ideojn, aŭ ion ajn kion vi volas al nia retpoŝtadreso podkasto@krokoloko.cl ni legos ilin kaj respondos en niaj sekvantaj elsendoj!
+
+Jen la listo de kantoj:
+
+Grava – Esperanto Desperado
+Despierta – Alejandro Filio
+愛も信仰も同じ様に日々のささやかな勤行でのみ『維持』される – Té
+Faux semblants - Amesoeurs
+Amaneceres – Inverness -&gt; Elŝutu la diskon "Fuegos Distantes" ĉi tie!  (MP3) (FLAC)
+El desatinao – Keko Yoma
+Y volveré – Los angeles negros</itunes:summary>
+		<itunes:author>Krokoloko</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>46:34</itunes:duration>
+	<media:content url="http://www.fileden.com/files/2013/4/22/3439469/6a_podkasto.mp3" fileSize="44698877" type="audio/mpeg" /><feedburner:origLink>http://www.krokoloko.cl/?p=135&amp;lang=eo</feedburner:origLink></item>
+	<media:credit role="author">Krokoloko</media:credit><media:rating>nonadult</media:rating><media:description type="plain">La plej bona podkasto de la mondo kaj konata universo</media:description></channel>
+</rss>

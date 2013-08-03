@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/"
+>
+
+<channel>
+	<title>Pola Retradio en Esperanto</title>
+	<atom:link href="http://pola-retradio.org/feed/" rel="self" type="application/rss+xml" />
+	<link>http://pola-retradio.org</link>
+	<description>Pola RetRadio - nia komuna lingvomedio</description>
+	<lastBuildDate>Fri, 02 Aug 2013 19:24:05 +0000</lastBuildDate>
+	<language>eo</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.6</generator>
+<!-- podcast_generator="Blubrry PowerPress/3.0.1" -->
+	<itunes:summary>Pola RetRadio - nia komuna lingvomedio</itunes:summary>
+	<itunes:author>Pola Retradio en Esperanto</itunes:author>
+	<itunes:explicit>no</itunes:explicit>
+	<itunes:image href="http://pola-retradio.org/wp-content/plugins/powerpress/itunes_default.jpg" />
+	<itunes:subtitle>Pola RetRadio - nia komuna lingvomedio</itunes:subtitle>
+	<image>
+		<title>Pola Retradio en Esperanto</title>
+		<url>http://pola-retradio.org/wp-content/plugins/powerpress/rss_default.jpg</url>
+		<link>http://pola-retradio.org</link>
+	</image>
+		<item>
+		<title>E_elsendo el la 02.08.2013</title>
+		<link>http://pola-retradio.org/2013/08/e_elsendo-el-la-02-08-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-02-08-2013</link>
+		<comments>http://pola-retradio.org/2013/08/e_elsendo-el-la-02-08-2013/#comments</comments>
+		<pubDate>Fri, 02 Aug 2013 19:24:05 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1381</guid>
+		<description><![CDATA[La 2-a parto de interparolo kun Mark Fettes, la nova prezidanto de UEA i.a. pri la divido de la estraranaj taskoj kompletigas la tutan intervjuon surbendigitan en Rejkjaviko. Al la Rejkjavika UK kaj reagoj de niaj aŭskultantoj grandparte estas dediĉita ĉiuvendreda Leterkesto. Komence de nia 252-a E-elsendo ĉe www.pola-retradio.org ni referencas al la aktualaĵo ligita [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">La 2-a parto de interparolo kun Mark Fettes, la nova prezidanto de UEA i.a. pri la divido de la estraranaj taskoj kompletigas la tutan intervjuon surbendigitan en Rejkjaviko. Al la Rejkjavika UK kaj reagoj de niaj aŭskultantoj grandparte estas dediĉita ĉiuvendreda Leterkesto. Komence de nia 252-a E-elsendo ĉe www.pola-retradio.org ni referencas al la aktualaĵo ligita kun la 69-a eksplodo de la Varsovia Insurekcio 1944. La ekspozicion Komuna Tero en Krakovo ni aparte rekomendas al la vizitantaj Pollandon en aŭgusto esperantistaj gastoj.</p>
+<p style="text-align: justify;">Ambaŭ novaĵoj estas jam pere de la paĝo aŭskulteblaj kaj legeblaj.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/08/e_elsendo-el-la-02-08-2013/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/08/RetRadio_02.08.2013.mp3" length="25782230" type="audio/mpeg" />
+			<itunes:subtitle>La 2-a parto de interparolo kun Mark Fettes, la nova prezidanto de UEA i.a. pri la divido de la estraranaj taskoj kompletigas la tutan intervjuon surbendigitan en Rejkjaviko. Al la Rejkjavika UK kaj reagoj de niaj aŭskultantoj grandparte estas dediĉita...</itunes:subtitle>
+		<itunes:summary>La 2-a parto de interparolo kun Mark Fettes, la nova prezidanto de UEA i.a. pri la divido de la estraranaj taskoj kompletigas la tutan intervjuon surbendigitan en Rejkjaviko. Al la Rejkjavika UK kaj reagoj de niaj aŭskultantoj grandparte estas dediĉita ĉiuvendreda Leterkesto. Komence de nia 252-a E-elsendo ĉe www.pola-retradio.org ni referencas al la aktualaĵo ligita kun la 69-a eksplodo de la Varsovia Insurekcio 1944. La ekspozicion Komuna Tero en Krakovo ni aparte rekomendas al la vizitantaj Pollandon en aŭgusto esperantistaj gastoj.
+Ambaŭ novaĵoj estas jam pere de la paĝo aŭskulteblaj kaj legeblaj.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>26:51</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 30.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-30-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-30-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-30-07-2013/#comments</comments>
+		<pubDate>Tue, 30 Jul 2013 21:45:33 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1370</guid>
+		<description><![CDATA[La 251-a E-elsendo grandparte estas dediĉita al la 98-a Universala Kongreso de Esperanto. Krom raportista retrorigardo al kelkaj  ĝiaj eventoj ni prezentas la 1-an parton de interparolo kun la nova prezidanto de UEA, Mark Fettes pri difino de novaj agadkampanoj, konformaj al la premisoj de la akceptita en Rejkjaviko Strategia Laborplano. Komence de la elsendo [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">La 251-a E-elsendo grandparte estas dediĉita al la 98-a Universala Kongreso de Esperanto. Krom raportista retrorigardo al kelkaj  ĝiaj eventoj ni prezentas la 1-an parton de interparolo kun la nova prezidanto de UEA, Mark Fettes pri difino de novaj agadkampanoj, konformaj al la premisoj de la akceptita en Rejkjaviko Strategia Laborplano. Komence de la elsendo ĉe: www.pola-retradio.org aŭdiĝas aktualaĵo ligita kun la proksimiĝanta 69-a datreveno de la eksplodo de la Varsovia Insurekcio 1944.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-30-07-2013/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_30.07.2013.mp3" length="26451800" type="audio/mpeg" />
+			<itunes:subtitle>La 251-a E-elsendo grandparte estas dediĉita al la 98-a Universala Kongreso de Esperanto. Krom raportista retrorigardo al kelkaj  ĝiaj eventoj ni prezentas la 1-an parton de interparolo kun la nova prezidanto de UEA,</itunes:subtitle>
+		<itunes:summary>La 251-a E-elsendo grandparte estas dediĉita al la 98-a Universala Kongreso de Esperanto. Krom raportista retrorigardo al kelkaj  ĝiaj eventoj ni prezentas la 1-an parton de interparolo kun la nova prezidanto de UEA, Mark Fettes pri difino de novaj agadkampanoj, konformaj al la premisoj de la akceptita en Rejkjaviko Strategia Laborplano. Komence de la elsendo ĉe: www.pola-retradio.org aŭdiĝas aktualaĵo ligita kun la proksimiĝanta 69-a datreveno de la eksplodo de la Varsovia Insurekcio 1944.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>27:33</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 26.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-26-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-26-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-26-07-2013/#comments</comments>
+		<pubDate>Fri, 26 Jul 2013 22:04:56 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1364</guid>
+		<description><![CDATA[Vendrede, la 26-an de julio  ĉe la adreso: www.pola-retradio aŭdiĝas la lasta raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto. Ni prezentas novaĵon el Pollando pri planoj de la akademia kunlaboro inter Pollando kaj la Paska Insulo. Aŭdiĝas krome la 4-a kaj la lasta fragmento [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">Vendrede, la 26-an de julio  ĉe la adreso: www.pola-retradio aŭdiĝas la lasta raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto. Ni prezentas novaĵon el Pollando pri planoj de la akademia kunlaboro inter Pollando kaj la Paska Insulo. Aŭdiĝas krome la 4-a kaj la lasta fragmento de <i>Prelego pri Islando</i> de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-26-07-2013/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_26.07.2013.mp3" length="26581368" type="audio/mpeg" />
+			<itunes:subtitle>Vendrede, la 26-an de julio  ĉe la adreso: www.pola-retradio aŭdiĝas la lasta raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto. Ni prezentas novaĵon el Pollando pri planoj de la akademia...</itunes:subtitle>
+		<itunes:summary>Vendrede, la 26-an de julio  ĉe la adreso: www.pola-retradio aŭdiĝas la lasta raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto. Ni prezentas novaĵon el Pollando pri planoj de la akademia kunlaboro inter Pollando kaj la Paska Insulo. Aŭdiĝas krome la 4-a kaj la lasta fragmento de Prelego pri Islando de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>27:41</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 23.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-23-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-23-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-23-07-2013/#comments</comments>
+		<pubDate>Wed, 24 Jul 2013 01:21:36 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1360</guid>
+		<description><![CDATA[En la komenca parto de nia marda E-elsendo de la Pola RetRadio aŭdiĝas la 2-a rekta sonraporto el la 98-a UK en Rejkjaviko. Krome ĉe la adreso www.pola-retradio.org aŭdiĝas aktualaĵo, temo el la pola gazetaro kaj la 3-a de Prelego pri Islando de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”.]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">En la komenca parto de nia marda E-elsendo de la Pola RetRadio aŭdiĝas la 2-a rekta sonraporto el la 98-a UK en Rejkjaviko. Krome ĉe la adreso www.pola-retradio.org aŭdiĝas aktualaĵo, temo el la pola gazetaro kaj la 3-a de <i>Prelego pri Islando</i> de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-23-07-2013/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_23.07.2013.mp3" length="24807967" type="audio/mpeg" />
+			<itunes:subtitle>En la komenca parto de nia marda E-elsendo de la Pola RetRadio aŭdiĝas la 2-a rekta sonraporto el la 98-a UK en Rejkjaviko. Krome ĉe la adreso www.pola-retradio.org aŭdiĝas aktualaĵo, temo el la pola gazetaro kaj la 3-a de Prelego pri Islando de Þórber...</itunes:subtitle>
+		<itunes:summary>En la komenca parto de nia marda E-elsendo de la Pola RetRadio aŭdiĝas la 2-a rekta sonraporto el la 98-a UK en Rejkjaviko. Krome ĉe la adreso www.pola-retradio.org aŭdiĝas aktualaĵo, temo el la pola gazetaro kaj la 3-a de Prelego pri Islando de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>25:50</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 22.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-22-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-22-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-22-07-2013/#comments</comments>
+		<pubDate>Mon, 22 Jul 2013 10:54:02 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1357</guid>
+		<description><![CDATA[Lunde, la 22-an de julio ĉe la adreso: www.pola-retradio aŭdiĝas la unua raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto.]]></description>
+				<content:encoded><![CDATA[<p>Lunde, la 22-an de julio ĉe la adreso: www.pola-retradio aŭdiĝas la unua raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-22-07-2013/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/E_22.07.2013_La-Rejkjavika-UK_2013_1.mp3" length="15158125" type="audio/mpeg" />
+			<itunes:subtitle>Lunde, la 22-an de julio ĉe la adreso: www.pola-retradio aŭdiĝas la unua raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto.</itunes:subtitle>
+		<itunes:summary>Lunde, la 22-an de julio ĉe la adreso: www.pola-retradio aŭdiĝas la unua raporta E-elsendo de la Pola RetRadio el Rejkjaviko lige kun la daŭranta tie 98-a Universala Kongreso de Esperanto.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>15:47</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 19.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-19-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-19-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-19-07-2013/#comments</comments>
+		<pubDate>Fri, 19 Jul 2013 05:57:25 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1340</guid>
+		<description><![CDATA[La 2-a parto de la historia Prelego  pri Islando estas grava ero en la 247-a E-elsendo de Pola RetRadio lige kun la 98-a UK en Rejkjaviko. Komence ĉe www.pola-retradio ni informas pri grandigado de arbarareo en Pollando destinante por tio nefekundajn grundojn. Saarlanda E_ligo atendas junajn prelegantojn. Tiun informon sekvas la kanto “Junaj Idealistoj” en [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">La 2-a parto de la historia Prelego  pri Islando estas grava ero en la 247-a E-elsendo de Pola RetRadio lige kun la 98-a UK en Rejkjaviko. Komence ĉe www.pola-retradio ni informas pri grandigado de arbarareo en Pollando destinante por tio nefekundajn grundojn. Saarlanda E_ligo atendas junajn prelegantojn. Tiun informon sekvas la kanto “Junaj Idealistoj” en la plenumo de Dolĉamar. La kanto devenas el la KD de Vinilkosmo “Elektronika Kompil’”. En Leterkesto i.a. ni citas el la son­dokumenta komento pri niaj elsendoj de nia pola aŭskultanto, Andreo Bach.</p>
+<p style="text-align: justify;">El la hodiaŭa elsendo estas paralele legebla kaj aŭskultebla informo pri grandigado de arbarareo en Pollando en la rubriko <em>Novaĵoj</em></p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-19-07-2013/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_19.07.2013.mp3" length="23741753" type="audio/mpeg" />
+			<itunes:subtitle>La 2-a parto de la historia Prelego  pri Islando estas grava ero en la 247-a E-elsendo de Pola RetRadio lige kun la 98-a UK en Rejkjaviko. Komence ĉe www.pola-retradio ni informas pri grandigado de arbarareo en Pollando destinante por tio nefekundajn g...</itunes:subtitle>
+		<itunes:summary>La 2-a parto de la historia Prelego  pri Islando estas grava ero en la 247-a E-elsendo de Pola RetRadio lige kun la 98-a UK en Rejkjaviko. Komence ĉe www.pola-retradio ni informas pri grandigado de arbarareo en Pollando destinante por tio nefekundajn grundojn. Saarlanda E_ligo atendas junajn prelegantojn. Tiun informon sekvas la kanto “Junaj Idealistoj” en la plenumo de Dolĉamar. La kanto devenas el la KD de Vinilkosmo “Elektronika Kompil’”. En Leterkesto i.a. ni citas el la son­dokumenta komento pri niaj elsendoj de nia pola aŭskultanto, Andreo Bach.
+El la hodiaŭa elsendo estas paralele legebla kaj aŭskultebla informo pri grandigado de arbarareo en Pollando en la rubriko Novaĵoj</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>24:44</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 16.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-16-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-16-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-16-07-2013/#comments</comments>
+		<pubDate>Tue, 16 Jul 2013 18:41:59 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1323</guid>
+		<description><![CDATA[Neplena semajno dividas nin disde la 98-a UK en Rejkjaviko, Islando. En la kongresetoson enkondukas konata prikongresa kanto de Georgo Handzlik. En la historian etoson de la kongreslando enkondukas nin la 1-a parto de Prelego pri Islando de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”. En la komenca, informa parto de la 246-a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">Neplena semajno dividas nin disde la 98-a UK en Rejkjaviko, Islando. En la kongresetoson enkondukas konata prikongresa kanto de Georgo Handzlik. En la historian etoson de la kongreslando enkondukas nin la 1-a parto de <i>Prelego pri Islando</i> de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”. En la komenca, informa parto de la 246-a E-elsendo aŭdiĝas aktualaĵo, temoj el la pola gazetaro kaj scienca informo.</p>
+<p style="text-align: justify;">Ĉe la paĝo www.pola-retradio.prg estas afiŝitaj tekstoj paralele aŭskult­eblaj el la hodiaŭa elsendo en la rubrikoj <i>Novaĵoj</i> kaj <i>Sciencaj Informoj</i>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-16-07-2013/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_16.07.2013.mp3" length="20858253" type="audio/mpeg" />
+			<itunes:subtitle>Neplena semajno dividas nin disde la 98-a UK en Rejkjaviko, Islando. En la kongresetoson enkondukas konata prikongresa kanto de Georgo Handzlik. En la historian etoson de la kongreslando enkondukas nin la 1-a parto de Prelego pri Islando de Þórbergur Þ...</itunes:subtitle>
+		<itunes:summary>Neplena semajno dividas nin disde la 98-a UK en Rejkjaviko, Islando. En la kongresetoson enkondukas konata prikongresa kanto de Georgo Handzlik. En la historian etoson de la kongreslando enkondukas nin la 1-a parto de Prelego pri Islando de Þórbergur Þóđarson el la 52-a numero de “La Tradukisto”. En la komenca, informa parto de la 246-a E-elsendo aŭdiĝas aktualaĵo, temoj el la pola gazetaro kaj scienca informo.
+Ĉe la paĝo www.pola-retradio.prg estas afiŝitaj tekstoj paralele aŭskult­eblaj el la hodiaŭa elsendo en la rubrikoj Novaĵoj kaj Sciencaj Informoj.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>21:44</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 12.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-12-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-12-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-12-07-2013/#comments</comments>
+		<pubDate>Fri, 12 Jul 2013 20:43:59 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1262</guid>
+		<description><![CDATA[Pola RetRadio en sia 245 E-elsendo ĉe www.pola-retradio.org proponas aŭskulti informon pri interesa ideo de pola sciencisto pri tio kiel protekti Japanion kontraŭ katastrofaj sekvoj de cunamoj. Kiel vizitindaĵon ni prezentas Muzeon de Turhorloĝoj, kiu post 7 jaroj morgaŭ denove estos malfermita. Ne mankas E-informo kaj la tradicia vendreda Leterkesto. Hodiaŭ muzike nian elsendon akompanas [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">Pola RetRadio en sia 245 E-elsendo ĉe www.pola-retradio.org proponas aŭskulti informon pri interesa ideo de pola sciencisto pri tio kiel protekti Japanion kontraŭ katastrofaj sekvoj de cunamoj. Kiel vizitindaĵon ni prezentas Muzeon de Turhorloĝoj, kiu post 7 jaroj morgaŭ denove estos malfermita. Ne mankas E-informo kaj la tradicia vendreda Leterkesto. Hodiaŭ muzike nian elsendon akompanas la kariljona komponaĵo el la disko <i>Jo Haazen kaj lia skolo</i>. Pri kongreso kantas Ramona van Dalsem.</p>
+<p style="text-align: justify;">El la hodiaŭa elsendo estas paralele legeblaj kaj aŭskulteblaj novaĵoj kaj la felietono pri <i>Muzeo de Turhorloĝoj en Gdansko. </i></p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-12-07-2013/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_12.07.2013.mp3" length="22780447" type="audio/mpeg" />
+			<itunes:subtitle>Pola RetRadio en sia 245 E-elsendo ĉe www.pola-retradio.org proponas aŭskulti informon pri interesa ideo de pola sciencisto pri tio kiel protekti Japanion kontraŭ katastrofaj sekvoj de cunamoj. Kiel vizitindaĵon ni prezentas Muzeon de Turhorloĝoj,</itunes:subtitle>
+		<itunes:summary>Pola RetRadio en sia 245 E-elsendo ĉe www.pola-retradio.org proponas aŭskulti informon pri interesa ideo de pola sciencisto pri tio kiel protekti Japanion kontraŭ katastrofaj sekvoj de cunamoj. Kiel vizitindaĵon ni prezentas Muzeon de Turhorloĝoj, kiu post 7 jaroj morgaŭ denove estos malfermita. Ne mankas E-informo kaj la tradicia vendreda Leterkesto. Hodiaŭ muzike nian elsendon akompanas la kariljona komponaĵo el la disko Jo Haazen kaj lia skolo. Pri kongreso kantas Ramona van Dalsem.
+El la hodiaŭa elsendo estas paralele legeblaj kaj aŭskulteblaj novaĵoj kaj la felietono pri Muzeo de Turhorloĝoj en Gdansko.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>23:44</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 09.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-09-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-09-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-09-07-2013/#comments</comments>
+		<pubDate>Mon, 08 Jul 2013 22:28:15 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1249</guid>
+		<description><![CDATA[Ĉi-marde parton de nia E-elsendo ĉe www.pola-retradio.org ni dediĉas al literaturo, lige kun la solenata en Pollando Jaro de Julian Tuwim. Krom felietono dediĉita al la poeto ni citas el nia arkiva elsendo memorigante lian versaĵon „Epistolo sentimentala” en la traduko de Leo Belmont. Komence de nia 244-a elsendo aŭdiĝas aktualaĵo, temoj el la pola [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">Ĉi-marde parton de nia E-elsendo ĉe www.pola-retradio.org ni dediĉas al literaturo, lige kun la solenata en Pollando Jaro de Julian Tuwim. Krom felietono dediĉita al la poeto ni citas el nia arkiva elsendo memorigante lian versaĵon „Epistolo sentimentala” en la traduko de Leo Belmont.</p>
+<p style="text-align: justify;">Komence de nia 244-a elsendo aŭdiĝas aktualaĵo, temoj el la pola gazetaro kaj scienca informo.</p>
+<p style="text-align: justify;">Ĉe la paĝo estas jam afiŝitaj tekstoj paralele aŭskult­eblaj el la hodiaŭa elsendo en la rubrikoj <i>Novaĵoj</i> kaj <i>Felietonoj</i>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-09-07-2013/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_09.07.2013.mp3" length="20665573" type="audio/mpeg" />
+			<itunes:subtitle>Ĉi-marde parton de nia E-elsendo ĉe www.pola-retradio.org ni dediĉas al literaturo, lige kun la solenata en Pollando Jaro de Julian Tuwim. Krom felietono dediĉita al la poeto ni citas el nia arkiva elsendo memorigante lian versaĵon „Epistolo sentimenta...</itunes:subtitle>
+		<itunes:summary>Ĉi-marde parton de nia E-elsendo ĉe www.pola-retradio.org ni dediĉas al literaturo, lige kun la solenata en Pollando Jaro de Julian Tuwim. Krom felietono dediĉita al la poeto ni citas el nia arkiva elsendo memorigante lian versaĵon „Epistolo sentimentala” en la traduko de Leo Belmont.
+Komence de nia 244-a elsendo aŭdiĝas aktualaĵo, temoj el la pola gazetaro kaj scienca informo.
+Ĉe la paĝo estas jam afiŝitaj tekstoj paralele aŭskult­eblaj el la hodiaŭa elsendo en la rubrikoj Novaĵoj kaj Felietonoj.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>21:32</itunes:duration>
+	</item>
+		<item>
+		<title>E_elsendo el la 05.07.2013</title>
+		<link>http://pola-retradio.org/2013/07/e_elsendo-el-la-05-07-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=e_elsendo-el-la-05-07-2013</link>
+		<comments>http://pola-retradio.org/2013/07/e_elsendo-el-la-05-07-2013/#comments</comments>
+		<pubDate>Fri, 05 Jul 2013 18:10:43 +0000</pubDate>
+		<dc:creator>Barbara Pietrzak</dc:creator>
+				<category><![CDATA[Elsendoj]]></category>
+
+		<guid isPermaLink="false">http://pola-retradio.org/?p=1204</guid>
+		<description><![CDATA[En la 243-a E-elsendo de la Pola RetRadio ĉe www.pola-retradio.org komence aŭdiĝas aktualaĵoj kaj  felietono pri vizitinda loko en la sudokcidenta Pollando, Szczawno-Zdrój. E-informo rilatas al la E-kursoj en Herzberg. Sekvas ĝin Leterkesto. En la hodiaŭa E-elsendo aŭdiĝas la kanto Cigana Veturilaro en la plenumo de Remigiusz Kossakowski. Samtempe el la hodiaŭa elsendo estas legeblaj [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="text-align: justify;">En la 243-a E-elsendo de la Pola RetRadio ĉe www.pola-retradio.org komence aŭdiĝas aktualaĵoj kaj  felietono pri vizitinda loko en la sudokcidenta Pollando, Szczawno-Zdrój. E-informo rilatas al la E-kursoj en Herzberg. Sekvas ĝin Leterkesto. En la hodiaŭa E-elsendo aŭdiĝas la kanto <i>Cigana Veturilaro</i> en la plenumo de Remigiusz Kossakowski.</p>
+<p style="text-align: justify;">Samtempe el la hodiaŭa elsendo estas legeblaj kaj aŭskulteblaj du novaĵoj kaj la felietono pri <i>Szczawno-Zdrój. </i></p>
+]]></content:encoded>
+			<wfw:commentRss>http://pola-retradio.org/2013/07/e_elsendo-el-la-05-07-2013/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+<enclosure url="http://pola-retradio.org/wp-content/uploads/2013/07/RetRadio_05.07.2013.mp3" length="23552835" type="audio/mpeg" />
+			<itunes:subtitle>En la 243-a E-elsendo de la Pola RetRadio ĉe www.pola-retradio.org komence aŭdiĝas aktualaĵoj kaj  felietono pri vizitinda loko en la sudokcidenta Pollando, Szczawno-Zdrój. E-informo rilatas al la E-kursoj en Herzberg. Sekvas ĝin Leterkesto.</itunes:subtitle>
+		<itunes:summary>En la 243-a E-elsendo de la Pola RetRadio ĉe www.pola-retradio.org komence aŭdiĝas aktualaĵoj kaj  felietono pri vizitinda loko en la sudokcidenta Pollando, Szczawno-Zdrój. E-informo rilatas al la E-kursoj en Herzberg. Sekvas ĝin Leterkesto. En la hodiaŭa E-elsendo aŭdiĝas la kanto Cigana Veturilaro en la plenumo de Remigiusz Kossakowski.
+Samtempe el la hodiaŭa elsendo estas legeblaj kaj aŭskulteblaj du novaĵoj kaj la felietono pri Szczawno-Zdrój.</itunes:summary>
+		<itunes:author>Pola Retradio en Esperanto</itunes:author>
+		<itunes:explicit>no</itunes:explicit>
+		<itunes:duration>24:32</itunes:duration>
+	</item>
+	</channel>
+</rss>

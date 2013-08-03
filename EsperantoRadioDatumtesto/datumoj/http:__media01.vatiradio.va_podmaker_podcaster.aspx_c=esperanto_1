@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss xmlns:itunes="http://www.itunes.com/DTDs/Podcast-1.0.dtd" version="2.0" xml:lang="eo" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<atom:link href="http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1" rel="self" type="application/rss+xml" />
+<title>Radio Vatikana - Programo en Esperanto (jaude)</title>
+<itunes:owner> 
+<itunes:name>Radio Vaticana</itunes:name> 
+<itunes:email>webteam@vaticanradio.va</itunes:email> 
+</itunes:owner> 
+<itunes:author>www.Radiovaticana.va</itunes:author>
+<itunes:explicit>No</itunes:explicit>
+<link>http://www.radiovaticana.va</link>
+<description>Radio Vatikana</description>
+<language>eo</language>
+<copyright>2011- Radio Vaticana</copyright>
+<managingEditor>webteam@vaticanradio.va</managingEditor>
+<webMaster>webteam@vaticanradio.va</webMaster>
+<pubDate>$DATAPUB$</pubDate>
+<category>Religion &amp; spirituality</category>
+<image>http://www.radiovaticana.va/RSS/logopod.jpg</image>
+<itunes:link rel="image" type="video/jpeg" href="http://www.radiovaticana.va/RSS/logopod.jpg">Radio Vaticana Podcast</itunes:link>
+<itunes:summary>Radio Vatikana proponas jaude elsendon en Esperanto pri la agado de la Papo kaj de la Eklezio en la mondo.</itunes:summary><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_010813.mp3' length="4309576" type="audio/mpeg" />
+<pubDate>Thu, 01 Aug 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_010813.mp3</guid>
+</item><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_310713.mp3' length="4317935" type="audio/mpeg" />
+<pubDate>Wed, 31 Jul 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_310713.mp3</guid>
+</item><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_250713.mp3' length="4297664" type="audio/mpeg" />
+<pubDate>Thu, 25 Jul 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_250713.mp3</guid>
+</item><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_240713.mp3' length="4308949" type="audio/mpeg" />
+<pubDate>Wed, 24 Jul 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_240713.mp3</guid>
+</item><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_180713.mp3' length="4317726" type="audio/mpeg" />
+<pubDate>Thu, 18 Jul 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_180713.mp3</guid>
+</item><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_170713.mp3' length="4317099" type="audio/mpeg" />
+<pubDate>Wed, 17 Jul 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_170713.mp3</guid>
+</item><item>
+<title>Programo en Esperanto (jaude)</title>
+<link>http://www.radiovaticana.va/esp/index.asp</link>
+<description>Programo en Esperanto (jaude)</description>
+<author>Radio Vatikana</author>
+<category>Religion &amp; spirituality</category>
+<enclosure url='http://media01.vatiradio.va/podcast/feed/esperanto_1_110713.mp3' length="4318562" type="audio/mpeg" />
+<pubDate>Thu, 11 Jul 2013 12:01:01 +02:00</pubDate>
+<guid>http://media01.vatiradio.va/podcast/feed/esperanto_1_110713.mp3</guid>
+</item>
+</channel>
+</rss>

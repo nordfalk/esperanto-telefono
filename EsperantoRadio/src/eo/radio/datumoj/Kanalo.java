@@ -33,6 +33,7 @@ public class Kanalo {
   public ArrayList<Elsendo> elsendoj = new ArrayList<Elsendo>();
   public Elsendo rektaElsendo;
   public String emblemoUrl;
+  public String datumFonto;
 
   @Override
   public String toString() {

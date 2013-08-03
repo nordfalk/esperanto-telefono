@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import org.json.JSONArray;
@@ -55,7 +56,8 @@ public class Cxefdatumoj {
     for (int i = 0; i < antal; i++) {
       JSONObject kJs = kanalojJs.getJSONObject(i);
       Kanalo k = new Kanalo();
-      k.kodo = kJs.getString("kodo");
+      k.kodo = kJs.optString("kodo", null);
+      if (k.kodo==null) continue;
       k.nomo = kJs.getString("nomo");
       String rektaElsendaSonoUrl = kJs.optString("rektaElsendaSonoUrl", null);
       String rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
@@ -131,9 +133,12 @@ public class Cxefdatumoj {
             k = new Kanalo();
             k.json = new JSONObject();
             k.kodo = k.nomo = e.kanalNomo;
+            k.datumFonto = "aldonita de radio.txt";
             kanalkodoAlKanalo.put(k.kodo, k);
             kanalnomoAlKanalo.put(k.nomo, k);
             kanaloj.add(k);
+          } else if (k.datumFonto==null) {
+            k.datumFonto = "radio.txt";
           }
           //Log.d("Aldonas elsendon "+e.toString());
           k.elsendoj.add(e);
@@ -149,27 +154,60 @@ public class Cxefdatumoj {
   /**
    * @return true se io estis ŝarĝita
    */
-  public boolean ŝarĝiElsendojnDeRss(boolean nurLokajn) {
-    boolean ioEstisSxargxita = false;
-    long komenco = System.currentTimeMillis();
-    for (Kanalo k : this.kanaloj) {
-      String elsendojRssUrl = k.json.optString("elsendojRssUrl", null);
-      if (elsendojRssUrl != null) try {
-          String dosiero = Kasxejo.akiriDosieron(elsendojRssUrl, false, nurLokajn);
-          Log.d((System.currentTimeMillis() - komenco) + " akiris " + elsendojRssUrl);
-          if (dosiero == null) continue;
-          ArrayList<Elsendo> elsendoj = RssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
-          if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Elsendo e : elsendoj) e.titolo = null;
-          if (elsendoj.size() > 0) {
-            if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
-            k.elsendoj = elsendoj;
-            ioEstisSxargxita = true;
-          }
-          Log.d((System.currentTimeMillis() - komenco) + " parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
-        } catch (Exception ex) {
-          Log.e("Eraro parsante " + elsendojRssUrl, ex);
-        }
+  public void ŝarĝiElsendojnDeRss(boolean nurLokajn) {
+    for (Kanalo k : kanaloj) {
+      ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl", null), k, nurLokajn);
+      ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl1", null), k, nurLokajn);
+      //ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl2", null), k, nurLokajn);
     }
-    return ioEstisSxargxita;
+  }
+
+  public void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanalo k, boolean nurLokajn) {
+    if (elsendojRssUrl != null) {
+      try {
+        Log.d("============ parsas RSS de "+k.kodo+" =============");
+        String dosiero = Kasxejo.akiriDosieron(elsendojRssUrl, false, nurLokajn);
+        Log.d(" akiris " + elsendojRssUrl);
+        if (dosiero == null) return;
+        ArrayList<Elsendo> elsendoj;
+        if ("vinilkosmo".equals(k.kodo)) {
+          elsendoj = RssParsado.parsiElsendojnDeRssVinilkosmo(new FileInputStream(dosiero));
+        } else {
+          elsendoj = RssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
+        }
+        if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Elsendo e : elsendoj) e.titolo = null;
+        if (elsendoj.size() > 0) {
+          if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
+          k.elsendoj = elsendoj;
+          k.datumFonto = "rss";
+        }
+        Log.d(" parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
+      }catch (Exception ex) {
+       Log.e("Eraro parsante " + elsendojRssUrl, ex);
+     }
+    }
+  }
+
+  public void forprenuMalplenajnKanalojn() {
+    for (Iterator<Kanalo> ki =this.kanaloj.iterator(); ki.hasNext(); ) {
+      Kanalo k = ki.next();
+      if (k.elsendoj.isEmpty()) {
+        Log.d("============ FORPRENAS "+k.kodo+", ĉar ĝi ne havas elsendojn! "+k.datumFonto);
+      }
+    }
+  }
+
+  public void rezumo() {
+    for (Kanalo k : this.kanaloj) {
+      Log.d("============ "+k.kodo+" ============= "+k.elsendoj.size()+" "+k.datumFonto);
+      int n = 0;
+      for (Elsendo e : k.elsendoj) {
+        Log.d(n++ +" "+ e.datoStr+" "+e.titolo+" "+e.sonoUrl+" "+e.priskribo);
+        if (n>300) {
+          Log.d("...");
+          break;
+        }
+      }
+    }
   }
 }

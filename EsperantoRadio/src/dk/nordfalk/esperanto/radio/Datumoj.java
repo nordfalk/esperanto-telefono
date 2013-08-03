@@ -178,12 +178,11 @@ public class Datumoj {
     @Override
     public void run() {
 
-      boolean ioEstisSxargxita = ŝarĝiKanalEmblemojn(false);
-      ioEstisSxargxita |= ĉefdatumoj.ŝarĝiElsendojnDeRss(false);
+      ŝarĝiKanalEmblemojn(false);
+      ĉefdatumoj.ŝarĝiElsendojnDeRss(false);
+      ĉefdatumoj.forprenuMalplenajnKanalojn();
 
-      if (ioEstisSxargxita) {
-        App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
-      }
+      App.app.sendBroadcast(new Intent(INTENT_novaj_ĉefdatumoj));
 
       // Hovedløkke
       while (true) {
@@ -261,6 +260,7 @@ public class Datumoj {
           Log.e("Fejl parsning af " + ĉefdatumoj2.elsendojUrl, e);
         }
         ĉefdatumoj2.ŝarĝiElsendojnDeRss(false);
+        ĉefdatumoj2.forprenuMalplenajnKanalojn();
         Log.d(instanco.ĉefdatumoj.kanaloj);
 
         handler.post(new Runnable() {

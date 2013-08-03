@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="bugsense3.0.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/bugsense3.0.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/GoogleAdMobAdsSdk-4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/libGoogleAnalytics.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ouya-sdk.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

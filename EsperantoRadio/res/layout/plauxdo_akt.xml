@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:background="@drawable/emblemo_rb3" android:gravity="center_horizontal|center_vertical">
-
-</RelativeLayout>
+<ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/emblemo_rb3"
+        android:background="@drawable/emblemo_rb3_fono"
+        android:gravity="center_horizontal|center_vertical" />

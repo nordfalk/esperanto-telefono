@@ -71,7 +71,7 @@
  * Tidligere AfspillerService - service-del der sørger for at app'en
  * bliver i hukommelsen mens der spilles lyd
 -->
-    <service android:name="dk.dr.radio.afspilning.AService"></service>
+    <service android:name="dk.dr.radio.afspilning.AService" />
 
 
     <!--
@@ -105,7 +105,7 @@
     </receiver>
 
 
-		<activity android:name="comx.android.deskclock.AlarmClock_akt"
+		<activity android:name="com.android.deskclock.AlarmClock_akt"
 						 android:icon="@drawable/deskclock_ic_menu_alarms"
 						android:label="@string/alarm_list_title"
 						android:theme="@style/AlarmClockTheme"
@@ -120,13 +120,13 @@
 		</activity>
 
 
-		<activity android:name="comx.android.deskclock.SetAlarm_akt"
+		<activity android:name="com.android.deskclock.SetAlarm_akt"
 						android:label="@string/set_alarm"
 						android:theme="@style/SetAlarmTheme"
 						android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
 
 
-		<receiver android:name="comx.android.deskclock.AlarmReceiver"
+		<receiver android:name="com.android.deskclock.AlarmReceiver"
 						android:exported="false">
 				<intent-filter><!-- XXXX -->
 					<action android:name="comx.android.deskclock.ALARM_ALERT" />
@@ -134,7 +134,7 @@
 		</receiver>
 
 
-		<receiver android:name="comx.android.deskclock.AlarmInitReceiver">
+		<receiver android:name="com.android.deskclock.AlarmInitReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 				<action android:name="android.intent.action.TIME_SET" />

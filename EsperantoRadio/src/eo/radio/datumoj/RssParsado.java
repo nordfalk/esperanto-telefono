@@ -62,7 +62,7 @@ class RssParsado {
         continue; // Nur sercxu por 'item'
       } else if ("pubDate".equals(tag)) {
         e.datoStr = p.nextText().replaceAll(":00$", "00");// "Thu, 01 Aug 2013 12:01:01 +02:00" -> ..." +0200"
-        Log.d("xxxxx "+e.datoStr);
+        //Log.d("xxxxx "+e.datoStr);
         e.dato = new Date(Date.parse(e.datoStr));
         e.datoStr = Cxefdatumoj.datoformato.format(e.dato);
       } else if ("image".equals(tag)) {
@@ -131,7 +131,7 @@ class RssParsado {
         e.titolo = p.nextText();
       } else if ("published".equals(tag)) {
         e.datoStr = p.nextText().split("T")[0];
-        Log.d("e.datoStr="+e.datoStr);
+        //Log.d("e.datoStr="+e.datoStr);
         e.dato = Cxefdatumoj.datoformato.parse(e.datoStr);
         e.datoStr = Cxefdatumoj.datoformato.format(e.dato);
       } else if ("link".equals(tag)) {

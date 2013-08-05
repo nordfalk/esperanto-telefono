@@ -22,7 +22,7 @@
     <Preference android:key="time"
         android:persistent="false"
         android:title="@string/time"/>
-    <comx.android.deskclock.RepeatPreference
+    <com.android.deskclock.RepeatPreference
         android:persistent="false"
         android:key="setRepeat"
         android:title="@string/alarm_repeat" />

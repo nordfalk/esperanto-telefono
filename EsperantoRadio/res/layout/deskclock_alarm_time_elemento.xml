@@ -23,7 +23,7 @@
 				android:layout_height="fill_parent"
 				android:layout_width="wrap_content"
 -->
-    <comx.android.deskclock.DontPressWithParentLayout
+    <com.android.deskclock.DontPressWithParentLayout
         android:id="@+id/indicator"
         style="@style/alarm_list_left_column"
         android:gravity="center"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center" />
-    </comx.android.deskclock.DontPressWithParentLayout>
+    </com.android.deskclock.DontPressWithParentLayout>
 <!--
         android:src="?android:attr/dividerVertical"
 -->
@@ -53,7 +53,7 @@
         android:paddingRight="16dip"
 				A layout that displays the time.  Shows time, am/pm (if 12-hour),
          and an optional line below, used for day/days of week -->
-    <comx.android.deskclock.DigitalClock android:id="@+id/digitalClock"
+    <com.android.deskclock.DigitalClock android:id="@+id/digitalClock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -95,7 +95,7 @@
             android:textColor="?android:attr/textColorTertiary"
             />
 
-    </comx.android.deskclock.DigitalClock>
+    </com.android.deskclock.DigitalClock>
 <!--
                 android:layout_width="0dip"
                 android:layout_weight="2"

@@ -64,7 +64,7 @@ public class Opkaldshaandtering extends PhoneStateListener {
         }
         break;
       default:
-        Log.d("Unknown phone state=" + state);
+        Log.d("Unknown device state=" + state);
     }
   }
 }

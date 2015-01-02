@@ -14,15 +14,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import com.bugsense.trace.BugSenseHandler;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
+import dk.dr.radio.data.FilCache;
 import dk.dr.radio.util.Kontakt;
-import eo.radio.datumoj.Log;
-import eo.radio.datumoj.Kasxejo;
+import dk.dr.radio.data.Log;
 
 /**
  *
@@ -84,7 +84,7 @@ public class App extends Application {
 
 
       //evoluiganto = prefs.getBoolean("udvikler", false);
-      Kasxejo.init(getCacheDir());
+      FilCache.init(getCacheDir());
       Datumoj.ŝarĝiInstancon();
 
       App.tracker = GoogleAnalyticsTracker.getInstance();

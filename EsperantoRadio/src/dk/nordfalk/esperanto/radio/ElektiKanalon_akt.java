@@ -33,9 +33,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import eo.radio.datumoj.Kanalo;
+
+import dk.dr.radio.data.Kanal;
 import dk.dr.radio.util.ImageViewTilBlinde;
-import eo.radio.datumoj.Log;
 
 public class ElektiKanalon_akt extends ListActivity {
   private KanalAdapter adapter;
@@ -54,7 +54,7 @@ public class ElektiKanalon_akt extends ListActivity {
 
     // Da der er tale om et fast lille antal kanaler er der ikke grund til det store bogholderi
     // Så vi husker bare viewsne i er array
-    listeElementer = new View[Datumoj.instanco.ĉefdatumoj.kanaloj.size()];
+    listeElementer = new View[Datumoj.instanco.ĉefdatumoj.kanaler.size()];
 
     setListAdapter(adapter);
     // Sæt baggrunden normalt ville man gøre det fra XML eller med
@@ -83,7 +83,7 @@ public class ElektiKanalon_akt extends ListActivity {
     @Override
     public void onReceive(Context ctx, Intent i) {
       //Log.d("stamdataOpdateretReciever elektikanalon");
-      listeElementer = new View[Datumoj.instanco.ĉefdatumoj.kanaloj.size()];
+      listeElementer = new View[Datumoj.instanco.ĉefdatumoj.kanaler.size()];
       adapter.notifyDataSetChanged();
     }
   };
@@ -101,7 +101,7 @@ public class ElektiKanalon_akt extends ListActivity {
 
       if (view != null) return view; // Elementet er allede konstrueret
 
-      Kanalo kanalo = Datumoj.instanco.ĉefdatumoj.kanaloj.get(position);
+      Kanal kanalo = Datumoj.instanco.ĉefdatumoj.kanaler.get(position);
 
       //System.out.println("getView " + position + " kanal_" + kanalkode.toLowerCase() + " type = " + id);
       view = mInflater.inflate(R.layout.elekti_kanalon_elemento, null);
@@ -153,7 +153,7 @@ public class ElektiKanalon_akt extends ListActivity {
     Resources res = getResources();
 
     public int getCount() {
-      return Datumoj.instanco.ĉefdatumoj.kanaloj.size();
+      return Datumoj.instanco.ĉefdatumoj.kanaler.size();
     }
 
     public Object getItem(int position) {
@@ -167,7 +167,7 @@ public class ElektiKanalon_akt extends ListActivity {
 
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    String kanalkode = Datumoj.instanco.ĉefdatumoj.kanaloj.get(position).kodo;
+    String kanalkode = Datumoj.instanco.ĉefdatumoj.kanaler.get(position).kodo;
 
 
     //Kanal kanal = drData.stamdata.kanalkodoAlKanalo.get(kanalkode);

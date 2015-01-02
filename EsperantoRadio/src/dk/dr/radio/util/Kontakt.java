@@ -17,8 +17,8 @@
  */
 package dk.dr.radio.util;
 
-import eo.radio.datumoj.Log;
-import android.app.Activity;
+import dk.dr.radio.data.Log;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;

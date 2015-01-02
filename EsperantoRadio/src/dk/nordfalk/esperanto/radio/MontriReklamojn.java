@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import eo.radio.datumoj.Log;
+import dk.dr.radio.data.Log;
 import java.util.Date;
 
 public class MontriReklamojn {

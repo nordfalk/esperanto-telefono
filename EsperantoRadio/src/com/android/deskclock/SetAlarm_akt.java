@@ -23,7 +23,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -34,12 +33,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView.BufferType;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import dk.dr.radio.data.Kanal;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.R;
-import eo.radio.datumoj.Kanalo;
+
 import java.util.ArrayList;
 
 /**
@@ -86,7 +86,7 @@ public class SetAlarm_akt extends PreferenceActivity implements Preference.OnPre
 
     ArrayList<String> kk = new ArrayList<String>();
     ArrayList<String> kn = new ArrayList<String>();
-    for (Kanalo k : Datumoj.instanco.ĉefdatumoj.kanaloj) {
+    for (Kanal k : Datumoj.instanco.ĉefdatumoj.kanaler) {
       kk.add(k.kodo);
       kn.add(k.nomo);
     }

@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import eo.radio.datumoj.Log;
 
 public class Salutsxildo_akt extends Activity implements Runnable {
   /** Called when the activity is first created. */

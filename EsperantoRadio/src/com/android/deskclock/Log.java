@@ -23,23 +23,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 final class Log {
-  public final static String LOGTAG = eo.radio.datumoj.Log.TAG;
+  public final static String LOGTAG = dk.dr.radio.data.Log.TAG;
   static final boolean LOGV = false;
 
   static void v(String logMe) {
-    eo.radio.datumoj.Log.d(logMe);
+    dk.dr.radio.data.Log.d(logMe);
   }
 
   static void i(String logMe) {
-    eo.radio.datumoj.Log.d(logMe);
+    dk.dr.radio.data.Log.d(logMe);
   }
 
   static void e(String logMe) {
-    eo.radio.datumoj.Log.d(logMe);
+    dk.dr.radio.data.Log.d(logMe);
   }
 
   static void e(String logMe, Exception ex) {
-    eo.radio.datumoj.Log.e(logMe, ex);
+    dk.dr.radio.data.Log.e(logMe, ex);
     App.eraro(ex);
   }
 

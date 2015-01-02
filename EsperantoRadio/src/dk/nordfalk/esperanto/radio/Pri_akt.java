@@ -27,9 +27,9 @@ import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 import android.widget.Button;
-import android.widget.ImageButton;
+
 import dk.dr.radio.util.Kontakt;
-import eo.radio.datumoj.Log;
+import dk.dr.radio.data.Log;
 
 public class Pri_akt extends Activity implements OnClickListener {
   WebView webview;

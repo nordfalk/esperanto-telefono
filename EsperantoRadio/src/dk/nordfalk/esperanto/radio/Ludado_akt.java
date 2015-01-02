@@ -23,7 +23,9 @@ import android.widget.AdapterView;
 import com.google.ads.Ad;
 import com.google.ads.AdRequest.ErrorCode;
 import android.content.SharedPreferences;
-import eo.radio.datumoj.Kanalo;
+
+import dk.dr.radio.data.Kanal;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -73,11 +75,12 @@ import com.google.ads.AdView;
 import com.android.deskclock.AlarmClock_akt;
 import dk.dr.radio.afspilning.AfspillerListener;
 import dk.dr.radio.afspilning.Ludado;
+import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.MitGalleri;
 import dk.dr.radio.util.Kontakt;
-import eo.radio.datumoj.Log;
+import dk.dr.radio.data.Log;
 import dk.dr.radio.util.Network;
-import eo.radio.datumoj.Elsendo;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -345,9 +348,9 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     aliaj_elsendoj_Gallery = (MitGalleri) findViewById(R.id.aliaj_elsendoj_Gallery);
     aliaj_elsendoj_Gallery.setOnItemClickListener(new OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Elsendo elsendo = (Elsendo) aliaj_elsendoj_Gallery.getAdapter().getItem(position);
+        Udsendelse elsendo = (Udsendelse) aliaj_elsendoj_Gallery.getAdapter().getItem(position);
 
-        datumoj.ludado.setKanalon(elsendo.kanalNomo, elsendo.sonoUrl);
+        datumoj.ludado.setKanalon(elsendo.kanalSlug, elsendo.sonoUrl);
         datumoj.aktualaElsendo = elsendo;
         montriAktualanElsendon();
         startiLudadonAŭTuneIn();
@@ -597,7 +600,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
   };
 
   private void montruAktualanKanalon() {
-    final Kanalo kanalo = datumoj.aktualaKanalo;
+    final Kanal kanalo = datumoj.aktualaKanalo;
 
     ImageView aktuelKanalImageView = (ImageView) findViewById(R.id.player_select_channel_billede);
     TextView aktuelKanalTextView = (TextView) findViewById(R.id.player_select_channel_text);
@@ -663,7 +666,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       }
     }
 
-    final ArrayList<Elsendo> elsendoj = kanalo.elsendoj;
+    final ArrayList<Udsendelse> elsendoj = kanalo.elsendoj;
     if (elsendoj.size() == 1) {
       aliaj_elsendoj_FrameLayout.setVisibility(View.GONE);
     } else {
@@ -672,18 +675,18 @@ public class Ludado_akt extends Activity implements AfspillerListener {
         @Override
         public View getView(int position, View cachedView, ViewGroup parent) {
           View view = super.getView(position, cachedView, parent);
-          Elsendo elsendo = elsendoj.get(position);
+          Udsendelse elsendo = elsendoj.get(position);
           TextView listeelem_overskrift = (TextView) view.findViewById(R.id.listeelem_overskrift);
-          listeelem_overskrift.setText(elsendo.datoStr);
+          listeelem_overskrift.setText(elsendo.startTidKl);
           TextView listeelem_beskrivelse = (TextView) view.findViewById(R.id.listeelem_beskrivelse);
-          String els = elsendo.priskribo;
+          String els = elsendo.beskrivelse;
           if (elsendo.rektaElsendaPriskriboUrl != null && prefs.getBoolean("uzu_tunein", false)) {
             els = "Tuŝu por starti TuneIn por rekta ludado!";
           }
           //els = els.replaceAll("<[^>]*></[^>]*>", "").replaceAll("<p>", "").replaceAll("<a[^>]*>", "");
           els = els.replaceAll("<[^>]*>", "");
-          if (elsendo.titolo != null && !elsendo.titolo.equals(elsendo.priskribo)) {
-            els = elsendo.titolo + "<br>" + els.trim();
+          if (elsendo.titel != null && !elsendo.titel.equals(elsendo.beskrivelse)) {
+            els = elsendo.titel + "<br>" + els.trim();
           }
           //Log.d(els);
           //if (els.length()>100) els = els.substring(0,100)+"...";
@@ -703,8 +706,8 @@ public class Ludado_akt extends Activity implements AfspillerListener {
   }
 
   private void montriAktualanElsendon() {
-    Kanalo kanal = datumoj.aktualaKanalo;
-    Elsendo elsendo = datumoj.aktualaElsendo;
+    Kanal kanal = datumoj.aktualaKanalo;
+    Udsendelse elsendo = datumoj.aktualaElsendo;
 
     ludasNun_ScrollView.setVisibility(View.VISIBLE);
     //Log.d("datumoj.ludasNun= "+datumoj.rektaElsendaPriskribo+" elsendo="+elsendo);
@@ -717,7 +720,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
             + " (" + utcTempoformato.format(new Date()) + " UTC)\n<br>\n<br>" + datumoj.rektaElsendaPriskribo.replaceAll("</br>", "<br/>")));
         ludasNunTextView.setMovementMethod(LinkMovementMethod.getInstance());
       }
-    } else if (elsendo.datoStr != null) {
+    } else if (elsendo.startTidKl != null) {
       if (kanal.json.optBoolean("uziWebViewPorElsendo") && hejmpaĝoEkrane != null) {
         ludasNun_ScrollView.setVisibility(View.GONE);
         try {
@@ -731,15 +734,15 @@ public class Ludado_akt extends Activity implements AfspillerListener {
            hejmpaĝoEkrane.loadDataWithBaseURL(mesagxo, mesagxo, mesagxo, mesagxo, mesagxo);
            */
           hejmpaĝoEkrane.loadDataWithBaseURL("fake://not/needed",
-              "Elsendo de " + elsendo.datoStr + " de " + kanal.nomo + "<br>\n"
-              + elsendo.priskribo, "text/html", "utf-8", "");
+              "Elsendo de " + elsendo.startTidKl + " de " + kanal.nomo + "<br>\n"
+              + elsendo.beskrivelse, "text/html", "utf-8", "");
         } catch (Exception ex) {
           App.videblaEraro(this, ex);
         }
         hejmpaĝoEkrane.setVisibility(View.VISIBLE);
       } else {
-        ludasNunTextView.setText(Html.fromHtml("Elsendo de " + elsendo.datoStr + " de " + kanal.nomo
-            + "\n<br>" + elsendo.priskribo));
+        ludasNunTextView.setText(Html.fromHtml("Elsendo de " + elsendo.startTidKl + " de " + kanal.nomo
+            + "\n<br>" + elsendo.beskrivelse));
         Linkify.addLinks(ludasNunTextView, Linkify.WEB_URLS);
       }
     } else {
@@ -802,7 +805,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       case R.id.kontakti_kanalon:
         String brødtekst =
             "Saluton!\n"
-            + (datumoj.aktualaElsendo.titolo != null ? "Mi aŭskultis vian elsendon '" + datumoj.aktualaElsendo.titolo + "'." : "")
+            + (datumoj.aktualaElsendo.titel != null ? "Mi aŭskultis vian elsendon '" + datumoj.aktualaElsendo.titel + "'." : "")
             + "\n\nPS. Se vi havas Androjdan telefonon elprovu la Esperanto-radion:\n"
             + "https://market.android.com/details?id=dk.nordfalk.esperanto.radio\n";
         Kontakt.kontakt(this, new String[] { datumoj.aktualaKanalo.retpoŝto }, "Pri " + datumoj.aktualaKanalo.nomo, brødtekst, null);

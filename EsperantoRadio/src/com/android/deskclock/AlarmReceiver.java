@@ -15,16 +15,14 @@
  */
 package com.android.deskclock;
 
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
-import android.media.AudioManager;
-import android.os.PowerManager.WakeLock;
+
 import dk.dr.radio.afspilning.Ludado;
+import dk.dr.radio.data.Kanal;
 import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
-import eo.radio.datumoj.Kanalo;
 
 /**
  * Glue class: connects AlarmAlert IntentReceiver to AlarmAlert
@@ -105,10 +103,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
     try {
-      Kanalo nyKanal = Datumoj.instanco.ĉefdatumoj.kanalkodoAlKanalo.get(alarm.kanalo);
+      Kanal nyKanal = Datumoj.instanco.ĉefdatumoj.kanalFraKode.get(alarm.kanalo);
       if (nyKanal == null) {
         Log.wtf("Alarm: Kanal findes ikke!" + alarm.kanalo + " for alarmstr=" + data);
-        Datumoj.instanco.ŝanĝiKanalon(Datumoj.instanco.ĉefdatumoj.kanaloj.get(0).kodo);
+        Datumoj.instanco.ŝanĝiKanalon(Datumoj.instanco.ĉefdatumoj.kanaler.get(0).kodo);
       } else {
         Datumoj.instanco.ŝanĝiKanalon(alarm.kanalo);
       }

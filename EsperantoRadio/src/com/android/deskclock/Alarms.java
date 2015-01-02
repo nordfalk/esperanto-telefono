@@ -23,10 +23,9 @@ import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 
 import dk.nordfalk.esperanto.radio.Datumoj;
-import eo.radio.datumoj.Cxefdatumoj;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * The Alarms provider supplies info about Alarm Clock settings

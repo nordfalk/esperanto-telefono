@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import eo.radio.datumoj.Log;
+import dk.dr.radio.data.Log;
 import android.view.KeyEvent;
 import dk.dr.radio.afspilning.Ludado;
 import dk.dr.radio.afspilning.AfspillerReciever;

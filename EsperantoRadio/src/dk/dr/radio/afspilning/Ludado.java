@@ -23,7 +23,6 @@ import dk.dr.radio.diverse.Opkaldshaandtering;
 import java.io.IOException;
 import java.util.List;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -40,7 +39,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -49,11 +47,9 @@ import android.telephony.TelephonyManager;
 import android.widget.Toast;
 import com.android.deskclock.AlarmAlertWakeLock;
 import dk.dr.radio.diverse.AfspillerWidget;
-import dk.nordfalk.esperanto.radio.R;
-import eo.radio.datumoj.Log;
+import dk.dr.radio.data.Log;
 import dk.nordfalk.esperanto.radio.App;
-import dk.nordfalk.esperanto.radio.Datumoj;
-import dk.nordfalk.esperanto.radio.Ludado_akt;
+
 import java.util.ArrayList;
 
 /**

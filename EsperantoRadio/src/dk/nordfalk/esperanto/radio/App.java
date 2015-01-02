@@ -98,6 +98,7 @@ public class App extends Application {
         App.tracker.trackPageView("montriReklamojn:" + montriReklamojn);
       }
 
+      Class.forName("android.os.AsyncTask"); // Fix for http://code.google.com/p/android/issues/detail?id=20915
     } catch (Exception e) {
       eraro(e);
     }

@@ -21,9 +21,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-<!--         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:background="?android:attr/listChoiceBackgroundIndicator"
-				-->
+
     <LinearLayout
         android:id="@+id/add_alarm"
         android:clickable="true"
@@ -31,9 +29,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
->
+        android:background="@android:drawable/list_selector_background"
+            >
 
         <ImageView
+                style="@style/alarm_list_left_column"
             android:layout_height="fill_parent"
             android:layout_width="96dip"
             android:layout_marginRight="8dip"

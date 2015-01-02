@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="dk.nordfalk.esperanto.radio"
 			android:installLocation="auto"
-      android:versionCode="29"
-      android:versionName="1.3.3">
+      android:versionCode="30"
+      android:versionName="1.3.4">
 
   <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
@@ -137,9 +137,11 @@
 		<receiver android:name="com.android.deskclock.AlarmInitReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
+        <!-- danĝera, estas ofte vokataj por kelkaj telefonon
 				<action android:name="android.intent.action.TIME_SET" />
 				<action android:name="android.intent.action.TIMEZONE_CHANGED" />
 				<action android:name="android.intent.action.LOCALE_CHANGED" />
+        -->
 			</intent-filter>
 		</receiver>
   </application>

@@ -150,12 +150,12 @@ public class Datumoj {
     aktualaKanalkodo = kodo;
     aktualaKanalo = ĉefdatumoj.kanalFraKode.get(aktualaKanalkodo);
 
-    if (aktualaKanalo == null || aktualaKanalo.elsendoj.size() == 0) { // Ne devus okazi, sed tamen okazas se oni neniam ajn elektis kanalon
+    if (aktualaKanalo == null || aktualaKanalo.udsendelser.size() == 0) { // Ne devus okazi, sed tamen okazas se oni neniam ajn elektis kanalon
       aktualaKanalo = ĉefdatumoj.kanaler.get(0);
       aktualaKanalkodo = aktualaKanalo.kodo;
     }
     // Ĉiam elektu la plej lastan elsendon
-    aktualaElsendo = aktualaKanalo.elsendoj.get(aktualaKanalo.elsendoj.size() - 1);
+    aktualaElsendo = aktualaKanalo.udsendelser.get(aktualaKanalo.udsendelser.size() - 1);
   }
   
   public void setBaggrundsopdateringAktiv(boolean aktiv) {

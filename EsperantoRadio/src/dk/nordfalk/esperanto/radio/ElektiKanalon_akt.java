@@ -118,7 +118,7 @@ public class ElektiKanalon_akt extends ListActivity {
       } else
         ikon.setVisibility(View.INVISIBLE);
 
-      String aldonaTeksto = kanalo.elsendoj.size() > 1 ? " (" + kanalo.elsendoj.size() + ")" : "";
+      String aldonaTeksto = kanalo.udsendelser.size() > 1 ? " (" + kanalo.udsendelser.size() + ")" : "";
       // tjek om der er et billede i 'drawable' med det navn filnavn
       //int id = res.getIdentifier("kanal_"+kanalkode.toLowerCase(), "drawable", getPackageName());
       Bitmap kanalo_emblemo = Datumoj.instanco.emblemoj.get(kanalo.emblemoUrl);

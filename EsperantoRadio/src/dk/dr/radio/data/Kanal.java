@@ -30,13 +30,13 @@ public class Kanal {
   public String hejmpaĝoButono;
   public String retpoŝto;
   public JSONObject json;
-  public ArrayList<Udsendelse> elsendoj = new ArrayList<Udsendelse>();
+  public ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
   public Udsendelse rektaElsendo;
   public String emblemoUrl;
   public String datumFonto;
 
   @Override
   public String toString() {
-    return kodo + "/" + nomo + "/" + elsendoj.size() + "\n";
+    return kodo + "/" + nomo + "/" + udsendelser.size() + "\n";
   }
 }

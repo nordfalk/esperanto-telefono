@@ -666,7 +666,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       }
     }
 
-    final ArrayList<Udsendelse> elsendoj = kanalo.elsendoj;
+    final ArrayList<Udsendelse> elsendoj = kanalo.udsendelser;
     if (elsendoj.size() == 1) {
       aliaj_elsendoj_FrameLayout.setVisibility(View.GONE);
     } else {

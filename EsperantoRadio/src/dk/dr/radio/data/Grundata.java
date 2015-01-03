@@ -79,7 +79,7 @@ public class Grundata {
         el.sonoUrl = rektaElsendaSonoUrl;
         el.rektaElsendaPriskriboUrl = rektaElsendaPriskriboUrl;
         k.rektaElsendo = el;
-        k.elsendoj.add(el);
+        k.udsendelser.add(el);
       }
     }
 
@@ -141,14 +141,14 @@ public class Grundata {
             k.datumFonto = "radio.txt";
           }
           //Log.d("Aldonas elsendon "+e.toString());
-          k.elsendoj.add(e);
+          k.udsendelser.add(e);
         } catch (Exception e) {
           Log.e("Ne povis legi unuon: " + unuo, e);
         }
       }
     }
 
-    for (Kanal k : kanaler) Collections.reverse(k.elsendoj);
+    for (Kanal k : kanaler) Collections.reverse(k.udsendelser);
   }
   
   /**
@@ -178,7 +178,7 @@ public class Grundata {
         if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Udsendelse e : elsendoj) e.titel = null;
         if (elsendoj.size() > 0) {
           if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
-          k.elsendoj = elsendoj;
+          k.udsendelser = elsendoj;
           k.datumFonto = "rss";
         }
         Log.d(" parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
@@ -191,7 +191,7 @@ public class Grundata {
   public void forprenuMalplenajnKanalojn() {
     for (Iterator<Kanal> ki =this.kanaler.iterator(); ki.hasNext(); ) {
       Kanal k = ki.next();
-      if (k.elsendoj.isEmpty()) {
+      if (k.udsendelser.isEmpty()) {
         Log.d("============ FORPRENAS "+k.kodo+", ĉar ĝi ne havas elsendojn! "+k.datumFonto);
       }
     }
@@ -199,9 +199,9 @@ public class Grundata {
 
   public void rezumo() {
     for (Kanal k : this.kanaler) {
-      Log.d("============ "+k.kodo+" ============= "+k.elsendoj.size()+" "+k.datumFonto);
+      Log.d("============ "+k.kodo+" ============= "+k.udsendelser.size()+" "+k.datumFonto);
       int n = 0;
-      for (Udsendelse e : k.elsendoj) {
+      for (Udsendelse e : k.udsendelser) {
         Log.d(n++ +" "+ e.startTidKl +" "+e.titel +" "+e.sonoUrl+" "+e.beskrivelse);
         if (n>300) {
           Log.d("...");

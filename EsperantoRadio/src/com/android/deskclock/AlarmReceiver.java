@@ -20,8 +20,8 @@ import android.content.Intent;
 import android.content.BroadcastReceiver;
 
 import dk.dr.radio.afspilning.Ludado;
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Kanal;
-import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 
 /**
@@ -103,16 +103,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
     try {
-      Kanal nyKanal = Datumoj.instanco.ĉefdatumoj.kanalFraKode.get(alarm.kanalo);
+      Kanal nyKanal = DRData.instanco.ĉefdatumoj.kanalFraKode.get(alarm.kanalo);
       if (nyKanal == null) {
         Log.wtf("Alarm: Kanal findes ikke!" + alarm.kanalo + " for alarmstr=" + data);
-        Datumoj.instanco.ŝanĝiKanalon(Datumoj.instanco.ĉefdatumoj.kanaler.get(0).kodo);
+        DRData.instanco.ŝanĝiKanalon(DRData.instanco.ĉefdatumoj.kanaler.get(0).kodo);
       } else {
-        Datumoj.instanco.ŝanĝiKanalon(alarm.kanalo);
+        DRData.instanco.ŝanĝiKanalon(alarm.kanalo);
       }
 
-      Ludado ludado = Datumoj.instanco.ludado;
-      ludado.setKanalon(Datumoj.instanco.aktualaKanalo.nomo, Datumoj.instanco.aktualaElsendo.sonoUrl);
+      Ludado ludado = DRData.instanco.ludado;
+      ludado.setKanalon(DRData.instanco.aktualaKanalo.nomo, DRData.instanco.aktualaElsendo.sonoUrl);
       if (ludado.getAfspillerstatus() == Ludado.STATUSO_HALTIS) {
         ludado.startiLudadon();
       }

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ExoPlayer-HLS">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/ExoPlayer-HLS.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../ExoPlayer/library/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

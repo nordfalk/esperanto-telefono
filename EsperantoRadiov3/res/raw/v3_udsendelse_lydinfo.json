@@ -1,0 +1,86 @@
+{
+
+"__kilde" : "http://www.dr.dk/tjenester/mu-apps/program/monte-carlo-355?type=radio&includeStreams=true",
+
+
+   "BroadcastStartTime" : "2013-12-20T14:04:00+01:00",
+   "Subtitle" : "",
+   "Urn" : "urn:dr:mu:programcard:52a901e46187a2197cc3d14f",
+   "Title" : "Monte Carlo",
+   "SeriesSlug" : "monte-carlo",
+   "ProductionNumber" : "13331315515",
+   "Streams" : [
+      {
+         "StartPublish" : "2013-12-20T14:09:00+01:00",
+         "EndPublish" : "3000-01-01T01:00:00+01:00",
+         "Kind" : 0,
+         "Connection" : 1,
+         "Quality" : 3,
+         "GeoRestricted" : false,
+         "FileSize" : 0,
+         "Duration" : 7080000,
+         "Kbps" : 0,
+         "Uri" : "http://drod01l-vh.akamaihd.net/i/all/clear/download/63/52b463386187a20c44cd5963/Monte-Carlo_61d51356d30d436d969230f802a8fe0a_,192,61,.mp4.csmil/master.m3u8"
+      },
+      {
+         "StartPublish" : "2013-12-20T14:09:00+01:00",
+         "EndPublish" : "3000-01-01T01:00:00+01:00",
+         "Kind" : 0,
+         "Connection" : 0,
+         "Quality" : 0,
+         "GeoRestricted" : false,
+         "FileSize" : 0,
+         "Duration" : 7080000,
+         "Kbps" : 192,
+         "Uri" : "http://om.gss.dr.dk/mediacache/_definst_/mp4:content/CMS/Resources/dr.dk/NETRADIO/2013/12/fec46b60-264c-42eb-b20f-beff8e941f0f/Monte-Carlo_61d51356d30d436d969230f802a8fe0a_192.mp4/playlist.m3u8?ID=1661728"
+      },
+      {
+         "StartPublish" : "2013-12-20T14:09:00+01:00",
+         "EndPublish" : "3000-01-01T01:00:00+01:00",
+         "Kind" : 0,
+         "Connection" : 0,
+         "Quality" : 0,
+         "GeoRestricted" : false,
+         "FileSize" : 0,
+         "Duration" : 7080000,
+         "Kbps" : 192,
+         "Uri" : "http://om.gss.dr.dk/mediacache/_definst_/mp3:content/CMS/Resources/dr.dk/NETRADIO/2013/12/fec46b60-264c-42eb-b20f-beff8e941f0f/Monte-Carlo_61d51356d30d436d969230f802a8fe0a_192.mp3/playlist.m3u8?ID=1661728"
+      },
+      {
+         "StartPublish" : "2013-12-20T14:09:00+01:00",
+         "EndPublish" : "3000-01-01T01:00:00+01:00",
+         "Kind" : 0,
+         "Connection" : 1,
+         "Quality" : 2,
+         "GeoRestricted" : false,
+         "FileSize" : 0,
+         "Duration" : 7080000,
+         "Kbps" : 64,
+         "Uri" : "http://om.gss.dr.dk/mediacache/_definst_/mp3:content/CMS/Resources/dr.dk/NETRADIO/2013/12/fec46b60-264c-42eb-b20f-beff8e941f0f/Monte-Carlo_61d51356d30d436d969230f802a8fe0a_64.mp3/playlist.m3u8?ID=1661728"
+      },
+      {
+         "StartPublish" : "2013-12-20T14:09:00+01:00",
+         "EndPublish" : "3000-01-01T01:00:00+01:00",
+         "Kind" : 0,
+         "Connection" : 1,
+         "Quality" : 2,
+         "GeoRestricted" : false,
+         "FileSize" : 0,
+         "Duration" : 7080000,
+         "Kbps" : 61,
+         "Uri" : "http://om.gss.dr.dk/mediacache/_definst_/mp4:content/CMS/Resources/dr.dk/NETRADIO/2013/12/fec46b60-264c-42eb-b20f-beff8e941f0f/Monte-Carlo_61d51356d30d436d969230f802a8fe0a_61.mp4/playlist.m3u8?ID=1661728"
+      }
+   ],
+   "Slug" : "monte-carlo-355",
+   "LatestBroadcast" : "2013-12-20T14:04:00+01:00",
+   "Channel" : "dr.dk/mas/whatson/channel/P3",
+   "FirstBroadcast" : "2013-12-20T14:04:00+01:00",
+   "SpotTitle" : null,
+   "Playlist" : null,
+   "Broadcasts" : null,
+   "PreviousProgramSlug" : "monte-carlo-354",
+   "SpotTeaser" : null,
+   "Episode" : 313,
+   "Description" : "Peter Falktoft og Esben Bjerre vender ugens store og små begivenheder med et satirisk blik, kigger på ugens bedste tv og spørger lytterne hvad de har #HørtOverHækken.",
+   "NextProgramSlug" : null
+}

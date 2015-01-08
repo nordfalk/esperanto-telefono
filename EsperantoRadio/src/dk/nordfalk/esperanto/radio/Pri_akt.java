@@ -28,6 +28,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 import android.widget.Button;
 
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.util.Kontakt;
 import dk.dr.radio.data.Log;
 
@@ -40,7 +41,7 @@ public class Pri_akt extends Activity implements OnClickListener {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.pri_akt);
 
-    String aboutUrl = Datumoj.instanco.ĉefdatumoj.json.optString("hejmpaĝo");
+    String aboutUrl = DRData.instanco.ĉefdatumoj.json.optString("hejmpaĝo");
 
     webview = (WebView) findViewById(R.id.about_webview);
 
@@ -66,8 +67,8 @@ public class Pri_akt extends Activity implements OnClickListener {
 
   public void onClick(View v) {
     String brødtekst = "";
-    brødtekst += Datumoj.instanco.ĉefdatumoj.json.optString("feedback_brugerspørgsmål");
-    brødtekst += "\n" + Datumoj.instanco.ludado.kanalUrl;
+    brødtekst += DRData.instanco.ĉefdatumoj.json.optString("feedback_brugerspørgsmål");
+    brødtekst += "\n" + DRData.instanco.ludado.kanalUrl;
     brødtekst += "\n\n" + App.app.lavTelefoninfo();
     Kontakt.kontakt(this, EMAILSUBJECT, brødtekst, Log.log.toString());
   }

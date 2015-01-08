@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- til Akamais statistik - den rigtige nøgle skal ikke comittes til SVN -->
+  <string name="akamai_konfiguration">http://ma403-r.analytics.edgesuite.net/config/beacon-5186.xml</string>
+
+  <!--
+          if (player.options.mediaType === 'audio') {
+              window.AKAMAI_MEDIA_ANALYTICS_CONFIG_FILE_PATH = 'http://ma403-r.analytics.edgesuite.net/config/beacon-5186.xml';
+          } else if (player.options.mediaType === 'video') {
+              window.AKAMAI_MEDIA_ANALYTICS_CONFIG_FILE_PATH = 'http://ma403-r.analytics.edgesuite.net/config/beacon-5118.xml';
+          } else {
+             -->
+
+  <!-- Indsæt din egen BugSense-nøgle her -->
+  <string name="bugsense_nøgle">cd78aa05</string>
+  <string name="bugsense_testnøgle">c0eec1ee</string>
+
+  <!-- Nøgle til sidevisningsstatistik -->
+  <string name="gemius_sidevisninsstatistik_nøgle">dvZA4gbWhvcliMuk85eb7PTZzduRVQ_Wkr4BEsDC5zb.57</string>
+</resources>

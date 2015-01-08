@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">DR Radio</string>
+  <string name="navigation_drawer_open">Åbn venstremenu</string>
+  <string name="navigation_drawer_close">Luk venstremenu</string>
+  <string name="action_settings">Settings</string>
+  <string name="dr_ingen_forbindelse"><b>Manglende netværksforbindelse</b>\nAfventer genopretning af forbindelsen</string>
+
+  <string-array name="lydformat_tekst">
+    <item>AAC (HLS)</item>
+    <item>MP3 (Shoutcast)</item>
+    <item>Automatisk</item>
+  </string-array>
+
+  <string-array name="lydformat_kode">
+    <item>hls</item>
+    <item>shoutcast</item>
+    <item>auto</item>
+  </string-array>
+
+  <string-array name="lydkvalitet_tekst">
+    <item>Standard</item>
+    <item>Høj (192 kbps)</item>
+    <item>Automatisk</item>
+  </string-array>
+
+  <string-array name="lydkvalitet_kode">
+    <item>standard</item>
+    <item>høj</item>
+    <item>auto</item>
+  </string-array>
+
+</resources>

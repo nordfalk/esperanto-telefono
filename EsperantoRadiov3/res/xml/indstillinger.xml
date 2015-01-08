@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!--
+      <CheckBoxPreference
+              android:key="Filtrér akamai"
+              android:title="Filtrér akamai"
+              android:defaultValue="true"
+              android:summaryOn="Filtrér Akamai for døde servere (TEST AF NY KODE)"
+              android:summaryOff="Filtrér ikke Akamai for døde servere"
+              />
+  -->
+  <PreferenceCategory android:title="Brugergrænseflade">
+    <CheckBoxPreference
+        android:key="startAfspilningMedDetSammme"
+        android:title="Spil når app'en åbnes"
+        android:defaultValue="false"
+        android:summaryOff="Start afspilning automatisk, når appen åbnes"
+        android:summaryOn="Afspilning starter automatisk, når appen åbnes"/>
+
+    <CheckBoxPreference
+        android:key="tving_lodret_visning" android:title="Stående visning"
+        android:defaultValue="true"
+        android:summaryOn="Tving lodret visning"
+        android:summaryOff="Tillad vandret visning\n(kræver genstart af app'en)"/>
+  </PreferenceCategory>
+
+
+  <PreferenceCategory android:title="Lyd">
+    <ListPreference
+        android:key="lydkvalitet"
+        android:title="Lydkvalitet"
+        android:defaultValue="auto"
+        android:summary="Standard er 96kbps og bruger ca. 45 MB data per time, mens høj kvalitet bruger ca. 90 MB/time"
+        android:entries="@array/lydkvalitet_tekst"
+        android:entryValues="@array/lydkvalitet_kode"/>
+    <ListPreference
+        android:key="lydformat"
+        android:title="Lydformat"
+        android:summary="Hvis du ikke kan få lyd så prøv at vælge MP3 (Shoutcast) her"
+        android:defaultValue="auto"
+        android:entries="@array/lydformat_tekst"
+        android:entryValues="@array/lydformat_kode"/>
+  </PreferenceCategory>
+
+
+  <PreferenceCategory android:title="Andet">
+
+    <PreferenceScreen android:title="Avanceret"
+                      android:summary="Hentning af udsendelser og strømbesparende funktioner.">
+
+
+      <PreferenceCategory android:title="Hentede udsendelser">
+        <ListPreference
+            android:key="placeringAfHentedeFiler"
+            android:title="Placering af hentede udsendelser"
+            android:dialogTitle="Gem udsendelser på"
+            android:summary="Vælg hvor på telefonen du vil gemme udsendelser til offline brug."
+            />
+
+        <CheckBoxPreference
+            android:key="hentKunOverWifi"
+            android:title="Hent kun på wifi"
+            android:defaultValue="false"
+            android:summaryOn="Udsendelser hentes kun over wifi fremover.\n(er en udsendelse i gang med at blive hentet skal du stoppe og genoptage hentning af den før det træder i kraft)"
+            android:summaryOff="Udsendelser hentes både over telefonnet (3G/4G) og wifi."/>
+
+      </PreferenceCategory>
+
+
+      <PreferenceCategory android:title="Strømforbrug">
+        <CheckBoxPreference
+            android:key="wifilås" android:title="Hold wifi tændt"
+            android:defaultValue="true"
+            android:summaryOn="Hold wifi tændt under afspilning. Hakker afspilningen så tjek telefonens generelle indstillinger til strømbesparelse."
+            android:summaryOff="Tillad enheden at skrue ned for wifi. Kan forårsage at afspilningen hakker."/>
+
+        <CheckBoxPreference
+            android:key="cpulås" android:title="Hold CPU tændt"
+            android:defaultValue="true"
+            android:summaryOn="Hold CPU aktiv under afspilning"
+            android:summaryOff="Tillad enheden at skrue ned for CPU. Kan forårsage at afspilningen hakker."/>
+
+      </PreferenceCategory>
+
+
+      <PreferenceCategory android:title="Kun til udviklere">
+
+
+        <CheckBoxPreference
+            android:key="udviklerEkstra" android:title="Udviklertilstand"
+            android:defaultValue="false"
+            android:summary="Vis ekstra muligheder til udvikling og fejlfinding"
+            />
+
+        <PreferenceScreen android:dependency="udviklerEkstra"
+                          android:summary="Vis ekstra muligheder til udvikling og fejlfinding"
+                          android:title="Til udvikling og fejlfinding">
+
+          <CheckBoxPreference
+              android:key="afspillerlyde" android:title="Afspillerlyde"
+              android:summaryOn="Afspil lyde, der fortæller når en afspilning starter og slutter"
+              />
+
+
+          <CheckBoxPreference
+              android:key="exoplayer" android:title="ExoPlayer"
+              android:summaryOn="Den nye ExoPlayer benyttes. Nogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
+              android:summaryOff="Den indbyggede MediaPlayer benyttes"/>
+
+          <!-- 	<EditTextPreference android:key="udviklerKontakt" android:title="Kontakt"
+              android:summary="Skriv din e-postadresse hvis du vil kunne kontaktes i forbindelse
+              med udvikling" android:defaultValue="" /> -->
+
+          <CheckBoxPreference
+              android:key="fejlsøgning" android:title="Fejlsøgning"
+              android:defaultValue="false" android:summaryOff=""
+              android:summaryOn="Sæt app i fejlsøgningstilstand (også efter genstart)"/>
+
+          <CheckBoxPreference
+              android:key="manuelStreamvalg"
+              android:title="Manuelt streamvalg"
+              android:defaultValue="false"
+              android:summary="Vælg manuelt mellem de tilgængelige streams"/>
+
+          <CheckBoxPreference
+              android:key="udsendelser_bladr"
+              android:title="Swipe mellem udsendelser"
+              android:defaultValue="true"
+              android:summary="Swipe for at bladre mellem udsendelser fra samme programserie"/>
+
+          <CheckBoxPreference
+              android:key="vispager_title_strip"
+              android:title="Titel på udsendelser"
+              android:defaultValue="false"
+              android:summary="Vis faneblade med titler for nemmere at bladre mellem udsendelser i en programserie"/>
+
+          <CheckBoxPreference
+              android:title="Rapportér statistik"
+              android:key="Rapportér statistik"
+              android:defaultValue="true"
+              android:summaryOn="Send statistik til DR, om hvad du lytter til. "
+              android:summaryOff="Indsamler ikke statisik. Rapportér venligst om det gør en forskel for dig. Du skal genstarte app'en (evt telefonen) og se meddelelse ved opstart før det er trådt i kraft."
+              />
+          <!--
+          Mener du at app'en tager for meget strøm kan du slå det fra og rapportere om det gør en forskel
+          -->
+        </PreferenceScreen>
+
+
+      </PreferenceCategory>
+
+    </PreferenceScreen>
+  </PreferenceCategory>
+
+</PreferenceScreen>

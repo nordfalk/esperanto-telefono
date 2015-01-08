@@ -17,12 +17,13 @@
  */
 package dk.dr.radio.util;
 
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Log;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import dk.nordfalk.esperanto.radio.Datumoj;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class Kontakt {
 
     String[] modtagere = null;
     try {
-      modtagere = jsonArrayTilArrayListString(Datumoj.instanco.ĉefdatumoj.json.getJSONArray("feedback_modtagere")).toArray(new String[0]);
+      modtagere = jsonArrayTilArrayListString(DRData.instanco.ĉefdatumoj.json.getJSONArray("feedback_modtagere")).toArray(new String[0]);
     } catch (Exception ex) {
       Log.e("JSONParsning af feedback_modtagere", ex);
       modtagere = new String[] { "jacob.nordfalk@gmail.com" };

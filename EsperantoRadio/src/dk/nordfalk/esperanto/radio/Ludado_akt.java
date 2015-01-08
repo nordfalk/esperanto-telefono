@@ -24,6 +24,7 @@ import com.google.ads.Ad;
 import com.google.ads.AdRequest.ErrorCode;
 import android.content.SharedPreferences;
 
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Kanal;
 
 import android.app.Activity;
@@ -91,7 +92,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class Ludado_akt extends Activity implements AfspillerListener {
-  private Datumoj datumoj;
+  private DRData datumoj;
   private ImageButton startStopButono;
   private ImageView aliaj_elsendoj_antaŭa;
   private ImageView aliaj_elsendoj_venonta;
@@ -127,7 +128,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     pretiguKontrolojn();
 
     try {
-      datumoj = Datumoj.instanco;
+      datumoj = DRData.instanco;
       datumoj.kontroluFonaFadenoStartis();
       ludado = datumoj.ludado;
     } catch (Exception ex) {
@@ -136,8 +137,8 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       return;
     }
 
-    registerReceiver(ĉefdatumojĜisdatigitajReciever, new IntentFilter(Datumoj.INTENT_novaj_ĉefdatumoj));
-    registerReceiver(elsendojĜisdatigitajReciever, new IntentFilter(Datumoj.INTENT_novaj_elsendoj));
+    registerReceiver(ĉefdatumojĜisdatigitajReciever, new IntentFilter(DRData.INTENT_novaj_ĉefdatumoj));
+    registerReceiver(elsendojĜisdatigitajReciever, new IntentFilter(DRData.INTENT_novaj_elsendoj));
 
     try {
       montruAktualanKanalon();
@@ -223,7 +224,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     public void run() {
       adView.setVisibility(View.INVISIBLE);
       if (montriReklamojn) adView.loadAd(adRequest);
-      Datumoj.instanco.handler.postDelayed(montriReklamon, 120000);
+      DRData.instanco.handler.postDelayed(montriReklamon, 120000);
     }
   };
 
@@ -273,7 +274,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       datumoj.setBaggrundsopdateringAktiv(true);
       if (adView != null) {
         adView.setVisibility(View.INVISIBLE);
-        Datumoj.instanco.handler.postDelayed(montriReklamon, 10000);
+        DRData.instanco.handler.postDelayed(montriReklamon, 10000);
       }
     } else {
       // Informer brugeren hvis vi er offline
@@ -292,7 +293,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
   @Override
   protected void onPause() {
     datumoj.setBaggrundsopdateringAktiv(false);
-    Datumoj.instanco.handler.removeCallbacks(montriReklamon);
+    DRData.instanco.handler.removeCallbacks(montriReklamon);
     super.onPause();
   }
 
@@ -465,7 +466,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       ludado.startiLudadon();
       montriStartStopButonon();
     } catch (Exception e) {
-      if (Datumoj.evoluiganto) App.videblaEraro(this, e);
+      if (DRData.evoluiganto) App.videblaEraro(this, e);
       else App.eraro(e);
     }
 
@@ -605,7 +606,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     ImageView aktuelKanalImageView = (ImageView) findViewById(R.id.player_select_channel_billede);
     TextView aktuelKanalTextView = (TextView) findViewById(R.id.player_select_channel_text);
 
-    Bitmap kanalo_emblemo = Datumoj.instanco.emblemoj.get(kanalo.emblemoUrl);
+    Bitmap kanalo_emblemo = DRData.instanco.emblemoj.get(kanalo.emblemoUrl);
     if (kanalo_emblemo == null) { //
       aktuelKanalTextView.setText(kanalo.nomo);
       aktuelKanalTextView.setVisibility(View.VISIBLE);
@@ -756,7 +757,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     //Log.d("onCreateOptionsMenu!!!");
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.ludado_menuo, menu);
-    if (Datumoj.evoluiganto) menu.add(0, 0, 0, "Kraŝi");
+    if (DRData.evoluiganto) menu.add(0, 0, 0, "Kraŝi");
     return true;
   }
 

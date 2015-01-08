@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+  <LinearLayout
+
+      android:layout_centerVertical="true"
+      android:id="@+id/yderstelayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/grå70"
+      android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/titel"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="P3 Live"
+          android:textAppearance="?android:attr/textAppearanceSmall"
+          android:textStyle="bold"
+          android:maxLines="2"
+          android:textColor="@color/hvid"/>
+
+      <TextView
+          android:id="@+id/metainformation"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textAppearance="?android:attr/textAppearanceSmall"
+          android:text="P3"
+          android:singleLine="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <ImageView
+          android:id="@+id/kanallogo"
+          android:layout_width="64dp"
+          android:layout_height="44dp"
+          android:scaleType="center"
+          android:contentDescription="D R"
+          android:src="@drawable/dr_logo"
+          android:visibility="visible"/>
+
+      <ImageView
+          android:id="@+id/billede"
+          android:layout_width="104dp"
+          android:layout_height="44dp"
+          android:scaleType="center"
+          android:src="@drawable/kanalappendix_kh4"
+          android:visibility="visible"/>
+
+      <TextView
+          android:id="@+id/kanalnavn"
+          android:layout_width="64dp"
+          android:layout_height="44dp"
+          android:text="DR P3"
+          android:textAppearance="?android:attr/textAppearanceLarge"
+          android:textColor="#505050"
+          android:visibility="gone">
+      </TextView>
+
+      <LinearLayout
+          android:id="@+id/progressBarRammer"
+          android:layout_width="44dp"
+          android:layout_marginLeft="25dp"
+          android:layout_height="44dp"
+          android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"/>
+      </LinearLayout>
+
+      <ImageView
+          android:id="@+id/startStopKnap"
+          android:layout_width="64dp"
+          android:layout_height="44dp"
+          android:paddingLeft="20dp"
+          android:scaleType="center"
+          android:contentDescription="start/stop"
+          android:src="@drawable/afspiller_spil"/>
+    </LinearLayout>
+  </LinearLayout>
+
+
+</RelativeLayout>

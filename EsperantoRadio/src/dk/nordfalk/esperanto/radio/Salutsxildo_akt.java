@@ -23,6 +23,8 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 
+import dk.dr.radio.data.DRData;
+
 public class Salutsxildo_akt extends Activity implements Runnable {
   /** Called when the activity is first created. */
   @Override
@@ -34,7 +36,7 @@ public class Salutsxildo_akt extends Activity implements Runnable {
     setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
     try {
-      Datumoj.instanco.kontroluFonaFadenoStartis();
+      DRData.instanco.kontroluFonaFadenoStartis();
 
 
       Handler handler = new Handler();

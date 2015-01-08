@@ -21,9 +21,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
+
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Log;
 import dk.nordfalk.esperanto.radio.App;
-import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 import dk.nordfalk.esperanto.radio.R;
 import java.lang.reflect.Method;
@@ -59,7 +60,7 @@ public class AService extends Service {
   @Override
   public void onCreate() {
 
-    if (Datumoj.evoluiganto) {
+    if (DRData.evoluiganto) {
       Toast.makeText(this, "AfspillerService onCreate", Toast.LENGTH_SHORT).show();
     }
     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -93,7 +94,7 @@ public class AService extends Service {
   }
 
   private void handleCommand(Intent intent) {
-    if (Datumoj.evoluiganto) {
+    if (DRData.evoluiganto) {
       Toast.makeText(this, "AfspillerService onStartCommand(" + intent, Toast.LENGTH_SHORT).show();
     }
     Log.d("AfspillerService handleCommand(" + intent);
@@ -135,7 +136,7 @@ public class AService extends Service {
 
   @Override
   public void onDestroy() {
-    if (Datumoj.evoluiganto) {
+    if (DRData.evoluiganto) {
       Toast.makeText(this, "AfspillerService onDestroy", Toast.LENGTH_SHORT).show();
     }
 

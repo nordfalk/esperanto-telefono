@@ -26,11 +26,12 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import dk.dr.radio.data.DRData;
 import dk.nordfalk.esperanto.radio.R;
 import dk.dr.radio.afspilning.AfspillerReciever;
 import dk.dr.radio.data.Log;
 import dk.nordfalk.esperanto.radio.App;
-import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.Ludado_akt;
 import java.util.Arrays;
 
@@ -90,7 +91,7 @@ public class AfspillerWidget extends AppWidgetProvider {
      int startStopKnapResId = R.drawable.widget_radio_play;
      */
 
-    Datumoj drData = Datumoj.instanco;
+    DRData drData = DRData.instanco;
     if (drData != null) {
       Resources res = ctx.getResources();
       String kanalkode = drData.aktualaKanalkodo;

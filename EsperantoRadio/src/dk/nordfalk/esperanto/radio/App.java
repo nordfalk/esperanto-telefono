@@ -20,6 +20,7 @@ import android.provider.Settings;
 import com.bugsense.trace.BugSenseHandler;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.FilCache;
 import dk.dr.radio.util.Kontakt;
 import dk.dr.radio.data.Log;
@@ -85,11 +86,11 @@ public class App extends Application {
 
       //evoluiganto = prefs.getBoolean("udvikler", false);
       FilCache.init(getCacheDir());
-      Datumoj.ŝarĝiInstancon();
+      DRData.ŝarĝiInstancon();
 
       App.tracker = GoogleAnalyticsTracker.getInstance();
       App.tracker.startNewSession("UA-29361423-1", App.app);
-      App.tracker.setProductVersion(App.appInfo.versionName, "" + Datumoj.instanco.ĉefdatumojID);
+      App.tracker.setProductVersion(App.appInfo.versionName, "" + DRData.instanco.ĉefdatumojID);
 
       if (App.uziAnalytics()) {
         App.tracker.trackPageView("starto:" + App.appInfo.versionName);

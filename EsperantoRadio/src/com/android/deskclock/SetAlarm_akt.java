@@ -36,8 +36,8 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Kanal;
-import dk.nordfalk.esperanto.radio.Datumoj;
 import dk.nordfalk.esperanto.radio.R;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class SetAlarm_akt extends PreferenceActivity implements Preference.OnPre
 
     ArrayList<String> kk = new ArrayList<String>();
     ArrayList<String> kn = new ArrayList<String>();
-    for (Kanal k : Datumoj.instanco.ĉefdatumoj.kanaler) {
+    for (Kanal k : DRData.instanco.ĉefdatumoj.kanaler) {
       kk.add(k.kodo);
       kn.add(k.nomo);
     }

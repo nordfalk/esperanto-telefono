@@ -512,13 +512,6 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         });
         aq.id(R.id.tekst).text("ExoPlayer DR2");
         */
-        tilføj(R.layout.venstremenu_elem_overskrift, ProgramserierAtilAA_frag.class);
-        aq.id(R.id.tekst).text("Alle udsendelser A-Å x");
-        aq.typeface(App.skrift_gibson_fed);
-
-        tilføj(R.layout.venstremenu_elem_overskrift, Radiodrama_frag_SLETTES.class);
-        aq.id(R.id.tekst).text("Radio drama x");
-        aq.typeface(App.skrift_gibson_fed);
 
       }
     }

@@ -1,9 +1,5 @@
 package dk.dr.radio.diverse;
 
-import android.content.Intent;
-
-import com.gemius.sdk.MobilePlugin;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeSet;
@@ -24,7 +20,6 @@ import dk.dr.radio.akt.Senest_lyttede_frag;
 import dk.dr.radio.akt.Soeg_efter_program_frag;
 import dk.dr.radio.akt.Udsendelse_frag;
 import dk.dr.radio.data.HentedeUdsendelser;
-import dk.dr.radio.v3.R;
 
 /**
  * Created by j on 28-11-14.
@@ -56,24 +51,13 @@ public class Sidevisning {
     m.put(Integer.class, KONTAKT_SKRIV); // bare en eller anden unik klasse - det er værdien der skal bruges
   }
   private final static HashSet<String> besøgt = new HashSet<String>();
-  private static Intent intent;
 
   public static void vist(String side, String slug) {
     // Gemius sidevisningsstatistik
     // appname=MyApp|version=1.0.0
     String data = "side=" + side + (slug == null ? "" : "|slug=" + slug);
     besøgt.add(side);
-    Log.d("sidevisning "+data);
-    if (intent==null) {
-      String nøgle = App.instans.getString(R.string.gemius_sidevisninsstatistik_nøgle);
-      if (nøgle.length()==0) return; // Nøgle til indrapportering mangler
-      if (!App.prefs.getBoolean("Rapportér statistik", true)) return; // statistikrapportering fravalgt
-      intent = new Intent(App.instans, MobilePlugin.class);
-      intent.putExtra(MobilePlugin.IDENTIFIER, nøgle);
-      intent.putExtra(MobilePlugin.SERVERPREFIX, "main");
-    }
-    intent.putExtra(MobilePlugin.EXTRAPARAMS, data);
-    App.instans.startService(intent);
+    Log.d("sidevisning " + data);
   }
 
   public static void vist(Class fk, String slug) {

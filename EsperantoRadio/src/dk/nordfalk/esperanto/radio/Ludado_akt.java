@@ -355,9 +355,6 @@ public class Ludado_akt extends Activity implements AfspillerListener {
         datumoj.aktualaElsendo = elsendo;
         montriAktualanElsendon();
         startiLudadonAŭTuneIn();
-        if (elsendo.elektoIgasLaGalerioMalaperi) {
-          aliaj_elsendoj_FrameLayout.startAnimation(galerioMalaperu);
-        }
       }
     });
     //aliaj_elsendoj_Gallery.setSpacing(25); // 25 punkter
@@ -409,7 +406,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     hejmpaĝoButono = (Button) findViewById(R.id.al_la_hejmpaĝo);
     hejmpaĝoButono.setOnClickListener(new OnClickListener() {
       public void onClick(View v) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(datumoj.aktualaKanalo.hejmpaĝoButono)));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(datumoj.aktualaKanalo.eo_hejmpaĝoButono)));
       }
     });
   }
@@ -460,7 +457,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     try {
       String url = datumoj.aktualaElsendo.sonoUrl;
 
-      ludado.setKanalon(datumoj.aktualaKanalo.nomo, url);
+      ludado.setKanalon(datumoj.aktualaKanalo.navn, url);
       //startStopButton.setImageResource(R.drawable.buffer_white);
       //visAktuelKanal();
       ludado.startiLudadon();
@@ -606,15 +603,15 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     ImageView aktuelKanalImageView = (ImageView) findViewById(R.id.player_select_channel_billede);
     TextView aktuelKanalTextView = (TextView) findViewById(R.id.player_select_channel_text);
 
-    Bitmap kanalo_emblemo = DRData.instanco.emblemoj.get(kanalo.emblemoUrl);
+    Bitmap kanalo_emblemo = DRData.instanco.emblemoj.get(kanalo.eo_emblemoUrl);
     if (kanalo_emblemo == null) { //
-      aktuelKanalTextView.setText(kanalo.nomo);
+      aktuelKanalTextView.setText(kanalo.navn);
       aktuelKanalTextView.setVisibility(View.VISIBLE);
       aktuelKanalImageView.setVisibility(View.GONE);
     } else if (kanalo_emblemo.getWidth() < kanalo_emblemo.getHeight() * 2) {
       // Emblemo kun teksto
       aktuelKanalTextView.setVisibility(View.VISIBLE);
-      aktuelKanalTextView.setText(kanalo.nomo);
+      aktuelKanalTextView.setText(kanalo.navn);
       aktuelKanalImageView.setVisibility(View.VISIBLE);
       aktuelKanalImageView.setImageBitmap(kanalo_emblemo);
     } else {
@@ -627,15 +624,15 @@ public class Ludado_akt extends Activity implements AfspillerListener {
     }
 
 
-    if (kanalo.hejmpaĝoButono == null) {
+    if (kanalo.eo_hejmpaĝoButono == null) {
       hejmpaĝoButono.setVisibility(View.GONE);
     } else {
       hejmpaĝoButono.setVisibility(View.VISIBLE);
-      hejmpaĝoButono.setText("Hejmpaĝo de " + kanalo.nomo);
+      hejmpaĝoButono.setText("Hejmpaĝo de " + kanalo.navn);
     }
 
     if (hejmpaĝoEkrane != null) {
-      if (kanalo.hejmpaĝoEkrane == null) {
+      if (kanalo.eo_hejmpaĝoEkrane == null) {
         hejmpaĝoEkrane.setVisibility(View.GONE);
         ludasNun_ScrollView_LayoutParams.weight = 1;
         ludasNun_ScrollView.invalidate();
@@ -660,7 +657,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
              Log.d("hejmpaĝo.findAll();");
              */
             hejmpaĝoEkrane.setWebChromeClient(null);
-            hejmpaĝoEkrane.loadUrl(kanalo.hejmpaĝoEkrane);
+            hejmpaĝoEkrane.loadUrl(kanalo.eo_hejmpaĝoEkrane);
           }
         });
         hejmpaĝoEkrane.loadData("&nbsp;", "text/html", "utf-8");
@@ -717,12 +714,12 @@ public class Ludado_akt extends Activity implements AfspillerListener {
       if (datumoj.rektaElsendaPriskribo == null) {
         ludasNunTextView.setText("Atendas informojn...");
       } else {
-        ludasNunTextView.setText(Html.fromHtml("Aktuale ludata ĉe " + kanal.nomo
+        ludasNunTextView.setText(Html.fromHtml("Aktuale ludata ĉe " + kanal.navn
             + " (" + utcTempoformato.format(new Date()) + " UTC)\n<br>\n<br>" + datumoj.rektaElsendaPriskribo.replaceAll("</br>", "<br/>")));
         ludasNunTextView.setMovementMethod(LinkMovementMethod.getInstance());
       }
     } else if (elsendo.startTidKl != null) {
-      if (kanal.json.optBoolean("uziWebViewPorElsendo") && hejmpaĝoEkrane != null) {
+      if (kanal.eo_json.optBoolean("uziWebViewPorElsendo") && hejmpaĝoEkrane != null) {
         ludasNun_ScrollView.setVisibility(View.GONE);
         try {
           // http://code.google.com/p/android/issues/detail?id=3552
@@ -735,14 +732,14 @@ public class Ludado_akt extends Activity implements AfspillerListener {
            hejmpaĝoEkrane.loadDataWithBaseURL(mesagxo, mesagxo, mesagxo, mesagxo, mesagxo);
            */
           hejmpaĝoEkrane.loadDataWithBaseURL("fake://not/needed",
-              "Elsendo de " + elsendo.startTidKl + " de " + kanal.nomo + "<br>\n"
+              "Elsendo de " + elsendo.startTidKl + " de " + kanal.navn + "<br>\n"
               + elsendo.beskrivelse, "text/html", "utf-8", "");
         } catch (Exception ex) {
           App.videblaEraro(this, ex);
         }
         hejmpaĝoEkrane.setVisibility(View.VISIBLE);
       } else {
-        ludasNunTextView.setText(Html.fromHtml("Elsendo de " + elsendo.startTidKl + " de " + kanal.nomo
+        ludasNunTextView.setText(Html.fromHtml("Elsendo de " + elsendo.startTidKl + " de " + kanal.navn
             + "\n<br>" + elsendo.beskrivelse));
         Linkify.addLinks(ludasNunTextView, Linkify.WEB_URLS);
       }
@@ -765,9 +762,9 @@ public class Ludado_akt extends Activity implements AfspillerListener {
   public boolean onPrepareOptionsMenu(Menu menu) {
     //Log.d("onPrepareOptionsMenu!!!");
     MenuItem i = menu.findItem(R.id.kontakti_kanalon); // menu.findItem(105);
-    if (datumoj.aktualaKanalo.retpoŝto != null) {
+    if (datumoj.aktualaKanalo.eo_retpoŝto != null) {
       i.setVisible(true);
-      i.setTitle("Skribi al " + datumoj.aktualaKanalo.nomo);
+      i.setTitle("Skribi al " + datumoj.aktualaKanalo.navn);
     } else {
       i.setVisible(false);
     }
@@ -809,7 +806,7 @@ public class Ludado_akt extends Activity implements AfspillerListener {
             + (datumoj.aktualaElsendo.titel != null ? "Mi aŭskultis vian elsendon '" + datumoj.aktualaElsendo.titel + "'." : "")
             + "\n\nPS. Se vi havas Androjdan telefonon elprovu la Esperanto-radion:\n"
             + "https://market.android.com/details?id=dk.nordfalk.esperanto.radio\n";
-        Kontakt.kontakt(this, new String[] { datumoj.aktualaKanalo.retpoŝto }, "Pri " + datumoj.aktualaKanalo.nomo, brødtekst, null);
+        Kontakt.kontakt(this, new String[] { datumoj.aktualaKanalo.eo_retpoŝto}, "Pri " + datumoj.aktualaKanalo.navn, brødtekst, null);
         break;
     }
     return true;

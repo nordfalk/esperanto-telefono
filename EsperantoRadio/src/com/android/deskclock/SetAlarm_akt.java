@@ -87,8 +87,8 @@ public class SetAlarm_akt extends PreferenceActivity implements Preference.OnPre
     ArrayList<String> kk = new ArrayList<String>();
     ArrayList<String> kn = new ArrayList<String>();
     for (Kanal k : DRData.instanco.ĉefdatumoj.kanaler) {
-      kk.add(k.kodo);
-      kn.add(k.nomo);
+      kk.add(k.kode);
+      kn.add(k.navn);
     }
     Log.i("kk=" + kk);
     Log.i("kn=" + kn);

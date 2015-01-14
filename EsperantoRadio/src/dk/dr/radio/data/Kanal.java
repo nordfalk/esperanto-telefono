@@ -21,22 +21,20 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 public class Kanal {
-  public String kodo;
-  public String nomo;
-  //public String rektaElsendaSonoUrl;
-  //public String rektaElsendaPriskriboUrl;
-  //public Bitmap emblemo;
-  public String hejmpaĝoEkrane;
-  public String hejmpaĝoButono;
-  public String retpoŝto;
-  public JSONObject json;
+  public String kode;
+  public String navn;
   public ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
-  public Udsendelse rektaElsendo;
-  public String emblemoUrl;
-  public String datumFonto;
+
+  public String eo_hejmpaĝoEkrane;
+  public String eo_hejmpaĝoButono;
+  public String eo_retpoŝto;
+  public JSONObject eo_json;
+  public Udsendelse eo_rektaElsendo;
+  public String eo_emblemoUrl;
+  public String eo_datumFonto;
 
   @Override
   public String toString() {
-    return kodo + "/" + nomo + "/" + udsendelser.size() + "\n";
+    return kode + "/" + navn + "/" + udsendelser.size() + "\n";
   }
 }

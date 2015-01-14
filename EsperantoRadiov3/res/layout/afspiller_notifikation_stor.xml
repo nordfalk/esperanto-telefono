@@ -35,7 +35,7 @@
             android:id="@+id/kanallogo"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
-            android:src="@drawable/kanalappendix_ab4"
+            android:src="@drawable/kanalappendix_ram"
             />
 
 

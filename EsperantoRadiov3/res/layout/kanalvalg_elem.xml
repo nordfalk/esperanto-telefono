@@ -28,7 +28,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="P4"
         android:layout_height="wrap_content"
-        android:src="@drawable/kanalappendix_p4f"/>
+        android:src="@drawable/kanalappendix_ram"/>
 
     <LinearLayout
         android:orientation="vertical"

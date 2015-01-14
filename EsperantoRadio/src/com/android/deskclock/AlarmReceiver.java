@@ -106,13 +106,13 @@ public class AlarmReceiver extends BroadcastReceiver {
       Kanal nyKanal = DRData.instanco.ĉefdatumoj.kanalFraKode.get(alarm.kanalo);
       if (nyKanal == null) {
         Log.wtf("Alarm: Kanal findes ikke!" + alarm.kanalo + " for alarmstr=" + data);
-        DRData.instanco.ŝanĝiKanalon(DRData.instanco.ĉefdatumoj.kanaler.get(0).kodo);
+        DRData.instanco.ŝanĝiKanalon(DRData.instanco.ĉefdatumoj.kanaler.get(0).kode);
       } else {
         DRData.instanco.ŝanĝiKanalon(alarm.kanalo);
       }
 
       Ludado ludado = DRData.instanco.ludado;
-      ludado.setKanalon(DRData.instanco.aktualaKanalo.nomo, DRData.instanco.aktualaElsendo.sonoUrl);
+      ludado.setKanalon(DRData.instanco.aktualaKanalo.navn, DRData.instanco.aktualaElsendo.sonoUrl);
       if (ludado.getAfspillerstatus() == Ludado.STATUSO_HALTIS) {
         ludado.startiLudadon();
       }

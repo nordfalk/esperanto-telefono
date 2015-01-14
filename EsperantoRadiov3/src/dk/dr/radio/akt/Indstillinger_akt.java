@@ -56,7 +56,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
     setContentView(R.layout.indstillinger_akt);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    toolbar.setLogo(R.drawable.dr_logo);
+    toolbar.setLogo(R.drawable.emblemo);
     toolbar.setTitle("Indstillinger");
     toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
     });
 
     App.prefs.edit().putBoolean("fejlsøgning", App.fejlsøgning);
-    addPreferencesFromResource(R.xml.indstillinger);
+    addPreferencesFromResource(R.xml.dr_indstillinger);
 
     // Find lydformat
     lydformatlp = (ListPreference) findPreference(Lydkilde.INDST_lydformat);

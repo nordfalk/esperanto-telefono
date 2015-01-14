@@ -273,7 +273,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     //Log.d("kanal JPER " + kanal.p4underkanal);
     if (kanal.p4underkanal) {
       //Log.d("kanal JPER1 " + kanal.slug.substring(0, 2));
-      aq.id(R.id.kanallogo).image(R.drawable.kanalappendix_p4f);
+      aq.id(R.id.kanallogo).image(R.drawable.kanalappendix_ram);
       aq.id(R.id.p4navn).text(kanal.navn.replace("P4", "")).typeface(App.skrift_gibson_fed);
     } else {
       aq.id(R.id.kanallogo).image(kanal.kanallogo_resid);

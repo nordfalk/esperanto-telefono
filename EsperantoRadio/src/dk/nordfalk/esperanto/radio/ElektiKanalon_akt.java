@@ -122,15 +122,15 @@ public class ElektiKanalon_akt extends ListActivity {
       String aldonaTeksto = kanalo.udsendelser.size() > 1 ? " (" + kanalo.udsendelser.size() + ")" : "";
       // tjek om der er et billede i 'drawable' med det navn filnavn
       //int id = res.getIdentifier("kanal_"+kanalkode.toLowerCase(), "drawable", getPackageName());
-      Bitmap kanalo_emblemo = DRData.instanco.emblemoj.get(kanalo.emblemoUrl);
+      Bitmap kanalo_emblemo = DRData.instanco.emblemoj.get(kanalo.eo_emblemoUrl);
       if (kanalo_emblemo != null) {
         // Element med billede
         billede.setVisibility(View.VISIBLE);
         billede.setImageBitmap(kanalo_emblemo);
-        billede.blindetekst = kanalo.nomo;
+        billede.blindetekst = kanalo.navn;
         if (kanalo_emblemo.getWidth() < kanalo_emblemo.getHeight() * 2) {
           // Emblemo kun teksto
-          textView.setText(kanalo.nomo + aldonaTeksto);
+          textView.setText(kanalo.navn + aldonaTeksto);
         } else {
           // Emblemo kiu enhavas la tekston - do ne montru gxin
           //textView.setText(aldonaTeksto);
@@ -142,7 +142,7 @@ public class ElektiKanalon_akt extends ListActivity {
       } else {
         // Element uden billede
         billede.setVisibility(View.GONE);
-        textView.setText(kanalo.nomo + aldonaTeksto);
+        textView.setText(kanalo.navn + aldonaTeksto);
       }
       textView.setVisibility(View.VISIBLE);
 
@@ -168,7 +168,7 @@ public class ElektiKanalon_akt extends ListActivity {
 
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    String kanalkode = DRData.instanco.ĉefdatumoj.kanaler.get(position).kodo;
+    String kanalkode = DRData.instanco.ĉefdatumoj.kanaler.get(position).kode;
 
 
     //Kanal kanal = drData.stamdata.kanalkodoAlKanalo.get(kanalkode);

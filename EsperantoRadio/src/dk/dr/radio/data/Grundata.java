@@ -35,7 +35,6 @@ public class Grundata {
 
   public JSONObject json;
   public List<Kanal> kanaler = new ArrayList<Kanal>();
-  public ArrayList<Udsendelse> elsendoj = new ArrayList<Udsendelse>();
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public HashMap<String, Kanal> kanalFraKode = new HashMap<String, Kanal>();
   public HashMap<String, Kanal> kanalFraNavn = new HashMap<String, Kanal>();
@@ -56,37 +55,35 @@ public class Grundata {
     for (int i = 0; i < antal; i++) {
       JSONObject kJs = kanalojJs.getJSONObject(i);
       Kanal k = new Kanal();
-      k.kodo = kJs.optString("kodo", null);
-      if (k.kodo==null) continue;
-      k.nomo = kJs.getString("nomo");
+      k.kode = kJs.optString("kodo", null);
+      if (k.kode ==null) continue;
+      k.navn = kJs.getString("nomo");
       String rektaElsendaSonoUrl = kJs.optString("rektaElsendaSonoUrl", null);
       String rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
-      k.hejmpaĝoEkrane = kJs.optString("hejmpaĝoEkrane", null);
-      k.hejmpaĝoButono = kJs.optString("hejmpaĝoButono", null);
-      k.retpoŝto = kJs.optString("retpoŝto", null);
-      k.emblemoUrl = kJs.optString("emblemoUrl", null);
-      k.json = kJs;
+      k.eo_hejmpaĝoEkrane = kJs.optString("hejmpaĝoEkrane", null);
+      k.eo_hejmpaĝoButono = kJs.optString("hejmpaĝoButono", null);
+      k.eo_retpoŝto = kJs.optString("retpoŝto", null);
+      k.eo_emblemoUrl = kJs.optString("emblemoUrl", null);
+      k.eo_json = kJs;
       kanaler.add(k);
 
       if (rektaElsendaSonoUrl != null) {
         Udsendelse el = new Udsendelse();
         el.startTid = new Date();
-        el.kanalSlug = k.nomo;
+        el.kanalSlug = k.navn;
         el.startTidKl = "REKTA";
         el.titel = "";
-        el.beskrivelse = "(tuŝu por kaŝi)";
-        el.elektoIgasLaGalerioMalaperi = true;
         el.sonoUrl = rektaElsendaSonoUrl;
         el.rektaElsendaPriskriboUrl = rektaElsendaPriskriboUrl;
-        k.rektaElsendo = el;
+        k.eo_rektaElsendo = el;
         k.udsendelser.add(el);
       }
     }
 
 
     for (Kanal k : kanaler) {
-      kanalFraKode.put(k.kodo, k);
-      kanalFraNavn.put(k.nomo, k);
+      kanalFraKode.put(k.kode, k);
+      kanalFraNavn.put(k.navn, k);
     }
   }
 
@@ -115,7 +112,6 @@ public class Grundata {
           e.startTid = datoformato.parse(x[1]);
           e.sonoUrl = x[2];
           e.beskrivelse = x[3];
-          elsendoj.add(e);
 
           Kanal k = kanalFraNavn.get(e.kanalSlug);
           // Jen problemo. "Esperanta Retradio" nomiĝas "Peranto" en
@@ -125,20 +121,20 @@ public class Grundata {
 
           if (k == null) {
             k = kanalFraKode.get(e.kanalSlug.toLowerCase());
-            if (k != null) e.kanalSlug = k.nomo;
+            if (k != null) e.kanalSlug = k.navn;
           }
 
           if (k == null) {
             Log.d("Nekonata kanalnomo - ALDONAS GXIN: " + e.kanalSlug);
             k = new Kanal();
-            k.json = new JSONObject();
-            k.kodo = k.nomo = e.kanalSlug;
-            k.datumFonto = "aldonita de radio.txt";
-            kanalFraKode.put(k.kodo, k);
-            kanalFraNavn.put(k.nomo, k);
+            k.eo_json = new JSONObject();
+            k.kode = k.navn = e.kanalSlug;
+            k.eo_datumFonto = "aldonita de radio.txt";
+            kanalFraKode.put(k.kode, k);
+            kanalFraNavn.put(k.navn, k);
             kanaler.add(k);
-          } else if (k.datumFonto==null) {
-            k.datumFonto = "radio.txt";
+          } else if (k.eo_datumFonto ==null) {
+            k.eo_datumFonto = "radio.txt";
           }
           //Log.d("Aldonas elsendon "+e.toString());
           k.udsendelser.add(e);
@@ -156,8 +152,8 @@ public class Grundata {
    */
   public void ŝarĝiElsendojnDeRss(boolean nurLokajn) {
     for (Kanal k : kanaler) {
-      ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl", null), k, nurLokajn);
-      ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl1", null), k, nurLokajn);
+      ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl", null), k, nurLokajn);
+      ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl1", null), k, nurLokajn);
       //ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl2", null), k, nurLokajn);
     }
   }
@@ -165,21 +161,21 @@ public class Grundata {
   public void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
     if (elsendojRssUrl != null) {
       try {
-        Log.d("============ parsas RSS de "+k.kodo+" =============");
+        Log.d("============ parsas RSS de "+k.kode +" =============");
         String dosiero = FilCache.akiriDosieron(elsendojRssUrl, false, nurLokajn);
         Log.d(" akiris " + elsendojRssUrl);
         if (dosiero == null) return;
         ArrayList<Udsendelse> elsendoj;
-        if ("vinilkosmo".equals(k.kodo)) {
+        if ("vinilkosmo".equals(k.kode)) {
           elsendoj = RssParsado.parsiElsendojnDeRssVinilkosmo(new FileInputStream(dosiero));
         } else {
           elsendoj = RssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
         }
-        if (k.json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Udsendelse e : elsendoj) e.titel = null;
+        if (k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Udsendelse e : elsendoj) e.titel = null;
         if (elsendoj.size() > 0) {
-          if (k.rektaElsendo != null) elsendoj.add(k.rektaElsendo);
+          if (k.eo_rektaElsendo != null) elsendoj.add(k.eo_rektaElsendo);
           k.udsendelser = elsendoj;
-          k.datumFonto = "rss";
+          k.eo_datumFonto = "rss";
         }
         Log.d(" parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
       }catch (Exception ex) {
@@ -192,14 +188,14 @@ public class Grundata {
     for (Iterator<Kanal> ki =this.kanaler.iterator(); ki.hasNext(); ) {
       Kanal k = ki.next();
       if (k.udsendelser.isEmpty()) {
-        Log.d("============ FORPRENAS "+k.kodo+", ĉar ĝi ne havas elsendojn! "+k.datumFonto);
+        Log.d("============ FORPRENAS "+k.kode +", ĉar ĝi ne havas elsendojn! "+k.eo_datumFonto);
       }
     }
   }
 
   public void rezumo() {
     for (Kanal k : this.kanaler) {
-      Log.d("============ "+k.kodo+" ============= "+k.udsendelser.size()+" "+k.datumFonto);
+      Log.d("============ "+k.kode +" ============= "+k.udsendelser.size()+" "+k.eo_datumFonto);
       int n = 0;
       for (Udsendelse e : k.udsendelser) {
         Log.d(n++ +" "+ e.startTidKl +" "+e.titel +" "+e.sonoUrl+" "+e.beskrivelse);

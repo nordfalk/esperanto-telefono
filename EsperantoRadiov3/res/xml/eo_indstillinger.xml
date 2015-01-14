@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<CheckBoxPreference android:key="tujLudi"
+		android:title="Tuj ludi"
+		android:defaultValue="true"
+		android:summary="Tuj ludi kiam la programo malfermiĝas" />
+
+	<CheckBoxPreference android:key="wifilås" android:title="Tenu wifi tutrapida"
+		android:defaultValue="true" android:summaryOn="Ne permesu la sendatan konekton ripozi (uzas pli da baterio)"
+		android:summaryOff="Permesu la sendatan konekton ripozi. Povas igi la ludadon neregula." />
+
+	<CheckBoxPreference android:key="holdSkærmTændt"
+		android:title="Ekrano restu enŝaltita"
+		android:defaultValue="false"
+		android:summary="Se la ludado estas neregula kiam la ekrano malŝaltiĝas vi krucumu ĉi tie (uzas pli da baterio). Necesa por XPeria Play." />
+<!--
+	<PreferenceScreen android:key="subteni" android:title="@string/AppRater_subteni">
+	-->
+		<CheckBoxPreference android:key="montri_reklamojn" android:title="Subteni per reklamoj"
+			android:summary="Kiam vi klakas sur reklamo vi subtenas la programon. Post klako la reklamoj malaperos."
+			android:defaultValue="false"
+		 />
+<!--
+		<PreferenceScreen android:key="donaci" android:title="@string/donaci"
+			android:summary="Donaci monon por havi pli da Esperanto-programoj"
+		/>
+  </PreferenceScreen>
+-->
+
+	<CheckBoxPreference android:key="analytics" android:title="Registru statistikon"
+		android:defaultValue="true"
+    android:summary="Anonime informu la kreinto de la programo kiom la programo estas uzata, por ludi kion, kiom longe" />
+
+<!--
+	<CheckBoxPreference android:key="udvikler" android:title="Evoluiganto"
+		android:defaultValue="false" android:summaryOff=""
+    android:summaryOn="Por la evoluanto kaj por serĉi erarojn. Restarto de la programo necesas post ŝanĝo." />
+    -->
+
+
+	<CheckBoxPreference android:key="uzu_tunein" android:title="TuneIn por rektaj elsendoj"
+		android:defaultValue="false"
+    android:summary="Se vi ne povas ludi la rektan elsendon de Muzaiko tio ĉi povas helpi vin aktivigi 'TuneIn' kiu certe kapablas ludi ĝin." />
+
+
+</PreferenceScreen>

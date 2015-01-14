@@ -33,8 +33,6 @@ public class Udsendelse {
   public String titel;
   public String ligilo;
   public String billedeUrl;
-  /** Por Muzaiko la elsenda galerio malaperu se oni elektas la rektan elsendon */
-  public boolean elektoIgasLaGalerioMalaperi;
 
   public String toString() {
     return kanalSlug + startTid + (beskrivelse.length() > 30 ? beskrivelse.substring(0, 15) + "..." : beskrivelse);

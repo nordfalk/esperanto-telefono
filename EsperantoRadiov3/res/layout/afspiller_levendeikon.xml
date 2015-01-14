@@ -9,17 +9,7 @@
               android:background="@color/grå70">
 
 
-  <LinearLayout android:orientation="vertical"
-                android:gravity="center"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="D R"
-        android:src="@drawable/dr_logo"
-        />
     <ImageView
         android:layout_width="60dp"
         android:layout_height="44dp"
@@ -31,7 +21,6 @@
         android:src="@drawable/afspiller_spil"
         />
 
-  </LinearLayout>
 
 
 
@@ -51,16 +40,8 @@
             android:id="@+id/kanallogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/kanalappendix_ab4"
+            android:src="@drawable/kanalappendix_ram"
             />
-      <TextView
-          android:id="@+id/direktetekst"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text=" LIVE"
-          android:singleLine="true"
-          tools:ignore="HardcodedText"
-          android:textColor="@color/grå40"/>
       </LinearLayout>
 
       <TextView
@@ -89,6 +70,12 @@
         android:layout_height="wrap_content"
         />
     </LinearLayout>
-  </LinearLayout>
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/emblemo"
+      />
+
+</LinearLayout>
 
 

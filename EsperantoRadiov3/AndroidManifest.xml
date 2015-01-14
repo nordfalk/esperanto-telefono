@@ -31,8 +31,8 @@ android:versionName="3.2 21.dec småting 143"
   <application
       android:allowBackup="true"
       android:name="dk.dr.radio.diverse.App"
-      android:icon="@drawable/ic_launcher_beta"
-      android:logo="@drawable/dr_logo"
+      android:icon="@drawable/emblemo"
+      android:logo="@drawable/emblemo"
       android:label="DR Radio beta"
       android:theme="@style/Theme.Dr"
       >
@@ -110,7 +110,7 @@ android:versionName="3.2 21.dec småting 143"
       </intent-filter>
       <meta-data
           android:name="android.appwidget.provider"
-          android:resource="@xml/afspiller_widgetinfo"/>
+          android:resource="@xml/dr_afspiller_widgetinfo"/>
     </receiver>
 
 

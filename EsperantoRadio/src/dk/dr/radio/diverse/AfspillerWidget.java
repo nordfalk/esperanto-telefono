@@ -108,7 +108,7 @@ public class AfspillerWidget extends AppWidgetProvider {
         // Element uden billede
         updateViews.setViewVisibility(R.id.kanalnavn, View.VISIBLE);
         updateViews.setViewVisibility(R.id.billede, View.GONE);
-        updateViews.setTextViewText(R.id.kanalnavn, drData.aktualaKanalo.nomo);
+        updateViews.setTextViewText(R.id.kanalnavn, drData.aktualaKanalo.navn);
       }
 
 

@@ -114,7 +114,7 @@ public class DRData {
 
 
     instanco.ludado = new Ludado();
-    instanco.ludado.setKanalon(instanco.aktualaKanalo.nomo, instanco.aktualaElsendo.sonoUrl);
+    instanco.ludado.setKanalon(instanco.aktualaKanalo.navn, instanco.aktualaElsendo.sonoUrl);
     //if (evoluiganto) Debug.stopMethodTracing();
     Log.d((System.currentTimeMillis() - komenco) + " finis ŝargadon");
 
@@ -149,7 +149,7 @@ public class DRData {
 
     if (aktualaKanalo == null || aktualaKanalo.udsendelser.size() == 0) { // Ne devus okazi, sed tamen okazas se oni neniam ajn elektis kanalon
       aktualaKanalo = ĉefdatumoj.kanaler.get(0);
-      aktualaKanalkodo = aktualaKanalo.kodo;
+      aktualaKanalkodo = aktualaKanalo.kode;
     }
     // Ĉiam elektu la plej lastan elsendon
     aktualaElsendo = aktualaKanalo.udsendelser.get(aktualaKanalo.udsendelser.size() - 1);
@@ -278,8 +278,8 @@ public class DRData {
     boolean ioEstisSxargxita = false;
     for (Kanal k : ĉefdatumoj.kanaler) {
 
-      if (k.emblemoUrl != null && emblemoj.get(k.emblemoUrl) == null) try {
-          String dosiero = FilCache.akiriDosieron(k.emblemoUrl, true, nurLokajn);
+      if (k.eo_emblemoUrl != null && emblemoj.get(k.eo_emblemoUrl) == null) try {
+          String dosiero = FilCache.akiriDosieron(k.eo_emblemoUrl, true, nurLokajn);
           if (dosiero == null) continue;
           /*
            int kiomDaDpAlta = 50; // 50 dp
@@ -291,7 +291,7 @@ public class DRData {
           Bitmap res = BitmapFactory.decodeFile(dosiero);
 
           if (res != null) ioEstisSxargxita = true;
-          emblemoj.put(k.emblemoUrl, res);
+          emblemoj.put(k.eo_emblemoUrl, res);
         } catch (Exception ex) {
           Log.e(ex);
         }

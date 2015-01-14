@@ -44,7 +44,7 @@ public class Basisaktivitet extends ActionBarActivity {
     super.setContentView(layoutResID);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     if (toolbar!=null) {
-      toolbar.setLogo(R.drawable.dr_logo);
+      toolbar.setLogo(R.drawable.emblemo);
       setSupportActionBar(toolbar);
       ActionBar ab = getSupportActionBar();
       ab.setDisplayShowTitleEnabled(false);

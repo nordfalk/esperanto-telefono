@@ -57,8 +57,6 @@ public class DRData {
   public SenestLyttede senestLyttede = new SenestLyttede();
   public Favoritter favoritter = new Favoritter();
   public HentedeUdsendelser hentedeUdsendelser = new HentedeUdsendelser();  // Understøttes ikke på Android 2.2
-  public ProgramserierAtilAA programserierAtilÅ = new ProgramserierAtilAA();
-  public DramaOgBog dramaOgBog = new DramaOgBog();
     /*
      * Kald
 		 * http://www.dr.dk/tjenester/mu-apps/search/programs?q=monte&type=radio

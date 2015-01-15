@@ -46,7 +46,6 @@ import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.HentedeUdsendelser;
-import dk.dr.radio.data.Indslaglisteelement;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydstream;
 import dk.dr.radio.data.Playlisteelement;
@@ -88,7 +87,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
             if (json != null && !"null".equals(json)) {
               JSONObject o = new JSONObject(json);
               udsendelse.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-              udsendelse.indslag = DRJson.parsIndslag(o.optJSONArray(DRJson.Chapters.name()));
               udsendelse.kanStreames = udsendelse.findBedsteStreams(false).size() > 0;
               udsendelse.kanHentes = udsendelse.findBedsteStreams(true).size() > 0;
               udsendelse.kanNokHøres = udsendelse.kanStreames;
@@ -510,28 +508,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     if (visInfo) {
       liste.add(OVERSKRIFT_PLAYLISTE_INFO);
       liste.add(INFOTEKST);
-    } else {
-      if (udsendelse.indslag != null && udsendelse.indslag.size() > 0) {
-        liste.add(OVERSKRIFT_INDSLAG_INFO);
-        liste.addAll(udsendelse.indslag);
-      } else if (udsendelse.playliste != null && udsendelse.playliste.size() > 0) {
-        liste.add(OVERSKRIFT_PLAYLISTE_INFO);
-        if (aktuelUdsendelsePåKanalen()) playlisteElemDerSpillerNu = udsendelse.playliste.get(0);
-        if (visHelePlaylisten) {
-          liste.addAll(udsendelse.playliste);
-        } else {
-          for (int i = 0; i < udsendelse.playliste.size(); i++) {
-            Playlisteelement e = udsendelse.playliste.get(i);
-            liste.add(e);
-            if (i >= 4) {
-              liste.add(VIS_HELE_PLAYLISTEN_KNAP);
-              break;
-            }
-          }
-        }
-      } else {
-        liste.add(INFOTEKST);
-      }
     }
     if (!blokerVidereNavigering) liste.add(ALLE_UDSENDELSER);
     adapter.notifyDataSetChanged();
@@ -585,7 +561,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     public int getItemViewType(int position) {
       Object obj = liste.get(position);
       if (obj instanceof Integer) return (Integer) obj;
-      if (obj instanceof Indslaglisteelement) return INDSLAGLISTEELEM;
       // Så må det være et playlisteelement
       Playlisteelement pl = (Playlisteelement) obj;
       return pl == playlisteElemDerSpillerNu ? PLAYLISTEELEM_NU : PLAYLISTEELEM;
@@ -677,12 +652,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
           boolean topseparator = (adapter.getItemViewType(position - 1) == PLAYLISTEELEM_NU);
           vh.aq.id(R.id.stiplet_linje).visibility(topseparator?View.INVISIBLE:View.VISIBLE);
         }
-        aq.id(R.id.hør).visibility(udsendelse.kanNokHøres && ple.offsetMs >= 0 ? View.VISIBLE : View.GONE);
-      } else if (type == INDSLAGLISTEELEM) {
-        Indslaglisteelement ple = (Indslaglisteelement) liste.get(position);
-        vh.titel.setText(ple.titel);
-        aq.id(R.id.beskrivelse).text(ple.beskrivelse);
-        // v.setBackgroundResource(R.drawable.elem_hvid_bg);
         aq.id(R.id.hør).visibility(udsendelse.kanNokHøres && ple.offsetMs >= 0 ? View.VISIBLE : View.GONE);
       } else if (type == OVERSKRIFT_PLAYLISTE_INFO || type == OVERSKRIFT_INDSLAG_INFO) {
         aq.id(R.id.playliste).background(visInfo ? R.drawable.knap_graa40_bg : R.drawable.knap_sort_bg);
@@ -858,26 +827,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
       playlisteElemDerSpillerNuIndex = udsendelse.playliste.indexOf(pl);
       adapter.notifyDataSetChanged();
       Log.registrérTestet("Valg af playlisteelement", "ja");
-    } else if (type == INDSLAGLISTEELEM) {
-      if (!udsendelse.streamsKlar()) return;
-      final Indslaglisteelement pl = (Indslaglisteelement) liste.get(position);
-      if (udsendelse.equals(afspiller.getLydkilde()) && afspiller.getAfspillerstatus() == Status.SPILLER) {
-        afspiller.seekTo(pl.offsetMs);
-      } else {
-        afspiller.setLydkilde(udsendelse);
-        afspiller.startAfspilning();
-        afspiller.observatører.add(new Runnable() {
-          @Override
-          public void run() {
-            if (afspiller.getLydkilde() == udsendelse) {
-              if (afspiller.getAfspillerstatus() != Status.SPILLER) return;
-              afspiller.seekTo(pl.offsetMs);
-            }
-            afspiller.observatører.remove(this); // afregistrér
-          }
-        });
-      }
-      Log.registrérTestet("Valg af indslag", "ja");
     } else if (type == ALLE_UDSENDELSER) {
 
       Fragment f = new Programserie_frag();

@@ -426,15 +426,6 @@ public class Venstremenu_frag extends Fragment implements Runnable {
       }
 
 
-      tilføj(R.layout.venstremenu_elem_overskrift, DramaOgBog_frag.class);
-      aq.id(R.id.tekst).text("Drama & Bog").typeface(App.skrift_gibson_fed);
-
-
-//      tilføj(R.layout.venstremenu_elem_adskiller_tynd);
-
-      tilføj(R.layout.venstremenu_elem_overskrift, AlleUdsendelserAtilAA_frag.class);
-      aq.id(R.id.tekst).text("Alle udsendelser A-Å").typeface(App.skrift_gibson_fed);
-
 
       tilføj(new MenuElement(layoutInflater.inflate(R.layout.venstremenu_elem_favoritprogrammer, null),
           new Runnable() {
@@ -475,10 +466,6 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         }
       });
       aq.id(R.id.tekst).text("Indstillinger").typeface(App.skrift_gibson_fed);
-
-      tilføj(R.layout.venstremenu_elem_overskrift, P4kanalvalg_frag.class);
-      aq.id(R.id.tekst).text("Vælg P4-område").typeface(App.skrift_gibson_fed);
-
 
 
       if (!App.PRODUKTION) {

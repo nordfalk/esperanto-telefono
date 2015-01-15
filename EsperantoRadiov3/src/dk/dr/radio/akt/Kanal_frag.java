@@ -581,17 +581,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
   @Override
   public void onClick(View v) {
-    if (v.getId() == R.id.p4_skift_distrikt) {
-      rod.findViewById(R.id.p4_vi_gætter_på_dialog).setVisibility(View.GONE);
-      getActivity().getSupportFragmentManager().beginTransaction()
-          .replace(R.id.indhold_frag, new P4kanalvalg_frag())
-          .commit();
-      Sidevisning.vist(P4kanalvalg_frag.class);
-
-    } else if (v.getId() == R.id.p4_ok) {
-      rod.findViewById(R.id.p4_vi_gætter_på_dialog).setVisibility(View.GONE);
-      App.prefs.edit().putString(App.P4_FORETRUKKEN_AF_BRUGER, kanal.kode).commit();
-    } else if (kanal.streams == null) {
+    if (kanal.streams == null) {
       Log.rapporterOgvisFejl(getActivity(), new IllegalStateException("kanal.streams er null"));
     } else if (v.getId() == R.id.rulTilAktuelUdsendelse) {
       rulBlødtTilAktuelUdsendelse();

@@ -281,34 +281,6 @@ public enum DRJson {
   }
 
 
-  /*
-  http://www.dr.dk/tjenester/mu-apps/program/p2-koncerten-616 eller
-  http://www.dr.dk/tjenester/mu-apps/program?includeStreams=true&urn=urn:dr:mu:programcard:53813014a11f9d16e00f9691
-Chapters: [
-{
-Title: "Introduktion til koncerten",
-Description: "P2s Svend Rastrup Andersen klæder dig på til aftenens koncert. Mød også fløjtenisten i Montreal Symfonikerne Tim Hutchins, og hør ham fortælle om orkestrets chefdirigenter, Kent Nagano (nuværende) og Charles Dutoit.",
-OffsetMs: 0
-},
-{
-Title: "Wagner: Forspil til Parsifal",
-Description: "Parsifal udspiller sig i et univers af gralsriddere og gralsvogtere , der vogter over den hellige gral.",
-OffsetMs: 1096360
-},
-   */
-  public static ArrayList<Indslaglisteelement> parsIndslag(JSONArray jsonArray) throws JSONException, ParseException {
-    ArrayList<Indslaglisteelement> liste = new ArrayList<Indslaglisteelement>();
-    if (jsonArray == null) return liste;
-    for (int n = 0; n < jsonArray.length(); n++) {
-      JSONObject o = jsonArray.getJSONObject(n);
-      Indslaglisteelement u = new Indslaglisteelement();
-      u.titel = o.getString(DRJson.Title.name());
-      u.beskrivelse = o.getString(DRJson.Description.name());
-      u.offsetMs = o.optInt(DRJson.OffsetMs.name(), -1);
-      liste.add(u);
-    }
-    return liste;
-  }
 
   /*
   Programserie

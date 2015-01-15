@@ -382,18 +382,6 @@ public class App extends Application {
         }
       }
 
-      // Forsøg at indlæse Drama&Bog og alle kanaler A-Å én gang ved opstart
-      // Der er givetvis en del der sjældent bruger disse funktioner,
-      // og hvis telefonen tror den er online men man ikke kan få forbindelse,
-      // kan der komme rigtig mange store anomdninger i kø
-      //  - det gøres kun én gang, hvilket skulle dække de fleste scenarier
-      // TODO den rigtige løsning burde være at svarene for Drama&Bog og A-Å bliver hængende i cachen, tjekket her burde være om de er i cachen eller ej
-      if (færdig && !prefs.getBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, false)) {
-        prefs.edit().putBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, true);
-        færdig = false;
-        DRData.instans.dramaOgBog.startHentData();
-        DRData.instans.programserierAtilÅ.startHentData();
-      }
       if (færdig) {
         netværk.observatører.remove(this); // Hold ikke mere øje med om vi kommer online
         onlineinitialisering = null;

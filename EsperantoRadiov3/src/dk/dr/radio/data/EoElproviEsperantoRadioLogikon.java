@@ -31,8 +31,8 @@ public class EoElproviEsperantoRadioLogikon {
         "../EsperantoRadiov3/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
     EoGrundata ĉefdatumoj2 = new EoGrundata();
     ĉefdatumoj2.parseFællesGrunddata(ĉefdatumoj2Str);
-    String elsendojStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(ĉefdatumoj2.elsendojUrl, true)));
-    ĉefdatumoj2.leguElsendojn(elsendojStr);
+    String radioTxtStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(ĉefdatumoj2.radioTxtUrl, true)));
+    ĉefdatumoj2.leguRadioTxt(radioTxtStr);
     ĉefdatumoj2.ŝarĝiElsendojnDeRss(true);
     //ĉefdatumoj2.ŝarĝiElsendojnDeRssUrl("http://radioverda.squarespace.com/storage/audio/radioverda.xml",
     //ĉefdatumoj2.ŝarĝiElsendojnDeRssUrl("http://radioverda.squarespace.com/programoj/rss.xml",

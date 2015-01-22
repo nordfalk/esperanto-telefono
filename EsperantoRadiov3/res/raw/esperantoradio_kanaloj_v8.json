@@ -91,17 +91,6 @@
 			"uziWebViewPorElsendo": true,
 			"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
 		}
-		,{
-			"kodo": "krokoloko",
-			"nomo": "Krokoloko",
-//			"sonoUrl": "http://esperanto-radio.com/krokolokonun",
-			"emblemoUrl": "",
-			"elsendojRssUrl": "http://feeds.feedburner.com/krokoloko/sZRZ",
-			"uziWebViewPorElsendo": true,
-			"retpoŝto": "podkasto@krokoloko.cl",
-//			"hejmpaĝoEkrane": "http://www.krokoloko.cl/",
-			"hejmpaĝoButono": "http://www.krokoloko.cl/"
-		}
 	],
 //,
 
@@ -145,6 +134,17 @@
 			"retpoŝto": "verdastacio@gmail.com",
 			"hejmpaĝoEkrane": "http://m.verdastacio.eu/eo/",
 			"hejmpaĝoButono": "http://www.verdastacio.net"
+		}
+		,{
+			"kodo": "krokoloko",
+			"nomo": "Krokoloko",
+//			"sonoUrl": "http://esperanto-radio.com/krokolokonun",
+			"emblemoUrl": "",
+			"elsendojRssUrl": "http://feeds.feedburner.com/krokoloko/sZRZ",
+			"uziWebViewPorElsendo": true,
+			"retpoŝto": "podkasto@krokoloko.cl",
+//			"hejmpaĝoEkrane": "http://www.krokoloko.cl/",
+			"hejmpaĝoButono": "http://www.krokoloko.cl/"
 		}
   ],
 

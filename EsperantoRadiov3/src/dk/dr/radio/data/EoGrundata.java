@@ -43,7 +43,7 @@ public class EoGrundata {
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public HashMap<String, Kanal> kanalFraKode = new HashMap<String, Kanal>();
   public HashMap<String, Kanal> kanalFraNavn = new HashMap<String, Kanal>();
-  public String elsendojUrl = "http://esperanto-radio.com/radio.txt";
+  public String radioTxtUrl = "http://esperanto-radio.com/radio.txt";
 
   /**
    * Liste over de kanaloj der vises 'Spiller lige nu' med info om musiknummer på skærmen
@@ -56,7 +56,7 @@ public class EoGrundata {
     json = new JSONObject(ĉefdatumojJson);
 
     // Erstat med evt ny værdi
-    elsendojUrl = json.optString("elsendojUrl", elsendojUrl);
+    radioTxtUrl = json.optString("elsendojUrl", radioTxtUrl);
 
     JSONArray kanalojJs = json.getJSONArray("kanaloj");
     int antal = kanalojJs.length();
@@ -84,7 +84,7 @@ public class EoGrundata {
         el.sonoUrl = rektaElsendaSonoUrl;
         el.rektaElsendaPriskriboUrl = rektaElsendaPriskriboUrl;
         k.eo_rektaElsendo = el;
-        k.udsendelser.add(el);
+        //k.udsendelser.add(el);
       }
     }
 
@@ -95,7 +95,7 @@ public class EoGrundata {
     }
   }
 
-  public void leguElsendojn(String radioTxt) {
+  public void leguRadioTxt(String radioTxt) {
     String kapo = null;
     for (String unuo : radioTxt.split("\n\r?\n")) {
       unuo = unuo.trim();
@@ -167,7 +167,7 @@ public class EoGrundata {
   }
 
   public void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
-    if (elsendojRssUrl != null) {
+    if (elsendojRssUrl== null) return;
       try {
         Log.d("============ parsas RSS de "+k.kode +" =============");
         String dosiero = FilCache.hentFil(elsendojRssUrl, nurLokajn);
@@ -186,10 +186,9 @@ public class EoGrundata {
           k.eo_datumFonto = "rss";
         }
         Log.d(" parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
-      }catch (Exception ex) {
+     } catch (Exception ex) {
        Log.e("Eraro parsante " + elsendojRssUrl, ex);
      }
-    }
   }
 
   public void forprenuMalplenajnKanalojn() {

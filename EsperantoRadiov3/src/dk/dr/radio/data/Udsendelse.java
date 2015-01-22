@@ -39,6 +39,12 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse> {
   //public transient int startposition;// hvis der allerede er lyttet til denne senestLyttet så notér det her så afspilning kan fortsætte herfra
   public int episodeIProgramserie;
 
+  //// EO
+  public String sonoUrl;
+  public String rektaElsendaPriskriboUrl;
+  public String ligilo;
+  //// EO
+
   public Udsendelse(String s) {
     titel = s;
   }
@@ -46,11 +52,15 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse> {
   public Udsendelse() {
   }
 
+  public String toString() {
+    return kanalSlug + startTid + (beskrivelse.length() > 30 ? beskrivelse.substring(0, 15) + "..." : beskrivelse);
+  }
+/*
   @Override
   public String toString() {
     return slug + "/" + episodeIProgramserie;//startTid + "/" + slutTid;
   }
-
+*/
 
   @Override
   public String getStreamsUrl() {

@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.Log;
 
@@ -167,7 +168,7 @@ public class Grundata {
     if (elsendojRssUrl != null) {
       try {
         Log.d("============ parsas RSS de "+k.kode +" =============");
-        String dosiero = FilCache.hentFil(elsendojRssUrl, false);
+        String dosiero = FilCache.hentFil(elsendojRssUrl, nurLokajn);
         Log.d(" akiris " + elsendojRssUrl);
         if (dosiero == null) return;
         ArrayList<Udsendelse> elsendoj;

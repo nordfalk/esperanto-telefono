@@ -29,17 +29,23 @@ public class ElproviEsperantoRadioLogikon {
     FilCache.init(new File("datumoj"));
     //String ĉefdatumoj2Str = Kasxejo.hentUrlSomStreng(kanalojUrl);
     String ĉefdatumoj2Str = Diverse.læsStreng(new FileInputStream(
-        "../EsperantoRadio/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
+        "../EsperantoRadiov3/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
     Grundata ĉefdatumoj2 = new Grundata(ĉefdatumoj2Str);
     String elsendojStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(ĉefdatumoj2.elsendojUrl, true)));
     ĉefdatumoj2.leguElsendojn(elsendojStr);
-    ĉefdatumoj2.ŝarĝiElsendojnDeRss(false);
+    ĉefdatumoj2.ŝarĝiElsendojnDeRss(true);
     //ĉefdatumoj2.ŝarĝiElsendojnDeRssUrl("http://radioverda.squarespace.com/storage/audio/radioverda.xml",
     //ĉefdatumoj2.ŝarĝiElsendojnDeRssUrl("http://radioverda.squarespace.com/programoj/rss.xml",
     //    ĉefdatumoj2.kanalkodoAlKanalo.get("radioverda"), true);
 
 
+    System.out.println("===================================================================");
+    System.out.println("===================================================================");
+    System.out.println("===================================================================");
     ĉefdatumoj2.rezumo();
+    System.out.println("===================================================================");
+    System.out.println("===================================================================");
+    System.out.println("===================================================================");
     ĉefdatumoj2.forprenuMalplenajnKanalojn();
   }
 }

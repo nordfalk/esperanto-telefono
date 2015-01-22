@@ -15,7 +15,7 @@
 			"kodo": "muzaiko",
 			"nomo": "Muzaiko",
 			"rektaElsendaSonoUrl": "http://listen.radionomy.com/muzaikoinfo",
-			"rektaElsendaPriskriboUrl": "http://muzaiko.info/ajax/current_song.php",
+			"rektaElsendaPriskriboUrl": "http://muzaiko.info/public/datumoj/aktuala_kanto.html",
 			//"emblemoUrl": "http://muzaiko.info/images/emblemo.png",
 			"emblemoUrl": "http://muzaiko.info/reklambendoj/rb2.png",
 			//"elsendojRssUrl": "http://muzaiko.info/podkasto/podkasto.rss",
@@ -84,16 +84,6 @@
 			"hejmpaĝoButono": "http://podkasto.net/"
 		}
 		,{
-			"kodo": "kaliningrada",
-			"nomo": "Kaliningrada E-radio",
-//			"emblemoUrl": "http://esperanto.org/Ondo/Bildoj/Radioesp.jpg",
-			"emblemoUrl": "http://s.rpod.ru/data/users_avatars/00/00/01/21/53/ava_ava_1207503974.jpg",
-			"elsendojRssUrl": "http://la-ondo.rpod.ru/rss.xml",
-				// RSS-fluo havas nur la daton en la titolo. Tio estas jam videbla kaj tial ni ne montru tion
-			"elsendojRssIgnoruTitolon": "true",
-			"hejmpaĝoButono": "http://la-ondo.rpod.ru/"
-		}
-		,{
 			"kodo": "vinilkosmo",
 			"nomo": "Vinilkosmo",
 			"emblemoUrl": "http://www.vinilkosmo-mp3.com/images/banniere_300.jpg",
@@ -126,6 +116,16 @@
 			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
 			"retpoŝto": "retradio@aldone.de",
 			"hejmpaĝoButono": "http://aldone.de/retradio"
+		}
+		,{
+			"kodo": "kaliningrada",
+			"nomo": "Kaliningrada E-radio",
+//			"emblemoUrl": "http://esperanto.org/Ondo/Bildoj/Radioesp.jpg",
+			"emblemoUrl": "http://s.rpod.ru/data/users_avatars/00/00/01/21/53/ava_ava_1207503974.jpg",
+			"elsendojRssUrl": "http://la-ondo.rpod.ru/rss.xml",
+				// RSS-fluo havas nur la daton en la titolo. Tio estas jam videbla kaj tial ni ne montru tion
+			"elsendojRssIgnoruTitolon": "true",
+			"hejmpaĝoButono": "http://la-ondo.rpod.ru/"
 		}
 		,{
 			"kodo": "vej",

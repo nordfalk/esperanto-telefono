@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import dk.dr.radio.data.Udsendelse;
+
 
 /**
  * http://code.google.com/p/feedgoal/

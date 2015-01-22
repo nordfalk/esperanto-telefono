@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import dk.dr.radio.data.Udsendelse;
+
 
 public class Kanal {
   public String kode;

@@ -67,6 +67,35 @@ public class Grunddata {
   }
 
 
+
+
+  /**
+   * Henter grunddata (faste data)
+   * @throws java.io.IOException hvis der er et problem med netværk
+   *                             eller parsning (dvs interne fejl af forskellig art som bør rapporteres til udvikler)
+   */
+  public void parseFællesGrunddata(String str) throws JSONException {
+    json = new JSONObject(str);
+
+    try {
+      opdaterGrunddataEfterMs = json.getJSONObject("intervals").getInt("settings") * 1000;
+      opdaterPlaylisteEfterMs = json.getJSONObject("intervals").getInt("playlist") * 1000;
+    } catch (Exception e) {
+      Log.e(e);
+    } // Ikke kritisk
+
+    kanaler.clear();
+    p4koder.clear();
+    da_parseKanaler(json.getJSONArray("channels"), false);
+    Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
+    android_json = json.getJSONObject("android");
+    tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
+    DRBackendTidsformater.servertidsformatAndre = da_parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
+    DRBackendTidsformater.servertidsformatPlaylisteAndre = da_parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
+    if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
+    for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
+  }
+
   private void fjernKanalMedFejl(Kanal k) {
     kanaler.remove(k);
     p4koder.remove(k.kode);
@@ -75,7 +104,7 @@ public class Grunddata {
   }
 
 
-  private void parseKanaler(JSONArray jsonArray, boolean parserP4underkanaler) throws JSONException {
+  private void da_parseKanaler(JSONArray jsonArray, boolean parserP4underkanaler) throws JSONException {
 
     int antal = jsonArray.length();
     for (int i = 0; i < antal; i++) {
@@ -99,36 +128,18 @@ public class Grunddata {
       JSONArray underkanaler = j.optJSONArray("channels");
       if (underkanaler != null) {
         if (!Kanal.P4kode.equals(k.kode)) Log.rapporterFejl(new IllegalStateException("Forkert P4-kode: "), k.kode);
-        parseKanaler(underkanaler, true);
+        da_parseKanaler(underkanaler, true);
       }
     }
   }
 
-  /**
-   * Henter grunddata (faste data)
-   * @throws java.io.IOException hvis der er et problem med netværk
-   *                             eller parsning (dvs interne fejl af forskellig art som bør rapporteres til udvikler)
-   */
-  public void parseFællesGrunddata(String str) throws JSONException {
-    json = new JSONObject(str);
-
-    try {
-      opdaterGrunddataEfterMs = json.getJSONObject("intervals").getInt("settings") * 1000;
-      opdaterPlaylisteEfterMs = json.getJSONObject("intervals").getInt("playlist") * 1000;
-    } catch (Exception e) {
-      Log.e(e);
-    } // Ikke kritisk
-
-    kanaler.clear();
-    p4koder.clear();
-    parseKanaler(json.getJSONArray("channels"), false);
-    Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
-    android_json = json.getJSONObject("android");
-    tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
-    DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
-    DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
-    if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
-    for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
+  private DateFormat[] da_parseDRBackendTidsformater(JSONArray servertidsformatAndreJson, DateFormat[] servertidsformatAndre) throws JSONException {
+    if (servertidsformatAndreJson==null) return  servertidsformatAndre;
+    DateFormat[] res = new DateFormat[servertidsformatAndreJson.length()];
+    for (int i=0; i<res.length; i++) {
+      res[i] = new SimpleDateFormat(servertidsformatAndreJson.getString(i));
+    }
+    return res;
   }
 
   /**
@@ -156,14 +167,5 @@ public class Grunddata {
     } catch (Exception e) {
       Log.e(e);
     } // Ikke kritisk
-  }
-
-  private DateFormat[] parseDRBackendTidsformater(JSONArray servertidsformatAndreJson, DateFormat[] servertidsformatAndre) throws JSONException {
-    if (servertidsformatAndreJson==null) return  servertidsformatAndre;
-    DateFormat[] res = new DateFormat[servertidsformatAndreJson.length()];
-    for (int i=0; i<res.length; i++) {
-      res[i] = new SimpleDateFormat(servertidsformatAndreJson.getString(i));
-    }
-    return res;
   }
 }

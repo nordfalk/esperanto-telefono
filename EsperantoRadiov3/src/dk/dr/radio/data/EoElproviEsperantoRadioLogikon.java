@@ -2,19 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dk.dr.radio.data.eo.data;
+package dk.dr.radio.data;
 
 import java.io.File;
 import java.io.FileInputStream;
 
-import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.afproevning.FilCache;
 
 /**
  *
  * @author j
  */
-public class ElproviEsperantoRadioLogikon {
+public class EoElproviEsperantoRadioLogikon {
   public static final int ĉefdatumojID = 8;
   private static final String ŜLOSILO_ĈEFDATUMOJ = "esperantoradio_kanaloj_v" + ĉefdatumojID;
   private static final String kanalojUrl = "http://javabog.dk/privat/" + ŜLOSILO_ĈEFDATUMOJ + ".json";
@@ -30,7 +29,8 @@ public class ElproviEsperantoRadioLogikon {
     //String ĉefdatumoj2Str = Kasxejo.hentUrlSomStreng(kanalojUrl);
     String ĉefdatumoj2Str = Diverse.læsStreng(new FileInputStream(
         "../EsperantoRadiov3/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
-    Grundata ĉefdatumoj2 = new Grundata(ĉefdatumoj2Str);
+    EoGrundata ĉefdatumoj2 = new EoGrundata();
+    ĉefdatumoj2.parseFællesGrunddata(ĉefdatumoj2Str);
     String elsendojStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(ĉefdatumoj2.elsendojUrl, true)));
     ĉefdatumoj2.leguElsendojn(elsendojStr);
     ĉefdatumoj2.ŝarĝiElsendojnDeRss(true);

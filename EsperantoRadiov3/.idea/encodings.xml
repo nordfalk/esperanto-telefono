@@ -8,7 +8,6 @@
     <file url="file://$PROJECT_DIR$/res/layout/drama_og_bog_frag.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/res/layout/kanaler_frag.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/dk/dr/radio/akt/Afspiller_frag.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/dk/dr/radio/akt/DramaOgBog_frag.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/dk/dr/radio/akt/Kanaler_frag.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/dk/dr/radio/akt/Programserie_frag.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/dk/dr/radio/akt/Udsendelse_frag.java" charset="UTF-8" />

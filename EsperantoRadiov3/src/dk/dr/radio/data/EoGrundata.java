@@ -15,7 +15,7 @@
  Vi devus ricevi kopion de la GNU Ĝenerala Publika Licenco kune kun la
  programo. Se ne, vidu <http://www.gnu.org/licenses/>.
  */
-package dk.dr.radio.data.eo.data;
+package dk.dr.radio.data;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,12 +32,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.Log;
 
 
-public class Grundata {
+public class EoGrundata {
 
   public JSONObject json;
   public List<Kanal> kanaler = new ArrayList<Kanal>();
@@ -50,9 +49,12 @@ public class Grundata {
    * Liste over de kanaloj der vises 'Spiller lige nu' med info om musiknummer på skærmen
    */
   //public Set<String> kanalojDerSkalViseSpillerNu = new HashSet<String>();
-  public Grundata(String ĉefdatumojJson) throws JSONException {
+  public EoGrundata() {
+  }
+
+  public void parseFællesGrunddata(String ĉefdatumojJson) throws JSONException {
     json = new JSONObject(ĉefdatumojJson);
-    
+
     // Erstat med evt ny værdi
     elsendojUrl = json.optString("elsendojUrl", elsendojUrl);
 
@@ -173,9 +175,9 @@ public class Grundata {
         if (dosiero == null) return;
         ArrayList<Udsendelse> elsendoj;
         if ("vinilkosmo".equals(k.kode)) {
-          elsendoj = RssParsado.parsiElsendojnDeRssVinilkosmo(new FileInputStream(dosiero));
+          elsendoj = EoRssParsado.parsiElsendojnDeRssVinilkosmo(new FileInputStream(dosiero));
         } else {
-          elsendoj = RssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
+          elsendoj = EoRssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
         }
         if (k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Udsendelse e : elsendoj) e.titel = null;
         if (elsendoj.size() > 0) {

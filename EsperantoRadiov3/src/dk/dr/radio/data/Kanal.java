@@ -19,6 +19,7 @@
 package dk.dr.radio.data;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,10 +41,21 @@ public class Kanal extends Lydkilde {
   public transient ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
   public transient SortedMap<String, ArrayList<Udsendelse>> udsendelserPerDag = new TreeMap<String, ArrayList<Udsendelse>>();
 
+  //// EO
+  public String eo_hejmpaĝoEkrane;
+  public String eo_hejmpaĝoButono;
+  public String eo_retpoŝto;
+  public JSONObject eo_json;
+  public Udsendelse eo_rektaElsendo;
+  public String eo_emblemoUrl;
+  public String eo_datumFonto;
+
   @Override
   public String toString() {
-    return kode;// + "/" + navn + "/" + logoUrl;
+    return kode + "/" + navn + "/" + udsendelser.size() + "\n";
   }
+  //// EO
+
 
   public boolean harUdsendelserForDag(String dato) {
     return udsendelserPerDag.containsKey(dato);

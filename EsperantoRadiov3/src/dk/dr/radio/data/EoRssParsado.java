@@ -1,4 +1,4 @@
-package dk.dr.radio.data.eo.data;
+package dk.dr.radio.data;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -9,15 +9,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import dk.dr.radio.data.Udsendelse;
-
 
 /**
  * http://code.google.com/p/feedgoal/
  *
  * @author Jacob Nordfalk
  */
-class RssParsado {
+class EoRssParsado {
 
   /* posterous poluas la fluon per la sekva, kiun ni forprenu!
    <div class='p_embed_description'>
@@ -65,7 +63,7 @@ class RssParsado {
         e.startTidKl = p.nextText().replaceAll(":00$", "00");// "Thu, 01 Aug 2013 12:01:01 +02:00" -> ..." +0200"
         //Log.d("xxxxx "+e.datoStr);
         e.startTid = new Date(Date.parse(e.startTidKl));
-        e.startTidKl = Grundata.datoformato.format(e.startTid);
+        e.startTidKl = EoGrundata.datoformato.format(e.startTid);
       } else if ("image".equals(tag)) {
         e.billedeUrl = p.nextText();
       } else if ("enclosure".equals(tag)) {
@@ -133,8 +131,8 @@ class RssParsado {
       } else if ("published".equals(tag)) {
         e.startTidKl = p.nextText().split("T")[0];
         //Log.d("e.datoStr="+e.datoStr);
-        e.startTid = Grundata.datoformato.parse(e.startTidKl);
-        e.startTidKl = Grundata.datoformato.format(e.startTid);
+        e.startTid = EoGrundata.datoformato.parse(e.startTidKl);
+        e.startTidKl = EoGrundata.datoformato.format(e.startTid);
       } else if ("link".equals(tag)) {
         String type = p.getAttributeValue(null, "type");
         String href = p.getAttributeValue(null, "href");

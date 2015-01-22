@@ -22,9 +22,6 @@ android:versionName="3.2 21.dec småting 143"
   <!-- For at kunne gemme podcasts -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-  <!-- akamai -->
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
   <uses-feature android:name="android.hardware.TOUCHSCREEN" android:required="false"/>
   <uses-feature android:name="android.hardware.WIFI" android:required="false"/>
 

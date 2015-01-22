@@ -1,8 +1,6 @@
 package dk.dr.radio.akt;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,13 +29,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Kanal;
-import dk.dr.radio.data.Lydstream;
 import dk.dr.radio.data.Playlisteelement;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
@@ -594,22 +589,8 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
   public static void hør(final Kanal kanal, Activity akt) {
     if (App.fejlsøgning) App.kortToast("kanal.streams=" + kanal.streams);
-    if (App.prefs.getBoolean("manuelStreamvalg", false)) {
-      kanal.nulstilForetrukkenStream();
-      final List<Lydstream> lydstreamList = kanal.findBedsteStreams(false);
-      new AlertDialog.Builder(akt)
-          .setAdapter(new ArrayAdapter(akt, R.layout.skrald_vaelg_streamtype, lydstreamList), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              lydstreamList.get(which).foretrukken = true;
-              DRData.instans.afspiller.setLydkilde(kanal);
-              DRData.instans.afspiller.startAfspilning();
-            }
-          }).show();
-    } else {
-      DRData.instans.afspiller.setLydkilde(kanal);
-      DRData.instans.afspiller.startAfspilning();
-    }
+    DRData.instans.afspiller.setLydkilde(kanal);
+    DRData.instans.afspiller.startAfspilning();
   }
 
   @Override

@@ -5,16 +5,13 @@ import android.content.SharedPreferences;
 import android.view.Display;
 import android.view.WindowManager;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.diverse.App;
@@ -105,52 +102,6 @@ class GemiusStatistik {
 
 
   void startSendData() {
-    if (hændelser.isEmpty()) return;
-    try {
-      // json.put("Url", "http://test.com");  // behøves ikke?
-      // json.put("InitialLoadTime", 0);  // behøves ikke?
-      // json.put("TimezoneOffsetInMinutes", -120);  // behøves ikke?
-      json.put("PlayerEvents", new JSONArray(hændelser));
-      if (lydkilde != null) {
-        json.put("IsLiveStream", lydkilde.erDirekte());
-        json.put("Id", findSlug(lydkilde.getUdsendelse(), lydkilde));
-        json.put("Channel", findSlug(lydkilde.getKanal(), lydkilde));
-      } else {
-        if (App.instans != null) { // Hvis dette er en kørende app, så rapporter en fejl med dette
-          Log.rapporterFejl(new IllegalStateException("Gemius lydkilde er null"));
-        }
-        json.put("IsLiveStream", false);
-        json.put("Id", "matador-24-24");// kan ikke være "ukendt"
-        json.put("Channel", "ukendt");
-      }
-    } catch (Exception e) {
-      Log.rapporterFejl(e, "for " + lydkilde);
-    }
-    hændelser.clear();
-    final String data = json.toString();
-    if (App.fejlsøgning) Log.d("Gemius startSendData json=" + data);
-    //new Exception().printStackTrace();
-
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          JSONObject res = Diverse.postJson(RAPPORTERINGSURL, data);
-          String nySporingsnøgle = res.optString("CorrelationId");
-          if (nySporingsnøgle.length() > 0 && !nySporingsnøgle.equals(sporingsnøgle)) {
-            json.put("CorrelationId", nySporingsnøgle);
-            sporingsnøgle = nySporingsnøgle;
-            if (prefs != null) prefs.edit().putString(NØGLE, sporingsnøgle).commit();
-          }
-          if (App.fejlsøgning) Log.d("Gemius res=" + res);
-        } catch (IOException ioe) {
-          Log.d("data json=" + data);
-          Log.e(ioe);
-        } catch (Exception e) {
-          Log.rapporterFejl(e, "data json=" + data);
-        }
-      }
-    }).start();
   }
 
   /**

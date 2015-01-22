@@ -17,7 +17,7 @@ import dk.dr.radio.diverse.Log;
 /**
  * @author Jacob Nordfalk
  */
-class FilCache {
+public class FilCache {
 
   private static final int BUFFERSTR = 4 * 1024;
   private static String lagerDir;

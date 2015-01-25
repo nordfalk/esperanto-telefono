@@ -127,12 +127,6 @@
         "slug": "p8jazz",
         "urn": "urn:dr:mu:bundle:4f3b8926860d9a33ccfdafb9"
     }, {
-        "title": "Ramasjang/Ultra",
-        "logo": "channel-logo-ramasjang",
-        "scheduleIdent": "RAM",
-        "slug": "ramasjangradio",
-        "urn": "urn:dr:mu:bundle:4f3b8928860d9a33ccfdafcc"
-    }, {
         "title": "DR Nyheder",
         "description": "Her kan du altid høre den seneste radioavis og sportsnyt",
         "hideEPG": true,

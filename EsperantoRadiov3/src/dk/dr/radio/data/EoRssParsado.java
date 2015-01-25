@@ -63,7 +63,7 @@ class EoRssParsado {
         e.startTidKl = p.nextText().replaceAll(":00$", "00");// "Thu, 01 Aug 2013 12:01:01 +02:00" -> ..." +0200"
         //Log.d("xxxxx "+e.datoStr);
         e.startTid = new Date(Date.parse(e.startTidKl));
-        e.startTidKl = EoGrundata.datoformato.format(e.startTid);
+        e.startTidKl = Grunddata.datoformato.format(e.startTid);
       } else if ("image".equals(tag)) {
         e.billedeUrl = p.nextText();
       } else if ("enclosure".equals(tag)) {
@@ -131,8 +131,8 @@ class EoRssParsado {
       } else if ("published".equals(tag)) {
         e.startTidKl = p.nextText().split("T")[0];
         //Log.d("e.datoStr="+e.datoStr);
-        e.startTid = EoGrundata.datoformato.parse(e.startTidKl);
-        e.startTidKl = EoGrundata.datoformato.format(e.startTid);
+        e.startTid = Grunddata.datoformato.parse(e.startTidKl);
+        e.startTidKl = Grunddata.datoformato.format(e.startTid);
       } else if ("link".equals(tag)) {
         String type = p.getAttributeValue(null, "type");
         String href = p.getAttributeValue(null, "href");

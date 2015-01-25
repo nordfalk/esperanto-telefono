@@ -88,7 +88,7 @@ public class Afproevning {
   public static void tjekUdelukFraHLS() throws Exception {
     DRData i = DRData.instans = new DRData();
     i.grunddata = new Grunddata();
-    i.grunddata.parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../DRRadiov3/res/raw/grunddata.json")));
+    i.grunddata.da_parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../EsperantoRadiov3/res/raw/grunddata.json")));
     i.grunddata.android_json.put("udeluk_HLS", "C6603 .*/18, IdeaPadA10 A10/17, LIFETAB_E7312 LIFETAB_E7310/17, LIFETAB_E10310/.*");
     i.grunddata.udelukHLS=false;
     i.grunddata.tjekUdelukFraHLS("C6603 C6603/18"); if (i.grunddata.udelukHLS!=true) throw new Exception();
@@ -102,7 +102,7 @@ public class Afproevning {
   public static void tjekHentAlleUdsendelser() throws Exception {
     DRData i = DRData.instans = new DRData();
     i.grunddata = new Grunddata();
-    i.grunddata.parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../DRRadiov3/res/raw/grunddata.json")));
+    i.grunddata.da_parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../EsperantoRadiov3/res/raw/grunddata.json")));
 
     hentSupplerendeData(i.grunddata);
     //System.exit(0);
@@ -155,7 +155,7 @@ public class Afproevning {
     FilCache.init(new File("/tmp/drradio-cache"));
     DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
     i.grunddata = new Grunddata();
-    i.grunddata.parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../DRRadiov3/res/raw/grunddata.json")));
+    i.grunddata.da_parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../EsperantoRadiov3/res/raw/grunddata.json")));
     hentSupplerendeData(i.grunddata);
 
 

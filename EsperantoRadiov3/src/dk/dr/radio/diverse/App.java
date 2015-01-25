@@ -219,7 +219,7 @@ public class App extends Application {
 
       if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
-      DRData.instans.grunddata.parseFællesGrunddata(grunddata);
+      DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
       if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
 
       String pn = App.instans.getPackageName();
@@ -409,7 +409,7 @@ public class App extends Application {
           if (nyeGrunddata.equals(gamleGrunddata)) return; // Det samme som var i prefs
           Log.d("Vi fik nye grunddata: fraCache=" + fraCache + nyeGrunddata);
           if (!PRODUKTION || App.fejlsøgning) App.kortToast("Vi fik nye grunddata");
-          DRData.instans.grunddata.parseFællesGrunddata(nyeGrunddata);
+          DRData.instans.grunddata.da_parseFællesGrunddata(nyeGrunddata);
           String pn = App.instans.getPackageName();
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);

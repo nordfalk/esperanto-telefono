@@ -29,8 +29,8 @@ public class EoElproviEsperantoRadioLogikon {
     //String ĉefdatumoj2Str = Kasxejo.hentUrlSomStreng(kanalojUrl);
     String ĉefdatumoj2Str = Diverse.læsStreng(new FileInputStream(
         "../EsperantoRadiov3/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
-    EoGrundata ĉefdatumoj2 = new EoGrundata();
-    ĉefdatumoj2.parseFællesGrunddata(ĉefdatumoj2Str);
+    Grunddata ĉefdatumoj2 = new Grunddata();
+    ĉefdatumoj2.eo_parseFællesGrunddata(ĉefdatumoj2Str);
     String radioTxtStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(ĉefdatumoj2.radioTxtUrl, true)));
     ĉefdatumoj2.leguRadioTxt(radioTxtStr);
     ĉefdatumoj2.ŝarĝiElsendojnDeRss(true);

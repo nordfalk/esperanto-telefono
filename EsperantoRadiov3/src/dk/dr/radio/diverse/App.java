@@ -220,6 +220,8 @@ public class App extends Application {
       if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
       DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
+      DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
+
       if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
 
       String pn = App.instans.getPackageName();
@@ -410,6 +412,7 @@ public class App extends Application {
           Log.d("Vi fik nye grunddata: fraCache=" + fraCache + nyeGrunddata);
           if (!PRODUKTION || App.fejlsøgning) App.kortToast("Vi fik nye grunddata");
           DRData.instans.grunddata.da_parseFællesGrunddata(nyeGrunddata);
+          DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
           String pn = App.instans.getPackageName();
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);

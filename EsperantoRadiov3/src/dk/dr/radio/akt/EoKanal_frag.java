@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Playlisteelement;
 import dk.dr.radio.data.Udsendelse;
@@ -123,9 +124,10 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret || listView==null || getActivity() == null) return;
-          if (kanal.udsendelser != null  && fraCache) return; // så er værdierne i RAMen gode nok
+          //if (kanal.udsendelser != null  && fraCache) return; // så er værdierne i RAMen gode nok
           // Log.d(kanal + " hentSendeplanForDag fikSvar for url " + url + " fraCache=" + fraCache+":\n"+json);
           Log.d("json="+json);
+          Grunddata.ŝarĝiElsendojnDeRssUrl(json, kanal);
           opdaterListe();
         }
 
@@ -221,12 +223,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     if (!getUserVisibleHint() || !isResumed()) return;
     opdaterSenestSpillet(vh.aq, vh.udsendelse);
 
-    if (App.serverCurrentTimeMillis() > vh.udsendelse.slutTid.getTime()) {
-      opdaterListe();
-      if (App.fejlsøgning) App.kortToast("Kanal_frag opdaterListe()");
-      if (vh.startid.isShown()) rulBlødtTilAktuelUdsendelse();
-    }
-
     //MediaPlayer mp = DRData.instans.afspiller.getMediaPlayer();
     //Log.d("mp pos="+mp.getCurrentPosition() + "  af "+mp.getDuration());
   }
@@ -239,7 +235,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       String forrigeDagsbeskrivelse = null;
       for (Udsendelse u : kanal.udsendelser) {
         // Tilføj dagsoverskrifter hvis dagen er skiftet
-        if (!u.dagsbeskrivelse.equals(forrigeDagsbeskrivelse)) {
+        if (u.dagsbeskrivelse!=null && !u.dagsbeskrivelse.equals(forrigeDagsbeskrivelse)) {
           forrigeDagsbeskrivelse = u.dagsbeskrivelse;
           nyListe.add(u.dagsbeskrivelse);
           // Overskriften I DAG skal ikke 'blive hængende' øverst,
@@ -320,7 +316,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
 
     @Override
     public int getItemViewType(int position) {
-      if (position == 0 || position == liste.size() - 1) return TIDLIGERE_SENERE;
+      //if (position == 0 || position == liste.size() - 1) return TIDLIGERE_SENERE;
       if (position == aktuelUdsendelseIndex) return AKTUEL;
       if (liste.get(position) instanceof Udsendelse) return NORMAL;
       return DAGSOVERSKRIFT;
@@ -505,6 +501,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     // PinnedSectionListView tillader klik på hængende overskrifter, selvom adapteren siger at det skal den ikke
     if (!(o instanceof Udsendelse)) return;
     Udsendelse u = (Udsendelse) o;
+    Log.d("MONTRAS ELSENDON "+u.slug);
     //startActivity(new Intent(getActivity(), VisFragment_akt.class)
     //    .putExtra(P_kode, getKanal.kode)
     //    .putExtra(VisFragment_akt.KLASSE, Udsendelse_frag.class.getName()).putExtra(DRJson.Slug.name(), u.slug)); // Udsenselses-ID

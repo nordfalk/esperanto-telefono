@@ -3,7 +3,7 @@ package dk.dr.radio.data;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -35,11 +35,11 @@ class EoRssParsado {
   static Pattern puriguVinilkosmo = Pattern.compile("<p class=\"who\">.+?</p>", Pattern.DOTALL);
 
   /** Parser et youtube RSS feed og returnerer det som en liste at Elsendo-objekter */
-  static ArrayList<Udsendelse> parsiElsendojnDeRss(InputStream is) throws Exception {
+  static ArrayList<Udsendelse> parsiElsendojnDeRss(Reader is) throws Exception {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser p = factory.newPullParser();
     p.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-    p.setInput(is, null);
+    p.setInput(is);
     ArrayList<Udsendelse> liste = new ArrayList<Udsendelse>();
     Udsendelse e = null;
     while (true) {
@@ -63,6 +63,8 @@ class EoRssParsado {
         e.startTidKl = p.nextText().replaceAll(":00$", "00");// "Thu, 01 Aug 2013 12:01:01 +02:00" -> ..." +0200"
         //Log.d("xxxxx "+e.datoStr);
         e.startTid = new Date(Date.parse(e.startTidKl));
+        e.slug = e.kanalSlug + " " + e.startTidKl;
+        DRData.instans.udsendelseFraSlug.put(e.slug, e);
         e.startTidKl = Grunddata.datoformato.format(e.startTid);
       } else if ("image".equals(tag)) {
         e.billedeUrl = p.nextText();
@@ -102,11 +104,11 @@ class EoRssParsado {
   //public static final DateFormat vinilkosmoDatoformato = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ssZ", Locale.US);
 
   /** Parser et youtube RSS feed og returnerer det som en liste at Elsendo-objekter */
-  static ArrayList<Udsendelse> parsiElsendojnDeRssVinilkosmo(InputStream is) throws Exception {
+  static ArrayList<Udsendelse> parsiElsendojnDeRssVinilkosmo(Reader is) throws Exception {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser p = factory.newPullParser();
     p.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-    p.setInput(is, null);
+    p.setInput(is);
     ArrayList<Udsendelse> liste = new ArrayList<Udsendelse>();
     Udsendelse e = null;
     while (true) {
@@ -133,6 +135,8 @@ class EoRssParsado {
         //Log.d("e.datoStr="+e.datoStr);
         e.startTid = Grunddata.datoformato.parse(e.startTidKl);
         e.startTidKl = Grunddata.datoformato.format(e.startTid);
+        e.slug = e.kanalSlug + " " + e.startTidKl;
+        DRData.instans.udsendelseFraSlug.put(e.slug, e);
       } else if ("link".equals(tag)) {
         String type = p.getAttributeValue(null, "type");
         String href = p.getAttributeValue(null, "href");

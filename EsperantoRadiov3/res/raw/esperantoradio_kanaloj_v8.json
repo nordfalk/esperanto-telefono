@@ -59,7 +59,7 @@
 			"kodo": "radiovatikana",
 			"nomo": "Radio Vatikana",
 			"emblemoUrl": "http://eo.radiovaticana.va/img/h_02.gif",
- 			"elsendojRssUrl1": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1",
+ 			"elsendojRssUrl": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1",
 // 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
 			"retpoŝto": "esperanto@vatiradio.va",
 			"hejmpaĝoButono": "http://www.radiovaticana.org/esp/on_demand.asp"

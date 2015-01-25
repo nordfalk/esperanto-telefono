@@ -177,9 +177,13 @@ public class FilCache {
     // String cacheFilnavn = url.substring(url.lastIndexOf('/') +
     // 1).replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.
     // byvejr_dag1?by=2500&mode=long
-    String cacheFilnavn = url.replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.
+    String cacheFilnavn = url.replaceFirst("http://","").replace('=', '_').replace('?', '_').replace('/', '_').replace('&', '_'); // f.eks.
     // byvejr_dag1?by=2500&mode=long
     cacheFilnavn = lagerDir + "/" + cacheFilnavn;
+    // aldonu .xml al verŝajnaj XML-dosieroj por pli facile povi legi ilin
+    String suf = url.substring(url.lastIndexOf('.')+1);
+    if ("txt jpg gif png".indexOf(suf)==-1) cacheFilnavn+=".xml";
+
     if (App.fejlsøgning) log("URL: " + url + "  -> " + cacheFilnavn);
     return cacheFilnavn;
   }

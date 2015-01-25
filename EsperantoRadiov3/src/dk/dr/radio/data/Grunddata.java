@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
+import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -150,6 +151,8 @@ public class Grunddata {
            */
           e.kanalSlug = x[0];
           e.startTidKl = x[1];
+          e.slug = e.kanalSlug + " " + e.startTidKl;
+          DRData.instans.udsendelseFraSlug.put(e.slug, e);
           e.startTid = datoformato.parse(x[1]);
           e.sonoUrl = x[2];
           e.beskrivelse = x[3];
@@ -171,6 +174,7 @@ public class Grunddata {
             k.eo_json = new JSONObject();
             k.kode = k.navn = e.kanalSlug;
             k.eo_datumFonto = "aldonita de radio.txt";
+            k.fragKlasse = EoKanal_frag.class;
             kanalFraKode.put(k.kode, k);
             kanalFraSlug.put(k.navn, k);
             kanaler.add(k);
@@ -179,6 +183,7 @@ public class Grunddata {
           }
           //Log.d("Aldonas elsendon "+e.toString());
           k.udsendelser.add(e);
+          k.eo_udsendelserFraRadioTxt = k.udsendelser;
         } catch (Exception e) {
           Log.e("Ne povis legi unuon: " + unuo, e);
         }
@@ -194,23 +199,32 @@ public class Grunddata {
   public void ŝarĝiElsendojnDeRss(boolean nurLokajn) {
     for (Kanal k : kanaler) {
       ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl", null), k, nurLokajn);
-      ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl1", null), k, nurLokajn);
+      //ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl1", null), k, nurLokajn);
       //ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl2", null), k, nurLokajn);
     }
   }
 
-  public void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
-    if (elsendojRssUrl== null) return;
+  public static void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
     try {
-      Log.d("============ parsas RSS de "+k.kode +" =============");
+      if (elsendojRssUrl== null) return;
       String dosiero = FilCache.hentFil(elsendojRssUrl, nurLokajn);
       Log.d(" akiris " + elsendojRssUrl);
       if (dosiero == null) return;
+      ŝarĝiElsendojnDeRssUrl(Diverse.læsStreng(new FileInputStream(dosiero)), k);
+    } catch (Exception ex) {
+      Log.e("Eraro parsante " + k.kode, ex);
+    }
+  }
+
+
+  public static void ŝarĝiElsendojnDeRssUrl(String xml, Kanal k) {
+    try {
+      Log.d("============ parsas RSS de "+k.kode +" =============");
       ArrayList<Udsendelse> elsendoj;
       if ("vinilkosmo".equals(k.kode)) {
-        elsendoj = EoRssParsado.parsiElsendojnDeRssVinilkosmo(new FileInputStream(dosiero));
+        elsendoj = EoRssParsado.parsiElsendojnDeRssVinilkosmo(new StringReader(xml));
       } else {
-        elsendoj = EoRssParsado.parsiElsendojnDeRss(new FileInputStream(dosiero));
+        elsendoj = EoRssParsado.parsiElsendojnDeRss(new StringReader(xml));
       }
       if (k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Udsendelse e : elsendoj) e.titel = null;
       if (elsendoj.size() > 0) {
@@ -218,9 +232,9 @@ public class Grunddata {
         k.udsendelser = elsendoj;
         k.eo_datumFonto = "rss";
       }
-      Log.d(" parsis " + elsendojRssUrl + " kaj ricevis " + elsendoj.size() + " elsendojn");
+      Log.d(" parsis " + k.kode + " kaj ricevis " + elsendoj.size() + " elsendojn");
     } catch (Exception ex) {
-      Log.e("Eraro parsante " + elsendojRssUrl, ex);
+      Log.e("Eraro parsante " + k.kode, ex);
     }
   }
 
@@ -243,6 +257,9 @@ public class Grunddata {
           Log.d("...");
           break;
         }
+      }
+      if (k.eo_udsendelserFraRadioTxt != null && k.eo_udsendelserFraRadioTxt.size()>k.udsendelser.size()) {
+        Log.rapporterFejl(new IllegalStateException(), "k.eo_udsendelserFraRadioTxt.size()>k.udsendelser.size(): "+k.eo_udsendelserFraRadioTxt.size()+" > " +k.udsendelser.size());
       }
     }
   }

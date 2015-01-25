@@ -43,7 +43,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -85,7 +84,7 @@ public class App extends Application {
   public static final String P4_FORETRUKKEN_AF_BRUGER = "P4_FORETRUKKEN_AF_BRUGER";
   public static final String FORETRUKKEN_KANAL = "FORETRUKKEN_kanal";
   public static final String NØGLE_advaretOmInstalleretPåSDKort = "erInstalleretPåSDKort";
-  public static final boolean PRODUKTION = true;
+  public static final boolean PRODUKTION = false;
   private static final String DRAMA_OG_BOG__A_Å_INDLÆST = "DRAMA_OG_BOG__A_Å_INDLÆST";
   public static boolean EMULATOR = true; // Sæt i onCreate(), ellers virker det ikke i std Java
   public static App instans;
@@ -195,9 +194,6 @@ public class App extends Application {
     volleyRequestQueue = new RequestQueue(volleyCache, network);
     volleyRequestQueue.start();
 
-    // P4 stedplacering skal ske så tidligt som muligt - ellers
-    // når P4-valgskærmbilledet at blive instantieret med ukendt placering og foreslår derfor København
-    if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) startP4stedplacering();
 
     try {
       DRData.instans = new DRData();
@@ -237,24 +233,6 @@ public class App extends Application {
       if (aktuelKanal == null || aktuelKanal == Grunddata.ukendtKanal) {
         aktuelKanal = DRData.instans.grunddata.forvalgtKanal;
         Log.d("forvalgtKanal=" + aktuelKanal);
-      }
-
-      if (aktuelKanal.streams == null) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
-        final Kanal kanal = aktuelKanal;
-        Request<?> req = new DrVolleyStringRequest(aktuelKanal.getStreamsUrl(), new DrVolleyResonseListener() {
-          @Override
-          public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
-            if (uændret) return; // ingen grund til at parse det igen
-            JSONObject o = new JSONObject(json);
-            kanal.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-            Log.d("hentSupplerendeDataBgX " + kanal.kode + " fraCache=" + fraCache + " => " + kanal.slug + " k.lydUrl=" + kanal.streams);
-          }
-        }) {
-          public Priority getPriority() {
-            return Priority.HIGH;
-          }
-        };
-        App.volleyRequestQueue.add(req);
       }
 
       DRData.instans.afspiller = new Afspiller();
@@ -312,23 +290,6 @@ public class App extends Application {
     }
   }
 
-  private void startP4stedplacering() {
-    new AsyncTask() {
-      @Override
-      protected Object doInBackground(Object[] params) {
-        try {
-          String p4kanal = P4Stedplacering.findP4KanalnavnFraIP();
-          if (App.fejlsøgning) App.langToast("p4kanal: " + p4kanal);
-          if (p4kanal != null) prefs.edit().putString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, p4kanal).commit();
-          //if (!App.PRODUKTION) Log.rapporterFejl(new Exception("Ny enhed - fundet P4-kanal " + p4kanal));
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-        return null;
-      }
-    }.execute();
-  }
-
   /**
    * Initialisering af resterende data.
    * Dette sker når app'en er synlig og telefonen er online
@@ -375,15 +336,6 @@ public class App extends Application {
         forsinkelse = 15*forsinkelse/10;
       }
 
-      if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) {
-        if (DRData.instans.grunddata.android_json.optBoolean("P4stedplacering", false)) {
-          færdig = false;
-          startP4stedplacering();
-        } else {
-          prefs.edit().putString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, "defekt").commit();
-        }
-      }
-
       if (færdig) {
         netværk.observatører.remove(this); // Hold ikke mere øje med om vi kommer online
         onlineinitialisering = null;
@@ -417,6 +369,7 @@ public class App extends Application {
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
           }
+          for (Runnable r : DRData.instans.grunddata.observatører) r.run();
           // Er vi nået hertil så gik parsning godt - gem de nye stamdata i prefs, så de også bruges ved næste opstart
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, nyeGrunddata).commit();
         }

@@ -85,7 +85,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
         if (!seekBarBetjenesAktivt) { // Kun hvis vi ikke er i gang med at søge i udsendelsen
 
           if (afspiller.getLydkilde().erDirekte()) {
-            if (u!=null) {
+            if (u!=null && u.startTid!=null && u.slutTid!=null) {
               seekBar.setVisibility(View.VISIBLE);
               seekBar.setEnabled(false);
               starttid.setVisibility(View.VISIBLE);

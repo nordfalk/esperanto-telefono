@@ -36,6 +36,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import dk.dr.radio.akt.EoKanal_frag;
+import dk.dr.radio.akt.Kanal_frag;
+import dk.dr.radio.akt.Kanal_nyheder_frag;
 import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -96,6 +99,7 @@ public class Grunddata {
       k.eo_retpoŝto = kJs.optString("retpoŝto", null);
       k.eo_emblemoUrl = kJs.optString("emblemoUrl", null);
       k.eo_json = kJs;
+      k.fragKlasse = EoKanal_frag.class;
       kanaler.add(k);
 
       if (rektaElsendaSonoUrl != null) {
@@ -107,6 +111,11 @@ public class Grunddata {
         el.sonoUrl = rektaElsendaSonoUrl;
         el.rektaElsendaPriskriboUrl = rektaElsendaPriskriboUrl;
         k.eo_rektaElsendo = el;
+        k.streams = new ArrayList<Lydstream>();
+        Lydstream ls = new Lydstream();
+        k.streams.add(ls);
+        ls.url = rektaElsendaSonoUrl;
+        ls.type = DRJson.StreamType.Shoutcast;
         //k.udsendelser.add(el);
       }
     }
@@ -284,6 +293,7 @@ public class Grunddata {
       if (k == null) {
         k = new Kanal();
         k.kode = j.optString("scheduleIdent", "P4F");
+        k.fragKlasse = "DRN".equals(k.kode)? Kanal_nyheder_frag.class : Kanal_frag.class;
         kanalFraKode.put(k.kode, k);
       }
       k.navn = j.getString("title");

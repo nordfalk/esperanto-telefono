@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import dk.dr.radio.akt.Basisfragment;
+import dk.dr.radio.akt.Kanal_frag;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -40,6 +42,7 @@ public class Kanal extends Lydkilde {
   public boolean p4underkanal;
   public transient ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
   public transient SortedMap<String, ArrayList<Udsendelse>> udsendelserPerDag = new TreeMap<String, ArrayList<Udsendelse>>();
+  public Class<? extends Basisfragment> fragKlasse = Kanal_frag.class;
 
   //// EO
   public String eo_hejmpaĝoEkrane;

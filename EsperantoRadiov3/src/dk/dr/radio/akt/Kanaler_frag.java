@@ -134,7 +134,13 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
 
     @Override
     public Basisfragment getItem(int position) {
-      Basisfragment f = position < kanaler2.size() - 1 ? new Kanal_frag() : new Kanal_nyheder_frag();
+      Basisfragment f = null;// position < kanaler2.size() - 1 ? new Kanal_frag() : new Kanal_nyheder_frag();
+      try {
+        f = kanaler.get(position).fragKlasse.newInstance();
+      } catch (Exception e) {
+        e.printStackTrace();
+        f = new Kanal_frag();
+      }
       Bundle b = new Bundle();
       b.putString(Kanal_frag.P_kode, kanaler2.get(position).kode);
       f.setArguments(b);

@@ -52,15 +52,15 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse> {
   public Udsendelse() {
   }
 
+/*
   public String toString() {
     return kanalSlug + startTid + (beskrivelse.length() > 30 ? beskrivelse.substring(0, 15) + "..." : beskrivelse);
   }
-/*
-  @Override
-  public String toString() {
-    return slug + "/" + episodeIProgramserie;//startTid + "/" + slutTid;
-  }
 */
+@Override
+public String toString() {
+  return slug + "/" + episodeIProgramserie;//startTid + "/" + slutTid;
+}
 
   @Override
   public String getStreamsUrl() {

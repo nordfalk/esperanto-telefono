@@ -44,7 +44,7 @@ import com.google.android.exoplayer.text.SubtitleView;
 import com.google.android.exoplayer.util.VerboseLogUtil;
 
 import dk.dr.radio.diverse.App;
-import dk.dr.radio.v3.R;
+import dk.nordfalk.esperanto.radio.R;
 
 /**
  * An activity that plays media using {@link DemoPlayer}.

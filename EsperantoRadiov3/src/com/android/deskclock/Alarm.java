@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
-import dk.dr.radio.v3.R;
+import dk.nordfalk.esperanto.radio.R;
 
 public final class Alarm {
   final static int INVALID_ALARM_ID = -1;

@@ -40,7 +40,7 @@ import dk.dr.radio.diverse.AnimationAdapter;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.v3.R;
+import dk.nordfalk.esperanto.radio.R;
 
 public class Afspiller_frag extends Basisfragment implements Runnable, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
   private AQuery aq;

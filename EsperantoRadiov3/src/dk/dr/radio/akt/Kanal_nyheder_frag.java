@@ -20,7 +20,7 @@ import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
 import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
-import dk.dr.radio.v3.R;
+import dk.nordfalk.esperanto.radio.R;
 
 public class Kanal_nyheder_frag extends Basisfragment implements View.OnClickListener, Runnable {
 

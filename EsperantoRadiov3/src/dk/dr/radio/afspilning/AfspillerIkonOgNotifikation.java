@@ -113,11 +113,15 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
     Lydkilde lydkilde = DRData.instans.afspiller.getLydkilde();
     Kanal kanal = lydkilde.getKanal();
     Udsendelse udsendelse = lydkilde.getUdsendelse();
-    if (kanal.kanallogo_resid==0) {
+    if (kanal.kanallogo_resid==0 && kanal.eo_emblemo==null) {
       remoteViews.setViewVisibility(R.id.kanallogo, View.GONE);
     } else {
       remoteViews.setViewVisibility(R.id.kanallogo, View.VISIBLE);
-      remoteViews.setImageViewResource(R.id.kanallogo, kanal.kanallogo_resid);
+      if (kanal.eo_emblemo!=null) {
+        remoteViews.setImageViewBitmap(R.id.kanallogo, kanal.eo_emblemo);
+      } else {
+        remoteViews.setImageViewResource(R.id.kanallogo, kanal.kanallogo_resid);
+      }
     }
     remoteViews.setViewVisibility(R.id.direktetekst, lydkilde.erDirekte()?View.VISIBLE:View.GONE);
     remoteViews.setTextViewText(R.id.metainformation, udsendelse!=null?udsendelse.titel:kanal.navn);

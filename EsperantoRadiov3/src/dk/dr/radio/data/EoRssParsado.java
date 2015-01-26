@@ -64,7 +64,6 @@ class EoRssParsado {
         //Log.d("xxxxx "+e.datoStr);
         e.startTid = new Date(Date.parse(e.startTidKl));
         e.slug = e.kanalSlug + " " + e.startTidKl;
-        DRData.instans.udsendelseFraSlug.put(e.slug, e);
         e.startTidKl = Grunddata.datoformato.format(e.startTid);
       } else if ("image".equals(tag)) {
         e.billedeUrl = p.nextText();
@@ -129,14 +128,13 @@ class EoRssParsado {
       } else if (e == null) {
         continue;
       } else if ("title".equals(tag)) {
-        e.titel = p.nextText();
+        e.titel = Diverse.unescapeHtml3(p.nextText());
       } else if ("published".equals(tag)) {
         e.startTidKl = p.nextText().split("T")[0];
         //Log.d("e.datoStr="+e.datoStr);
         e.startTid = Grunddata.datoformato.parse(e.startTidKl);
         e.startTidKl = Grunddata.datoformato.format(e.startTid);
         e.slug = e.kanalSlug + " " + e.startTidKl;
-        DRData.instans.udsendelseFraSlug.put(e.slug, e);
       } else if ("link".equals(tag)) {
         String type = p.getAttributeValue(null, "type");
         String href = p.getAttributeValue(null, "href");

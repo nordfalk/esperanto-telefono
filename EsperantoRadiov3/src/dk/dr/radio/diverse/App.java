@@ -73,6 +73,7 @@ import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
+import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.volley.DrBasicNetwork;
 import dk.dr.radio.diverse.volley.DrDiskBasedCache;
 import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
@@ -161,6 +162,7 @@ public class App extends Application {
       if (!App.erInstalleretPåSDKort) prefs.edit().remove(NØGLE_advaretOmInstalleretPåSDKort).commit();
 
       Class.forName("android.os.AsyncTask"); // Fix for http://code.google.com/p/android/issues/detail?id=20915
+      FilCache.init(new File(getCacheDir(), "FilCache"));
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
@@ -217,8 +219,17 @@ public class App extends Application {
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
       DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
       DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
+      DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
+      new Thread() {
+        @Override
+        public void run() {
+          try {
+            DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
+          } catch (Exception e) { Log.e(e); }
+        }
+      }.start();
 
-      if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
+        if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
 
       String pn = App.instans.getPackageName();
       for (final Kanal k : DRData.instans.grunddata.kanaler) {
@@ -256,7 +267,7 @@ public class App extends Application {
       skrift_gibson_fed = Typeface.createFromAsset(getAssets(), "Gibson-SemiBold.otf");
       skrift_georgia = Typeface.createFromAsset(getAssets(), "Georgia.ttf");
     } catch (Exception e) {
-      Log.e("DRs skrifttyper er ikke tilgængelige", e);
+      Log.d("DRs skrifttyper er ikke tilgængelige");
       skrift_gibson = Typeface.DEFAULT;
       skrift_gibson_fed = Typeface.DEFAULT_BOLD;
       skrift_georgia = Typeface.DEFAULT;

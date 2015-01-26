@@ -30,9 +30,8 @@ android:versionName="3.2 21.dec småting 143"
       android:name="dk.dr.radio.diverse.App"
       android:icon="@drawable/emblemo"
       android:logo="@drawable/emblemo"
-      android:label="DR Radio beta"
       android:theme="@style/Theme.Dr"
-      >
+      android:label="@string/app_name">
 
     <!--
     Version 3 havde brug for

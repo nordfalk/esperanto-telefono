@@ -18,6 +18,8 @@
 
 package dk.dr.radio.data;
 
+import android.graphics.Bitmap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ public class Kanal extends Lydkilde {
   public static final String P4kode = "P4F";
   public String navn;
   public transient int kanallogo_resid;
+  public transient Bitmap eo_emblemo;
   public boolean p4underkanal;
   public transient ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
   public transient SortedMap<String, ArrayList<Udsendelse>> udsendelserPerDag = new TreeMap<String, ArrayList<Udsendelse>>();

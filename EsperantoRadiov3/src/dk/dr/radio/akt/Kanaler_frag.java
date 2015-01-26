@@ -1,5 +1,6 @@
 package dk.dr.radio.akt;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -166,6 +167,11 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     @Override
     public String getPageContentDescription(int position) {
       return kanaler2.get(position).navn;
+    }
+
+    @Override
+    public Bitmap getPageIconBitmap(int position) {
+      return kanaler2.get(position).eo_emblemo;
     }
   }
 }

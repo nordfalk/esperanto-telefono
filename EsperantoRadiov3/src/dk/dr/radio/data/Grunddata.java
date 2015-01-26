@@ -18,6 +18,8 @@
 
 package dk.dr.radio.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import org.json.JSONArray;
@@ -105,12 +107,14 @@ public class Grunddata {
 
       if (rektaElsendaSonoUrl != null) {
         Udsendelse el = new Udsendelse();
-        el.startTid = new Date();
+        el.startTid = el.slutTid = new Date();
         el.kanalSlug = k.navn;
         el.startTidKl = "REKTA";
         el.titel = "";
         el.sonoUrl = rektaElsendaSonoUrl;
         el.rektaElsendaPriskriboUrl = rektaElsendaPriskriboUrl;
+        el.slug = k.slug + "_rekta";
+        eoElsendoAlDaUdsendelse(el, k);
         k.eo_rektaElsendo = el;
         k.streams = new ArrayList<Lydstream>();
         Lydstream ls = new Lydstream();
@@ -128,6 +132,32 @@ public class Grunddata {
     }
   }
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+
+  static void eoElsendoAlDaUdsendelse(Udsendelse e, Kanal k) {
+    if (e.programserieSlug==null) {
+      e.programserieSlug = e.kanalSlug;
+      Programserie ps = DRData.instans.programserieFraSlug.get(e.programserieSlug);
+      if (ps==null) {
+        ps = new Programserie();
+        ps.billedeUrl = k.eo_emblemoUrl;
+        ps.beskrivelse = k.getNavn();
+        DRData.instans.programserieFraSlug.put(e.programserieSlug, ps);
+      }
+      ps.udsendelserListe = k.udsendelser;
+      ps.antalUdsendelser = k.udsendelser.size();
+    }
+    e.kanStreames = e.kanNokHøres = true;
+    e.streams = new ArrayList<Lydstream>();
+    e.slutTid = e.startTid;
+    Lydstream ls = new Lydstream();
+    e.streams.add(ls);
+    ls.url = e.sonoUrl;
+    ls.type = DRJson.StreamType.Shoutcast;
+    ls.kvalitet = DRJson.StreamQuality.High;
+    DRData.instans.udsendelseFraSlug.put(e.slug, e);
+  }
+
 
   public void leguRadioTxt(String radioTxt) {
     String kapo = null;
@@ -183,6 +213,7 @@ public class Grunddata {
           }
           //Log.d("Aldonas elsendon "+e.toString());
           k.udsendelser.add(e);
+          eoElsendoAlDaUdsendelse(e, k);
           k.eo_udsendelserFraRadioTxt = k.udsendelser;
         } catch (Exception e) {
           Log.e("Ne povis legi unuon: " + unuo, e);
@@ -226,11 +257,20 @@ public class Grunddata {
       } else {
         elsendoj = EoRssParsado.parsiElsendojnDeRss(new StringReader(xml));
       }
-      if (k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false)) for (Udsendelse e : elsendoj) e.titel = null;
+      boolean elsendojRssIgnoruTitolon = k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false);
       if (elsendoj.size() > 0) {
         if (k.eo_rektaElsendo != null) elsendoj.add(k.eo_rektaElsendo);
         k.udsendelser = elsendoj;
         k.eo_datumFonto = "rss";
+      }
+      for (Udsendelse e : elsendoj) {
+        String bes = e.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ');
+        if (elsendojRssIgnoruTitolon) e.titel = bes;
+        else if (bes.length()>0) e.titel = e.titel + " - " + bes;
+
+        if (e.titel.length()>200) e.titel = e.titel.substring(0, 200);
+
+        eoElsendoAlDaUdsendelse(e, k);
       }
       Log.d(" parsis " + k.kode + " kaj ricevis " + elsendoj.size() + " elsendojn");
     } catch (Exception ex) {
@@ -247,12 +287,69 @@ public class Grunddata {
     }
   }
 
+  public boolean ŝarĝiKanalEmblemojn(boolean nurLokajn) {
+    boolean ioEstisSxargxita = false;
+    for (Kanal k : kanaler) {
+
+      if (k.eo_emblemoUrl != null && k.eo_emblemo == null) try {
+        String dosiero = FilCache.hentFil(k.eo_emblemoUrl, nurLokajn);
+        if (dosiero == null) continue;
+        /*
+           int kiomDaDpAlta = 50; // 50 dp
+           // Convert the dps to pixels
+           final float scale = App.instans.getResources().getDisplayMetrics().density;
+           int alteco = (int) (kiomDaDpAlta * scale + 0.5f);
+           Bitmap res = kreuBitmapTiomAlta(dosiero, alteco);
+           */
+        Bitmap res = BitmapFactory.decodeFile(dosiero);
+
+        if (res != null) ioEstisSxargxita = true;
+        k.eo_emblemo = res;
+      } catch (Exception ex) {
+        Log.e(ex);
+      }
+    }
+    return ioEstisSxargxita;
+  }
+
+  private static Bitmap kreuBitmapTiomAlta(String dosiero, int alteco) {
+    BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inScaled = false;
+    options.inDither = false;
+    options.inJustDecodeBounds = true;
+    BitmapFactory.decodeFile(dosiero, options);
+    int desiredH = alteco;
+    int srcWidth = options.outWidth;
+    int srcHeight = options.outHeight;
+    // Only scale if the source is big enough. This code is just trying to fit a image into a certain width.
+    if (desiredH > srcHeight) {
+      desiredH = srcHeight;
+    }
+    // Calculate the correct inSampleSize/scale value. This helps reduce memory use. It should be a power of 2
+    // from: http://stackoverflow.com/questions/477572/android-strange-out-of-memory-issue/823966#823966
+    int inSampleSize = 1;
+    while (srcHeight / 2 > desiredH) {
+      srcHeight /= 2;
+      srcHeight /= 2;
+      inSampleSize *= 2;
+    }
+    //float desiredScale = (float) desiredH / srcHeight;
+    options.inJustDecodeBounds = false;
+    options.inDither = false;
+    options.inSampleSize = inSampleSize;
+    options.inScaled = false;
+    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+    Bitmap res = BitmapFactory.decodeFile(dosiero, options);
+    return res;
+  }
+
   public void rezumo() {
     for (Kanal k : this.kanaler) {
       Log.d("============ "+k.kode +" ============= "+k.udsendelser.size()+" "+k.eo_datumFonto);
       int n = 0;
       for (Udsendelse e : k.udsendelser) {
-        Log.d(n++ +" "+ e.startTidKl +" "+e.titel +" "+e.sonoUrl+" "+e.beskrivelse);
+//        Log.d(n++ +" "+ e.startTidKl +" "+e.titel +" "+e.sonoUrl+" "+e.beskrivelse);
+        Log.d(n++ +" "+ e.startTidKl +" "+e.titel);// +" "+e.sonoUrl+" "+e.beskrivelse);
         if (n>300) {
           Log.d("...");
           break;

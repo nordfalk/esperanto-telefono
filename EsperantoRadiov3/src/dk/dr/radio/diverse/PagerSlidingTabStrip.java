@@ -19,6 +19,7 @@ package dk.dr.radio.diverse;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -63,6 +64,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     public int getPageIconResId(int position);
 
     public String getPageContentDescription(int position);
+
+    public Bitmap getPageIconBitmap(int position);
   }
 
   // @formatter:off
@@ -215,8 +218,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       if (adapter instanceof IconTabProvider) {
         IconTabProvider ipa = ((IconTabProvider) adapter);
         if (TEKST_DER_FADER_OVER_I_IKONER) {
+          Bitmap res = ipa.getPageIconBitmap(i);
           int resId = ipa.getPageIconResId(i);
-          if (resId!=0) addIconTabBådeTekstOgBillede(i, resId, ipa.getPageContentDescription(i));
+          if (resId!=0 || res!=null) addIconTabBådeTekstOgBillede(i, resId, res, ipa.getPageContentDescription(i));
           else addTextTab(i, adapter.getPageTitle(i).toString());
         } else {
           addIconTab(i, ipa.getPageIconResId(i), ipa.getPageContentDescription(i));
@@ -270,11 +274,17 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
   }
 
-  private void addIconTabBådeTekstOgBillede(final int position, int resId, String title) {
+  private void addIconTabBådeTekstOgBillede(final int position, int resId, Bitmap res, String title) {
     FrameLayout tabfl = new FrameLayout(getContext());
     ImageView tabi = new ImageView(getContext());
     tabi.setContentDescription(title);
-    tabi.setImageResource(resId);
+    if (res!=null) {
+      tabi.setImageBitmap(res);
+      tabi.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+      tabi.setAdjustViewBounds(true);
+    } else {
+      tabi.setImageResource(resId);
+    }
     tabi.setVisibility(View.INVISIBLE);
     TextView tabt = new TextView(getContext());
     tabt.setText(title);

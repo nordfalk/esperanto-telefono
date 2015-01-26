@@ -24,6 +24,7 @@ public class EoElproviEsperantoRadioLogikon {
   public static void main(String[] args) throws Exception {
     //Date.parse("Mon, 13 Aug 2012 05:25:10 +0000");
     //Date.parse("Thu, 01 Aug 2013 12:01:01 +02:00");
+    DRData.instans = new DRData();
 
     FilCache.init(new File("datumoj"));
     //String ĉefdatumoj2Str = Kasxejo.hentUrlSomStreng(kanalojUrl);

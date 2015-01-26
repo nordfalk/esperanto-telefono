@@ -16,15 +16,12 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -33,7 +30,6 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
-import dk.dr.radio.data.Playlisteelement;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -113,7 +109,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       }
     });
     // Klikker man på den hvide baggrund rulles til aktuel udsendelse
-    aq.id(R.id.rulTilAktuelUdsendelse).clicked(this);
+    aq.id(R.id.rulTilAktuelUdsendelse).clicked(this).gone();
 
 
     final String url = kanal.eo_json.optString("elsendojRssUrl");
@@ -402,7 +398,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           a.id(R.id.billede).image(burl, true, true, 0, 0, null, AQuery.FADE_IN, (float) højde9 / bredde16);
           vh.titel.setText(udsendelse.titel.toUpperCase());
 
-          if (udsendelse.playliste == null) {
+          if (udsendelse.rektaElsendaPriskriboUrl!=null && rektaElsendaPriskribo==null) {
             opdaterSenestSpillet(vh.aq, udsendelse);
           } else {
             opdaterSenestSpilletViews(vh.aq, udsendelse);
@@ -432,38 +428,25 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   };
 
 
+  String rektaElsendaPriskribo = null;
   private void opdaterSenestSpilletViews(AQuery aq, Udsendelse u) {
-    if (App.fejlsøgning) Log.d("DDDDD opdaterSenestSpilletViews " + u.playliste);
-    if (u.playliste != null && u.playliste.size() > 0) {
+    if (rektaElsendaPriskribo != null) {
       aq.id(R.id.senest_spillet_container).visible();
-      Playlisteelement elem = u.playliste.get(0);
-//      aq.id(R.id.titel_og_kunstner).text(Html.fromHtml("<b>" + elem.titel + "</b> &nbsp; | &nbsp;" + elem.kunstner));
-
-      aq.id(R.id.titel_og_kunstner)
-          .text(lavFedSkriftTil(elem.titel + "  |  " + elem.kunstner, elem.titel.length()))
-          .getView().setContentDescription(elem.titel + "  af  " + elem.kunstner);
-
-      ImageView b = aq.id(R.id.senest_spillet_kunstnerbillede).getImageView();
-      if (elem.billedeUrl==null) {
-        aq.gone();
-      } else {
-        aq.visible().image(skalérDiscoBilledeUrl(elem.billedeUrl, b.getWidth(), b.getHeight()), true, true, b.getWidth(), b.getHeight());
-      }
+      aq.id(R.id.titel_og_kunstner).text(rektaElsendaPriskribo);
+      aq.id(R.id.senest_spillet_kunstnerbillede).gone();
     } else {
       aq.id(R.id.senest_spillet_container).gone();
     }
   }
 
   private void opdaterSenestSpillet(final AQuery aq2, final Udsendelse u2) {
-    Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(u2.slug), new DrVolleyResonseListener() {
+    if (u2.rektaElsendaPriskriboUrl==null) return;
+    Request<?> req = new DrVolleyStringRequest(u2.rektaElsendaPriskriboUrl, new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         if (App.fejlsøgning) Log.d("KAN fikSvar playliste(" + fraCache + uændret + " " + url);
         if (getActivity() == null || uændret) return;
-        if (u2.playliste != null && fraCache) return; // så har vi allerede den nyeste liste i MEM
-        if (json != null && !"null".equals(json)) {
-          u2.playliste = DRJson.parsePlayliste(new JSONArray(json));
-        }
+        rektaElsendaPriskribo = json;
         if (aktuelUdsendelseViewholder == null) return;
         opdaterSenestSpilletViews(aq2, u2);
       }
@@ -501,7 +484,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     // PinnedSectionListView tillader klik på hængende overskrifter, selvom adapteren siger at det skal den ikke
     if (!(o instanceof Udsendelse)) return;
     Udsendelse u = (Udsendelse) o;
-    Log.d("MONTRAS ELSENDON "+u.slug);
+    Log.d("MONTRAS ELSENDON "+u.slug + "  "+ u.streams);
     //startActivity(new Intent(getActivity(), VisFragment_akt.class)
     //    .putExtra(P_kode, getKanal.kode)
     //    .putExtra(VisFragment_akt.KLASSE, Udsendelse_frag.class.getName()).putExtra(DRJson.Slug.name(), u.slug)); // Udsenselses-ID

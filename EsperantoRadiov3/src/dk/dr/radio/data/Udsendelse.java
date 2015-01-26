@@ -1,8 +1,12 @@
 package dk.dr.radio.data;
 
+import android.support.v4.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.Date;
 
+import dk.dr.radio.akt.EoUdsendelse_frag;
+import dk.dr.radio.akt.Udsendelse_frag;
 import dk.dr.radio.diverse.Log;
 
 /**
@@ -140,5 +144,10 @@ public String toString() {
       indeks++;
     }
     return indeks;
+  }
+
+  public Fragment nytFrag() {
+    if (getKanal().eo_datumFonto!=null) return new EoUdsendelse_frag();
+    return new Udsendelse_frag();
   }
 }

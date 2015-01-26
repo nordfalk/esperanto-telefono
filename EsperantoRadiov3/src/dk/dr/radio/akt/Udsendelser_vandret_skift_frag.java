@@ -229,7 +229,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     @Override
     public Fragment getItem(int position) {
       Udsendelse u = liste2.get(position);
-      Fragment f = new Udsendelse_frag();
+      Fragment f = u.nytFrag();
       f.setArguments(new Intent()
           .putExtra(Kanal_frag.P_kode, kanal.kode)
           .putExtra(Udsendelse_frag.AKTUEL_UDSENDELSE_SLUG, getArguments().getString(Udsendelse_frag.AKTUEL_UDSENDELSE_SLUG))

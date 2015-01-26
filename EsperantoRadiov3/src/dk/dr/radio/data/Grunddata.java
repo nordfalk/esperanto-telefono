@@ -150,13 +150,14 @@ public class Grunddata {
       ps.udsendelserListe = k.udsendelser;
       ps.antalUdsendelser = k.udsendelser.size();
     }
-    e.kanStreames = e.kanNokHøres = true;
+    e.kanHentes = e.kanStreames = e.kanNokHøres = true;
     e.streams = new ArrayList<Lydstream>();
     e.slutTid = e.startTid;
     Lydstream ls = new Lydstream();
     e.streams.add(ls);
     ls.url = e.sonoUrl;
-    ls.type = DRJson.StreamType.Shoutcast;
+    ls.type = DRJson.StreamType.HTTP;
+    ls.format = "mp3";
     ls.kvalitet = DRJson.StreamQuality.High;
   }
 

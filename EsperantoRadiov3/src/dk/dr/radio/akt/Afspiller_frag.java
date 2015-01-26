@@ -448,7 +448,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
         Sidevisning.vist(Kanaler_frag.class);
       } else {
         Udsendelse udsendelse = lydkilde.getUdsendelse();
-        Fragment f = new Udsendelse_frag();
+        Fragment f = udsendelse.nytFrag();
         f.setArguments(new Intent()
             .putExtra(P_kode, lydkilde.getKanal().kode)
             .putExtra(DRJson.Slug.name(), udsendelse.slug).getExtras());

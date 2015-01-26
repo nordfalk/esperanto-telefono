@@ -479,7 +479,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     // Vis normalt et Udsendelser_vandret_skift_frag med flere udsendelser
     // Hvis tilgængelighed er slået til (eller bladring slået fra) vises blot ét Udsendelse_frag
     Fragment f =
-        App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? new Udsendelse_frag() :
+        App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? u.nytFrag() :
             new Udsendelser_vandret_skift_frag();
     f.setArguments(new Intent()
         .putExtra(P_kode, kanal.kode)

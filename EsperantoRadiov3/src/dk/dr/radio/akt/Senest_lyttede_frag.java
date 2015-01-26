@@ -166,7 +166,7 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
           .putExtra(P_kode, ((Kanal) k).kode)
           .getExtras());
     } else {
-      f = new Udsendelse_frag();
+      f = ((Udsendelse) k).nytFrag();
       f.setArguments(new Intent()
           .putExtra(DRJson.Slug.name(), k.slug)
           .getExtras());

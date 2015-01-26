@@ -125,7 +125,7 @@ public class HentedeUdsendelser {
       File dir;
       if (brugervalg != null && new File(brugervalg).exists()) dir = new File(brugervalg);
       else dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
-      dir = new File(dir, "DR_Radio");
+      dir = new File(dir, "EsperantoRadio");
       dir.mkdirs();
       if (!dir.exists()) throw new IOException("kunne ikke oprette " + dir);
 
@@ -141,7 +141,8 @@ public class HentedeUdsendelser {
       //req.setDestinationInExternalPublicDir(Environment.DIRECTORY_PODCASTS, udsendelse.slug + ".mp3");
       //req.setDestinationInExternalPublicDir("DR_Radio", udsendelse.slug + ".mp3");
       //req.setDestinationInExternalFilesDir(App.instans, Environment.DIRECTORY_PODCASTS, "DRRADIO4xx"+ udsendelse.slug + ".mp3");
-      req.setDestinationUri(Uri.fromFile(new File(dir, udsendelse.slug + ".mp3")));
+      String filnavn = udsendelse.slug.replace(':','_') + ".mp3";
+      req.setDestinationUri(Uri.fromFile(new File(dir, filnavn)));
 
       if (Build.VERSION.SDK_INT >= 11) req.allowScanningByMediaScanner();
 
@@ -149,7 +150,7 @@ public class HentedeUdsendelser {
       data.downloadIdFraSlug.put(udsendelse.slug, downloadId);
       data.udsendelseFraDownloadId.put(downloadId, udsendelse);
       if (!data.udsendelser.contains(udsendelse)) data.udsendelser.add(udsendelse);
-      Log.d("Hentning: hent() data.udsendelseFraDownloadId= " + data.udsendelseFraDownloadId);
+      Log.d("Hentning: hent() data.udsendelseFraDownloadId= " + data.udsendelseFraDownloadId + " for "+filnavn);
       Log.d("Hentning: hent() data.downloadIdFraSlug=" + data.downloadIdFraSlug);
       gemListe();
       for (Runnable obs : new ArrayList<Runnable>(observatører)) obs.run();

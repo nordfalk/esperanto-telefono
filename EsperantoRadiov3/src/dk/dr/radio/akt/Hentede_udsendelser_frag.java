@@ -171,7 +171,7 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
     if (!DRData.instans.udsendelseFraSlug.containsKey(udsendelse.slug)) {
       DRData.instans.udsendelseFraSlug.put(udsendelse.slug, udsendelse);
     }
-    Fragment f = new Udsendelse_frag();
+    Fragment f = udsendelse.nytFrag();
     f.setArguments(new Intent()
 //        .putExtra(Udsendelse_frag.BLOKER_VIDERE_NAVIGERING, true)
 //        .putExtra(P_kode, getKanal.kode)

@@ -72,7 +72,7 @@ public String toString() {
   public Kanal getKanal() {
     Kanal k = DRData.instans.grunddata.kanalFraSlug.get(kanalSlug);
     if (k == null) {
-      Log.d(kanalSlug + " manglede i grunddata.kanalFraSlug");
+      Log.d(kanalSlug + " manglede i grunddata.kanalFraSlug - der var "+DRData.instans.grunddata.kanalFraSlug.keySet());
       return Grunddata.ukendtKanal;
     }
     //if (Kanal.P4kode.equals(k.kode)) {

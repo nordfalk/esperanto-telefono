@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.Grunddata;
+import dk.dr.radio.data.EoRssParsado;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
@@ -115,15 +114,13 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     final String url = kanal.eo_json.optString("elsendojRssUrl");
     if (App.fejlsøgning) Log.d("hentSendeplanForDag url=" + url);
 
-    if (url!=null) {
+    if (url!=null &&  !"rss".equals(kanal.eo_datumFonto)) {
       Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret || listView==null || getActivity() == null) return;
-          //if (kanal.udsendelser != null  && fraCache) return; // så er værdierne i RAMen gode nok
-          // Log.d(kanal + " hentSendeplanForDag fikSvar for url " + url + " fraCache=" + fraCache+":\n"+json);
-          Log.d("json="+json);
-          Grunddata.ŝarĝiElsendojnDeRssUrl(json, kanal);
+          Log.d("eo RSS por "+kanal+" ="+json);
+          EoRssParsado.ŝarĝiElsendojnDeRssUrl(json, kanal);
           opdaterListe();
         }
 
@@ -138,7 +135,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       }.setTag(this);
       //Log.d("hentSendeplanForDag 2 " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
       App.volleyRequestQueue.add(req);
-
+    } else {
+      opdaterListe();
     }
 
     //Log.d(this + " onCreateView 4 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
@@ -158,15 +156,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     App.netværk.observatører.remove(this);
     listView.setAdapter(null); // Fix hukommelseslæk
     rod = null; listView = null; aktuelUdsendelseViewholder = null;
-  }
-
-
-  public void rulBlødtTilAktuelUdsendelse() {
-    Log.d("rulBlødtTilAktuelUdsendelse() "+this);
-    if (aktuelUdsendelseIndex < 0) return;
-    int topmargen = getResources().getDimensionPixelOffset(R.dimen.kanalvisning_aktuelUdsendelse_topmargen);
-    if (Build.VERSION.SDK_INT >= 11) listView.smoothScrollToPositionFromTop(aktuelUdsendelseIndex, topmargen);
-    else listView.setSelectionFromTop(aktuelUdsendelseIndex, topmargen);
   }
 
   @Override
@@ -240,7 +229,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         }
         nyListe.add(u);
       }
-      int nyAktuelUdsendelseIndex = nyListe.indexOf(kanal.getUdsendelse());
+      int nyAktuelUdsendelseIndex = kanal.slug.equals("muzaiko") ? kanal.udsendelser.size()-1 : -1;
 
       // Hvis listen er uændret så hop ud - forhindrer en uendelig løkke
       // af opdateringer i tilfælde af, at sendeplanen for dags dato ikke kan hentes
@@ -261,9 +250,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       if (!brugerHarNavigeret) {
         if (App.fejlsøgning)
           Log.d("hopTilAktuelUdsendelse() aktuelUdsendelseIndex=" + aktuelUdsendelseIndex + " " + this);
-        if (aktuelUdsendelseIndex < 0) return;
         int topmargen = getResources().getDimensionPixelOffset(R.dimen.kanalvisning_aktuelUdsendelse_topmargen);
-        listView.setSelectionFromTop(aktuelUdsendelseIndex, topmargen);
+        listView.setSelectionFromTop(aktuelUdsendelseIndex<0?kanal.udsendelser.size()-1 : aktuelUdsendelseIndex , topmargen);
       }
     } catch (Exception e1) {
       Log.rapporterFejl(e1);
@@ -463,8 +451,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   public void onClick(View v) {
     if (kanal.streams == null) {
       Log.rapporterOgvisFejl(getActivity(), new IllegalStateException("kanal.streams er null"));
-    } else if (v.getId() == R.id.rulTilAktuelUdsendelse) {
-      rulBlødtTilAktuelUdsendelse();
     } else {
       // hør_udvidet_klikområde eller hør
       hør(kanal, getActivity());

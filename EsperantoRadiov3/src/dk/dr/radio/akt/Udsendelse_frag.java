@@ -148,6 +148,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.d("onCreateView " + this + " " + getArguments());
     kanal = DRData.instans.grunddata.kanalFraKode.get(getArguments().getString(Kanal_frag.P_kode));
     udsendelse = DRData.instans.udsendelseFraSlug.get(getArguments().getString(DRJson.Slug.name()));
     if (udsendelse == null) {

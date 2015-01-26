@@ -73,7 +73,7 @@ public class DrVolleyStringRequest extends StringRequest {
     if (servertidStr != null) { // Er set på nogle ældre enheder
       long servertid = HttpHeaderParser.parseDateAsEpoch(servertidStr);
       if (servertid > 0) {
-        App.sætServerCurrentTimeMillis(servertid);
+//        App.sætServerCurrentTimeMillis(servertid);
       }
     }
 

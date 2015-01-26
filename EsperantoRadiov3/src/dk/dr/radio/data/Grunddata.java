@@ -26,8 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,7 +90,7 @@ public class Grunddata {
     for (int i = 0; i < antal; i++) {
       JSONObject kJs = kanalojJs.getJSONObject(i);
       Kanal k = new Kanal();
-      k.kode = kJs.optString("kodo", null);
+      k.slug = k.kode = kJs.optString("kodo", null);
       if (k.kode ==null) continue;
       k.navn = kJs.getString("nomo");
       String rektaElsendaSonoUrl = kJs.optString("rektaElsendaSonoUrl", null);
@@ -128,13 +126,17 @@ public class Grunddata {
 
     for (Kanal k : kanaler) {
       kanalFraKode.put(k.kode, k);
-      kanalFraSlug.put(k.navn, k);
+      kanalFraSlug.put(k.slug, k);
     }
   }
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
 
   static void eoElsendoAlDaUdsendelse(Udsendelse e, Kanal k) {
+    e.kanalSlug = k.slug;
+    e.slug = e.kanalSlug + ":" + e.startTidKl;
+    DRData.instans.udsendelseFraSlug.put(e.slug, e);
+
     if (e.programserieSlug==null) {
       e.programserieSlug = e.kanalSlug;
       Programserie ps = DRData.instans.programserieFraSlug.get(e.programserieSlug);
@@ -144,6 +146,7 @@ public class Grunddata {
         ps.beskrivelse = k.getNavn();
         DRData.instans.programserieFraSlug.put(e.programserieSlug, ps);
       }
+      //ps.tilføjUdsendelser(0, k.udsendelser);
       ps.udsendelserListe = k.udsendelser;
       ps.antalUdsendelser = k.udsendelser.size();
     }
@@ -155,7 +158,6 @@ public class Grunddata {
     ls.url = e.sonoUrl;
     ls.type = DRJson.StreamType.Shoutcast;
     ls.kvalitet = DRJson.StreamQuality.High;
-    DRData.instans.udsendelseFraSlug.put(e.slug, e);
   }
 
 
@@ -179,10 +181,8 @@ public class Grunddata {
            http://www.melburno.org.au/3ZZZradio/mp3/2011-09-26.3ZZZ.radio.mp3
            Anonco : el retmesaĝo de Floréal Martorell « Katastrofo ĉe Vinilkosmo/ Eurokka Kanto : informo pri la kompaktdisko Hiphopa Kompilo 2 « Miela obsedo » Legado: el la verko de Ken Linton Kanako el Kananam ĉapitro 12 « Stranga ĝardeno » Lez el Monato de aŭgusto /septembro « Tantamas ŝtopiĝoj » de Ivo durwael Karlo el Monato » Eksplofas la popola kolero » [...]
            */
-          e.kanalSlug = x[0];
+          e.kanalSlug = x[0].replaceAll(" ","").toLowerCase();
           e.startTidKl = x[1];
-          e.slug = e.kanalSlug + " " + e.startTidKl;
-          DRData.instans.udsendelseFraSlug.put(e.slug, e);
           e.startTid = datoformato.parse(x[1]);
           e.sonoUrl = x[2];
           e.beskrivelse = x[3];
@@ -194,19 +194,20 @@ public class Grunddata {
           // "nomo": "Esperanta Retradio",
 
           if (k == null) {
-            k = kanalFraKode.get(e.kanalSlug.toLowerCase());
-            if (k != null) e.kanalSlug = k.navn;
+            k = kanalFraKode.get(e.kanalSlug);
+            if (k != null) e.kanalSlug = k.slug;
           }
 
           if (k == null) {
             Log.d("Nekonata kanalnomo - ALDONAS GXIN: " + e.kanalSlug);
             k = new Kanal();
             k.eo_json = new JSONObject();
-            k.kode = k.navn = e.kanalSlug;
+            k.kode = k.slug = e.kanalSlug;
+            k.navn = x[0];
             k.eo_datumFonto = "aldonita de radio.txt";
             k.fragKlasse = EoKanal_frag.class;
             kanalFraKode.put(k.kode, k);
-            kanalFraSlug.put(k.navn, k);
+            kanalFraSlug.put(k.slug, k);
             kanaler.add(k);
           } else if (k.eo_datumFonto ==null) {
             k.eo_datumFonto = "radio.txt";
@@ -224,57 +225,16 @@ public class Grunddata {
     for (Kanal k : kanaler) Collections.reverse(k.udsendelser);
   }
 
+
+
   /**
    * @return true se io estis ŝarĝita
    */
   public void ŝarĝiElsendojnDeRss(boolean nurLokajn) {
     for (Kanal k : kanaler) {
-      ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl", null), k, nurLokajn);
+      EoRssParsado.ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl", null), k, nurLokajn);
       //ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl1", null), k, nurLokajn);
       //ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl2", null), k, nurLokajn);
-    }
-  }
-
-  public static void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
-    try {
-      if (elsendojRssUrl== null) return;
-      String dosiero = FilCache.hentFil(elsendojRssUrl, nurLokajn);
-      Log.d(" akiris " + elsendojRssUrl);
-      if (dosiero == null) return;
-      ŝarĝiElsendojnDeRssUrl(Diverse.læsStreng(new FileInputStream(dosiero)), k);
-    } catch (Exception ex) {
-      Log.e("Eraro parsante " + k.kode, ex);
-    }
-  }
-
-
-  public static void ŝarĝiElsendojnDeRssUrl(String xml, Kanal k) {
-    try {
-      Log.d("============ parsas RSS de "+k.kode +" =============");
-      ArrayList<Udsendelse> elsendoj;
-      if ("vinilkosmo".equals(k.kode)) {
-        elsendoj = EoRssParsado.parsiElsendojnDeRssVinilkosmo(new StringReader(xml));
-      } else {
-        elsendoj = EoRssParsado.parsiElsendojnDeRss(new StringReader(xml));
-      }
-      boolean elsendojRssIgnoruTitolon = k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false);
-      if (elsendoj.size() > 0) {
-        if (k.eo_rektaElsendo != null) elsendoj.add(k.eo_rektaElsendo);
-        k.udsendelser = elsendoj;
-        k.eo_datumFonto = "rss";
-      }
-      for (Udsendelse e : elsendoj) {
-        String bes = e.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ');
-        if (elsendojRssIgnoruTitolon) e.titel = bes;
-        else if (bes.length()>0) e.titel = e.titel + " - " + bes;
-
-        if (e.titel.length()>200) e.titel = e.titel.substring(0, 200);
-
-        eoElsendoAlDaUdsendelse(e, k);
-      }
-      Log.d(" parsis " + k.kode + " kaj ricevis " + elsendoj.size() + " elsendojn");
-    } catch (Exception ex) {
-      Log.e("Eraro parsante " + k.kode, ex);
     }
   }
 
@@ -349,7 +309,7 @@ public class Grunddata {
       int n = 0;
       for (Udsendelse e : k.udsendelser) {
 //        Log.d(n++ +" "+ e.startTidKl +" "+e.titel +" "+e.sonoUrl+" "+e.beskrivelse);
-        Log.d(n++ +" "+ e.startTidKl +" "+e.titel);// +" "+e.sonoUrl+" "+e.beskrivelse);
+        Log.d(n++ +" '"+ e.slug+"'"+" "+e.titel);
         if (n>300) {
           Log.d("...");
           break;

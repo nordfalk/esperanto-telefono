@@ -49,7 +49,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d("onCreateView " + this);
+    Log.d("onCreateView " + this + " " + getArguments());
 
     View rod = inflater.inflate(R.layout.udsendelser_vandret_skift_frag, container, false);
 
@@ -91,6 +91,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
       viewPager.setAdapter(adapter);
       hentUdsendelser(0);
     } else {
+      liste.addAll(programserie.getUdsendelser());
       int n = Programserie.findUdsendelseIndexFraSlug(liste, startudsendelse.slug);
       if (n < 0) {
         liste.add(startudsendelse);
@@ -98,7 +99,6 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
         viewPager.setAdapter(adapter);
         hentUdsendelser(0);
       } else {
-        liste.addAll(programserie.getUdsendelser());
         adapter.liste2 = liste;
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(n);
@@ -275,6 +275,8 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     @Override
     public CharSequence getPageTitle(int position) {
       Udsendelse u = liste2.get(position);
+      return u.startTidKl;
+      /*
       String dato = DRJson.datoformat.format(u.startTid);
       if (dato.equals(DRJson.iDagDatoStr)) dato = "i dag";
       else if (dato.equals(DRJson.iMorgenDatoStr)) dato = "i morgen";
@@ -282,6 +284,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
       return dato;
       //return DRJson.datoformat.format(u.startTid);
       //return ""+u.episodeIProgramserie+" "+u.slug;
+      */
     }
   }
 }

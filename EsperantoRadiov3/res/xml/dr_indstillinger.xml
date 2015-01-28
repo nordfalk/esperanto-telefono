@@ -46,6 +46,12 @@
 
   <PreferenceCategory android:title="Andet">
 
+    <CheckBoxPreference
+ android:key="fjernbetjening" android:title="Fjernbetjening"
+android:defaultValue="true"
+android:summary="Betjening fra Bluetooth headset og på låseskærmen på Android 4"
+/>
+
     <PreferenceScreen android:title="Avanceret"
                       android:summary="Hentning af udsendelser og strømbesparende funktioner.">
 

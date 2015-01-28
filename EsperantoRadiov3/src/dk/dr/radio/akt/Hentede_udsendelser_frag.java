@@ -205,6 +205,9 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
                       // Animeret fjernelse af listeelement
                       int pos = liste.indexOf(u);
                       final View le = listView.getChildAt(pos);
+                      if (le==null) {
+                        hentedeUdsendelser.slet(u);
+                      }
                       le.animate().alpha(0).translationX(le.getWidth()).withEndAction(new Runnable() {
                         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
                         @Override

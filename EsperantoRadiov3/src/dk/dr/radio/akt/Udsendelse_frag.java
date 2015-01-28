@@ -398,6 +398,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
   };
 
   private boolean aktuelUdsendelsePåKanalen() {
+    if (udsendelse==null) return false;
     boolean res = udsendelse.equals(udsendelse.getKanal().getUdsendelse());
     //Log.d("aktuelUdsendelsePåKanalen()? " + res + " " + udsendelse + " " + udsendelse.getKanal() + ":" + udsendelse.getKanal().getUdsendelse());
     return res;

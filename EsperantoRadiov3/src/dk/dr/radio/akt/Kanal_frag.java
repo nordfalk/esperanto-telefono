@@ -154,7 +154,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     super.onDestroyView();
     DRData.instans.afspiller.observatører.remove(this);
     App.netværk.observatører.remove(this);
-    listView.setAdapter(null); // Fix hukommelseslæk
+    if (listView!=null) listView.setAdapter(null); // Fix hukommelseslæk
     rod = null; listView = null; aktuelUdsendelseViewholder = null;
   }
 

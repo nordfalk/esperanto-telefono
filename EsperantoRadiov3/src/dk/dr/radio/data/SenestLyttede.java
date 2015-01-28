@@ -57,6 +57,7 @@ public class SenestLyttede {
       Log.rapporterFejl(e);
     }
     liste = new LinkedHashMap<String, SenestLyttet>();
+    gemListe.run();
   }
 
   private Runnable gemListe = new Runnable() {

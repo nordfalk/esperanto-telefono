@@ -1,0 +1,27 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        applicationId "dk.nordfalk.esperanto.radio"
+        minSdkVersion 7
+        targetSdkVersion 21
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/ExoPlayer-HLS.jar')
+    compile files('libs/android-query-full.0.26.7.jar')
+    compile files('libs/bugsense-3.6.jar')
+    compile files('libs/volley.jar')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+}

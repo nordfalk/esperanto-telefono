@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
 <!--
@@ -14,7 +14,8 @@
   <ImageView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:adjustViewBounds="true"
+      android:adjustViewBounds="false"
+      android:scaleType="fitStart"
       android:id="@+id/billede"
       android:src="@drawable/eksempel_udsendelse"
       tools:ignore="ContentDescription"/>

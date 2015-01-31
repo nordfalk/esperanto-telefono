@@ -23,6 +23,7 @@ public class EoElproviEsperantoRadioLogikon {
    */
   public static void main(String[] args) throws Exception {
 
+    System.out.println(  new File(".").getAbsolutePath() );
     System.out.println(  Diverse.unescapeHtml3("&#8217;") );
     System.out.println(  Diverse.unescapeHtml3("Nikolin&#8217; dum la intervjuo.") );
     //Date.parse("Mon, 13 Aug 2012 05:25:10 +0000");
@@ -32,7 +33,7 @@ public class EoElproviEsperantoRadioLogikon {
     FilCache.init(new File("datumoj"));
     //String ĉefdatumoj2Str = Kasxejo.hentUrlSomStreng(kanalojUrl);
     String ĉefdatumoj2Str = Diverse.læsStreng(new FileInputStream(
-        "../EsperantoRadiov3/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
+        "app/src/main/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
     System.out.println("===================================================================1");
     System.out.println("===================================================================");
     Grunddata ĉefdatumoj2 = new Grunddata();

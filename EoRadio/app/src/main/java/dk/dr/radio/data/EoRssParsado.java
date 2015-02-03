@@ -37,8 +37,12 @@ public class EoRssParsado {
 
   static Pattern puriguVinilkosmo = Pattern.compile("<p class=\"who\">.+?</p>", Pattern.DOTALL);
 
+  static Pattern puriguVarsoviaVento = Pattern.compile("<p>.+?Ĉe Facebook ni kreis.+?</p>", Pattern.DOTALL);
+  static Pattern puriguVarsoviaVentoDownload = Pattern.compile("<p>.+?>Download audio file.+?</p>");
+  static Pattern puriguVarsoviaVentoElŝutu = Pattern.compile("<p>.+?>Elŝutu podkaston.+?</p>");
+
   /** Parser et youtube RSS feed og returnerer det som en liste at Elsendo-objekter */
-  static ArrayList<Udsendelse> parsiElsendojnDeRss(Reader is) throws Exception {
+  static ArrayList<Udsendelse> parsiElsendojnDeRss(Reader is, Kanal k) throws Exception {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser p = factory.newPullParser();
     p.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
@@ -58,7 +62,7 @@ public class EoRssParsado {
       //System.out.println("<" + ns + ":" + tag + ">");
 
       if ("item".equals(tag)) {
-        if (e != null && e.sonoUrl != null) liste.add(e);
+        if (e != null && e.sonoUrl.size()>0) liste.add(e);
         e = new Udsendelse();
       } else if (e == null) {
         continue; // Nur sercxu por 'item'
@@ -71,7 +75,7 @@ public class EoRssParsado {
         e.billedeUrl = p.nextText();
       } else if ("enclosure".equals(tag)) {
         if ("audio/mpeg".equals(p.getAttributeValue(null, "type"))) {
-          e.sonoUrl = p.getAttributeValue(null, "url");
+          e.sonoUrl.add(p.getAttributeValue(null, "url"));
         }
       } else if ("link".equals(tag)) {
         e.ligilo = p.nextText();
@@ -89,15 +93,42 @@ public class EoRssParsado {
 
       } else if ("content".equals(ns) && "encoded".equals(tag)) {
         e.beskrivelse = p.nextText();
+        e.beskrivelse = puriguVarsoviaVento.matcher(e.beskrivelse).replaceAll("");
+        e.beskrivelse = puriguVarsoviaVentoDownload.matcher(e.beskrivelse).replaceAll("");
+        e.beskrivelse = puriguVarsoviaVentoElŝutu.matcher(e.beskrivelse).replaceAll("");
       } else if (e.beskrivelse != null) {
         continue;
       } else if ("summary".equals(tag)) {
         e.beskrivelse = p.nextText();
       }
     }
-    if (e != null && e.sonoUrl != null) liste.add(e);
+    if (e != null && e.sonoUrl.size()>0) liste.add(e);
     is.close();
     Collections.reverse(liste); // Inversa sinsekvo
+
+    if (k.kode.equals("varsoviavento")) {
+      // Varsovia Vento havas pluraj sondosieroj!
+      ArrayList<Udsendelse> liste2 = new ArrayList<Udsendelse>();
+      for (Udsendelse u : liste) {
+        liste2.add(u);
+        for (int n = 1; n < u.sonoUrl.size(); n++) {
+          Udsendelse u2 = u.kopio();
+          u2.sonoUrl = new ArrayList<>();
+          u2.sonoUrl.add(u.sonoUrl.get(n));
+          u2.titel = "(" + (n + 1) + " el " + u.sonoUrl.size() + ") " + u2.titel;
+          u2.slug += "/" + (n + 1);
+          Log.d("XXXXXX kopio " + u2.toString() + " de " + u);
+          liste2.add(u2);
+        }
+      }
+      liste = liste2;
+    } else if (k.kode.equals("radioverda")) {
+      for (Udsendelse u : liste) {
+        if (u.billedeUrl==null) {
+          u.billedeUrl = "http://radioverda.com/storage/bildoj/programbildoj/"+u.titel+".png";
+        }
+      }
+    }
     return liste;
   }
 
@@ -124,7 +155,7 @@ public class EoRssParsado {
       //System.out.println("<" + ns + ":" + tag + ">");
 
       if ("entry".equals(tag)) {
-        if (e != null && e.sonoUrl != null) liste.add(e);
+        if (e != null && e.sonoUrl.size()>0) liste.add(e);
         e = new Udsendelse();
       } else if (e == null) {
         continue;
@@ -139,7 +170,7 @@ public class EoRssParsado {
         String type = p.getAttributeValue(null, "type");
         String href = p.getAttributeValue(null, "href");
         if ("audio/mpeg".equals(type)) {
-          e.sonoUrl = href;
+          e.sonoUrl.add(href);
         } else if ("image/jpeg".equals(type) && e.billedeUrl ==null) {
           e.billedeUrl =href;
         } else if ("text/html".equals(type)) {
@@ -152,7 +183,7 @@ public class EoRssParsado {
         while (e.beskrivelse.startsWith("</div>")) e.beskrivelse = e.beskrivelse.substring(6).trim();
       }
     }
-    if (e != null && e.sonoUrl != null) liste.add(e);
+    if (e != null && e.sonoUrl.size()>0) liste.add(e);
     is.close();
     Collections.reverse(liste); // Inversa sinsekvo
     return liste;
@@ -179,9 +210,8 @@ public class EoRssParsado {
       if ("vinilkosmo".equals(k.kode)) {
         elsendoj = EoRssParsado.parsiElsendojnDeRssVinilkosmo(new StringReader(xml));
       } else {
-        elsendoj = EoRssParsado.parsiElsendojnDeRss(new StringReader(xml));
+        elsendoj = EoRssParsado.parsiElsendojnDeRss(new StringReader(xml), k);
       }
-      boolean elsendojRssIgnoruTitolon = k.eo_json.optBoolean("elsendojRssIgnoruTitolon", false);
       if (elsendoj.size() > 0) {
         if (k.eo_rektaElsendo != null) elsendoj.add(k.eo_rektaElsendo);
         k.udsendelser = elsendoj;
@@ -189,11 +219,12 @@ public class EoRssParsado {
       }
       for (Udsendelse e : elsendoj) {
         if (e.beskrivelse==null) e.beskrivelse="";
-        String bes = Diverse.unescapeHtml3(e.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
-        if (elsendojRssIgnoruTitolon) e.titel = bes;
-        else if (bes.length()>0) e.titel = e.titel + " - " + bes;
+        if (k.eo_elsendojRssIgnoruTitolon) {
+          String bes = Diverse.unescapeHtml3(e.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
+          e.titel = bes;
+          if (e.titel.length()>200) e.titel = e.titel.substring(0, 200);
+        }
 
-        if (e.titel.length()>200) e.titel = e.titel.substring(0, 200);
 
         Grunddata.eoElsendoAlDaUdsendelse(e, k);
       }

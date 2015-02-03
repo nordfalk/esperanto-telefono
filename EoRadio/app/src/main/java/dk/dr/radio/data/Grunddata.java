@@ -94,11 +94,13 @@ public class Grunddata {
       if (k.kode ==null) continue;
       k.navn = kJs.getString("nomo");
       String rektaElsendaSonoUrl = kJs.optString("rektaElsendaSonoUrl", null);
-      String rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
       k.eo_hejmpaĝoEkrane = kJs.optString("hejmpaĝoEkrane", null);
       k.eo_hejmpaĝoButono = kJs.optString("hejmpaĝoButono", null);
       k.eo_retpoŝto = kJs.optString("retpoŝto", null);
       k.eo_emblemoUrl = kJs.optString("emblemoUrl", null);
+      k.eo_elsendojRssUrl = kJs.optString("elsendojRssUrl");
+      k.eo_elsendojRssIgnoruTitolon = kJs.optBoolean("elsendojRssIgnoruTitolon", false);
+
       k.eo_json = kJs;
       k.fragKlasse = EoKanal_frag.class;
       kanaler.add(k);
@@ -109,8 +111,8 @@ public class Grunddata {
         el.kanalSlug = k.navn;
         el.startTidKl = "REKTA";
         el.titel = "";
-        el.sonoUrl = rektaElsendaSonoUrl;
-        el.rektaElsendaPriskriboUrl = rektaElsendaPriskriboUrl;
+        el.sonoUrl.add(rektaElsendaSonoUrl);
+        el.rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
         el.slug = k.slug + "_rekta";
         eoElsendoAlDaUdsendelse(el, k);
         k.eo_rektaElsendo = el;
@@ -155,7 +157,7 @@ public class Grunddata {
     e.slutTid = e.startTid;
     Lydstream ls = new Lydstream();
     e.streams.add(ls);
-    ls.url = e.sonoUrl;
+    ls.url = e.sonoUrl.get(0);
     ls.type = DRJson.StreamType.HTTP;
     ls.format = "mp3";
     ls.kvalitet = DRJson.StreamQuality.High;
@@ -185,7 +187,7 @@ public class Grunddata {
           e.kanalSlug = x[0].replaceAll(" ","").toLowerCase();
           e.startTidKl = x[1];
           e.startTid = datoformato.parse(x[1]);
-          e.sonoUrl = x[2];
+          e.sonoUrl.add(x[2]);
           e.beskrivelse = x[3];
 
           Kanal k = kanalFraSlug.get(e.kanalSlug);
@@ -233,7 +235,7 @@ public class Grunddata {
    */
   public void ŝarĝiElsendojnDeRss(boolean nurLokajn) {
     for (Kanal k : kanaler) {
-      EoRssParsado.ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl", null), k, nurLokajn);
+      EoRssParsado.ŝarĝiElsendojnDeRssUrl(k.eo_elsendojRssUrl, k, nurLokajn);
       //ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl1", null), k, nurLokajn);
       //ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl2", null), k, nurLokajn);
     }

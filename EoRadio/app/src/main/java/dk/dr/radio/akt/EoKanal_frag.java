@@ -4,9 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -27,6 +34,7 @@ import java.util.ArrayList;
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.EoRssParsado;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Udsendelse;
@@ -111,11 +119,10 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     aq.id(R.id.rulTilAktuelUdsendelse).clicked(this).gone();
 
 
-    final String url = kanal.eo_json.optString("elsendojRssUrl");
-    if (App.fejlsøgning) Log.d("hentSendeplanForDag url=" + url);
+    if (App.fejlsøgning) Log.d("hentSendeplanForDag url=" + kanal.eo_elsendojRssUrl);
 
-    if (url!=null &&  !"rss".equals(kanal.eo_datumFonto)) {
-      Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
+    if (kanal.eo_elsendojRssUrl !=null &&  !"rss".equals(kanal.eo_datumFonto)) {
+      Request<?> req = new DrVolleyStringRequest(kanal.eo_elsendojRssUrl, new DrVolleyResonseListener() {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret || listView==null || getActivity() == null) return;
@@ -380,6 +387,16 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           vh.startid.setText(udsendelse.startTidKl);
           a.id(R.id.slutttid).text(udsendelse.slutTidKl);
           vh.titel.setText(udsendelse.titel);
+/*
+          if (kanal.eo_elsendojRssIgnoruTitolon) {
+            String bes = Diverse.unescapeHtml3(udsendelse.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
+            else if (bes.length()>0) udsendelse.titel = udsendelse.titel + " - " + bes;
+            if (udsendelse.titel.length()>200) udsendelse.titel = udsendelse.titel.substring(0, 200);
+            udsendelse.titel = bes;
+          } else {
+          }
+scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/app-debug.apk j:javabog.dk/privat/EoRadio.apk &
+*/
 
 
           String burl = Basisfragment.skalérBillede(udsendelse);
@@ -396,8 +413,14 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         case NORMAL:
           // Her kom NullPointerException en sjælden gang imellem - se https://www.bugsense.com/dashboard/project/cd78aa05/errors/836338028
           // det skyldtes at hentSendeplanForDag(), der ændrede i listen, mens ListView var ved at kalde fra getView()
-          vh.startid.setText(udsendelse.startTidKl);
-          vh.titel.setText(udsendelse.titel);
+
+          Spannable spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ Html.fromHtml(udsendelse.beskrivelse));
+          int klPos = udsendelse.startTidKl.length();
+          spannable.setSpan(new ForegroundColorSpan(R.color.grå20), 0, klPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+          spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), klPos+2, klPos+2+udsendelse.titel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+          vh.startid.setText(spannable);
+          vh.titel.setVisibility(View.GONE);//udsendelse.titel);
           // Stiplet linje skal vises mellem udsendelser - men ikke over aktuel udsendelse
           // og heller ikke hvis det er en overskrift der er nedenunder
           a.id(R.id.stiplet_linje);

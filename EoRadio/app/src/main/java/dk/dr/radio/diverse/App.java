@@ -270,7 +270,7 @@ public class App extends Application {
       Log.d("DRs skrifttyper er ikke tilgængelige");
       skrift_gibson = Typeface.DEFAULT;
       skrift_gibson_fed = Typeface.DEFAULT_BOLD;
-      skrift_georgia = Typeface.DEFAULT;
+      skrift_georgia = Typeface.SERIF;
     }
     skrift_gibson_fed_span = new EgenTypefaceSpan("Gibson fed", App.skrift_gibson_fed);
 

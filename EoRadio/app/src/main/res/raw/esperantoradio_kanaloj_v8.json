@@ -65,7 +65,7 @@
 			"XXemblemoUrl": "http://eo.radiovaticana.va/img/h_02.gif",
 			"emblemoUrl": "http://esperanto-radio.com/_radiovatikana.png",
  			"elsendojRssUrl": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1",
-			"elsendojRssIgnoruTitolon": true,
+			"elsendojRssIgnoruTitolon": false,
 // 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
 			"retpoŝto": "esperanto@vatiradio.va",
 			"hejmpaĝoButono": "http://www.radiovaticana.org/esp/on_demand.asp"
@@ -78,6 +78,8 @@
 // "elsendojRssUrl": "http://radioverda.squarespace.com/programoj/rss.xml",
 // Pli granda, malpli informenhava på elsendo, sed havas ekde RV100
 			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
+// 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
+// http://radioverda.com/rv100plus/   http://radioverda.com/programoj/2007/5/5/rv101-20070505.html
 			"retpoŝto": "arono@radioverda.com",
 			"hejmpaĝoButono": "http://radioverda.com/"
 		}
@@ -86,7 +88,7 @@
 			"nomo": "Varsovia Vento",
 			"emblemoUrl": "",
  			"elsendojRssUrl": "http://www.podkasto.net/feed/",
-			"emblemoUrl": "http://esperanto-radio.com/_varsoviavento.png",
+			"emblemoUrl": "http://www.podkasto.net/wp-content/uploads/2010/07/podkasto5.jpg",
 			"retpoŝto": "podkasto@onet.eu",
 			"hejmpaĝoButono": "http://podkasto.net/"
 		}

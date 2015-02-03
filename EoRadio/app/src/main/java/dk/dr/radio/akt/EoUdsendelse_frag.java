@@ -12,10 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -444,7 +440,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
         vh.startid.setText(ple.startTidKl);
         if (type == PLAYLISTEELEM_NU) {
           ImageView im = aq.id(R.id.senest_spillet_kunstnerbillede).getImageView();
-          aq.image(skalérDiscoBilledeUrl(ple.billedeUrl, im.getWidth(), im.getHeight()));
+          aq.image(ple.billedeUrl);
         } else {
           boolean topseparator = (adapter.getItemViewType(position - 1) == PLAYLISTEELEM_NU);
           vh.aq.id(R.id.stiplet_linje).visibility(topseparator?View.INVISIBLE:View.VISIBLE);

@@ -473,7 +473,8 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
           @Override
           public void run() {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://android.lundogbendsen.dk/DRRadiov3.apk")));
+//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://android.lundogbendsen.dk/DRRadiov3.apk")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://javabog.dk/privat/EoRadio.apk")));
           }
         });
         aq.id(R.id.tekst).text("Hent nyeste udvikler-version.\nNuværende version:\n" + App.versionsnavn

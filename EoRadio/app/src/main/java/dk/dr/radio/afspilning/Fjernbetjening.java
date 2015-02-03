@@ -65,7 +65,7 @@ public class Fjernbetjening implements Runnable {
 
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-  public void opdaterBillede() {
+  private void opdaterBillede() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) return;
     if (remoteControlClient==null) return; // ikke registreret
 
@@ -78,7 +78,8 @@ public class Fjernbetjening implements Runnable {
       //Kanaler_frag.hentSendeplanForDag(new Date(App.serverCurrentTimeMillis() - 5 * 60 * 60 * 1000));
     }
 
-    if (u != forrigeUdsendelse || k!=forrigeKanal) {
+    Status s = DRData.instans.afspiller.getAfspillerstatus();
+    if ((u != forrigeUdsendelse || k!=forrigeKanal) && s!=Status.STOPPET) {
       forrigeUdsendelse = u;
       forrigeKanal = k;
       // Skift baggrundsbillede
@@ -110,7 +111,7 @@ public class Fjernbetjening implements Runnable {
         }
       } else {
 
-        final String burl = Basisfragment.skalérBillede(u);
+        final String burl = u.getKanal().eo_datumFonto!=null? u.billedeUrl : Basisfragment.skalérBillede(u);
         Log.d("Fjernbetjening asynk artwork\n" + burl);
         // Hent med AQuery, da det sandsynligvis allerede har en cachet udgave
         // NB Brug ikke: Bitmap bm = BitmapAjaxCallback.getMemoryCached(burl, 0); - giver senere java.lang.RuntimeException: Canvas: trying to use a recycled bitmap senere
@@ -140,7 +141,6 @@ public class Fjernbetjening implements Runnable {
       }
     }
 
-    Status s = DRData.instans.afspiller.getAfspillerstatus();
     int ps = s == Status.STOPPET ? RemoteControlClient.PLAYSTATE_PAUSED : s == Status.SPILLER ? RemoteControlClient.PLAYSTATE_PLAYING : RemoteControlClient.PLAYSTATE_BUFFERING;
     remoteControlClient.setPlaybackState(ps);
     //if (Build.VERSION.SDK_INT >= 18)

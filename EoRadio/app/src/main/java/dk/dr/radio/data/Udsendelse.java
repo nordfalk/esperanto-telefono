@@ -13,7 +13,7 @@ import dk.dr.radio.diverse.Log;
  * Repræsenterer en udsendelse
  * Created by j on 28-01-14.
  */
-public class Udsendelse extends Lydkilde implements Comparable<Udsendelse> {
+public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Cloneable {
   // Fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/1415558087
   // - at proguard obfuskering havde
   // Se også http://stackoverflow.com/questions/16210831/serialization-deserialization-proguard
@@ -44,7 +44,7 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse> {
   public int episodeIProgramserie;
 
   //// EO
-  public String sonoUrl;
+  public ArrayList<String> sonoUrl = new ArrayList<String>();
   public String rektaElsendaPriskriboUrl;
   public String ligilo;
   //// EO
@@ -149,5 +149,14 @@ public String toString() {
   public Fragment nytFrag() {
     if (getKanal().eo_datumFonto!=null) return new EoUdsendelse_frag();
     return new Udsendelse_frag();
+  }
+
+  public Udsendelse kopio() {
+    try {
+      return (Udsendelse) this.clone();
+    } catch (Exception e) {
+      Log.rapporterFejl(e);
+    }
+    return this;
   }
 }

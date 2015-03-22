@@ -71,6 +71,7 @@ public class EoRssParsado {
         //Log.d("xxxxx "+e.datoStr);
         e.startTid = new Date(Date.parse(e.startTidKl));
         e.startTidKl = Grunddata.datoformato.format(e.startTid);
+        e.slug = k.slug+":"+e.startTidKl;
       } else if ("image".equals(tag)) {
         e.billedeUrl = p.nextText();
       } else if ("enclosure".equals(tag)) {
@@ -115,7 +116,7 @@ public class EoRssParsado {
           Udsendelse u2 = u.kopio();
           u2.sonoUrl = new ArrayList<>();
           u2.sonoUrl.add(u.sonoUrl.get(n));
-          u2.titel = "(" + (n + 1) + " el " + u.sonoUrl.size() + ") " + u2.titel;
+          u2.titel = u2.titel + " parto (" + (n + 1) + " el " + u.sonoUrl.size() + ") ";
           u2.slug += "/" + (n + 1);
           Log.d("XXXXXX kopio " + u2.toString() + " de " + u);
           liste2.add(u2);

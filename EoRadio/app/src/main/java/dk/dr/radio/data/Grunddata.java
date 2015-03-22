@@ -136,7 +136,7 @@ public class Grunddata {
 
   static void eoElsendoAlDaUdsendelse(Udsendelse e, Kanal k) {
     e.kanalSlug = k.slug;
-    e.slug = e.kanalSlug + ":" + e.startTidKl;
+    if (e.slug==null) e.slug = e.kanalSlug + ":" + e.startTidKl;
     DRData.instans.udsendelseFraSlug.put(e.slug, e);
 
     if (e.programserieSlug==null) {

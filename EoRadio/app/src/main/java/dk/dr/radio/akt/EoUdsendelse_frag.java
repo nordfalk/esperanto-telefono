@@ -127,8 +127,8 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     aq.id(R.id.kanallogo).gone();
     aq.id(R.id.p4navn).text("");
 
-    aq.id(R.id.titel).gone();
-//    aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(udsendelse.titel)
+//    aq.id(R.id.titel).gone();
+    aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(udsendelse.titel);
 //        .getTextView().setContentDescription("\u00A0");  // SLUK for højtlæsning, det varetages af listviewet
     aq.id(R.id.starttid).typeface(App.skrift_gibson)
         .text(udsendelse.startTid == null ? "" : DRJson.datoformat.format(udsendelse.startTid))
@@ -413,7 +413,13 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
           aq.id(R.id.info).clicked(EoUdsendelse_frag.this).typeface(App.skrift_gibson);
         } else if (type == INFOTEKST) {
           aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
-              udsendelse.beskrivelse, "text/html", "utf-8", "");
+              udsendelse.beskrivelse
+                  +"<small>"
+                  +"<br>udsendelse.slug="+udsendelse.slug
+                  +"<br>ligilo="+udsendelse.ligilo
+                  +"<br>sonoUrl="+udsendelse.sonoUrl
+                  +"</small>"
+              , "text/html", "utf-8", "");
 
         } else if (type == PLAYLISTEELEM_NU || type == PLAYLISTEELEM) {
           vh.titel = aq.id(R.id.titel_og_kunstner).typeface(App.skrift_gibson).getTextView();

@@ -45,7 +45,7 @@
       android:layout_marginRight="16dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Her kan du altid høre den seneste radioavis og sportsnyt"
+      android:text="@string/Her_kan_du_altid_høre_den_seneste_radioavis_og_sportsnyt"
       android:textSize="20sp"
       android:gravity="center"
       android:paddingTop="0dp"

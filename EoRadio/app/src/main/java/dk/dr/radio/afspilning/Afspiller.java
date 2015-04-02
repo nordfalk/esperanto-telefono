@@ -39,7 +39,6 @@ import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.android.deskclock.AlarmAlertWakeLock;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
@@ -54,7 +53,6 @@ import dk.dr.radio.afspilning.wrapper.ExoPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerLytter;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerWrapper;
 import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Lydstream;
@@ -62,9 +60,10 @@ import dk.dr.radio.data.Playlisteelement;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.vaekning.AlarmAlertWakeLock;
 
 /**
  * @author j
@@ -164,21 +163,21 @@ public class Afspiller {
 
   public void startAfspilning() {
     if (lydkilde.hentetStream == null && !App.erOnline()) {
-      App.kortToast("Internetforbindelse mangler");
+      App.kortToast(R.string.Internetforbindelse_mangler);
       if (vækningIGang) ringDenAlarm();
       return;
     }
-    if (lydkilde.hentetStream == null && lydkilde.streams == null) {
+    if (!lydkilde.harStreams()) {
       Request<?> req = new DrVolleyStringRequest(lydkilde.getStreamsUrl(), new DrVolleyResonseListener() {
 
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret) return; // ingen grund til at parse det igen
           JSONObject o = new JSONObject(json);
-          lydkilde.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-          Log.d("Afspiller hentStreams " + lydkilde + " fraCache=" + fraCache + " k.lydUrl=" + lydkilde.streams);
+          lydkilde.setStreams(o);
+          Log.d("hentStreams afsp fraCache=" + fraCache + " => " + lydkilde);
           if (onErrorTæller++>2) {
-            App.kortToast("Internetforbindelse til DR mangler");
+            App.kortToast(R.string.Kunne_ikke_oprette_forbindelse_til_DR);
             //Log.rapporterFejl(new Exception("onErrorTæller++>10, uendelig løkke afværget"), lydkilde);
             if (vækningIGang) ringDenAlarm();
           } else {
@@ -188,7 +187,7 @@ public class Afspiller {
 
         @Override
         protected void fikFejl(VolleyError error) {
-          App.kortToast("Kan ikke få forbindelse til DR");
+          App.kortToast(R.string.Kunne_ikke_oprette_forbindelse_til_DR);
           if (vækningIGang) ringDenAlarm();
           super.fikFejl(error);
         }
@@ -360,8 +359,8 @@ public class Afspiller {
           List<Lydstream> bs = lydkilde.findBedsteStreams(false);
 
           if (bs.size() == 0) {
-            Log.rapporterFejl(new IllegalStateException("Ingen passende lydUrl for " + lydkilde + ": " + lydkilde.streams));
-            App.kortToast("Kunne ikke oprette forbindelse");
+            Log.rapporterFejl(new IllegalStateException("Ingen passende lydUrl for " + lydkilde));
+            App.kortToast(R.string.Kunne_ikke_oprette_forbindelse_til_DR);
             return;
           }
           lydstream = bs.get(0);
@@ -639,7 +638,13 @@ public class Afspiller {
       while (k.p4underkanal && DRData.instans.grunddata.kanaler.get(index).p4underkanal) index++; // skip underkanaler
       k = DRData.instans.grunddata.kanaler.get(index);
       // Tjek om vi er kommet til P4 - vælg brugerens foretrukne underkanal
-      k = DRData.instans.grunddata.kanalFraKode.get(App.tjekP4OgVælgUnderkanal(k.kode));
+      String kanalkode = App.tjekP4OgVælgUnderkanal(k.kode);
+      k = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
+      if (k==null) {
+        Log.rapporterFejl(new IllegalStateException(
+            "næste() fra "+lydkilde.getKanal().kode+" gav null i="+index+" kk="+kanalkode));
+        return;
+      }
       setLydkilde(k);
       return;
     }
@@ -787,8 +792,8 @@ public class Afspiller {
           }
         } else {
           pauseAfspilning(); // Vi giver op efter 10. forsøg
-          App.langToast("Beklager, kan ikke spille radio");
-          App.langToast("Tjek din internetforbindelse,\n og prøv eventuelt at vælge et andet lydformat i indstillingerne");
+          App.langToast(R.string.Beklager_kan_ikke_spille_radio);
+          App.langToast(R.string.Tjek_din_internetforbindelse_og___);
           if (afspillerlyde) afspillerlyd.fejl.start();
         }
       } else {

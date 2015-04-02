@@ -65,7 +65,7 @@
         android:paddingBottom="12dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true" tools:ignore="HardcodedText"/>
 
     <!--
         android:shadowColor="@color/hvid"

@@ -65,7 +65,7 @@ public class Fjernbetjening implements Runnable {
 
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-  private void opdaterBillede() {
+  public void opdaterBillede() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) return;
     if (remoteControlClient==null) return; // ikke registreret
 
@@ -78,8 +78,7 @@ public class Fjernbetjening implements Runnable {
       //Kanaler_frag.hentSendeplanForDag(new Date(App.serverCurrentTimeMillis() - 5 * 60 * 60 * 1000));
     }
 
-    Status s = DRData.instans.afspiller.getAfspillerstatus();
-    if ((u != forrigeUdsendelse || k!=forrigeKanal) && s!=Status.STOPPET) {
+    if (u != forrigeUdsendelse || k!=forrigeKanal) {
       forrigeUdsendelse = u;
       forrigeKanal = k;
       // Skift baggrundsbillede
@@ -141,6 +140,7 @@ public class Fjernbetjening implements Runnable {
       }
     }
 
+    Status s = DRData.instans.afspiller.getAfspillerstatus();
     int ps = s == Status.STOPPET ? RemoteControlClient.PLAYSTATE_PAUSED : s == Status.SPILLER ? RemoteControlClient.PLAYSTATE_PLAYING : RemoteControlClient.PLAYSTATE_BUFFERING;
     remoteControlClient.setPlaybackState(ps);
     //if (Build.VERSION.SDK_INT >= 18)
@@ -154,6 +154,7 @@ public class Fjernbetjening implements Runnable {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) return;
     App.audioManager.registerMediaButtonEventReceiver(fjernbetjeningReciever);
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) return;
+    // 'det er irriterende at den ændre billedet på lock - screen, det skal være muligt at disable dette.'
     if (!App.prefs.getBoolean("fjernbetjening", true)) return;
 
     Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON).setComponent(fjernbetjeningReciever);

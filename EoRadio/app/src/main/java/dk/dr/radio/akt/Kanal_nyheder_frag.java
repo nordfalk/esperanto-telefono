@@ -14,12 +14,11 @@ import org.json.JSONObject;
 
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
 
 public class Kanal_nyheder_frag extends Basisfragment implements View.OnClickListener, Runnable {
@@ -104,14 +103,14 @@ public class Kanal_nyheder_frag extends Basisfragment implements View.OnClickLis
     Log.d(this + " run()");
     App.forgrundstråd.removeCallbacks(this);
 
-    if (kanal.streams == null) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
+    if (!kanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
       Request<?> req = new DrVolleyStringRequest(kanal.getStreamsUrl(), new DrVolleyResonseListener() {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret) return; // ingen grund til at parse det igen
           JSONObject o = new JSONObject(json);
-          kanal.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-          Log.d("hentSupplerendeDataBg " + kanal.kode + " fraCache=" + fraCache + " => " + kanal.slug + " k.lydUrl=" + kanal.streams);
+          kanal.setStreams(o);
+          Log.d("hentStreams Kanal_nyheder_frag fraCache=" + fraCache + " => " + kanal);
           run(); // Opdatér igen
         }
       }) {
@@ -123,7 +122,7 @@ public class Kanal_nyheder_frag extends Basisfragment implements View.OnClickLis
     }
     boolean spillerDenneKanal = DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && DRData.instans.afspiller.getLydkilde() == kanal;
     boolean online = App.netværk.erOnline();
-    aq.id(R.id.hør_live).enabled(!spillerDenneKanal && online && kanal.streams != null)
+    aq.id(R.id.hør_live).enabled(online && kanal.harStreams() && !spillerDenneKanal)
         .text(!online ? "Internetforbindelse mangler" :
             (spillerDenneKanal ? " SPILLER " : " HØR ") + kanal.navn.toUpperCase());
     aq.getView().setContentDescription(!online ? "Internetforbindelse mangler" :
@@ -134,7 +133,7 @@ public class Kanal_nyheder_frag extends Basisfragment implements View.OnClickLis
 
   @Override
   public void onClick(View v) {
-    if (kanal.streams == null) {
+    if (!kanal.harStreams()) {
       Log.rapporterOgvisFejl(getActivity(), new IllegalStateException("kanal.streams er null"));
     } else {
       // hør_udvidet_klikområde eller hør

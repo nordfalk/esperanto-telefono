@@ -32,7 +32,7 @@
 
   <ListView android:id="@android:id/list"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="16dip"
             android:layout_marginRight="16dip"
             android:layout_weight="1"/>
@@ -63,7 +63,7 @@
             android:layout_margin="8dp"
             android:textSize="@dimen/metainfo_skrifstørrelse"
             android:background="@drawable/knap_blaa_bg"
-            android:text="ANNULLER"/>
+            android:text="@string/revert"/>
 
     <!--
                 style="?android:attr/buttonBarButtonStyle"

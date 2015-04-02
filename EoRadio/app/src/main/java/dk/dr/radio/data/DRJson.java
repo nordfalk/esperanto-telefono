@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +13,7 @@ import java.util.Locale;
 
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
+import dk.nordfalk.esperanto.radio.R;
 
 /**
  * Navne for felter der er i DRs JSON-feeds og støttefunktioner til at parse dem
@@ -28,8 +28,24 @@ public enum DRJson {
   Streams,
   Uri, Played, Artist, Image,
   Type, Kind, Quality, Kbps, ChannelSlug, TotalPrograms, Programs,
-  FirstBroadcast, Watchable, DurationInSeconds, Format, OffsetMs,
-  ProductionNumber, ShareLink, Episode, Chapters, Subtitle;
+  FirstBroadcast, DurationInSeconds, Format, OffsetMs,
+  ProductionNumber, ShareLink, Episode, Chapters, Subtitle,
+
+  /**
+   * "Watchable indikerer om der er nogle resourcer (og deraf streams) tilgængelige,
+   * så det er egentlig en Streamable-property:
+   * Watchable = (pc.PrimaryAssetKind == "AudioResource" || pc.PrimaryAssetKind == "VideoResource")"
+   */
+  Watchable,
+  /**
+   * Om en udsendelse kan streames.
+   * "Attribut der angiver om du formentlig kan streame et program.
+   * Når jeg skriver formentlig, så er det fordi den ikke tjekker på platform men bare generelt — iOS kan fx ikke streame f4m, men den vil stadig vise Playable da den type findes. Dog er det yderst sjældent at f4m vil være der og ikke m3u8"
+   */
+  Playable,
+  /* Om en udsendelse kan hentes. Som #Watchable */
+  Downloadable,
+  RectificationTitle, RectificationText;
 
   /*
     public enum StreamType {
@@ -123,7 +139,7 @@ public enum DRJson {
    * Fjerner http://www.dr.dk i URL'er
    */
   private static String fjernHttpWwwDrDk(String url) {
-    if (url!=null && url.startsWith(HTTP_WWW_DR_DK)) {
+    if (url != null && url.startsWith(HTTP_WWW_DR_DK)) {
       return url.substring(HTTP_WWW_DR_DK_lgd);
     }
     return url;
@@ -132,12 +148,9 @@ public enum DRJson {
 
   private static Udsendelse opretUdsendelse(DRData drData, JSONObject o) throws JSONException {
     String slug = o.optString(DRJson.Slug.name());  // Bemærk - kan være tom!
-    Udsendelse u = null; //drData.udsendelseFraSlug.get(slug);
-    if (u == null) {
-      u = new Udsendelse();
-      u.slug = slug;
-      drData.udsendelseFraSlug.put(slug, u);
-    }
+    Udsendelse u = new Udsendelse();
+    u.slug = slug;
+    drData.udsendelseFraSlug.put(u.slug, u);
     u.titel = o.getString(DRJson.Title.name());
     u.beskrivelse = o.getString(DRJson.Description.name());
     u.billedeUrl = fjernHttpWwwDrDk(o.optString(DRJson.ImageUrl.name(), null));
@@ -150,7 +163,7 @@ public enum DRJson {
   /**
    * Parser udsendelser for getKanal. A la http://www.dr.dk/tjenester/mu-apps/schedule/P3/0
    */
-  public static ArrayList<Udsendelse> parseUdsendelserForKanal(JSONArray jsonArray, Kanal kanal, Date dato, DRData drData) throws JSONException, ParseException {
+  public static ArrayList<Udsendelse> parseUdsendelserForKanal(JSONArray jsonArray, Kanal kanal, Date dato, DRData drData) throws JSONException {
     String dagsbeskrivelse = getDagsbeskrivelse(dato);
 
     ArrayList<Udsendelse> uliste = new ArrayList<Udsendelse>();
@@ -158,7 +171,7 @@ public enum DRJson {
       JSONObject o = jsonArray.getJSONObject(n);
       Udsendelse u = opretUdsendelse(drData, o);
       u.kanalSlug = kanal.slug;// o.optString(DRJson.ChannelSlug.name(), kanal.slug);  // Bemærk - kan være tom.
-      u.kanNokHøres = o.getBoolean(DRJson.Watchable.name());
+      u.kanHøres = o.getBoolean(DRJson.Watchable.name());
       u.startTid = DRBackendTidsformater.parseUpålideigtServertidsformat(o.getString(DRJson.StartTime.name()));
       u.startTidKl = klokkenformat.format(u.startTid);
       u.slutTid = DRBackendTidsformater.parseUpålideigtServertidsformat(o.getString(DRJson.EndTime.name()));
@@ -181,15 +194,16 @@ public enum DRJson {
     // Se også String.intern()
     String dagsbeskrivelse = datoTilBeskrivelse.get(datoStr0);
     if (dagsbeskrivelse == null) {
-      dagsbeskrivelse = ugedagformat.format(tid).toUpperCase();
+      dagsbeskrivelse = ugedagformat.format(tid);
       String år = årformat.format(tid);
       if (datoStr0.equals(iDagDatoStr)) dagsbeskrivelse = I_DAG; // ingenting
-      else if (datoStr0.equals(iMorgenDatoStr)) dagsbeskrivelse = "I MORGEN - " + dagsbeskrivelse;
-      else if (datoStr0.equals(iOvermorgenDatoStr)) dagsbeskrivelse = "I OVERMORGEN - " + dagsbeskrivelse;
-      else if (datoStr0.equals(iGårDatoStr)) dagsbeskrivelse = "I GÅR"; // "I GÅR - "+dagsbeskrivelse;
-      else if (datoStr0.equals(iForgårsDatoStr)) dagsbeskrivelse = "I FORGÅRS - " + dagsbeskrivelse;
+      else if (datoStr0.equals(iMorgenDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_morgen)+" - " + dagsbeskrivelse;
+      else if (datoStr0.equals(iOvermorgenDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_overmorgen) + " - " + dagsbeskrivelse;
+      else if (datoStr0.equals(iGårDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_går); // "I GÅR - "+dagsbeskrivelse;
+      else if (datoStr0.equals(iForgårsDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_forgårs)+" - " + dagsbeskrivelse;
       else if (år.equals(iÅrDatoStr)) dagsbeskrivelse = dagsbeskrivelse;
       else dagsbeskrivelse = dagsbeskrivelse + " " + år;
+      dagsbeskrivelse = dagsbeskrivelse.toUpperCase();
       datoTilBeskrivelse.put(datoStr0, dagsbeskrivelse);
     }
     return dagsbeskrivelse;
@@ -199,23 +213,37 @@ public enum DRJson {
    * Parser udsendelser for programserie.
    * A la http://www.dr.dk/tjenester/mu-apps/series/sprogminuttet?type=radio&includePrograms=true
    */
-  public static ArrayList<Udsendelse> parseUdsendelserForProgramserie(JSONArray jsonArray, Kanal kanal, DRData drData) throws JSONException, ParseException {
+  public static ArrayList<Udsendelse> parseUdsendelserForProgramserie(JSONArray jsonArray, Kanal kanal, DRData drData) throws JSONException {
     ArrayList<Udsendelse> uliste = new ArrayList<Udsendelse>();
     for (int n = 0; n < jsonArray.length(); n++) {
-      JSONObject o = jsonArray.getJSONObject(n);
-      Udsendelse u = parseUdsendelseForProgramseriexx(kanal, drData, o);
-      uliste.add(u);
+      uliste.add(parseUdsendelse(kanal, drData, jsonArray.getJSONObject(n)));
     }
     return uliste;
   }
 
-  public static Udsendelse parseUdsendelseForProgramseriexx(Kanal kanal, DRData drData, JSONObject o) throws JSONException, ParseException {
+  public static Udsendelse parseUdsendelse(Kanal kanal, DRData drData, JSONObject o) throws JSONException {
     Udsendelse u = opretUdsendelse(drData, o);
-    if (kanal != null && kanal.slug.length()>0) u.kanalSlug = kanal.slug;
+    if (kanal != null && kanal.slug.length() > 0) u.kanalSlug = kanal.slug;
     else u.kanalSlug = o.optString(DRJson.ChannelSlug.name());  // Bemærk - kan være tom.
     u.startTid = DRBackendTidsformater.parseUpålideigtServertidsformat(o.getString(DRJson.FirstBroadcast.name()));
     u.startTidKl = klokkenformat.format(u.startTid);
     u.slutTid = new Date(u.startTid.getTime() + o.getInt(DRJson.DurationInSeconds.name()) * 1000);
+
+    if (!App.PRODUKTION && (!o.has(DRJson.Playable.name()) || !o.has(DRJson.Playable.name())))
+      Log.rapporterFejl(new IllegalStateException("Mangler Playable eller Downloadable"), o.toString());
+    u.kanHøres = o.optBoolean(DRJson.Playable.name());
+    u.kanHentes = o.optBoolean(DRJson.Downloadable.name());
+    // Hvis HLS ikke understøttes må vi bruge vi hentningsURL (mp3) til streaming
+    if (DRData.instans.grunddata.udelukHLS) {
+      u.kanHøres = u.kanHentes;
+    }
+    u.berigtigelseTitel = o.optString(DRJson.RectificationTitle.name(), null);
+    u.berigtigelseTekst = o.optString(DRJson.RectificationText.name(), null);
+    if (!App.PRODUKTION && false) {
+      u.berigtigelseTitel = "BEKLAGER";
+      u.berigtigelseTekst = "Denne udsendelse er desværre ikke tilgængelig. For yderligere oplysninger se dr.dk/programetik";
+    }
+
     return u;
   }
 
@@ -228,7 +256,7 @@ public enum DRJson {
   Played: "2014-02-06T15:58:33",
   OffsetMs: 6873000
    */
-  public static ArrayList<Playlisteelement> parsePlayliste(JSONArray jsonArray) throws JSONException, ParseException {
+  public static ArrayList<Playlisteelement> parsePlayliste(JSONArray jsonArray) throws JSONException {
     ArrayList<Playlisteelement> liste = new ArrayList<Playlisteelement>();
     for (int n = 0; n < jsonArray.length(); n++) {
       JSONObject o = jsonArray.getJSONObject(n);
@@ -281,6 +309,34 @@ public enum DRJson {
   }
 
 
+  /*
+  http://www.dr.dk/tjenester/mu-apps/program/p2-koncerten-616 eller
+  http://www.dr.dk/tjenester/mu-apps/program?includeStreams=true&urn=urn:dr:mu:programcard:53813014a11f9d16e00f9691
+Chapters: [
+{
+Title: "Introduktion til koncerten",
+Description: "P2s Svend Rastrup Andersen klæder dig på til aftenens koncert. Mød også fløjtenisten i Montreal Symfonikerne Tim Hutchins, og hør ham fortælle om orkestrets chefdirigenter, Kent Nagano (nuværende) og Charles Dutoit.",
+OffsetMs: 0
+},
+{
+Title: "Wagner: Forspil til Parsifal",
+Description: "Parsifal udspiller sig i et univers af gralsriddere og gralsvogtere , der vogter over den hellige gral.",
+OffsetMs: 1096360
+},
+   */
+  public static ArrayList<Indslaglisteelement> parsIndslag(JSONArray jsonArray) throws JSONException {
+    ArrayList<Indslaglisteelement> liste = new ArrayList<Indslaglisteelement>();
+    if (jsonArray == null) return liste;
+    for (int n = 0; n < jsonArray.length(); n++) {
+      JSONObject o = jsonArray.getJSONObject(n);
+      Indslaglisteelement u = new Indslaglisteelement();
+      u.titel = o.getString(DRJson.Title.name());
+      u.beskrivelse = o.getString(DRJson.Description.name());
+      u.offsetMs = o.optInt(DRJson.OffsetMs.name(), -1);
+      liste.add(u);
+    }
+    return liste;
+  }
 
   /*
   Programserie

@@ -43,6 +43,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -70,14 +71,15 @@ import dk.dr.radio.afspilning.Fjernbetjening;
 import dk.dr.radio.akt.Basisaktivitet;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.afproevning.FilCache;
-import dk.dr.radio.diverse.volley.DrBasicNetwork;
-import dk.dr.radio.diverse.volley.DrDiskBasedCache;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.Diverse;
+import dk.dr.radio.net.Netvaerksstatus;
+import dk.dr.radio.net.volley.DrBasicNetwork;
+import dk.dr.radio.net.volley.DrDiskBasedCache;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
 
 public class App extends Application {
@@ -140,6 +142,11 @@ public class App extends Application {
     }
     String packageName = getPackageName();
     try {
+      if ("dk.dr.radio".equals(packageName)) {
+        if (!PRODUKTION) App.langToast("Sæt PRODUKTIONs-flaget");
+      } else {
+        if (PRODUKTION) App.langToast("Testudgave - fjern PRODUKTIONs-flaget");
+      }
       //noinspection ConstantConditions
       PackageInfo pi = getPackageManager().getPackageInfo(packageName, 0);
       App.versionsnavn = packageName + "/" + pi.versionName;
@@ -196,6 +203,9 @@ public class App extends Application {
     volleyRequestQueue = new RequestQueue(volleyCache, network);
     volleyRequestQueue.start();
 
+    // P4 stedplacering skal ske så tidligt som muligt - ellers
+    // når P4-valgskærmbilledet at blive instantieret med ukendt placering og foreslår derfor København
+    //if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) startP4stedplacering();
 
     try {
       DRData.instans = new DRData();
@@ -215,6 +225,11 @@ public class App extends Application {
         }
       }
 
+      if (App.prefs.contains("stamdata23") || App.prefs.contains("stamdata24")) {
+        // 24 feb 2015 - fjern gamle stamdata fra prefs - kan fjernes primo 2016
+        App.prefs.edit().remove("stamdata22").remove("stamdata23").remove("stamdata24").commit();
+      }
+
       if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
       DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
@@ -229,7 +244,7 @@ public class App extends Application {
         }
       }.start();
 
-        if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
+      if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
 
       String pn = App.instans.getPackageName();
       for (final Kanal k : DRData.instans.grunddata.kanaler) {
@@ -244,6 +259,24 @@ public class App extends Application {
       if (aktuelKanal == null || aktuelKanal == Grunddata.ukendtKanal) {
         aktuelKanal = DRData.instans.grunddata.forvalgtKanal;
         Log.d("forvalgtKanal=" + aktuelKanal);
+      }
+
+      if (!aktuelKanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
+        final Kanal kanal = aktuelKanal;
+        Request<?> req = new DrVolleyStringRequest(aktuelKanal.getStreamsUrl(), new DrVolleyResonseListener() {
+          @Override
+          public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
+            if (uændret) return; // ingen grund til at parse det igen
+            JSONObject o = new JSONObject(json);
+            kanal.setStreams(o);
+            Log.d("hentStreams akt fraCache=" + fraCache + " => " + kanal);
+          }
+        }) {
+          public Priority getPriority() {
+            return Priority.HIGH;
+          }
+        };
+        App.volleyRequestQueue.add(req);
       }
 
       DRData.instans.afspiller = new Afspiller();
@@ -267,7 +300,7 @@ public class App extends Application {
       skrift_gibson_fed = Typeface.createFromAsset(getAssets(), "Gibson-SemiBold.otf");
       skrift_georgia = Typeface.createFromAsset(getAssets(), "Georgia.ttf");
     } catch (Exception e) {
-      Log.d("DRs skrifttyper er ikke tilgængelige");
+      Log.e("DRs skrifttyper er ikke tilgængelige", e);
       skrift_gibson = Typeface.DEFAULT;
       skrift_gibson_fed = Typeface.DEFAULT_BOLD;
       skrift_georgia = Typeface.SERIF;
@@ -301,6 +334,23 @@ public class App extends Application {
     }
   }
 
+  private void startP4stedplacering() {
+    new AsyncTask() {
+      @Override
+      protected Object doInBackground(Object[] params) {
+        try {
+          String p4kanal = P4Stedplacering.findP4KanalnavnFraIP();
+          if (App.fejlsøgning) App.langToast("p4kanal: " + p4kanal);
+          if (p4kanal != null) prefs.edit().putString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, p4kanal).commit();
+          //if (!App.PRODUKTION) Log.rapporterFejl(new Exception("Ny enhed - fundet P4-kanal " + p4kanal));
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return null;
+      }
+    }.execute();
+  }
+
   /**
    * Initialisering af resterende data.
    * Dette sker når app'en er synlig og telefonen er online
@@ -314,16 +364,16 @@ public class App extends Application {
       Log.d("Onlineinitialisering starter efter " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
 
       if (App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
-        for (final Kanal k : DRData.instans.grunddata.kanaler) {
-          if (k.streams != null) continue;
+        for (final Kanal kanal : DRData.instans.grunddata.kanaler) {
+          if (kanal.harStreams()) continue;
           //        Log.d("run()1 " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
-          Request<?> req = new DrVolleyStringRequest(k.getStreamsUrl(), new DrVolleyResonseListener() {
+          Request<?> req = new DrVolleyStringRequest(kanal.getStreamsUrl(), new DrVolleyResonseListener() {
             @Override
             public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
               if (uændret) return;
               JSONObject o = new JSONObject(json);
-              k.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-              Log.d("hentSupplerendeDataBg " + k.kode + " fraCache=" + fraCache + " => " + k.slug + " k.lydUrl=" + k.streams);
+              kanal.setStreams(o);
+              Log.d("hentStreams app fraCache=" + fraCache + " => " + kanal);
             }
           }) {
             public Priority getPriority() {
@@ -380,6 +430,7 @@ public class App extends Application {
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
           }
+          // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
           for (Runnable r : DRData.instans.grunddata.observatører) r.run();
           // Er vi nået hertil så gik parsning godt - gem de nye stamdata i prefs, så de også bruges ved næste opstart
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, nyeGrunddata).commit();
@@ -517,6 +568,8 @@ public class App extends Application {
     });
   }
 
+  public static void kortToast(int resId) { kortToast(instans.getResources().getString(resId));}
+  public static void langToast(int resId) { langToast(instans.getResources().getString(resId));}
 
   public static void kontakt(Activity akt, String emne, String txt, String vedhæftning) {
     String[] modtagere;
@@ -587,7 +640,7 @@ public class App extends Application {
   public static void sætServerCurrentTimeMillis(long servertid) {
     long serverkorrektionTilKlienttidMs2 = servertid - System.currentTimeMillis();
     if (Math.abs(App.serverkorrektionTilKlienttidMs - serverkorrektionTilKlienttidMs2) > 120 * 1000) {
-      Log.d("SERVERTID korrigerer tid - serverkorrektionTilKlienttidMs=" + serverkorrektionTilKlienttidMs2 + " klokken på serveren er " + new Date(servertid));
+      Log.d("SERVERTID korrigerer tid med " + ((serverkorrektionTilKlienttidMs2 + App.serverkorrektionTilKlienttidMs) / 1000 / 60) + " minutter fra " + new Date(serverCurrentTimeMillis()) + " til " + new Date(servertid));
       App.serverkorrektionTilKlienttidMs = serverkorrektionTilKlienttidMs2;
       new Exception("SERVERTID korrigeret med " + serverkorrektionTilKlienttidMs2 / 1000 / 60 + " min til " + new Date(servertid)).printStackTrace();
     }

@@ -1,5 +1,8 @@
 package dk.dr.radio.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +10,7 @@ import java.util.List;
 
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.diverse.Netvaerksstatus;
+import dk.dr.radio.net.Netvaerksstatus;
 
 /**
  * En lydkilde der kan spilles af afspilleren
@@ -20,7 +23,7 @@ public abstract class Lydkilde implements Serializable {
 
   public String urn;   // Bemærk - kan være tom!
   public String slug;  // Bemærk - kan være tom!
-  public transient ArrayList<Lydstream> streams;
+  transient ArrayList<Lydstream> streams;
   public transient Lydstream hentetStream;
   public static final String INDST_lydformat = "lydformat";
 
@@ -31,12 +34,6 @@ public abstract class Lydkilde implements Serializable {
     return super.equals(o);
   }
 
-  public String findBedsteStreamUrl(boolean tilHentning) {
-    List<Lydstream> prioriteretListe = findBedsteStreams(tilHentning);
-    if (prioriteretListe.size() == 0) return null;
-    return prioriteretListe.get(0).url;
-  }
-
   public void nulstilForetrukkenStream() {
     if (streams == null) return;
     for (Lydstream s : streams) s.foretrukken = false;
@@ -44,13 +41,13 @@ public abstract class Lydkilde implements Serializable {
 
 
   public List<Lydstream> findBedsteStreams(boolean tilHentning) {
-    //Bedst bedst = new Bedst();
-    String ønsketkvalitet = App.prefs.getString("lydkvalitet", "auto");
-    String ønsketformat = App.prefs.getString(INDST_lydformat, "auto");
-
     ArrayList<Lydstream> kandidater = new ArrayList<Lydstream>();
     if (hentetStream != null) kandidater.add(hentetStream);
     if (streams == null) return kandidater;
+
+    //Bedst bedst = new Bedst();
+    String ønsketkvalitet = App.prefs.getString("lydkvalitet", "auto");
+    String ønsketformat = App.prefs.getString(INDST_lydformat, "auto");
 
     Lydstream sxxx = null;
       næste_stream:
@@ -115,4 +112,17 @@ public abstract class Lydkilde implements Serializable {
   public abstract Udsendelse getUdsendelse();
 
   public abstract String getNavn();
+
+  public void setStreams(JSONObject o) throws JSONException {
+    streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
+  }
+
+  public boolean harStreams() {
+    return streams != null || hentetStream != null;
+  }
+
+  @Override
+  public String toString() {
+    return slug + " str=" + streams;
+  }
 }

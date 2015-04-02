@@ -2,6 +2,7 @@ package dk.dr.radio.akt;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -134,16 +135,13 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     //public float getPageWidth(int position) { return(0.9f); }
 
     @Override
-    public Basisfragment getItem(int position) {
-      Basisfragment f = null;// position < kanaler2.size() - 1 ? new Kanal_frag() : new Kanal_nyheder_frag();
-      try {
-        f = kanaler.get(position).fragKlasse.newInstance();
-      } catch (Exception e) {
-        e.printStackTrace();
-        f = new Kanal_frag();
-      }
+    public Fragment getItem(int position) {
+      Kanal k = kanaler2.get(position);
+      Fragment f = null;
+      if (k.fragKlasse!=null) try { f = k.fragKlasse.newInstance(); } catch (Exception e) { Log.rapporterFejl(e); }
+      if (f==null) f = new Kanal_frag();
       Bundle b = new Bundle();
-      b.putString(Kanal_frag.P_kode, kanaler2.get(position).kode);
+      b.putString(Kanal_frag.P_kode, k.kode);
       f.setArguments(b);
       return f;
     }

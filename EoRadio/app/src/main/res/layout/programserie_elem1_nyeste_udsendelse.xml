@@ -60,7 +60,7 @@
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="16dp"
       android:drawableLeft="@drawable/dri_lyd_hvid"
-      android:text=" HØR UDSENDELSE "
+      android:text="@string/_HØR_UDSENDELSE_"
       android:textColor="@color/hvid"
       android:focusable="false"
       android:focusableInTouchMode="false"

@@ -22,7 +22,7 @@
   <Preference android:key="time"
               android:persistent="false"
               android:title="@string/time"/>
-  <com.android.deskclock.RepeatPreference
+  <dk.dr.radio.vaekning.RepeatPreference
       android:persistent="false"
       android:key="setRepeat"
       android:title="@string/alarm_repeat"/>

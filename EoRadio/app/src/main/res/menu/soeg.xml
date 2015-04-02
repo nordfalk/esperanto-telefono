@@ -6,7 +6,7 @@
 
   <item
       android:id="@+id/søg"
-      android:title="Søg"
+      android:title="@string/Søg"
       android:orderInCategory="2"
       android:icon="@drawable/dri_soeg_graa40"
       app:showAsAction="always"/>

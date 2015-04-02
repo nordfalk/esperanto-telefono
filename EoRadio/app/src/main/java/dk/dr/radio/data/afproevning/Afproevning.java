@@ -31,13 +31,13 @@ import java.util.Date;
 import dk.dr.radio.data.DRBackendTidsformater;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
+import dk.dr.radio.net.Diverse;
 
 // For at køre denne klasse, skal noget a la det følgende ind i VM Options i værktøjet
 // -classpath $PROJECT_DIR$/../../dr-netradio/trunk/JSONParsning/lib/json-1.0.jar:$PROJECT_DIR$/out/production/DRRadiov3:$APPLICATION_HOME_DIR$/lib/idea_rt.jar:$PROJECT_DIR$/../../android-sdk-linux_86/platforms/android-18/android.jar:$PROJECT_DIR$/libs/android-support-v7-appcompat.jar:$PROJECT_DIR$/libs/android-support-v4.jar:$PROJECT_DIR$/libs/bugsense-3.6.jar:$PROJECT_DIR$/libs/volley.jar
@@ -45,12 +45,13 @@ import dk.dr.radio.diverse.Log;
 /**
  * Afprøvning af diverse ting
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class Afproevning {
 
   public static void main(String[] a) throws Exception {
     FilCache.init(new File("/tmp/drradio-cache"));
     DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
-    System.out.println("App.instans="+ App.instans);
+    System.out.println("App.instans=" + App.instans);
     tjekUdelukFraHLS();
     tjekHentAlleUdsendelser();
     tjek_hent_a_til_å_og_radiodrama();
@@ -74,9 +75,7 @@ public class Afproevning {
         String url = k.getStreamsUrl();
         String data = hentStreng(url);
         JSONObject o = new JSONObject(data);
-        //k.slug = o.getString(DRJson.Slug.name());
-        //kanalFraSlug.put(k.slug, k);
-        k.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
+        k.setStreams(o);
         //Log.d(k.kode + " k.lydUrl=" + k.streams);
       } catch (Exception e) {
         Log.e(e);
@@ -88,15 +87,21 @@ public class Afproevning {
   public static void tjekUdelukFraHLS() throws Exception {
     DRData i = DRData.instans = new DRData();
     i.grunddata = new Grunddata();
-    i.grunddata.da_parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../EsperantoRadiov3/res/raw/grunddata.json")));
+    i.grunddata.da_parseFællesGrunddata(Diverse.læsStreng(new FileInputStream("../DRRadiov3/res/raw/grunddata.json")));
     i.grunddata.android_json.put("udeluk_HLS", "C6603 .*/18, IdeaPadA10 A10/17, LIFETAB_E7312 LIFETAB_E7310/17, LIFETAB_E10310/.*");
-    i.grunddata.udelukHLS=false;
-    i.grunddata.tjekUdelukFraHLS("C6603 C6603/18"); if (i.grunddata.udelukHLS!=true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("C6603 C6603/17"); if (i.grunddata.udelukHLS==true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A10/17"); if (i.grunddata.udelukHLS!=true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A10/23"); if (i.grunddata.udelukHLS==true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A11/17"); if (i.grunddata.udelukHLS==true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("LIFETAB_E10310/16"); if (i.grunddata.udelukHLS!=true) throw new Exception();
+    i.grunddata.udelukHLS = false;
+    i.grunddata.tjekUdelukFraHLS("C6603 C6603/18");
+    if (i.grunddata.udelukHLS != true) throw new Exception();
+    i.grunddata.tjekUdelukFraHLS("C6603 C6603/17");
+    if (i.grunddata.udelukHLS == true) throw new Exception();
+    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A10/17");
+    if (i.grunddata.udelukHLS != true) throw new Exception();
+    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A10/23");
+    if (i.grunddata.udelukHLS == true) throw new Exception();
+    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A11/17");
+    if (i.grunddata.udelukHLS == true) throw new Exception();
+    i.grunddata.tjekUdelukFraHLS("LIFETAB_E10310/16");
+    if (i.grunddata.udelukHLS != true) throw new Exception();
   }
 
   public static void tjekHentAlleUdsendelser() throws Exception {
@@ -121,8 +126,8 @@ public class Afproevning {
         //Log.d(obj.toString(2));
         boolean MANGLER_SeriesSlug = !obj.has(DRJson.SeriesSlug.name());
 
-        u.streams = DRJson.parsStreams(obj.getJSONArray(DRJson.Streams.name()));
-        if (u.streams.size() == 0) Log.d("Ingen lydstreams");
+        u.setStreams(obj);
+        if (!u.harStreams()) Log.d("Ingen lydstreams");
 
         try {
           u.playliste = DRJson.parsePlayliste(new JSONArray(hentStreng(DRData.getPlaylisteUrl(u.slug))));
@@ -145,7 +150,8 @@ public class Afproevning {
             i.programserieFraSlug.put(u.programserieSlug, ps);
           }
         }
-        if (MANGLER_SeriesSlug) Log.d("MANGLER_SeriesSlug "+u+ " gavNull="+gavNull +"  fra dagsprogram ="+u.programserieSlug);
+        if (MANGLER_SeriesSlug)
+          Log.d("MANGLER_SeriesSlug " + u + " gavNull=" + gavNull + "  fra dagsprogram =" + u.programserieSlug);
       }
     }
   }

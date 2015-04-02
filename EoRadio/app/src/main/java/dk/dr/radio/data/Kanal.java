@@ -20,6 +20,8 @@ package dk.dr.radio.data;
 
 import android.graphics.Bitmap;
 
+import android.support.v4.app.Fragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,8 +31,6 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import dk.dr.radio.akt.Basisfragment;
-import dk.dr.radio.akt.Kanal_frag;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -41,13 +41,15 @@ public class Kanal extends Lydkilde {
   public static final String P4kode = "P4F";
   public String navn;
   public transient int kanallogo_resid;
-  public transient Bitmap eo_emblemo;
   public boolean p4underkanal;
   public transient ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
   public transient SortedMap<String, ArrayList<Udsendelse>> udsendelserPerDag = new TreeMap<String, ArrayList<Udsendelse>>();
-  public Class<? extends Basisfragment> fragKlasse = Kanal_frag.class;
+  /** P1 har ingen senest spillet og der er aldrig playlister på denne kanal */
+  public boolean ingenPlaylister;
+  public Class<? extends Fragment> fragKlasse;
 
   //// EO
+  public transient Bitmap eo_emblemo;
   public String eo_hejmpaĝoEkrane;
   public String eo_hejmpaĝoButono;
   public String eo_retpoŝto;
@@ -61,10 +63,8 @@ public class Kanal extends Lydkilde {
 
   @Override
   public String toString() {
-    return kode + "/" + navn + "/" + udsendelser.size() + "\n";
+    return kode;// + "/" + navn + "/" + logoUrl;
   }
-  //// EO
-
 
   public boolean harUdsendelserForDag(String dato) {
     return udsendelserPerDag.containsKey(dato);

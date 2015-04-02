@@ -19,8 +19,8 @@ import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 
 public class FangBrowseIntent_akt extends Activity {
 
@@ -111,11 +111,9 @@ public class FangBrowseIntent_akt extends Activity {
           Log.d("hentStreams fikSvar(" + fraCache + " " + url);
           if (json != null && !"null".equals(json)) {
             JSONObject o = new JSONObject(json);
-            Udsendelse udsendelse2 = DRJson.parseUdsendelseForProgramseriexx(null, DRData.instans, o);
-            udsendelse2.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-            udsendelse2.kanStreames = udsendelse2.findBedsteStreams(false).size() > 0;
-            udsendelse2.kanHentes = udsendelse2.findBedsteStreams(true).size() > 0;
-            udsendelse2.kanNokHøres = udsendelse2.kanStreames;
+            Udsendelse udsendelse2 = DRJson.parseUdsendelse(null, DRData.instans, o);
+            udsendelse2.setStreams(o);
+            udsendelse2.indslag = DRJson.parsIndslag(o.optJSONArray(DRJson.Chapters.name()));
             udsendelse2.produktionsnummer = o.optString(DRJson.ProductionNumber.name());
             udsendelse2.shareLink = o.optString(DRJson.ShareLink.name());
 

@@ -238,19 +238,19 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     switch (DRData.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:
         startStopKnapNyImageResource = R.drawable.afspiller_spil;
-        startStopKnap.setContentDescription("Start afspilning");
+        startStopKnap.setContentDescription(getString(R.string.Start_afspilning));
         progressbar.setVisibility(View.GONE);
         break;
       case FORBINDER:
         startStopKnapNyImageResource = R.drawable.afspiller_pause;
-        startStopKnap.setContentDescription("Stop afspilning");
+        startStopKnap.setContentDescription(getString(R.string.Stop_afspilning));
         progressbar.setVisibility(View.VISIBLE);
         int fpct = DRData.instans.afspiller.getForbinderProcent();
-        metainformation.setText("Forbinder " + (fpct > 0 ? fpct : ""));
+        metainformation.setText(getString(R.string.Forbinder) + (fpct > 0 ? " "+fpct : ""));
         break;
       case SPILLER:
         startStopKnapNyImageResource = R.drawable.afspiller_pause;
-        startStopKnap.setContentDescription("Stop afspilning");
+        startStopKnap.setContentDescription(getString(R.string.Stop_afspilning));
         progressbar.setVisibility(View.GONE);
         break;
     }
@@ -284,9 +284,9 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
       MenuItem menuItem = menu.findItem(R.id.startStopKnap);
 
       if (DRData.instans.afspiller.getAfspillerstatus() == Status.STOPPET) {
-        menuItem.setTitle("Start " + DRData.instans.afspiller.getLydkilde());
+        menuItem.setTitle(getString(R.string.Start) + DRData.instans.afspiller.getLydkilde());
       } else {
-        menuItem.setTitle("Stop afspilning");
+        menuItem.setTitle(R.string.Stop_afspilning);
         menuItem.setIcon(R.drawable.dri_radio_stop_graa40);
       }
     }

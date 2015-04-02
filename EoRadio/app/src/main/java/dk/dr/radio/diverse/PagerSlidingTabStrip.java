@@ -285,7 +285,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     } else {
       tabi.setImageResource(resId);
     }
-    tabi.setVisibility(View.INVISIBLE);
+    tabi.setVisibility(View.GONE);
     TextView tabt = new TextView(getContext());
     tabt.setText(title);
     tabt.setTypeface(App.skrift_gibson);
@@ -481,7 +481,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       final FrameLayout fl = (FrameLayout) t;
       fl.getChildAt(0).clearAnimation();
       fl.getChildAt(1).clearAnimation();
-      fl.getChildAt(0).setVisibility(View.INVISIBLE);
+      fl.getChildAt(0).setVisibility(View.GONE);
       fl.getChildAt(1).setVisibility(View.VISIBLE);
         /*
         fl.getChildAt(0).startAnimation(fadeUd);
@@ -504,7 +504,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         @Override
         public void onAnimationEnd(Animation animation) {
           fl.getChildAt(0).setVisibility(View.VISIBLE);
-          fl.getChildAt(1).setVisibility(View.INVISIBLE);
+          fl.getChildAt(1).setVisibility(View.GONE);
         }
       });
     }

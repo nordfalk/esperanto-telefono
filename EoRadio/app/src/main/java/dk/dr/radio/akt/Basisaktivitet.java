@@ -19,10 +19,8 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 
 import java.util.Date;
-import java.util.List;
 
 import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.Lydstream;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.P4Stedplacering;
@@ -40,11 +38,11 @@ public class Basisaktivitet extends ActionBarActivity {
 
   @Override
   public void setContentView(int layoutResID) {
-    setTitle("D R Radio"); // til blinde, for at undgå at "DR Radio" bliver udtalt som "Doktor Radio"
+    setTitle(R.string.D_R_Radio); // til blinde, for at undgå at "DR Radio" bliver udtalt som "Doktor Radio"
     super.setContentView(layoutResID);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    if (toolbar!=null) {
-      toolbar.setLogo(R.drawable.emblemo);
+    if (toolbar != null) {
+      toolbar.setLogo(R.drawable.dr_logo);
       setSupportActionBar(toolbar);
       ActionBar ab = getSupportActionBar();
       ab.setDisplayShowTitleEnabled(false);
@@ -57,8 +55,8 @@ public class Basisaktivitet extends ActionBarActivity {
   }
 
   public void sætProgressBar(boolean b) {
-    if (progressBar==null) return;
-    progressBar.setVisibility(b?View.VISIBLE:View.GONE);
+    if (progressBar == null) return;
+    progressBar.setVisibility(b ? View.VISIBLE : View.GONE);
   }
 
   @Override
@@ -68,7 +66,6 @@ public class Basisaktivitet extends ActionBarActivity {
       menu.add(0, 1644, 0, "Tjek P4-område ud fra IP-adresse");
       menu.add(0, 642, 0, "Fejlsøgning");
       menu.add(0, 643, 0, "Vis log");
-      menu.add(0, 1643, 0, "Del lyd 2");
       menu.add(0, 646, 0, "Send fejlrapport");
       menu.add(0, 2645, 0, "Status på hentninger");
       menu.add(0, 13643, 0, "Vis servertid");
@@ -114,11 +111,6 @@ public class Basisaktivitet extends ActionBarActivity {
             return null;
           }
         }.execute();
-        return true;
-      case 1643:
-        List<Lydstream> l = DRData.instans.afspiller.getLydkilde().findBedsteStreams(false);
-        if (!l.isEmpty()) startActivity(
-            new Intent(android.content.Intent.ACTION_VIEW).setDataAndType(Uri.parse(l.get(0).url), "audio/*"));
         return true;
       case 2645:
         DRData.instans.hentedeUdsendelser.status();

@@ -17,7 +17,7 @@
           android:id="@+id/soegFelt"
           android:layout_alignParentLeft="true"
           android:layout_marginRight="60dp"
-          android:hint="Søg efter program"
+          android:hint="@string/Søg_efter_program"
           android:singleLine="true"
           android:inputType="text"
           android:layout_width="match_parent"
@@ -29,7 +29,7 @@
           android:layout_height="44dp"
           android:layout_centerVertical="true"
           android:layout_alignParentRight="true"
-          android:contentDescription="ryd"
+          android:contentDescription="@string/Søg"
           android:scaleType="center"
           android:src="@drawable/dri_soeg_blaa"/>
     </RelativeLayout>

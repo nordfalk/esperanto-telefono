@@ -14,7 +14,7 @@
         android:layout_width="60dp"
         android:layout_height="44dp"
         android:scaleType="center"
-        android:contentDescription="start/stop"
+        android:contentDescription="@string/start_stop"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:id="@+id/startStopKnap"
@@ -40,7 +40,7 @@
             android:id="@+id/kanallogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/kanalappendix_ram"
+            android:src="@drawable/kanalappendix_ab4"
             />
       </LinearLayout>
 

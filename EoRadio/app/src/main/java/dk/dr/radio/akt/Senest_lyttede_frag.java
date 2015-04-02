@@ -41,10 +41,10 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
 
     AQuery aq = new AQuery(rod);
     listView = aq.id(R.id.listView).adapter(adapter).itemClicked(this).getListView();
-    listView.setEmptyView(aq.id(R.id.tom).typeface(App.skrift_gibson_fed).text("Ingen senest lyttede").getView());
+    listView.setEmptyView(aq.id(R.id.tom).typeface(App.skrift_gibson_fed).text(R.string.Ingen_senest_lyttede).getView());
     opdaterListe();
 
-    TextView overskrift = aq.id(R.id.overskrift).typeface(App.skrift_gibson_fed).text("Senest lyttede").getTextView();
+    TextView overskrift = aq.id(R.id.overskrift).typeface(App.skrift_gibson_fed).text(R.string.Senest_lyttede).getTextView();
     overskrift.setVisibility(View.VISIBLE);
 
     udvikling_checkDrSkrifter(rod, this + " rod");
@@ -143,11 +143,11 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
         vh.titel.setText(u.titel);
         vh.dato.setVisibility(View.VISIBLE);
         Kanal k = u.getKanal();
-        vh.dato.setText((k == Grunddata.ukendtKanal ? "" : (k.navn + " - ")) + DRJson.getDagsbeskrivelse(u.startTid).toLowerCase() + " kl " + u.startTidKl);
+        vh.dato.setText((k == Grunddata.ukendtKanal ? "" : (k.navn + " - ")) + getString(R.string._kl_, DRJson.getDagsbeskrivelse(u.startTid).toLowerCase(), u.startTidKl));
       } else {
         Log.rapporterFejl(new Exception("forkert type"), sl.lydkilde);
       }
-      vh.varighed.setText(("Lyttet "+DRJson.getDagsbeskrivelse(vh.sl.tidpunkt) + " kl " + DRJson.klokkenformat.format(vh.sl.tidpunkt)).toUpperCase());
+      vh.varighed.setText(getString(R.string.LYTTET_)+ getString(R.string._kl_, DRJson.getDagsbeskrivelse(vh.sl.tidpunkt) , DRJson.klokkenformat.format(vh.sl.tidpunkt)).toUpperCase());
 
       udvikling_checkDrSkrifter(v, this.getClass() + " ");
 

@@ -17,8 +17,8 @@
       android:paddingLeft="16dp"
       android:drawableLeft="@drawable/dri_hent_blaa"
       android:gravity="center_vertical"
-      android:text="DOWNLOAD"
-      android:contentDescription="hent udsendelse"
+      android:text="@string/DOWNLOAD"
+      android:contentDescription="@string/hent_udsendelse"
       android:textSize="12sp"
       android:background="@drawable/elem_hvid_bg"/>
   <!--
@@ -32,8 +32,8 @@
       android:layout_weight="1"
       android:drawableLeft="@drawable/dri_favorit"
       android:paddingLeft="16dp"
-      android:contentDescription="favorit"
-      android:text="FAVORIT"
+      android:contentDescription="@string/favorit"
+      android:text="@string/FAVORIT"
       android:textColor="@color/blå"
       android:textSize="12sp"
       android:button="@null"

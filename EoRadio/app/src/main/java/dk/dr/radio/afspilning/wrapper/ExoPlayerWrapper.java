@@ -10,10 +10,10 @@ import com.google.android.exoplayer.ExoPlayerLibraryInfo;
 
 import java.io.IOException;
 
-import dk.dr.exoplayer.DefaultRendererBuilder;
-import dk.dr.exoplayer.DemoPlayer;
-import dk.dr.exoplayer.EventLogger;
-import dk.dr.exoplayer.HlsRendererBuilder;
+import dk.dr.radio.afspilning.exoplayer.DefaultRendererBuilder;
+import dk.dr.radio.afspilning.exoplayer.DemoPlayer;
+import dk.dr.radio.afspilning.exoplayer.EventLogger;
+import dk.dr.radio.afspilning.exoplayer.HlsRendererBuilder;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -73,11 +73,12 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
 
   @Override
   public void seekTo(int offsetMs) {
-    player.seekTo(offsetMs);
+    if (player!=null) player.seekTo(offsetMs);
   }
 
   @Override
   public int getDuration() {
+    if (player==null) return 0; // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/3038148734
     return (int) player.getDuration();
   }
 

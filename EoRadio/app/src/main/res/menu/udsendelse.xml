@@ -6,7 +6,7 @@
 
   <item
       android:id="@+id/del"
-      android:title="Del"
+      android:title="@string/Del"
       android:orderInCategory="1"
       android:icon="@drawable/dri_del_graa40"
       app:showAsAction="always"/>

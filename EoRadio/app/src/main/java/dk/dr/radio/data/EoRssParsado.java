@@ -3,6 +3,7 @@ package dk.dr.radio.data;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.Reader;
 import java.io.StringReader;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 
 import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.Log;
+import dk.dr.radio.net.Diverse;
 
 
 /**
@@ -81,7 +83,7 @@ public class EoRssParsado {
       } else if ("link".equals(tag)) {
         e.ligilo = p.nextText();
       } else if (ns == null && "title".equals(tag)) {
-        e.titel = Diverse.unescapeHtml3(p.nextText());
+        e.titel = EoDiverse.unescapeHtml3(p.nextText());
       } else if ("description".equals(tag)) {
         e.beskrivelse = p.nextText().trim();
         //e.beskrivelse = puriguPosterous1.matcher(e.beskrivelse).replaceAll("");
@@ -161,7 +163,7 @@ public class EoRssParsado {
       } else if (e == null) {
         continue;
       } else if ("title".equals(tag)) {
-        e.titel = Diverse.unescapeHtml3(p.nextText());
+        e.titel = EoDiverse.unescapeHtml3(p.nextText());
       } else if ("published".equals(tag)) {
         e.startTidKl = p.nextText().split("T")[0];
         //Log.d("e.datoStr="+e.datoStr);
@@ -194,7 +196,8 @@ public class EoRssParsado {
   public static void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
     try {
       if (elsendojRssUrl== null) return;
-      String dosiero = FilCache.hentFil(elsendojRssUrl, nurLokajn);
+      String dosiero = FilCache.findLokaltFilnavn(elsendojRssUrl);
+      if (nurLokajn && !new File(dosiero).exists()) return;
       Log.d(" akiris " + elsendojRssUrl);
       if (dosiero == null) return;
       ŝarĝiElsendojnDeRssUrl(Diverse.læsStreng(new FileInputStream(dosiero)), k);
@@ -221,7 +224,7 @@ public class EoRssParsado {
       for (Udsendelse e : elsendoj) {
         if (e.beskrivelse==null) e.beskrivelse="";
         if (k.eo_elsendojRssIgnoruTitolon) {
-          String bes = Diverse.unescapeHtml3(e.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
+          String bes = EoDiverse.unescapeHtml3(e.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
           e.titel = bes;
           if (e.titel.length()>200) e.titel = e.titel.substring(0, 200);
         }

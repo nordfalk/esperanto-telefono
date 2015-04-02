@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import dk.dr.radio.data.Diverse;
+import dk.dr.radio.net.Diverse;
 
 /**
  * Created by j on 19-02-14.

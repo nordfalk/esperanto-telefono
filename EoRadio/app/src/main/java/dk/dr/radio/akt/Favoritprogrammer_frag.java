@@ -30,8 +30,8 @@ import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
 
 public class Favoritprogrammer_frag extends Basisfragment implements AdapterView.OnItemClickListener, Runnable {
@@ -50,7 +50,7 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
     listView = aq.id(R.id.listView).adapter(adapter).itemClicked(this).getListView();
     listView.setEmptyView(aq.id(R.id.tom).typeface(App.skrift_gibson).text(
 //        "Ingen favoritter\nGå ind på en programserie og tryk på hjertet for at gøre det til en favorit"
-            Html.fromHtml("<b>Saml dine favoritter her</b><br><br>Klik på hjertet på dine yndlingsprogrammer. Du får nem adgang til dine favoritter – og du kan hurtigt se, når der er kommet nye udsendelser.")
+            Html.fromHtml(getString(R.string.Saml_dine_favoritter_her____))
 
         ).getView()
     );
@@ -141,7 +141,7 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
           Programserie ps = (Programserie) obj;
           aq.id(R.id.linje1).text(ps.titel).typeface(App.skrift_gibson_fed).textColor(Color.BLACK);
           int n = favoritter.getAntalNyeUdsendelser(ps.slug);
-          String txt = (n == 1 ? n + " ny udsendelse" : n + " nye udsendelser");
+          String txt = (n == 1 ? n + getString(R.string._ny_udsendelse) : n + getString(R.string._nye_udsendelser));
           aq.id(R.id.linje2).text(txt).typeface(App.skrift_gibson);
           aq.id(R.id.stiplet_linje).visibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
         } else {

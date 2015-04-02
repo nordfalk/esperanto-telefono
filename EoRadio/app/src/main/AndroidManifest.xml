@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="dk.nordfalk.esperanto.radio"
           android:installLocation="auto"
           android:versionCode="1"
@@ -61,7 +62,7 @@ android:versionName="3.2 21.dec småting 143"
     <activity
         android:name="dk.dr.radio.akt.Indstillinger_akt"
         android:theme="@style/Theme.Indstillinger"
-        android:label="D R Radio Indstillinger">
+        android:label="@string/D_R_Radio_Indstillinger" tools:ignore="ExportedPreferenceActivity">
       <!-- Gør aktivitet synlig i forbindelse med at brugeren gennemser sit dataforbrug -->
       <intent-filter>
         <action android:name="android.intent.action.MANAGE_NETWORK_USAGE"/>
@@ -100,13 +101,13 @@ android:versionName="3.2 21.dec småting 143"
 
     <receiver
         android:name="dk.dr.radio.afspilning.AfspillerIkonOgNotifikation"
-        android:label="DR Radio">
+        android:label="@string/dr_radio">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
       </intent-filter>
       <meta-data
           android:name="android.appwidget.provider"
-          android:resource="@xml/dr_afspiller_widgetinfo"/>
+          android:resource="@xml/afspiller_widgetinfo"/>
     </receiver>
 
 
@@ -139,7 +140,7 @@ android:versionName="3.2 21.dec småting 143"
       </intent-filter>
     </activity>
 
-    <activity android:name="com.android.deskclock.AlarmClock_akt"
+    <activity android:name="dk.dr.radio.vaekning.AlarmClock_akt"
               android:icon="@drawable/deskclock_ic_menu_alarms"
               android:label="@string/alarm_list_title"
               android:configChanges="orientation|keyboardHidden|keyboard|navigation"
@@ -147,19 +148,19 @@ android:versionName="3.2 21.dec småting 143"
     </activity>
 
 
-    <activity android:name="com.android.deskclock.SetAlarm_akt"
+    <activity android:name="dk.dr.radio.vaekning.SetAlarm_akt"
               android:label="@string/set_alarm"
               android:configChanges="orientation|keyboardHidden|keyboard|navigation"/>
 
 
-    <receiver android:name="com.android.deskclock.AlarmReceiver"
+    <receiver android:name="dk.dr.radio.vaekning.AlarmReceiver"
               android:exported="false">
       <intent-filter><!-- XXXX -->
         <action android:name="dk.dr.radio.ALARM_ALERT"/>
       </intent-filter>
     </receiver>
 
-    <receiver android:name="com.android.deskclock.AlarmInitReceiver">
+    <receiver android:name="dk.dr.radio.vaekning.AlarmInitReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
         <!-- overflødige i vores tilfælde - og det er set at de kommer for ofte, f.eks.

@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
+              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:paddingLeft="16dp"
@@ -8,7 +8,7 @@
     >
 
   <TextView
-      android:text="Downloadede udsendelser "
+      android:text="@string/Downloadede_udsendelser"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textStyle="bold"
@@ -18,6 +18,6 @@
       android:text="(13)"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:id="@+id/tekst2"/>
+      android:id="@+id/tekst2" tools:ignore="HardcodedText"/>
 
 </LinearLayout>

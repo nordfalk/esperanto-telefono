@@ -20,7 +20,7 @@ public class Programserie { //implements Serializable {
   public String slug;
   public int antalUdsendelser;
   public String urn;
-  public ArrayList<Udsendelse> udsendelserListe;
+  private ArrayList<Udsendelse> udsendelserListe;
   private TreeMap<Integer, ArrayList<Udsendelse>> udsendelserListeFraOffset = new TreeMap<Integer, ArrayList<Udsendelse>>();
   private TreeSet<Udsendelse> udsendelserSorteret;
 

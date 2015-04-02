@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,10 +150,10 @@ public class Grunddata {
         DRData.instans.programserieFraSlug.put(e.programserieSlug, ps);
       }
       //ps.tilføjUdsendelser(0, k.udsendelser);
-      ps.udsendelserListe = k.udsendelser;
+      ps.tilføjUdsendelser(0, k.udsendelser);
       ps.antalUdsendelser = k.udsendelser.size();
     }
-    e.kanHentes = e.kanStreames = e.kanNokHøres = true;
+    e.kanHentes = e.kanHøres = true;
     e.streams = new ArrayList<Lydstream>();
     e.slutTid = e.startTid;
     Lydstream ls = new Lydstream();
@@ -255,7 +256,8 @@ public class Grunddata {
     for (Kanal k : kanaler) {
 
       if (k.eo_emblemoUrl != null && k.eo_emblemo == null) try {
-        String dosiero = FilCache.hentFil(k.eo_emblemoUrl, nurLokajn);
+        String dosiero = FilCache.findLokaltFilnavn(k.eo_emblemoUrl);
+        if (nurLokajn && !new File(dosiero).exists()) continue;
         if (dosiero == null) continue;
         /*
            int kiomDaDpAlta = 50; // 50 dp
@@ -370,12 +372,13 @@ public class Grunddata {
       if (k == null) {
         k = new Kanal();
         k.kode = j.optString("scheduleIdent", "P4F");
-        k.fragKlasse = "DRN".equals(k.kode)? Kanal_nyheder_frag.class : Kanal_frag.class;
         kanalFraKode.put(k.kode, k);
       }
       k.navn = j.getString("title");
       k.urn = j.getString("urn");
       k.slug = j.optString("slug", "p4");
+      k.ingenPlaylister = j.optBoolean("hideLatestTrack", false);
+      k.fragKlasse = k.kode.equals("DRN") ? Kanal_nyheder_frag.class : null;
       k.p4underkanal = parserP4underkanaler;
       kanaler.add(k);
       if (parserP4underkanaler) p4koder.add(k.kode);

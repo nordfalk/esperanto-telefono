@@ -26,9 +26,9 @@
         android:id="@+id/billede"
         android:layout_width="wrap_content"
         android:layout_marginTop="8dp"
-        android:contentDescription="P4"
+        android:contentDescription="P4" tools:ignore="HardcodedText"
         android:layout_height="wrap_content"
-        android:src="@drawable/kanalappendix_ram"/>
+        android:src="@drawable/kanalappendix_p4f"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -44,7 +44,7 @@
           android:layout_marginLeft="10dp"
           android:layout_marginTop="8dp"
           android:textAppearance="?android:attr/textAppearance"
-          />
+          tools:ignore="HardcodedText"/>
 
 
     </LinearLayout>

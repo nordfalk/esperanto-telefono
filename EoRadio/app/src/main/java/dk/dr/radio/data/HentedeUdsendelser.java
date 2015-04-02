@@ -112,13 +112,13 @@ public class HentedeUdsendelser {
   public void hent(Udsendelse udsendelse) {
     tjekDataOprettet();
     try {
-      String url = udsendelse.findBedsteStreamUrl(true);
-      if (url == null) {
+      List<Lydstream> prioriteretListe = udsendelse.findBedsteStreams(true);
+      if (prioriteretListe == null || prioriteretListe.size() < 1) {
         Log.rapporterFejl(new IllegalStateException("ingen streamurl"), udsendelse.slug);
-        App.langToast("Beklager, udsendelsen kunne ikke hentes");
+        App.langToast(R.string.Beklager_udsendelsen_kunne_ikke_hentes);
         return;
       }
-      Uri uri = Uri.parse(url);
+      Uri uri = Uri.parse(prioriteretListe.get(0).url);
       Log.d("uri=" + uri);
 
       String brugervalg = App.prefs.getString(NØGLE_placeringAfHentedeFiler, null);
@@ -150,13 +150,13 @@ public class HentedeUdsendelser {
       data.downloadIdFraSlug.put(udsendelse.slug, downloadId);
       data.udsendelseFraDownloadId.put(downloadId, udsendelse);
       if (!data.udsendelser.contains(udsendelse)) data.udsendelser.add(udsendelse);
-      Log.d("Hentning: hent() data.udsendelseFraDownloadId= " + data.udsendelseFraDownloadId + " for "+filnavn);
+      Log.d("Hentning: hent() data.udsendelseFraDownloadId= " + data.udsendelseFraDownloadId);
       Log.d("Hentning: hent() data.downloadIdFraSlug=" + data.downloadIdFraSlug);
       gemListe();
       for (Runnable obs : new ArrayList<Runnable>(observatører)) obs.run();
     } catch (Exception e) {
       Log.rapporterFejl(e);
-      App.langToast("Kunne ikke få adgang til eksternt lager.\nSe eventuelt indstillingen til placering af hentede udsendelser");
+      App.langToast(R.string.Kunne_ikke_få_adgang_til_eksternt_lager__se_evt__);
     }
   }
 
@@ -255,16 +255,16 @@ public class HentedeUdsendelser {
     long hentet = c.getLong(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) / 1000000;
     String txt;
     if (status == DownloadManager.STATUS_SUCCESSFUL) {
-      txt = "Klar (" + iAlt + " MB)";
+      txt = App.instans.getString(R.string.Klar___mb_, iAlt);
     } else if (status == DownloadManager.STATUS_FAILED) {
-      txt = "Mislykkedes";
+      txt = App.instans.getString(R.string.Mislykkedes);
     } else if (status == DownloadManager.STATUS_PENDING) {
-      txt = "Venter...";
+      txt = App.instans.getString(R.string.Venter___);
     } else if (status == DownloadManager.STATUS_PAUSED) {
-      txt = "Hentning pauset ... hentet " + hentet + " MB af " + iAlt + " MB";
+      txt = App.instans.getString(R.string.Hentning_pauset__)+App.instans.getString(R.string.Hentet___mb_af___mb, hentet, iAlt);
     } else { // RUNNING
-      if (hentet > 0 || iAlt > 0) txt = "Hentet " + hentet + " MB af " + iAlt + " MB";
-      else txt = "Henter...";
+      if (hentet > 0 || iAlt > 0) txt = App.instans.getString(R.string.Hentet___mb_af___mb, hentet, iAlt);
+      else txt = App.instans.getString(R.string.Henter__);
     }
     return txt;
   }
@@ -323,10 +323,10 @@ public class HentedeUdsendelser {
         if (c.moveToFirst()) {
           Log.d("DLS " + c + "  " + c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS)));
           if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
-            App.langToast("Udsendelsen " + u.titel + " blev hentet");
+            App.langToast(App.instans.getString(R.string.Udsendelsen___blev_hentet, u.titel));
             Log.registrérTestet("Hente udsendelse", u.slug);
           } else {
-            App.langToast("Det lykkedes ikke at hente udsendelsen " + u.titel + "\nTjek at du har tilstrækkeligt ledigt plads");
+            App.langToast(App.instans.getString(R.string.Det_lykkedes_ikke_at_hente_udsendelsen___tjek_at___, u.titel));
           }
         }
         c.close();
@@ -406,7 +406,7 @@ public class HentedeUdsendelser {
           udsendelse.hentetStream = new Lydstream();
           udsendelse.hentetStream.url = uri;
           udsendelse.hentetStream.score = 500; // Rigtig god!
-          udsendelse.kanNokHøres = udsendelse.kanStreames = true;
+          udsendelse.kanHøres = true;
           Log.registrérTestet("Afspille hentet udsendelse", udsendelse.slug);
         } else {
 //          Log.rapporterFejl(new IllegalStateException("Fil " + file + "  fandtes ikke alligevel??! for " + udsendelse));

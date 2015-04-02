@@ -37,7 +37,7 @@
   <TextView
       android:id="@+id/titel_og_kunstner"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:layout_weight="1"
       android:text="P3 Sporten  |  Polarkreis 18"
       android:maxLines="3"

@@ -51,13 +51,11 @@ public class SenestLyttede {
         }
       }
       return;
-    } catch (ClassCastException e) {
-      Log.d("SenestLyttede: " + e);
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
     liste = new LinkedHashMap<String, SenestLyttet>();
-    gemListe.run();
+    gemListe.run(); // Indlæsning gik galt - vi gemmer en ny liste for ikke at få flere fejlmeldinger
   }
 
   private Runnable gemListe = new Runnable() {

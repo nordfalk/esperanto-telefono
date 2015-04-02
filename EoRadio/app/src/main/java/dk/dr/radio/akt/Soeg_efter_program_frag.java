@@ -40,8 +40,8 @@ import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
 
 
@@ -69,7 +69,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
         .text("").getView());
 
     søgFelt = aq.id(R.id.soegFelt).getEditText();
-    søgFelt.setImeActionLabel("Søg", KeyEvent.KEYCODE_ENTER);
+    søgFelt.setImeActionLabel(getString(R.string.Søg), KeyEvent.KEYCODE_ENTER);
 
     //søgFelt.setBackgroundResource(android.R.drawable.editbox_background_normal);
     søgKnap = aq.id(R.id.soegKnap).clicked(this).getImageView();
@@ -270,7 +270,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
             adapter.notifyDataSetChanged();
 
             if (liste.size() == 0) {
-              tomStr.setText("Søgningen gav intet resultat");
+              tomStr.setText(R.string.Søgningen_gav_intet_resultat);
             }
             return;
           }
@@ -307,7 +307,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
           adapter.notifyDataSetChanged();
 
           if (liste.size() == 0) {
-            tomStr.setText("Søgningen gav intet resultat");
+            tomStr.setText(R.string.Søgningen_gav_intet_resultat);
           }
           return;
         }

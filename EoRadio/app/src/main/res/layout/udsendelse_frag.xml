@@ -32,6 +32,6 @@
       android:layout_gravity="center"
       android:padding="20dp"
       android:textSize="18sp"
-      android:text="Indlæser, vent venligst..."/>
+      android:text="@string/Indlæser__vent_venligst___"/>
 </FrameLayout>
 

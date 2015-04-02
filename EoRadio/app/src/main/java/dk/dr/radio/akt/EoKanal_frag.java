@@ -34,15 +34,14 @@ import java.util.ArrayList;
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.Diverse;
 import dk.dr.radio.data.EoRssParsado;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
 
 public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemClickListener, View.OnClickListener, Runnable {
@@ -203,7 +202,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     boolean spillerDenneKanal = DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && DRData.instans.afspiller.getLydkilde() == kanal;
     boolean online = App.netværk.erOnline();
 
-    hør_live.setEnabled(!spillerDenneKanal && online && kanal.streams != null);
+    hør_live.setEnabled(!spillerDenneKanal && online && kanal.harStreams());
     hør_live.setText(!online ? "Internetforbindelse mangler" :
             (spillerDenneKanal ? " SPILLER "  + kanal.navn.toUpperCase() : " HØR " + kanal.navn.toUpperCase()));
     hør_live.setContentDescription(!online ? "Internetforbindelse mangler" :
@@ -427,7 +426,7 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
           if (position == aktuelUdsendelseIndex + 1) a.visibility(View.INVISIBLE);
           else if (position > 0 && liste.get(position - 1) instanceof String) a.visibility(View.INVISIBLE);
           else a.visibility(View.VISIBLE);
-          vh.titel.setTextColor(udsendelse.kanNokHøres ? Color.BLACK : App.color.grå60);
+          vh.titel.setTextColor(udsendelse.kanHøres ? Color.BLACK : App.color.grå60);
           break;
         case TIDLIGERE_SENERE:
           vh.titel.setText(udsendelse.titel);
@@ -472,7 +471,7 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
 
   @Override
   public void onClick(View v) {
-    if (kanal.streams == null) {
+    if (!kanal.harStreams()) {
       Log.rapporterOgvisFejl(getActivity(), new IllegalStateException("kanal.streams er null"));
     } else {
       // hør_udvidet_klikområde eller hør
@@ -482,7 +481,6 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
   }
 
   public static void hør(final Kanal kanal, Activity akt) {
-    if (App.fejlsøgning) App.kortToast("kanal.streams=" + kanal.streams);
     DRData.instans.afspiller.setLydkilde(kanal);
     DRData.instans.afspiller.startAfspilning();
   }
@@ -493,7 +491,7 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
     // PinnedSectionListView tillader klik på hængende overskrifter, selvom adapteren siger at det skal den ikke
     if (!(o instanceof Udsendelse)) return;
     Udsendelse u = (Udsendelse) o;
-    Log.d("MONTRAS ELSENDON "+u.slug + "  "+ u.streams);
+    Log.d("MONTRAS ELSENDON "+u.slug + "  "+ u.getStreamsUrl());
     //startActivity(new Intent(getActivity(), VisFragment_akt.class)
     //    .putExtra(P_kode, getKanal.kode)
     //    .putExtra(VisFragment_akt.KLASSE, Udsendelse_frag.class.getName()).putExtra(DRJson.Slug.name(), u.slug)); // Udsenselses-ID

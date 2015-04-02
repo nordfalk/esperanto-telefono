@@ -55,7 +55,7 @@
         android:textStyle="bold"
         android:layout_marginLeft="4dp"
         android:shadowColor="@color/hvid"
-        android:shadowRadius="4"/>
+        android:shadowRadius="4" tools:ignore="HardcodedText"/>
     </LinearLayout>
 
   <LinearLayout
@@ -79,7 +79,7 @@
         android:textStyle="bold"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-      />
+        tools:ignore="HardcodedText"/>
 
     <TextView
         android:id="@+id/starttid"
@@ -92,7 +92,7 @@
         android:textSize="20sp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        />
+        tools:ignore="HardcodedText"/>
 
   </LinearLayout>
 
@@ -105,7 +105,7 @@
       android:layout_gravity="bottom|right"
       android:textColor="@color/hvid"
       android:background="@color/sort"
-      android:text="Kan endnu\nikke afspilles"
+      android:text="@string/Kan_endnu_ikke_afspilles"
       android:textSize="12sp"
       />
   <ImageButton
@@ -115,7 +115,7 @@
       android:layout_marginRight="16dp"
       android:layout_marginBottom="16dp"
       android:layout_gravity="bottom|right"
-      android:contentDescription="hør udsendelse"
+      android:contentDescription="@string/hør_udsendelse"
       android:src="@drawable/dri_lyd_hvid"
       android:background="@drawable/knap_blaa_bg"
       />

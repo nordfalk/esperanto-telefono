@@ -57,7 +57,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setLogo(R.drawable.emblemo);
-    toolbar.setTitle("Indstillinger");
+    toolbar.setTitle(R.string.Indstillinger);
     toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override
@@ -67,7 +67,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
     });
 
     App.prefs.edit().putBoolean("fejlsøgning", App.fejlsøgning);
-    addPreferencesFromResource(R.xml.dr_indstillinger);
+    addPreferencesFromResource(R.xml.indstillinger);
 
     // Find lydformat
     lydformatlp = (ListPreference) findPreference(Lydkilde.INDST_lydformat);
@@ -94,7 +94,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
                 File dir = l.get(i);
                 String dirs = dir.toString();
                 værdi[i] = dirs;
-                visVærdi[i] = dir.getParent() + " (ikke tilgængelig)";
+                visVærdi[i] = dir.getParent() + getString(R.string.__ikke_tilgængelig_);
                 // Find ledig plads
                 boolean fandtesFørMkdirs = dir.exists();
                 dir.mkdirs();
@@ -102,7 +102,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
                 long blockSize = stat.getBlockSize();
                 long availableBlocks = stat.getAvailableBlocks();
                 if (!fandtesFørMkdirs) dir.delete(); // ryd op
-                visVærdi[i] = dir.getParent() + "\n(" + Formatter.formatFileSize(App.instans, availableBlocks * blockSize) + " ledig)";
+                visVærdi[i] = dir.getParent() + "\n(" + Formatter.formatFileSize(App.instans, availableBlocks * blockSize) + " " + getString(R.string.ledig)+")";
               } catch (Exception e) {
                 Log.e(e);
               }
@@ -129,7 +129,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
               if (tilladelse != PackageManager.PERMISSION_GRANTED) {
                 lp.setSummary(lp.getSummary() + " Fejl - tilladelse til eksternt lager mangler (du skal opdatere app'en)");
               } else {
-                lp.setSummary(lp.getSummary() + " Fejl - adgang til eksternt lager mangler (indsæt SD-kort)");
+                lp.setSummary(lp.getSummary() + " " + getString(R.string.Fejl__adgang_til_eksternt_lager_mangler_indsæt_sd_kort_));
               }
             }
           } catch (Exception ex) {

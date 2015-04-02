@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@color/hvid"
-    >
+    android:baselineAligned="false">
   <!--
               android:descendantFocusability="blocksDescendants"
               gør at knappen her ikke tager fokus for hele listeelementet

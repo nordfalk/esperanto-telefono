@@ -25,8 +25,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.deskclock.AlarmClock_akt;
-import com.android.deskclock.Alarms;
 import com.androidquery.AQuery;
 
 import java.util.ArrayList;
@@ -41,6 +39,8 @@ import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
 import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.vaekning.AlarmClock_akt;
+import dk.dr.radio.vaekning.Alarms;
 
 
 /**
@@ -394,7 +394,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
       */
 
       tilføj(R.layout.venstremenu_elem_overskrift, Senest_lyttede_frag.class);
-      aq.id(R.id.tekst).text("Senest lyttede").typeface(App.skrift_gibson_fed);
+      aq.id(R.id.tekst).text(R.string.Senest_lyttede).typeface(App.skrift_gibson_fed);
 
 
       tilføj(new MenuElement(layoutInflater.inflate(R.layout.venstremenu_elem_favoritprogrammer, null), null, Favoritprogrammer_frag.class) {
@@ -404,9 +404,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
           int antal = DRData.instans.favoritter.getAntalNyeUdsendelser();
           tekst2.setText(
               antal < 0 ? "" : // i gang med at indlæse
-                  antal == 0 ? "(ingen nye udsendelser)" :
-                      antal == 1 ? "(1 ny udsendelse)" :
-                          "(" + antal + " nye udsendelser)");
+              getString(antal==0? R.string._ingen_nye_udsendelser_: antal==1? R.string._1_ny_udsendelse_ : R.string.___nye_udsendelser_, antal));
           return view;
         }
       });
@@ -418,15 +416,24 @@ public class Venstremenu_frag extends Fragment implements Runnable {
           public View getView() {
             TextView tekst2 = (TextView) view.findViewById(R.id.tekst2);
             int antal = DRData.instans.hentedeUdsendelser.getUdsendelser().size();
-            tekst2.setText("(" + antal + ")");
+            tekst2.setText(" (" + antal + ")");
             return view;
           }
         });
         aq.id(R.id.tekst).typeface(App.skrift_gibson_fed).id(R.id.tekst2).typeface(App.skrift_gibson);
       }
 
+/*
+      tilføj(R.layout.venstremenu_elem_overskrift, DramaOgBog_frag.class);
+      aq.id(R.id.tekst).text("Drama & Bog").typeface(App.skrift_gibson_fed);
 
 
+//      tilføj(R.layout.venstremenu_elem_adskiller_tynd);
+
+      tilføj(R.layout.venstremenu_elem_overskrift, AlleUdsendelserAtilAA_frag.class);
+      aq.id(R.id.tekst).text("Alle udsendelser A-Å").typeface(App.skrift_gibson_fed);
+
+*/
       tilføj(new MenuElement(layoutInflater.inflate(R.layout.venstremenu_elem_favoritprogrammer, null),
           new Runnable() {
             @Override
@@ -442,17 +449,17 @@ public class Venstremenu_frag extends Fragment implements Runnable {
           else {
             tekst2.setVisibility(View.VISIBLE);
             Date d = new Date(Alarms.næsteAktiveAlarm);
-            tekst2.setText(DRJson.getDagsbeskrivelse(d).toLowerCase()+" kl "+ DRJson.klokkenformat.format(d));
+            tekst2.setText(getString(R.string._kl_, DRJson.getDagsbeskrivelse(d).toLowerCase(), DRJson.klokkenformat.format(d)));
           }
           return view;
         }
       });
-      aq.id(R.id.tekst).text("Vækkeur").typeface(App.skrift_gibson_fed);
+      aq.id(R.id.tekst).text(R.string.Vækkeur).typeface(App.skrift_gibson_fed);
       aq.id(R.id.tekst2).typeface(App.skrift_gibson).textColor(getResources().getColor(R.color.rød));
 
 
       tilføj(R.layout.venstremenu_elem_overskrift, Kontakt_info_om_frag.class);
-      aq.id(R.id.tekst).text("Kontakt / info / om").typeface(App.skrift_gibson_fed);
+      aq.id(R.id.tekst).text(R.string.Kontakt_info_om).typeface(App.skrift_gibson_fed);
 
 
       tilføj(R.layout.venstremenu_elem_adskiller_tynd);
@@ -465,7 +472,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
           Sidevisning.vist(Indstillinger_akt.class);
         }
       });
-      aq.id(R.id.tekst).text("Indstillinger").typeface(App.skrift_gibson_fed);
+      aq.id(R.id.tekst).text(R.string.Indstillinger).typeface(App.skrift_gibson_fed);
 
 
       if (!App.PRODUKTION) {
@@ -500,7 +507,6 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         });
         aq.id(R.id.tekst).text("ExoPlayer DR2");
         */
-
       }
     }
 

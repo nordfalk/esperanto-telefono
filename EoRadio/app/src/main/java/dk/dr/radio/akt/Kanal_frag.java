@@ -1,6 +1,8 @@
 package dk.dr.radio.akt;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,18 +32,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Kanal;
+import dk.dr.radio.data.Lydstream;
 import dk.dr.radio.data.Playlisteelement;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.diverse.volley.DrVolleyResonseListener;
-import dk.dr.radio.diverse.volley.DrVolleyStringRequest;
+import dk.dr.radio.net.volley.DrVolleyResonseListener;
+import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.nordfalk.esperanto.radio.R;
 
 public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClickListener, View.OnClickListener, Runnable {
@@ -194,13 +199,13 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
             listView.setSelectionFromTop(næstøversteSynligNytIndex, næstøversteSynligOffset);
           }
         } else {
-          new AQuery(rod).id(R.id.tom).text("Netværksfejl, prøv igen senere");
+          new AQuery(rod).id(R.id.tom).text(R.string.Netværksfejl_prøv_igen_senere);
         }
       }
 
       @Override
       protected void fikFejl(VolleyError error) {
-        new AQuery(rod).id(R.id.tom).text("Netværksfejl, prøv igen senere");
+        new AQuery(rod).id(R.id.tom).text(R.string.Netværksfejl_prøv_igen_senere);
       }
     }) {
       public Priority getPriority() {
@@ -250,7 +255,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     super.onPause();
     App.forgrundstråd.removeCallbacks(this);
     if (senesteSynligeFragment == this) senesteSynligeFragment = null;
-    if (App.fejlsøgning) Log.d("onPause() "+this);
+    if (App.fejlsøgning) Log.d("onPause() " + this);
   }
 
   @Override
@@ -259,15 +264,14 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     App.forgrundstråd.removeCallbacks(this);
     App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
 
-    if (kanal.streams == null) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
+    if (!kanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
       Request<?> req = new DrVolleyStringRequest(kanal.getStreamsUrl(), new DrVolleyResonseListener() {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret) return; // ingen grund til at parse det igen
           JSONObject o = new JSONObject(json);
-          kanal.streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
-          if (App.fejlsøgning)
-            Log.d("hentSupplerendeDataBg " + kanal.kode + " fraCache=" + fraCache + " => " + kanal.slug + " k.lydUrl=" + kanal.streams);
+          kanal.setStreams(o);
+          Log.d("hentStreams Kanal_frag fraCache=" + fraCache + " => " + kanal);
           run(); // Opdatér igen
         }
       }) {
@@ -281,11 +285,11 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     boolean spillerDenneKanal = DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && DRData.instans.afspiller.getLydkilde() == kanal;
     boolean online = App.netværk.erOnline();
 
-    hør_live.setEnabled(!spillerDenneKanal && online && kanal.streams != null);
-    hør_live.setText(!online ? "Internetforbindelse mangler" :
-            (spillerDenneKanal ? " SPILLER "  + kanal.navn.toUpperCase() : " HØR " + kanal.navn.toUpperCase()));
-    hør_live.setContentDescription(!online ? "Internetforbindelse mangler" :
-        (spillerDenneKanal ? "Spiller " : "Hør ") + kanal.navn.toUpperCase());
+    hør_live.setEnabled(online && kanal.harStreams() && !spillerDenneKanal);
+    hør_live.setText(!online ? getString(R.string.Internetforbindelse_mangler) :
+            (" " + getString(spillerDenneKanal? R.string.SPILLER : R.string.HØR) + " " + kanal.navn.toUpperCase()));
+    hør_live.setContentDescription(!online ? getString(R.string.Internetforbindelse_mangler) :
+        (" " + getString(spillerDenneKanal? R.string.Spiller : R.string.Hør) + " " + kanal.navn.toUpperCase()));
 
 
     if (aktuelUdsendelseViewholder == null) return;
@@ -503,7 +507,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
           if (position == aktuelUdsendelseIndex + 1) a.visibility(View.INVISIBLE);
           else if (position > 0 && liste.get(position - 1) instanceof String) a.visibility(View.INVISIBLE);
           else a.visibility(View.VISIBLE);
-          vh.titel.setTextColor(udsendelse.kanNokHøres ? Color.BLACK : App.color.grå60);
+          vh.titel.setTextColor(udsendelse.kanHøres ? Color.BLACK : App.color.grå60);
           break;
         case TIDLIGERE_SENERE:
           vh.titel.setText(udsendelse.titel);
@@ -553,12 +557,17 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
   }
 
   private void opdaterSenestSpillet(final AQuery aq2, final Udsendelse u2) {
+    if (kanal.ingenPlaylister) { // P1s programmer har aldrig "senest spillet" info
+      opdaterSenestSpilletViews(aq2, u2);
+      return;
+    }
     Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(u2.slug), new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         if (App.fejlsøgning) Log.d("KAN fikSvar playliste(" + fraCache + uændret + " " + url);
-        if (getActivity() == null || uændret) return;
-        if (u2.playliste != null && fraCache) return; // så har vi allerede den nyeste liste i MEM
+        if (getActivity() == null) return;
+        // Fix: Senest spillet blev ikke opdateret.
+        if (u2.playliste != null && uændret) return; // så har vi allerede den nyeste liste i MEM
         if (json != null && !"null".equals(json)) {
           u2.playliste = DRJson.parsePlayliste(new JSONArray(json));
         }
@@ -576,7 +585,17 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
   @Override
   public void onClick(View v) {
-    if (kanal.streams == null) {
+    if (v.getId() == R.id.p4_skift_distrikt) {
+      rod.findViewById(R.id.p4_vi_gætter_på_dialog).setVisibility(View.GONE);
+      getActivity().getSupportFragmentManager().beginTransaction()
+          .replace(R.id.indhold_frag, new P4kanalvalg_frag())
+          .commit();
+      Sidevisning.vist(P4kanalvalg_frag.class);
+
+    } else if (v.getId() == R.id.p4_ok) {
+      rod.findViewById(R.id.p4_vi_gætter_på_dialog).setVisibility(View.GONE);
+      App.prefs.edit().putString(App.P4_FORETRUKKEN_AF_BRUGER, kanal.kode).commit();
+    } else if (!kanal.harStreams()) {
       Log.rapporterOgvisFejl(getActivity(), new IllegalStateException("kanal.streams er null"));
     } else if (v.getId() == R.id.rulTilAktuelUdsendelse) {
       rulBlødtTilAktuelUdsendelse();
@@ -588,9 +607,23 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
   }
 
   public static void hør(final Kanal kanal, Activity akt) {
-    if (App.fejlsøgning) App.kortToast("kanal.streams=" + kanal.streams);
-    DRData.instans.afspiller.setLydkilde(kanal);
-    DRData.instans.afspiller.startAfspilning();
+    if (App.fejlsøgning) App.kortToast("kanal=" + kanal);
+    if (App.prefs.getBoolean("manuelStreamvalg", false)) {
+      kanal.nulstilForetrukkenStream();
+      final List<Lydstream> lydstreamList = kanal.findBedsteStreams(false);
+      new AlertDialog.Builder(akt)
+          .setAdapter(new ArrayAdapter(akt, R.layout.skrald_vaelg_streamtype, lydstreamList), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              lydstreamList.get(which).foretrukken = true;
+              DRData.instans.afspiller.setLydkilde(kanal);
+              DRData.instans.afspiller.startAfspilning();
+            }
+          }).show();
+    } else {
+      DRData.instans.afspiller.setLydkilde(kanal);
+      DRData.instans.afspiller.startAfspilning();
+    }
   }
 
   @Override

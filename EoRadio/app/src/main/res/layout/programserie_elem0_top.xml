@@ -38,20 +38,20 @@
 
     <TextView
         android:id="@+id/titel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="P3 Sporten"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
-        android:layout_weight="1"/>
+        android:layout_weight="1" tools:ignore="HardcodedText"/>
 
 
     <CheckBox
         android:id="@+id/favorit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="favorit"
-        android:text="FAVORIT"
+        android:contentDescription="@string/favorit"
+        android:text="@string/FAVORIT"
         android:textColor="@color/blå"
         android:button="@drawable/dri_favorit"/>
   </LinearLayout>
@@ -65,7 +65,7 @@
       android:layout_height="wrap_content"
       android:textAppearance="?android:attr/textAppearance"
       android:text="For lige om lidt bliver fremdriftsreformen implementeret."
-      />
+      tools:ignore="HardcodedText"/>
 
   <View
       android:background="@color/grå50"
@@ -81,7 +81,7 @@
       android:textColor="@color/grå50"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="ALLE UDSENDELSER (12)"/>
+      android:text="ALLE UDSENDELSER (12)" tools:ignore="HardcodedText"/>
 
   <View
       android:background="@color/grå50"

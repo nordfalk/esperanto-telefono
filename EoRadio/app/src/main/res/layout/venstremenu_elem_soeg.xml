@@ -10,7 +10,7 @@
     android:layout_height="wrap_content">
 
   <TextView
-      android:text="Søg efter program"
+      android:text="@string/Søg_efter_program"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:paddingTop="@dimen/venstremenu_padding"

@@ -172,7 +172,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       hør_tekst.setVisibility(View.VISIBLE);
       hør_tekst.setText("iNTERNETFORBINDELSE\nMANGLER");
     }
-    else if (!udsendelse.kanStreames && !udsendelsenErAktuelPåKanalen) {   // On demand og direkte udsendelser
+    else if (!udsendelse.kanHøres && !udsendelsenErAktuelPåKanalen) {   // On demand og direkte udsendelser
       hør_ikon.setVisibility(View.GONE);
       hør_tekst.setVisibility(View.VISIBLE);
       hør_tekst.setText("KAN IKKE\nAFSPILLES");
@@ -233,7 +233,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       App.forgrundstråd.removeCallbacks(tjekFragmentSynligt);
       if (!getUserVisibleHint() || !isResumed()) return; // Ekstra tjek
       Log.d("Udsendelse_frag tjekFragmentSynligt ");
-      if (udsendelse.kanStreames && afspiller.getAfspillerstatus() == Status.STOPPET) {
+      if (udsendelse.kanHøres && afspiller.getAfspillerstatus() == Status.STOPPET) {
         afspiller.setLydkilde(udsendelse);
       }
     }
@@ -298,14 +298,14 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
 
   static final int[] layoutFraType = {
       R.layout.udsendelse_elem0_top,
-      R.layout.udsendelse_elem1_overskrift_playliste_info,
-      R.layout.udsendelse_elem2_playlisteelem_nu,
-      R.layout.udsendelse_elem3_playlisteelem,
-      R.layout.udsendelse_elem4_overskrift_indslag_info,
-      R.layout.udsendelse_elem5_indslaglisteelem,
+      R.layout.udsendelse_elem2_overskrift_playliste_info,
+      R.layout.udsendelse_elem3_playlisteelem_nu,
+      R.layout.udsendelse_elem4_playlisteelem,
+      R.layout.udsendelse_elem5_overskrift_indslag_info,
+      R.layout.udsendelse_elem6_indslaglisteelem,
       R.layout.udsendelse_elem6_infotekst_eo,
-      R.layout.udsendelse_elem7_vis_hele_playlisten_knap,
-      R.layout.udsendelse_elem8_alle_udsendelser,
+      R.layout.udsendelse_elem8_vis_hele_playlisten_knap,
+      R.layout.udsendelse_elem9_alle_udsendelser,
   };
 
   void bygListe() {
@@ -451,7 +451,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
           boolean topseparator = (adapter.getItemViewType(position - 1) == PLAYLISTEELEM_NU);
           vh.aq.id(R.id.stiplet_linje).visibility(topseparator?View.INVISIBLE:View.VISIBLE);
         }
-        aq.id(R.id.hør).visibility(udsendelse.kanNokHøres && ple.offsetMs >= 0 ? View.VISIBLE : View.GONE);
+        aq.id(R.id.hør).visibility(udsendelse.kanHøres && ple.offsetMs >= 0 ? View.VISIBLE : View.GONE);
       }
       udvikling_checkDrSkrifter(v, this + " position " + position);
       return v;
@@ -557,7 +557,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
 
   private void hør() {
     try {
-      if (!udsendelse.kanStreames) {
+      if (!udsendelse.kanHøres) {
         if (aktuelUdsendelsePåKanalen()) {
           // Så skal man lytte til livestreamet
           Kanal_frag.hør(kanal, getActivity());
@@ -598,7 +598,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     int type = adapter.getItemViewType(position);
 
     if (type == PLAYLISTEELEM || type == PLAYLISTEELEM_NU) {
-      if (!udsendelse.streamsKlar() || !udsendelse.kanStreames)
+      if (!udsendelse.streamsKlar() || !udsendelse.kanHøres)
         return;
       // Det må være et playlisteelement
       final Playlisteelement pl = (Playlisteelement) liste.get(position);

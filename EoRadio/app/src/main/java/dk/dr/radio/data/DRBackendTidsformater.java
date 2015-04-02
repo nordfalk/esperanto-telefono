@@ -3,6 +3,7 @@ package dk.dr.radio.data;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -39,21 +40,21 @@ public class DRBackendTidsformater {
   /**
    * Det tidformat, DRs backend normalt sender: "2014-02-13T10:03:00+01:00"
    */
-  public static DateFormat servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
+  public static DateFormat servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.US);
 
   /**
    * Nogle gange kommer "2014-11-07T14:00:39.871+01:00" !#"!%#!! F.eks.:
    * http://www.dr.dk/tjenester/mu-apps/series/disse-oejeblikke?type=radio&includePrograms=true&offset=0
    */
   public static DateFormat[] servertidsformatAndre = new SimpleDateFormat[]{
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz"),
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz", Locale.US),
   };
 
 
   /**
    * Det tidformat, DRs backend normalt sender for playlister: "2014-02-13T10:03:00"
    */
-  public static DateFormat servertidsformatPlayliste = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+  public static DateFormat servertidsformatPlayliste = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 
   /**
    * Der er pr ikke andre formater
@@ -89,7 +90,7 @@ public class DRBackendTidsformater {
 
 
   public static void main(String[] a) throws Exception {
-    DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
+    DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
     parseUpålideigtServertidsformat("2014-02-13T10:03:00+01:00");
   }
 

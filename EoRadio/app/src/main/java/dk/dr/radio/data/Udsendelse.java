@@ -2,11 +2,15 @@ package dk.dr.radio.data;
 
 import android.support.v4.app.Fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 import dk.dr.radio.akt.EoUdsendelse_frag;
 import dk.dr.radio.akt.Udsendelse_frag;
+import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
 /**
@@ -32,16 +36,26 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
   public String dagsbeskrivelse;
 
   public transient ArrayList<Playlisteelement> playliste;
-  /** API'ets udmelding på, om der er nogle streams eller ej. Desværre er API'et ikke pålideligt, så den eneste måde reelt at vide det er faktisk at hente streamsne */
-  public boolean kanNokHøres;
-  /** Efter at streams er hentet, om der er en egnet streams til direkte afspilning */
-  public boolean kanStreames;
-  /** Efter at streams er hentet, om der er mulighed for at hente udsendelsen ned til offline brug */
+  /** 'Chapters' i API'et, undgå undersættelsen 'kapitler' */
+  public transient ArrayList<Indslaglisteelement> indslag;
+  /**
+   * API'ets udmelding på, om der er en lydstream egnet til direkte afspilning
+   * Desværre er API'et ikke pålideligt, så den eneste måde reelt at vide det er faktisk at hente streamsne.
+   * Når streamsne er hentet opdateres feltet
+   */
+  public boolean kanHøres;
+  /** Om der er mulighed for at hente udsendelsen ned til offline brug. Opdateret efter at streams er hentet. */
   public boolean kanHentes;
   public String produktionsnummer;
   public String shareLink;
   //public transient int startposition;// hvis der allerede er lyttet til denne senestLyttet så notér det her så afspilning kan fortsætte herfra
   public int episodeIProgramserie;
+
+  /** Berigtigelser er noget som sjældent sker, men vi er forpligtiget til at vise en information til brugeren, hvis vi har måtte tage en program af, eller ændre et program.
+   * Bemærk: Normalk null */
+  public String berigtigelseTitel;
+  /** Normalt null */
+  public String berigtigelseTekst;
 
   //// EO
   public ArrayList<String> sonoUrl = new ArrayList<String>();
@@ -56,15 +70,11 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
   public Udsendelse() {
   }
 
-/*
+  @Override
   public String toString() {
-    return kanalSlug + startTid + (beskrivelse.length() > 30 ? beskrivelse.substring(0, 15) + "..." : beskrivelse);
+    return slug + "/" + episodeIProgramserie;//startTid + "/" + slutTid;
   }
-*/
-@Override
-public String toString() {
-  return slug + "/" + episodeIProgramserie;//startTid + "/" + slutTid;
-}
+
 
   @Override
   public String getStreamsUrl() {
@@ -76,7 +86,7 @@ public String toString() {
   public Kanal getKanal() {
     Kanal k = DRData.instans.grunddata.kanalFraSlug.get(kanalSlug);
     if (k == null) {
-      Log.d(kanalSlug + " manglede i grunddata.kanalFraSlug - der var "+DRData.instans.grunddata.kanalFraSlug.keySet());
+      Log.d(kanalSlug + " manglede i grunddata.kanalFraSlug");
       return Grunddata.ukendtKanal;
     }
     //if (Kanal.P4kode.equals(k.kode)) {
@@ -136,7 +146,6 @@ public String toString() {
     } else if (offsetMs < playliste.get(indeks).offsetMs - 10000) {
       indeks = 0; // offsetMs mere end 10 sekunder tidligere end startgæt => søg fra starten
     }
-    ;
 
     // Søg nu fremad til næste nummer er for langt
     while (indeks < playliste.size() - 1 && playliste.get(indeks + 1).offsetMs < offsetMs) {
@@ -144,6 +153,21 @@ public String toString() {
       indeks++;
     }
     return indeks;
+  }
+
+  @Override
+  public void setStreams(JSONObject o) throws JSONException {
+    super.setStreams(o);
+    if (!App.PRODUKTION) {
+      boolean kanHøresNy = findBedsteStreams(false).size() > 0;
+      boolean kanHentesNy = findBedsteStreams(true).size() > 0;
+      if (kanHentes && !kanHentesNy)
+        Log.rapporterFejl(new IllegalArgumentException("API løj om kanHentes for " + o.optString(DRJson.Slug.name())));
+      if (kanHøres && !kanHøresNy)
+        Log.rapporterFejl(new IllegalArgumentException("API løj om kanHøres for " + o.optString(DRJson.Slug.name())));
+    }
+    kanHøres = findBedsteStreams(false).size() > 0;
+    kanHentes = findBedsteStreams(true).size() > 0;
   }
 
   public Fragment nytFrag() {

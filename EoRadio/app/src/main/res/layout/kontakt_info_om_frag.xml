@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
               android:gravity="center_horizontal"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
@@ -12,8 +12,8 @@
       android:textSize="18sp"
       android:padding="16dp"
       android:textStyle="bold"
-      android:contentDescription="Om D R Radio"
-      android:text="Om DR Radio">
+      android:contentDescription="@string/Om_D_R_Radio"
+      android:text="@string/Om_DR_Radio">
   </TextView>
 
   <WebView
@@ -27,8 +27,8 @@
 
   <Button
       android:id="@+id/kontakt"
-      android:text="Skriv meddelelse til DR"
-      android:contentDescription="Skriv meddelelse til D R"
+      android:text="@string/Skriv_meddelelse_til_DR"
+      android:contentDescription="@string/Skriv_meddelelse_til_D_R"
       android:layout_height="wrap_content"
       android:layout_width="wrap_content"
       android:paddingLeft="8dp"
@@ -43,7 +43,7 @@
       android:textColor="@color/grå40"
       android:textSize="10sp"
       android:importantForAccessibility="no"
-      android:text="Version 232323">
+      android:text="Version 232323" tools:ignore="HardcodedText">
   </TextView>
 
 

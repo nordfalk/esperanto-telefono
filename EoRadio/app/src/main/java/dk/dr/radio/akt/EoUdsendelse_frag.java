@@ -474,7 +474,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     } else if (v.getId() == R.id.favorit) {
       CheckBox favorit = (CheckBox) v;
       DRData.instans.favoritter.sætFavorit(udsendelse.programserieSlug, favorit.isChecked());
-      if (favorit.isChecked()) App.kortToast("Programserien er tilføjet til favoritter");
+      if (favorit.isChecked()) App.kortToast(R.string.Programserien_er_føjet_til_favoritter);
       Log.registrérTestet("Valg af favoritprogram", udsendelse.programserieSlug);
     } else {
       App.langToast("fejl");

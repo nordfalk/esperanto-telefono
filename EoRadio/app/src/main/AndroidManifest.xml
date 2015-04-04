@@ -4,7 +4,7 @@
           package="dk.nordfalk.esperanto.radio"
           android:installLocation="auto"
           android:versionCode="1"
-android:versionName="3.2 21.dec småting 143"
+          android:versionName="4a de aprilo - lingvaĵo"
     >
 
   <uses-sdk

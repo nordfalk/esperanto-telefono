@@ -16,6 +16,7 @@
 
 package dk.dr.radio.diverse;
 
+import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -276,6 +277,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
   private void addIconTabBådeTekstOgBillede(final int position, int resId, Bitmap res, String title) {
     FrameLayout tabfl = new FrameLayout(getContext());
+    if (Build.VERSION.SDK_INT>11) tabfl.setLayoutTransition(new LayoutTransition());
     ImageView tabi = new ImageView(getContext());
     tabi.setContentDescription(title);
     if (res!=null) {

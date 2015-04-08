@@ -118,17 +118,26 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     View v = getLayoutInflater(null).inflate(R.layout.udsendelse_elem0_top, listView, false);
     AQuery aq = new AQuery(v);
     v.setTag(aq);
-    String burl = udsendelse.billedeUrl;
 //    aq.id(R.id.billede).width(billedeBr, false).height(billedeBr, false).image(burl, true, true, billedeBr, 0, null, AQuery.FADE_IN_NETWORK, (float) højde9 / bredde16);
 //    aq.id(R.id.billede).width(billedeBr, false).image(burl, true, true, billedeBr, 0, null, AQuery.FADE_IN_NETWORK);
-    aq.id(R.id.billede).image(burl!=null?burl : kanal.eo_emblemoUrl);
+
+    if (kanal.kode.equals("radioverda")) {
+      aq.id(R.id.billede).image("http://radioverda.com/storage/bildoj/programbildoj/"+udsendelse.titel+".png")
+          .getImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+    } else {
+      aq.id(R.id.billede).image(kanal.eo_emblemoUrl)
+          .getImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+    }
+
+//    aq.id(R.id.udsendelse_baggrundsgradient).gone();
     aq.id(R.id.lige_nu).gone();
     aq.id(R.id.info).typeface(App.skrift_gibson);
     aq.id(R.id.kanallogo).gone();
     aq.id(R.id.p4navn).text("");
 
-//    aq.id(R.id.titel).gone();
-    aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(udsendelse.titel);
+    aq.id(R.id.titel).gone();
+//    aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(kanal.eo_emblemoUrl+udsendelse.titel)
+//    .textSize(16).getTextView().setMaxLines(5);
 //        .getTextView().setContentDescription("\u00A0");  // SLUK for højtlæsning, det varetages af listviewet
     aq.id(R.id.starttid).typeface(App.skrift_gibson)
         .text(udsendelse.startTid == null ? "" : DRJson.datoformat.format(udsendelse.startTid))
@@ -198,15 +207,15 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       }
       String statustekst = HentedeUdsendelser.getStatustekst(c);
       c.close();
-      if (status == DownloadManager.STATUS_SUCCESSFUL) statustekst = "Hentet";
+      if (status == DownloadManager.STATUS_SUCCESSFUL) statustekst = getString(R.string.Hentet);
 
       aq.text(statustekst.toUpperCase()).enabled(true).textColorId(R.color.grå40);
     } else if (!udsendelse.kanHentes) {
-      aq.text("KAN IKKE HENTES").enabled(false).textColorId(R.color.grå40);
+      aq.text(R.string.KAN_IKKE_HENTES).enabled(false).textColorId(R.color.grå40);
     } else if (!udsendelse.streamsKlar()) {
       aq.text("").enabled(false).textColorId(R.color.grå40);
     } else {
-      aq.text("DOWNLOAD").enabled(true).textColorId(R.color.blå);
+      aq.text(R.string.DOWNLOAD).enabled(true).textColorId(R.color.blå);
     }
     udvikling_checkDrSkrifter(topView, this + " position top");
   }

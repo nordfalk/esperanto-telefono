@@ -239,7 +239,9 @@ public class App extends Application {
         @Override
         public void run() {
           try {
-            DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
+            boolean ioŜanĝita = DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
+            if (ioŜanĝita) for (Runnable r : DRData.instans.grunddata.observatører)
+              forgrundstråd.post(r);
           } catch (Exception e) { Log.e(e); }
         }
       }.start();

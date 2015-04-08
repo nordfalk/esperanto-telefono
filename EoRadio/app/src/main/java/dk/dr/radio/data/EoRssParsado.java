@@ -125,12 +125,6 @@ public class EoRssParsado {
         }
       }
       liste = liste2;
-    } else if (k.kode.equals("radioverda")) {
-      for (Udsendelse u : liste) {
-        if (u.billedeUrl==null) {
-          u.billedeUrl = "http://radioverda.com/storage/bildoj/programbildoj/"+u.titel+".png";
-        }
-      }
     }
     return liste;
   }

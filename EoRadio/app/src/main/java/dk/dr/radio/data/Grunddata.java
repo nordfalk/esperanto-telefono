@@ -257,8 +257,9 @@ public class Grunddata {
 
       if (k.eo_emblemoUrl != null && k.eo_emblemo == null) try {
         String dosiero = FilCache.findLokaltFilnavn(k.eo_emblemoUrl);
-        if (nurLokajn && !new File(dosiero).exists()) continue;
         if (dosiero == null) continue;
+        if (nurLokajn && !new File(dosiero).exists()) continue;
+        FilCache.hentFil(k.eo_emblemoUrl, true);
         /*
            int kiomDaDpAlta = 50; // 50 dp
            // Convert the dps to pixels

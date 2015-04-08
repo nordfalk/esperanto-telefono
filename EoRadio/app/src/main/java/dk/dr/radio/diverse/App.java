@@ -63,6 +63,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -223,6 +224,7 @@ public class App extends Application {
           App.prefs.edit().remove(DRData.GRUNDDATA_URL).commit();
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, grunddata).commit();
         }
+        App.prefs.edit().putBoolean("vispager_title_strip", true).commit();
       }
 
       if (App.prefs.contains("stamdata23") || App.prefs.contains("stamdata24")) {
@@ -232,16 +234,15 @@ public class App extends Application {
 
       if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
-      DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
       DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
       DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
+      DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
       new Thread() {
         @Override
         public void run() {
           try {
             boolean ioŜanĝita = DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
-            if (ioŜanĝita) for (Runnable r : DRData.instans.grunddata.observatører)
-              forgrundstråd.post(r);
+            if (ioŜanĝita) opdaterObservatører(DRData.instans.grunddata.observatører);
           } catch (Exception e) { Log.e(e); }
         }
       }.start();
@@ -426,16 +427,17 @@ public class App extends Application {
           if (nyeGrunddata.equals(gamleGrunddata)) return; // Det samme som var i prefs
           Log.d("Vi fik nye grunddata: fraCache=" + fraCache + nyeGrunddata);
           if (!PRODUKTION || App.fejlsøgning) App.kortToast("Vi fik nye grunddata");
-          DRData.instans.grunddata.da_parseFællesGrunddata(nyeGrunddata);
+          DRData.instans.grunddata.kanaler.clear();
+          DRData.instans.grunddata.p4koder.clear();
           DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
+          DRData.instans.grunddata.da_parseFællesGrunddata(nyeGrunddata);
           String pn = App.instans.getPackageName();
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
           }
-          // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
-          for (Runnable r : DRData.instans.grunddata.observatører) r.run();
           // Er vi nået hertil så gik parsning godt - gem de nye stamdata i prefs, så de også bruges ved næste opstart
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, nyeGrunddata).commit();
+          App.opdaterObservatører(DRData.instans.grunddata.observatører);
         }
       }) {
         public Priority getPriority() {
@@ -445,6 +447,15 @@ public class App extends Application {
       App.volleyRequestQueue.add(req);
     }
   };
+
+  /** Opdaterer alle observatører fra forgrundstråden, præcist én gang (selv ved gentagne kald) */
+  public static void opdaterObservatører(ArrayList<Runnable> observatører) {
+    // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
+    for (Runnable r : new ArrayList<Runnable>(observatører)) {
+      forgrundstråd.removeCallbacks(r);
+      forgrundstråd.post(r);
+    }
+  }
 
   /*
    * Kilde: http://developer.android.com/training/basics/network-ops/managing.html
@@ -474,6 +485,7 @@ public class App extends Application {
       if (antal>1) Log.d("sætErIGang: "+hvad+" har "+antal+" samtidige anmodninger");
       else if (antal<0) Log.e(new IllegalStateException("erIGang manglede " + hvad));
       else if (netværkErIGang) Log.d("sætErIGang: "+hvad);
+      if (!netværkErIGang && hvad.trim().length()==0) Log.e(new IllegalStateException("hvad er tom"));
     }
     erIGang += netværkErIGang ? 1 : -1;
     boolean nu = erIGang > 0;

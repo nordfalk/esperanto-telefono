@@ -27,9 +27,9 @@
       android:id="@+id/starttid"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="17.04 P3 Sporten  |  Polarkreis 18"
+      android:text="17.04"
+      android:textColor="@color/grå40"
       android:textSize="@dimen/metainfo_skrifstørrelse"
-      android:maxLines="4"
       tools:ignore="HardcodedText"
       />
 
@@ -40,7 +40,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:text="P3 Sporten  |  Polarkreis 18"
-      android:maxLines="3"
+      android:maxLines="2"
       android:textSize="@dimen/metainfo_skrifstørrelse"
       tools:ignore="HardcodedText"/>
 </LinearLayout>

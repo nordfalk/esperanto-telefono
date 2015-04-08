@@ -99,7 +99,7 @@ public class Grunddata {
       k.eo_hejmpaĝoButono = kJs.optString("hejmpaĝoButono", null);
       k.eo_retpoŝto = kJs.optString("retpoŝto", null);
       k.eo_emblemoUrl = kJs.optString("emblemoUrl", null);
-      k.eo_elsendojRssUrl = kJs.optString("elsendojRssUrl");
+      k.eo_elsendojRssUrl = kJs.optString("elsendojRssUrl", null);
       k.eo_elsendojRssIgnoruTitolon = kJs.optBoolean("elsendojRssIgnoruTitolon", false);
 
       k.eo_json = kJs;
@@ -131,6 +131,7 @@ public class Grunddata {
       kanalFraKode.put(k.kode, k);
       kanalFraSlug.put(k.slug, k);
     }
+    if (forvalgtKanal == null) forvalgtKanal = kanaler.get(0); // Muzaiko
   }
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
@@ -343,8 +344,6 @@ public class Grunddata {
       Log.e(e);
     } // Ikke kritisk
 
-    kanaler.clear();
-    p4koder.clear();
     da_parseKanaler(json.getJSONArray("channels"), false);
     Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
     android_json = json.getJSONObject("android");
@@ -352,7 +351,6 @@ public class Grunddata {
     DRBackendTidsformater.servertidsformatAndre = da_parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
     DRBackendTidsformater.servertidsformatPlaylisteAndre = da_parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
-    for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
   }
 
   private void fjernKanalMedFejl(Kanal k) {

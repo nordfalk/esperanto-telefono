@@ -358,8 +358,11 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           int bbr = billedeBr - getResources().getDimensionPixelSize(R.dimen.kanalmargen)*2;
           a.id(R.id.billede).width(bbr,false).height(bbr*højde9/bredde16,false);
           a.id(R.id.billedecontainer).width(bbr, false).height(bbr * højde9 / bredde16, false);
-        } else {
+        } else { // type == NORMAL
           vh.titel = a.id(R.id.titel_og_kunstner).typeface(App.skrift_gibson_fed).getTextView();
+          vh.titel.setMaxLines(3);
+          vh.startid.setMaxLines(4);
+          vh.startid.setTextColor(Color.BLACK);
         }
         v.setTag(vh);
       } else {

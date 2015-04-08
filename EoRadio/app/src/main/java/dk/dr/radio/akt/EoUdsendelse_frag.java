@@ -135,10 +135,14 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     aq.id(R.id.kanallogo).gone();
     aq.id(R.id.p4navn).text("");
 
-    aq.id(R.id.titel).gone();
-//    aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(kanal.eo_emblemoUrl+udsendelse.titel)
+    if (kanal.eo_json.optBoolean("montruTitolojn")) {
+      aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(udsendelse.titel)
+          .getTextView().setContentDescription("\u00A0");  // SLUK for højtlæsning, det varetages af listviewet
+    } else {
+      aq.id(R.id.titel).gone();
+    }
+
 //    .textSize(16).getTextView().setMaxLines(5);
-//        .getTextView().setContentDescription("\u00A0");  // SLUK for højtlæsning, det varetages af listviewet
     aq.id(R.id.starttid).typeface(App.skrift_gibson)
         .text(udsendelse.startTid == null ? "" : DRJson.datoformat.format(udsendelse.startTid))
         .getTextView().setContentDescription("\u00A0");  // SLUK for højtlæsning, det varetages af listviewet

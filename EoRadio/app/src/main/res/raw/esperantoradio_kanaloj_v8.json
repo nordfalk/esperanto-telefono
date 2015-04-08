@@ -80,6 +80,7 @@
 			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
 // 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
 // http://radioverda.com/rv100plus/   http://radioverda.com/programoj/2007/5/5/rv101-20070505.html
+			"montruTitolojn": "true",
 			"retpoŝto": "arono@radioverda.com",
 			"hejmpaĝoButono": "http://radioverda.com/"
 		}
@@ -89,6 +90,7 @@
 			"emblemoUrl": "",
  			"elsendojRssUrl": "http://www.podkasto.net/feed/",
 			"emblemoUrl": "http://www.podkasto.net/wp-content/uploads/2010/07/podkasto5.jpg",
+			"montruTitolojn": "true",
 			"retpoŝto": "podkasto@onet.eu",
 			"hejmpaĝoButono": "http://podkasto.net/"
 		}
@@ -97,6 +99,7 @@
 			"nomo": "Vinilkosmo",
 			"emblemoUrl": "http://www.vinilkosmo-mp3.com/images/banniere_300.jpg",
 			"elsendojRssUrl": "http://api.ipernity.com/feed/doc?user_id=vinilkosmo&only=audio",
+			"montruTitolojn": "true",
 			"uziWebViewPorElsendo": true,
 			"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
 		}
@@ -105,6 +108,7 @@
 			"nomo": "Kernpunkto",
 			"emblemoUrl": "http://esperanto-radio.com/_kernpunkto.png",
 			"elsendojRssUrl": "http://kern.punkto.info/feed/mp3",
+			"montruTitolojn": "true",
 			"uziWebViewPorElsendo": false,
 			"hejmpaĝo": "http://kern.punkto.info/"
 		}

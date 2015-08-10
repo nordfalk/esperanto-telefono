@@ -16,7 +16,8 @@
     "ios": {
 
     },
-    "channels": [{
+    "channels": [ ],
+    "xxx_channels": [{
         "title": "P1",
         "logo": "channel-logo-p1",
         "scheduleIdent": "P1D",

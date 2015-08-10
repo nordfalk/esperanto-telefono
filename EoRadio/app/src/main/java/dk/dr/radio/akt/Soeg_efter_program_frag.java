@@ -55,8 +55,10 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
   private static class SoegElement {
     public Programserie programserie;
+    public Udsendelse udsendelse;
     public String titel;
     public String beskrivelse;
+    public String slug;
   }
 
   private ArrayList<SoegElement> søgelistecache;
@@ -142,9 +144,9 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     udvikling_checkDrSkrifter(rod, this + " rod");
 
     // Indlæs A-Å-liste hvis den ikke allerede er det, så vi har en komplet programliste
-    if (DRData.instans.programserierAtilÅ.liste == null) {
-      DRData.instans.programserierAtilÅ.startHentData();
-    }
+    //if (DRData.instans.programserierAtilÅ.liste == null) {
+    //  DRData.instans.programserierAtilÅ.startHentData();
+    //}
     return rod;
   }
 
@@ -165,10 +167,12 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
     @Override
     public View getView(int position, View v, ViewGroup parent) {
-      try {
         if (v == null) v = getLayoutInflater(null).inflate(R.layout.listeelem_2linjer, parent, false);
         AQuery aq = new AQuery(v);
         Object obj = liste.get(position);
+//        Log.d(position +  " AA  "+obj);
+      obj = udpak(obj);
+      try {
         if (obj instanceof Programserie) {
           Programserie ps = (Programserie) obj;
           aq.id(R.id.linje1).text(ps.titel).typeface(App.skrift_gibson_fed).textColor(Color.BLACK);
@@ -187,17 +191,29 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
         udvikling_checkDrSkrifter(v, this.getClass() + " ");
       } catch (Exception e) {
+        Log.d(position + " fejl med med " + obj);
         Log.rapporterFejl(e);
       }
 
       return v;
     }
   };
+
+  private Object udpak(Object obj) {
+    if (obj instanceof SoegElement) {
+      SoegElement se = (SoegElement) obj;
+      if (se.udsendelse!=null) obj = se.udsendelse;
+      else obj = se.programserie;
+    }
+    return obj;
+  }
+
   private String søgStr;
 
   @Override
   public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
     Object obj = liste.get(position);
+    obj = udpak(obj);
     if (obj instanceof Programserie) {
       Programserie programserie = (Programserie) obj;
       Fragment f = new Programserie_frag();
@@ -211,12 +227,12 @@ public class Soeg_efter_program_frag extends Basisfragment implements
           .commit();
       Sidevisning.vist(Programserie_frag.class, programserie.slug);
 
-    } else if (obj instanceof String) {
+    } else if (obj instanceof String){
       max = max*2;
       søg();
     } else {
       Udsendelse udsendelse = (Udsendelse) obj;
-      Fragment f = new Udsendelse_frag();
+      Fragment f = udsendelse.nytFrag();
       f.setArguments(new Intent()
 //        .putExtra(Udsendelse_frag.BLOKER_VIDERE_NAVIGERING, true)
 //        .putExtra(P_kode, titel.kode)
@@ -252,11 +268,21 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
     if (søgelistecache == null) {
       søgelistecache = new ArrayList<SoegElement>(DRData.instans.programserieFraSlug.size());
+      Log.d("DRData.instans.programserieFraSlug?=" + DRData.instans.programserieFraSlug);
       for (Programserie ps : DRData.instans.programserieFraSlug.values()) {
         SoegElement se = new SoegElement();
         se.programserie = ps;
-        se.titel = " "+ps.titel.toLowerCase() + " " + ps.undertitel.toLowerCase();
+        se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase()) + (ps.undertitel==null?"":" "+ps.undertitel.toLowerCase());
         se.beskrivelse = " "+ps.beskrivelse.toLowerCase();
+        se.slug = ps.slug;
+        søgelistecache.add(se);
+      }
+      for (Udsendelse ps : DRData.instans.udsendelseFraSlug.values()) {
+        SoegElement se = new SoegElement();
+        se.udsendelse = ps;
+        se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase());
+        se.beskrivelse = (ps.beskrivelse==null ? "" : ps.beskrivelse.toLowerCase());
+        se.slug = ps.slug;
         søgelistecache.add(se);
       }
     }
@@ -265,21 +291,21 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     // Søg først efter start på ord i titel
     String _søgStr = " "+søgStr;
     for (SoegElement se : søgelistecache) if (se.titel.contains(_søgStr)) {
-        liste.add(se.programserie);
-        alleredeFundet.add(se.programserie.slug);
+        liste.add(se);
+        alleredeFundet.add(se.slug);
         if (liste.size()>=max) break;
     }
     // Søg derefter generelt i titel
     if (liste.size()<max) for (SoegElement se : søgelistecache) {
-      if (se.titel.contains(søgStr) && !alleredeFundet.contains(se.programserie.slug)) {
-        liste.add(se.programserie);
+      if (se.titel.contains(søgStr) && !alleredeFundet.contains(se.slug)) {
+        liste.add(se);
         if (liste.size()>=max) break;
       }
     }
     // Søg derefter generelt i beskrivelser
     if (liste.size()<max) for (SoegElement se : søgelistecache) {
-      if (se.beskrivelse.contains(søgStr) && !alleredeFundet.contains(se.programserie.slug)) {
-        liste.add(se.programserie);
+      if (se.beskrivelse.contains(søgStr) && !alleredeFundet.contains(se.slug)) {
+        liste.add(se);
         if (liste.size()>=max) break;
       }
     }

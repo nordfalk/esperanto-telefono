@@ -852,4 +852,7 @@ public class Afspiller {
     }
   }
 
+  public String toString() {
+    return afspillerstatus+" "+lydstream.toString();
+  }
 }

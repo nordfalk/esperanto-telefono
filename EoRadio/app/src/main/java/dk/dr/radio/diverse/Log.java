@@ -29,6 +29,8 @@ import com.bugsense.trace.BugSenseHandler;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import dk.dr.radio.data.DRData;
+
 /**
  * Loggerklasse
  * - hvor man slipper for at angive tag
@@ -165,7 +167,7 @@ public class Log {
     ret += "\nFunktioner brugt: "+ Sidevisning.getViste();
     ret += "\nFunktioner ej brugt: "+ Sidevisning.getIkkeViste();
     ret += "\nIndstillinger: "+ App.prefs.getAll();
-
+    ret += "\nAfspiller: "+ DRData.instans.afspiller.toString();
     return ret;
   }
 

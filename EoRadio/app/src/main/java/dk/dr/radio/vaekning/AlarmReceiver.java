@@ -119,8 +119,8 @@ public class AlarmReceiver extends BroadcastReceiver {
       DRData.instans.afspiller.setLydkilde(nyKanal);
       DRData.instans.afspiller.startAfspilning();
 
-      // Skru op til 3/5 styrke hvis volumen er lavere end det
-      DRData.instans.afspiller.tjekVolumenMindst5tedele(3);
+      // Skru op til 2/5 styrke hvis volumen er lavere end det
+      DRData.instans.afspiller.tjekVolumenMindst5tedele(2);
 
     } catch (Exception ex) {
       Log.rapporterFejl(ex);

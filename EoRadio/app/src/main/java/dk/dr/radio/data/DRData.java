@@ -107,7 +107,7 @@ public class DRData {
   }
 
   public static String getBogOgDramaUrl() {
-    return "http://www.dr.dk/tjenester/mu-apps/radio-drama";
+    return "http://www.dr.dk/tjenester/mu-apps/radio-drama-adv";
   }
 
   public static String getNyeProgrammerSiden(String programserieSlug, String dato) {

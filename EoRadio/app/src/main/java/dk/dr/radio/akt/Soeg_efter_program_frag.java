@@ -24,14 +24,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
@@ -40,8 +36,6 @@ import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.net.volley.DrVolleyResonseListener;
-import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.dr.radio.v3.R;
 
 
@@ -57,6 +51,15 @@ public class Soeg_efter_program_frag extends Basisfragment implements
   private TextView tomStr;
   private ArrayList<Udsendelse> udsendelseListe = new ArrayList<Udsendelse>();
   private ArrayList<Programserie> programserieListe = new ArrayList<Programserie>();
+  private int max = 50;
+
+  private static class SoegElement {
+    public Programserie programserie;
+    public String titel;
+    public String beskrivelse;
+  }
+
+  private ArrayList<SoegElement> søgelistecache;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +106,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
       public void afterTextChanged(Editable s) {
 
         if (søgFelt.getText().length() > 0) {
-          searchProgram();
+          søg();
         } else {
           tomStr.setText("");
 
@@ -119,7 +122,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
       public boolean onEditorAction(TextView v, int actionId,
                                     KeyEvent event) {
         Log.d("actionId=" + actionId);
-        searchProgram();
+        søg();
         return true;
       }
     });
@@ -138,6 +141,10 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
     udvikling_checkDrSkrifter(rod, this + " rod");
 
+    // Indlæs A-Å-liste hvis den ikke allerede er det, så vi har en komplet programliste
+    if (DRData.instans.programserierAtilÅ.liste == null) {
+      DRData.instans.programserierAtilÅ.startHentData();
+    }
     return rod;
   }
 
@@ -146,6 +153,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     super.onDestroyView();
     // Anullér en eventuel søgning
     App.volleyRequestQueue.cancelAll(this);
+    søgelistecache = null;
   }
 
 
@@ -165,6 +173,9 @@ public class Soeg_efter_program_frag extends Basisfragment implements
           Programserie ps = (Programserie) obj;
           aq.id(R.id.linje1).text(ps.titel).typeface(App.skrift_gibson_fed).textColor(Color.BLACK);
           aq.id(R.id.linje2).text(ps.beskrivelse).typeface(App.skrift_gibson);
+        } else if (obj instanceof String) {
+          aq.id(R.id.linje1).text("").typeface(App.skrift_gibson_fed).textColor(Color.BLACK);
+          aq.id(R.id.linje2).text("Indsnævr din søgning").typeface(App.skrift_gibson);
         } else {
           Udsendelse udsendelse = (Udsendelse) obj;
           aq.id(R.id.linje1).text(DRJson.datoformat.format(udsendelse.startTid)).typeface(App.skrift_gibson);
@@ -200,9 +211,12 @@ public class Soeg_efter_program_frag extends Basisfragment implements
           .commit();
       Sidevisning.vist(Programserie_frag.class, programserie.slug);
 
+    } else if (obj instanceof String) {
+      max = max*2;
+      søg();
     } else {
       Udsendelse udsendelse = (Udsendelse) obj;
-      Fragment f = udsendelse.nytFrag();
+      Fragment f = new Udsendelse_frag();
       f.setArguments(new Intent()
 //        .putExtra(Udsendelse_frag.BLOKER_VIDERE_NAVIGERING, true)
 //        .putExtra(P_kode, titel.kode)
@@ -227,7 +241,59 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     søgFelt.setText("");
   }
 
-  public void searchProgram() {
+  public void søg() {
+    søgStr = søgFelt.getText().toString().toLowerCase();
+    liste.clear();
+    if (søgStr.length() == 0) {
+      tomStr.setText("");
+      adapter.notifyDataSetChanged();
+      return;
+    }
+
+    if (søgelistecache == null) {
+      søgelistecache = new ArrayList<SoegElement>(DRData.instans.programserieFraSlug.size());
+      for (Programserie ps : DRData.instans.programserieFraSlug.values()) {
+        SoegElement se = new SoegElement();
+        se.programserie = ps;
+        se.titel = " "+ps.titel.toLowerCase() + " " + ps.undertitel.toLowerCase();
+        se.beskrivelse = " "+ps.beskrivelse.toLowerCase();
+        søgelistecache.add(se);
+      }
+    }
+
+    HashSet<String> alleredeFundet = new HashSet<String>(max*10);
+    // Søg først efter start på ord i titel
+    String _søgStr = " "+søgStr;
+    for (SoegElement se : søgelistecache) if (se.titel.contains(_søgStr)) {
+        liste.add(se.programserie);
+        alleredeFundet.add(se.programserie.slug);
+        if (liste.size()>=max) break;
+    }
+    // Søg derefter generelt i titel
+    if (liste.size()<max) for (SoegElement se : søgelistecache) {
+      if (se.titel.contains(søgStr) && !alleredeFundet.contains(se.programserie.slug)) {
+        liste.add(se.programserie);
+        if (liste.size()>=max) break;
+      }
+    }
+    // Søg derefter generelt i beskrivelser
+    if (liste.size()<max) for (SoegElement se : søgelistecache) {
+      if (se.beskrivelse.contains(søgStr) && !alleredeFundet.contains(se.programserie.slug)) {
+        liste.add(se.programserie);
+        if (liste.size()>=max) break;
+      }
+    }
+    Log.d("Søgning efter '"+søgStr+"' gav "+liste.size());
+    if (liste.size()>=max) liste.add("Forfin din søgning for at se mere");
+    adapter.notifyDataSetChanged();
+    if (liste.size() == 0) {
+      tomStr.setText(R.string.Søgningen_gav_intet_resultat);
+    }
+
+  }
+
+/*
+  public void søg_gammel() {
     Log.d("Liste " + liste);
 
     // Anullér forrige søgning
@@ -252,19 +318,6 @@ public class Soeg_efter_program_frag extends Basisfragment implements
             udsendelseListe = DRJson.parseUdsendelserForProgramserie(data, null, DRData.instans);
             liste.clear();
             liste.addAll(programserieListe);
-            /* hvad mon det er på iOS der gør at funktionen søger flere data frem? Ikke nedenstående
-            HashSet<String> psx = new HashSet<String>();
-            for (Programserie ps : programserieListe) psx.add(ps.slug);
-            for (Udsendelse u : udsendelseListe) if (!psx.contains(u.programserieSlug)) {
-              Programserie ps = DRData.instans.programserieFraSlug.get(u.programserieSlug);
-              if (ps!=null) {
-                liste.add(ps);
-                psx.add(ps.slug);
-              } else {
-                liste.add(u);
-              }
-            }
-            */
             liste.addAll(udsendelseListe);
             Log.d("liste = " + liste);
             adapter.notifyDataSetChanged();
@@ -325,4 +378,5 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     App.volleyRequestQueue.add(req);
 
   }
+*/
 }

@@ -66,7 +66,7 @@ public class DRBackendTidsformater {
     try {
       return tidsformat.parse(tid);
     } catch (Exception e) {
-      Log.d("Kunne ikke ikke parse "+tid+" med "+tidsformat.format(juleaften)+" "+e);
+      Log.d("Kunne ikke ikke parse "+tid+" med "+tidsformat.format(juleaften)+" "+e+" (prøver med et andet)");
       for (DateFormat tidsformatAndet : tidsformatAndre) {
         try {
           return tidsformatAndet.parse(tid);

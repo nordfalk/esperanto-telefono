@@ -3,13 +3,8 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="dk.dr.radio.v3"
           android:installLocation="auto"
-          android:versionCode="1"
-          android:versionName="4a de aprilo - lingvaĵo"
     >
 
-  <uses-sdk
-      android:minSdkVersion="7"
-      android:targetSdkVersion="21"/>
 
 
   <!-- Nødvendigt til vækkeur -->

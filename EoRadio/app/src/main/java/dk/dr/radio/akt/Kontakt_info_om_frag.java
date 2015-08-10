@@ -33,7 +33,7 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 public class Kontakt_info_om_frag extends Basisfragment implements OnClickListener {
 

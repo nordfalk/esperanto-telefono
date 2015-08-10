@@ -40,7 +40,7 @@ import java.util.Calendar;
 import dk.dr.radio.akt.Basisaktivitet;
 import dk.dr.radio.akt.Basisfragment;
 import dk.dr.radio.diverse.App;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 /**
  * AlarmClock_akt application.

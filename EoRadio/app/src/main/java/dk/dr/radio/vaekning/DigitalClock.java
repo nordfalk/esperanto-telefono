@@ -32,7 +32,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import dk.dr.radio.diverse.App;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 /**
  * Displays the time

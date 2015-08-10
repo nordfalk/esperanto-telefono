@@ -13,7 +13,7 @@ import java.util.Locale;
 
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 /**
  * Navne for felter der er i DRs JSON-feeds og støttefunktioner til at parse dem

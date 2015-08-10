@@ -81,7 +81,7 @@ import dk.dr.radio.net.volley.DrBasicNetwork;
 import dk.dr.radio.net.volley.DrDiskBasedCache;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
 import dk.dr.radio.net.volley.DrVolleyStringRequest;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 public class App extends Application {
   public static final String P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING = "P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING";

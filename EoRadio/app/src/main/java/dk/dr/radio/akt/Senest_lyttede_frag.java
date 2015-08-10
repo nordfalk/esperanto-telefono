@@ -27,7 +27,7 @@ import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 public class Senest_lyttede_frag extends Basisfragment implements AdapterView.OnItemClickListener, Runnable, View.OnClickListener {
 

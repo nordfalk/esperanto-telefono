@@ -41,7 +41,7 @@ import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 @SuppressLint({"NewApi", "ResourceAsColor"})
 public class AfspillerIkonOgNotifikation extends AppWidgetProvider {

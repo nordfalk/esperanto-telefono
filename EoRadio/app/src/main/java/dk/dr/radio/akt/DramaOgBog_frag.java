@@ -28,7 +28,7 @@ import dk.dr.radio.diverse.CirclePageIndicator;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.PinnedSectionListView;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterView.OnItemClickListener {
   private ViewPager viewPager;

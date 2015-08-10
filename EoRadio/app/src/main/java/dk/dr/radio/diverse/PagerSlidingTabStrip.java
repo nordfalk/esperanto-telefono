@@ -51,7 +51,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import dk.dr.radio.akt.Kanal_frag;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 
 /**

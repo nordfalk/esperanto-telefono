@@ -30,7 +30,7 @@ import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Serialisering;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 /**
  * Created by j on 01-03-14.

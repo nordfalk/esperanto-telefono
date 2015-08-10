@@ -43,7 +43,7 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 /**
  * Manages each alarm

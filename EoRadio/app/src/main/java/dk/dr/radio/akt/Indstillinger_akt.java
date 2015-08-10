@@ -42,7 +42,7 @@ import dk.dr.radio.data.HentedeUdsendelser;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 public class Indstillinger_akt extends PreferenceActivity implements OnPreferenceChangeListener, Runnable {
   public static final String åbn_formatindstilling = "åbn_formatindstilling";

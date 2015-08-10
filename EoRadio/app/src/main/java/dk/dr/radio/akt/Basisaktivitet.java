@@ -24,7 +24,7 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.P4Stedplacering;
-import dk.nordfalk.esperanto.radio.R;
+import dk.dr.radio.v3.R;
 
 public class Basisaktivitet extends ActionBarActivity {
   protected final AQuery aq = new AQuery(this);

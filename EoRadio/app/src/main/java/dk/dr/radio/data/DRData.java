@@ -42,7 +42,7 @@ public class DRData {
 
   //private static final String BASISURL = "http://www.dr.dk/tjenester/mu-apps";
   //private static final String BASISURL = "http://dr-mu-apps.azurewebsites.net";
-  private static final String BASISURL = App.PRODUKTION || true // EO ŝanĝo
+  private static final String BASISURL = App.PRODUKTION
      ? "http://www.dr.dk/tjenester/mu-apps"
      : "http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps-test";
 

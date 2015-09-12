@@ -144,9 +144,9 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     udvikling_checkDrSkrifter(rod, this + " rod");
 
     // Indlæs A-Å-liste hvis den ikke allerede er det, så vi har en komplet programliste
-    //if (DRData.instans.programserierAtilÅ.liste == null) { // EO ŝanĝo
-    //  DRData.instans.programserierAtilÅ.startHentData();
-    //}
+    if (App.ÆGTE_DR && DRData.instans.programserierAtilÅ.liste == null) {
+      DRData.instans.programserierAtilÅ.startHentData();
+    }
     return rod;
   }
 
@@ -191,7 +191,6 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
         udvikling_checkDrSkrifter(v, this.getClass() + " ");
       } catch (Exception e) {
-        Log.d(position + " fejl med med " + obj);
         Log.rapporterFejl(e);
       }
 
@@ -199,7 +198,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     }
   };
 
-  private Object udpak(Object obj) {
+  private Object udpak(Object obj) { // EO ŝanĝo
     if (obj instanceof SoegElement) {
       SoegElement se = (SoegElement) obj;
       if (se.udsendelse!=null) obj = se.udsendelse;
@@ -213,7 +212,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
   @Override
   public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
     Object obj = liste.get(position);
-    obj = udpak(obj);
+    obj = udpak(obj); // EO ŝanĝo
     if (obj instanceof Programserie) {
       Programserie programserie = (Programserie) obj;
       Fragment f = new Programserie_frag();
@@ -268,12 +267,11 @@ public class Soeg_efter_program_frag extends Basisfragment implements
       for (Programserie ps : new Programserie[0]) { // EO ŝanĝo DRData.instans.programserieFraSlug.values()) {
         SoegElement se = new SoegElement();
         se.programserie = ps;
-        se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase()) + (ps.undertitel==null?"":" "+ps.undertitel.toLowerCase());
+        se.titel = " "+ps.titel.toLowerCase() + " " + ps.undertitel.toLowerCase();
         se.beskrivelse = " "+ps.beskrivelse.toLowerCase();
-        se.slug = ps.slug;
         søgelistecache.add(se);
       }
-      for (Udsendelse ps : DRData.instans.udsendelseFraSlug.values()) {
+      for (Udsendelse ps : DRData.instans.udsendelseFraSlug.values()) {  // EO ŝanĝo
         SoegElement se = new SoegElement();
         se.udsendelse = ps;
         se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase());
@@ -287,21 +285,21 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     // Søg først efter start på ord i titel
     String _søgStr = " "+søgStr;
     for (SoegElement se : søgelistecache) if (se.titel.contains(_søgStr)) {
-        liste.add(se);
+        liste.add(se);  // EO ŝanĝo
         alleredeFundet.add(se.slug);
         if (liste.size()>=max) break;
     }
     // Søg derefter generelt i titel
     if (liste.size()<max) for (SoegElement se : søgelistecache) {
       if (se.titel.contains(søgStr) && !alleredeFundet.contains(se.slug)) {
-        liste.add(se);
+        liste.add(se);  // EO ŝanĝo
         if (liste.size()>=max) break;
       }
     }
     // Søg derefter generelt i beskrivelser
     if (liste.size()<max) for (SoegElement se : søgelistecache) {
       if (se.beskrivelse.contains(søgStr) && !alleredeFundet.contains(se.slug)) {
-        liste.add(se);
+        liste.add(se);  // EO ŝanĝo
         if (liste.size()>=max) break;
       }
     }

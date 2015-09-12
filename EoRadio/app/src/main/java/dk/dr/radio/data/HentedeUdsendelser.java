@@ -141,8 +141,7 @@ public class HentedeUdsendelser {
       //req.setDestinationInExternalPublicDir(Environment.DIRECTORY_PODCASTS, udsendelse.slug + ".mp3");
       //req.setDestinationInExternalPublicDir("DR_Radio", udsendelse.slug + ".mp3");
       //req.setDestinationInExternalFilesDir(App.instans, Environment.DIRECTORY_PODCASTS, "DRRADIO4xx"+ udsendelse.slug + ".mp3");
-      String filnavn = udsendelse.slug.replace(':','_') + ".mp3";
-      req.setDestinationUri(Uri.fromFile(new File(dir, filnavn)));
+      req.setDestinationUri(Uri.fromFile(new File(dir, udsendelse.slug.replace(':','_') + ".mp3")));
 
       if (Build.VERSION.SDK_INT >= 11) req.allowScanningByMediaScanner();
 

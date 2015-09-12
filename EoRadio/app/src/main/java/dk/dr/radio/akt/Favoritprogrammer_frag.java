@@ -181,7 +181,6 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
     } else {
       Udsendelse udsendelse = (Udsendelse) obj;
       Fragment f = Fragmentfabrikering.udsendelse(udsendelse);
-
       getActivity().getSupportFragmentManager().beginTransaction()
           .replace(R.id.indhold_frag, f)
           .addToBackStack(null)

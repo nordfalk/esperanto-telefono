@@ -46,7 +46,6 @@ public class Kanal extends Lydkilde {
   public transient SortedMap<String, ArrayList<Udsendelse>> udsendelserPerDag = new TreeMap<String, ArrayList<Udsendelse>>();
   /** P1 har ingen senest spillet og der er aldrig playlister på denne kanal */
   public boolean ingenPlaylister;
-  public Class<? extends Fragment> fragKlasse;
 
   //// EO
   public transient Bitmap eo_emblemo;

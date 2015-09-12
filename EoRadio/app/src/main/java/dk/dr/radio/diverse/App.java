@@ -80,6 +80,7 @@ import dk.dr.radio.net.volley.DrBasicNetwork;
 import dk.dr.radio.net.volley.DrDiskBasedCache;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
 import dk.dr.radio.net.volley.DrVolleyStringRequest;
+import dk.dr.radio.v3.BuildConfig;
 import dk.dr.radio.v3.R;
 
 public class App extends Application {
@@ -87,7 +88,8 @@ public class App extends Application {
   public static final String P4_FORETRUKKEN_AF_BRUGER = "P4_FORETRUKKEN_AF_BRUGER";
   public static final String FORETRUKKEN_KANAL = "FORETRUKKEN_kanal";
   public static final String NØGLE_advaretOmInstalleretPåSDKort = "erInstalleretPåSDKort";
-  public static final boolean PRODUKTION = false;
+  public static final boolean PRODUKTION = !BuildConfig.DEBUG;
+  public static final boolean ÆGTE_DR = false;
   private static final String DRAMA_OG_BOG__A_Å_INDLÆST = "DRAMA_OG_BOG__A_Å_INDLÆST";
   public static boolean EMULATOR = true; // Sæt i onCreate(), ellers virker det ikke i std Java
   public static App instans;
@@ -169,7 +171,6 @@ public class App extends Application {
       if (!App.erInstalleretPåSDKort) prefs.edit().remove(NØGLE_advaretOmInstalleretPåSDKort).commit();
 
       Class.forName("android.os.AsyncTask"); // Fix for http://code.google.com/p/android/issues/detail?id=20915
-      FilCache.init(new File(getCacheDir(), "FilCache"));
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
@@ -177,6 +178,7 @@ public class App extends Application {
     accessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
 
 
+    if (!ÆGTE_DR) FilCache.init(new File(getCacheDir(), "FilCache"));
     // Initialisering af Volley
 
     // Prior to Gingerbread, HttpUrlConnection was unreliable.
@@ -205,7 +207,8 @@ public class App extends Application {
 
     // P4 stedplacering skal ske så tidligt som muligt - ellers
     // når P4-valgskærmbilledet at blive instantieret med ukendt placering og foreslår derfor København
-    //if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) startP4stedplacering();
+    // Slået fra, da stedplaceringen ikke virker
+    // if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) startP4stedplacering();
 
     try {
       DRData.instans = new DRData();
@@ -223,7 +226,7 @@ public class App extends Application {
           App.prefs.edit().remove(DRData.GRUNDDATA_URL).commit();
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, grunddata).commit();
         }
-        App.prefs.edit().putBoolean("vispager_title_strip", true).commit();
+        if (!ÆGTE_DR) App.prefs.edit().putBoolean("vispager_title_strip", true).commit();
       }
 
       if (App.prefs.contains("stamdata23") || App.prefs.contains("stamdata24")) {
@@ -456,9 +459,10 @@ public class App extends Application {
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
           }
+          // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
+          for (Runnable r : DRData.instans.grunddata.observatører) r.run();
           // Er vi nået hertil så gik parsning godt - gem de nye stamdata i prefs, så de også bruges ved næste opstart
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, nyeGrunddata).commit();
-          App.opdaterObservatører(DRData.instans.grunddata.observatører);
         }
       }) {
         public Priority getPriority() {
@@ -506,7 +510,7 @@ public class App extends Application {
       if (antal>1) Log.d("sætErIGang: "+hvad+" har "+antal+" samtidige anmodninger");
       else if (antal<0) Log.e(new IllegalStateException("erIGang manglede " + hvad));
       else if (netværkErIGang) Log.d("sætErIGang: "+hvad);
-      if (!netværkErIGang && hvad.trim().length()==0) Log.e(new IllegalStateException("hvad EOer tom")); // DA ŝanĝo
+      //if (!netværkErIGang && hvad.trim().length()==0) Log.e(new IllegalStateException("hvad er tom"));
     }
     erIGang += netværkErIGang ? 1 : -1;
     boolean nu = erIGang > 0;

@@ -201,7 +201,7 @@ public enum DRJson {
     if (dagsbeskrivelse == null) {
       dagsbeskrivelse = ugedagformat.format(tid);
       String år = årformat.format(tid);
-      if (datoStr0.equals(iDagDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_dag); // DA ŝanĝo
+      if (datoStr0.equals(iDagDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_dag);
       else if (datoStr0.equals(iMorgenDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_morgen)+" - " + dagsbeskrivelse;
       else if (datoStr0.equals(iOvermorgenDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_overmorgen) + " - " + dagsbeskrivelse;
       else if (datoStr0.equals(iGårDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_går); // "I GÅR - "+dagsbeskrivelse;

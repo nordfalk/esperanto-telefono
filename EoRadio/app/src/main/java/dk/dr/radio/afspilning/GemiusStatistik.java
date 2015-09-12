@@ -106,10 +106,8 @@ class GemiusStatistik {
 
 
   void startSendData() {
-    hændelser.clear();
-    /*
     if (hændelser.isEmpty()) return;
-    try {
+    if (App.ÆGTE_DR) try {
       // json.put("Url", "http://test.com");  // behøves ikke?
       // json.put("InitialLoadTime", 0);  // behøves ikke?
       // json.put("TimezoneOffsetInMinutes", -120);  // behøves ikke?
@@ -154,7 +152,6 @@ class GemiusStatistik {
         }
       }
     }).start();
-    */
   }
 
   /**

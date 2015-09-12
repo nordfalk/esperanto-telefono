@@ -136,7 +136,7 @@ public class AndroidMediaPlayerWrapper implements MediaPlayerWrapper {
           mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiMediaPlayerWrapper");
         } catch (ClassNotFoundException e) {
           mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
-          Log.d("Mangler Akamai-wrapper til statistik: " + e); // EO ŝanĝo
+          if (App.ÆGTE_DR) Log.e("Mangler Akamai-wrapper til statistik", e);
         }
       }
     }

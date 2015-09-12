@@ -64,8 +64,6 @@ public class Grunddata {
   /** Om Http Live Streaming skal udelukkes fra mulige lydformater. Gælder på Android 2 og visse Android 4-enheder */
   public boolean udelukHLS;
 
-  public String radioTxtUrl = "http://esperanto-radio.com/radio.txt";
-
   public Grunddata() {
     ukendtKanal.navn = "";
     ukendtKanal.slug = "";
@@ -77,6 +75,8 @@ public class Grunddata {
     kanalFraSlug.put("", ukendtKanal);
   }
 
+
+  public String radioTxtUrl = "http://esperanto-radio.com/radio.txt";
 
   public void eo_parseFællesGrunddata(String ĉefdatumojJson) throws JSONException {
     json = new JSONObject(ĉefdatumojJson);
@@ -207,7 +207,6 @@ public class Grunddata {
             k.kode = k.slug = e.kanalSlug;
             k.navn = x[0];
             k.eo_datumFonto = "aldonita de radio.txt";
-            k.fragKlasse = EoKanal_frag.class;
             kanalFraKode.put(k.kode, k);
             kanalFraSlug.put(k.slug, k);
             kanaler.add(k);
@@ -348,6 +347,7 @@ public class Grunddata {
     DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
     DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
+    //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
   }
 
   private void fjernKanalMedFejl(Kanal k) {
@@ -358,7 +358,7 @@ public class Grunddata {
   }
 
 
-  private void da_parseKanaler(JSONArray jsonArray, boolean parserP4underkanaler) throws JSONException {
+  private void parseKanaler(JSONArray jsonArray, boolean parserP4underkanaler) throws JSONException {
 
     int antal = jsonArray.length();
     for (int i = 0; i < antal; i++) {
@@ -383,7 +383,7 @@ public class Grunddata {
       JSONArray underkanaler = j.optJSONArray("channels");
       if (underkanaler != null) {
         if (!Kanal.P4kode.equals(k.kode)) Log.rapporterFejl(new IllegalStateException("Forkert P4-kode: "), k.kode);
-        da_parseKanaler(underkanaler, true); // EO ŝanĝo
+        parseKanaler(underkanaler, true);
       }
     }
   }

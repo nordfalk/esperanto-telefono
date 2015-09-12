@@ -110,7 +110,7 @@ public class Fjernbetjening implements Runnable {
         }
       } else {
 
-        final String burl = u.getKanal().eo_datumFonto!=null? u.billedeUrl : Basisfragment.skalérBillede(u);
+        final String burl = Basisfragment.skalérBillede(u);
         Log.d("Fjernbetjening asynk artwork\n" + burl);
         // Hent med AQuery, da det sandsynligvis allerede har en cachet udgave
         // NB Brug ikke: Bitmap bm = BitmapAjaxCallback.getMemoryCached(burl, 0); - giver senere java.lang.RuntimeException: Canvas: trying to use a recycled bitmap senere

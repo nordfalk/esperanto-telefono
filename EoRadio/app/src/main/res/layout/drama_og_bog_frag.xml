@@ -4,20 +4,26 @@
               android:layout_height="match_parent">
 
 
-  <android.support.v4.view.ViewPager
-     android:id="@+id/pager"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-    >
-  </android.support.v4.view.ViewPager>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-  <dk.dr.radio.diverse.CirclePageIndicator
-      android:id="@+id/indicator"
-      android:padding="10dip"
-      android:layout_height="wrap_content"
-      android:layout_width="fill_parent"
-      android:background="@color/grå80"
-   />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </android.support.v4.view.ViewPager>
+
+        <dk.dr.radio.diverse.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:padding="10dip"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            />
+
+    </FrameLayout>
+
 
 
   <dk.dr.radio.diverse.PinnedSectionListView

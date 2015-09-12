@@ -49,7 +49,8 @@
     <CheckBoxPreference
         android:key="fjernbetjening" android:title="Fjernbetjening"
         android:defaultValue="true"
-        android:summary="Betjening fra Bluetooth headset og på låseskærmen på Android 4"
+        android:summaryOff="Ingen betjening fra Bluetooth og ændrer ikke baggrunden på låseskærmen"
+        android:summaryOn="Betjening fra Bluetooth headset og låseskærmen på Android 4.\nLåseskærmens baggrund viser grafik fra udsendelsen, der afspilles."
         />
 
 
@@ -79,14 +80,14 @@
         <CheckBoxPreference
             android:key="wifilås" android:title="Hold wifi tændt"
             android:defaultValue="true"
-            android:summaryOn="Hold wifi tændt under afspilning. Hakker afspilningen så tjek telefonens generelle indstillinger til strømbesparelse."
-            android:summaryOff="Tillad enheden at skrue ned for wifi. Kan forårsage at afspilningen hakker."/>
+            android:summaryOn="Hold wifi tændt under afspilning.\nHakker afspilningen alligevel, så tjek telefonens generelle indstillinger til strømbesparelse."
+            android:summaryOff="Tillad enheden at skrue ned for wifi.\nKan forårsage at afspilningen hakker."/>
 
         <CheckBoxPreference
             android:key="cpulås" android:title="Hold CPU tændt"
             android:defaultValue="true"
             android:summaryOn="Hold CPU aktiv under afspilning"
-            android:summaryOff="Tillad enheden at skrue ned for CPU. Kan forårsage at afspilningen hakker."/>
+            android:summaryOff="Tillad enheden at skrue ned for CPU.\nKan forårsage at afspilningen hakker."/>
 
       </PreferenceCategory>
 
@@ -112,7 +113,7 @@
 
           <CheckBoxPreference
               android:key="exoplayer" android:title="ExoPlayer"
-              android:summaryOn="Den nye ExoPlayer benyttes. Nogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
+              android:summaryOn="ExoPlayer benyttes.\nNogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
               android:summaryOff="Den indbyggede MediaPlayer benyttes"/>
 
           <!-- 	<EditTextPreference android:key="udviklerKontakt" android:title="Kontakt"

@@ -51,6 +51,6 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
-      android:text="Indlæser, vent venligst"
+      android:text="@string/Indlæser_vent_venligst___"
       android:textAppearance="?android:attr/textAppearanceLarge"/>
 </FrameLayout>

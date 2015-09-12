@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <!-- til Akamais statistik - den rigtige nøgle skal ikke comittes til SVN -->
+  <string name="akamai_konfiguration">http://dr.dk/ukendt/url</string>
 
   <!-- Indsæt din egen BugSense-nøgle her -->
   <string name="bugsense_nøgle">b8d4f0e8</string>
   <string name="bugsense_testnøgle">c0eec1ee</string>
 
+  <!-- Nøgle til sidevisningsstatistik -->
+  <string name="gemius_sidevisninsstatistik_nøgle"></string>
 </resources>

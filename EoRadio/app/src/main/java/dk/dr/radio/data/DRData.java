@@ -40,6 +40,12 @@ public class DRData {
       : "http://android.lundogbendsen.dk/drradiov3_grunddata.json";
   //public static final String GRUNDDATA_URL = "http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.json";
 
+  //private static final String BASISURL = "http://www.dr.dk/tjenester/mu-apps";
+  //private static final String BASISURL = "http://dr-mu-apps.azurewebsites.net";
+  private static final String BASISURL = App.PRODUKTION || true // EO ŝanĝo
+     ? "http://www.dr.dk/tjenester/mu-apps"
+     : "http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps-test";
+
   public Grunddata grunddata;
   public Afspiller afspiller;
 
@@ -69,7 +75,7 @@ public class DRData {
 
   public static String getUdsendelseStreamsUrlFraUrn(String urn) {
     // http://www.dr.dk/tjenester/mu-apps/program?urn=urn:dr:mu:programcard:52e6fa58a11f9d1588de9c49&includeStreams=true
-    return "http://www.dr.dk/tjenester/mu-apps/program?includeStreams=true&urn=" + urn;
+    return BASISURL + "/program?includeStreams=true&urn=" + urn;
   }
 
 
@@ -78,46 +84,46 @@ public class DRData {
     // http://www.dr.dk/tjenester/mu-apps/series/monte-carlo?type=radio&includePrograms=true
     // http://www.dr.dk/tjenester/mu-apps/series/monte-carlo?type=radio&includePrograms=true&includeStreams=true
 
-    return "http://www.dr.dk/tjenester/mu-apps/series/" + programserieSlug + "?type=radio&includePrograms=true";
+    return BASISURL + "/series/" + programserieSlug + "?type=radio&includePrograms=true";
   }
 
   public static String getKanalStreamsUrlFraSlug(String slug) {
-    //return "http://www.dr.dk/tjenester/mu-apps/channel?includeStreams=true&urn=" + urn;
-    return "http://www.dr.dk/tjenester/mu-apps/channel/" + slug + "?includeStreams=true";
+    //return BASISURL + "/channel?includeStreams=true&urn=" + urn;
+    return BASISURL + "/channel/" + slug + "?includeStreams=true";
   }
 
   public static String getKanalUdsendelserUrlFraKode(String kode, String datoStr) {
-    return "http://www.dr.dk/tjenester/mu-apps/schedule/" + URLEncoder.encode(kode) + "/date/" + datoStr;  // svarer til v3_kanalside__p3.json;
+    return BASISURL + "/schedule/" + URLEncoder.encode(kode) + "/date/" + datoStr;  // svarer til v3_kanalside__p3.json;
   }
 
   public static String getAtilÅUrl() {
-    return "http://www.dr.dk/tjenester/mu-apps/series-list?type=radio";
+    return BASISURL + "/series-list?type=radio";
   }
 
   public static String getUdsendelseStreamsUrlFraSlug(String udsendelseSlug) {
-    return "http://www.dr.dk/tjenester/mu-apps/program/" + udsendelseSlug + "?type=radio&includeStreams=true";
+    return BASISURL + "/program/" + udsendelseSlug + "?type=radio&includeStreams=true";
   }
 
   public static String getSøgIUdsendelserUrl(String søgStr) {
-    return "http://www.dr.dk/tjenester/mu-apps/search/programs?q=" + URLEncoder.encode(søgStr) + "&type=radio";
+    return BASISURL + "/search/programs?q=" + URLEncoder.encode(søgStr) + "&type=radio";
   }
 
   public static String getSøgISerierUrl(String søgStr) {
-    return "http://www.dr.dk/tjenester/mu-apps/search/series?q=" + URLEncoder.encode(søgStr) + "&type=radio";
+    return BASISURL + "/search/series?q=" + URLEncoder.encode(søgStr) + "&type=radio";
   }
 
   public static String getBogOgDramaUrl() {
-    return "http://www.dr.dk/tjenester/mu-apps/radio-drama-adv";
+    return BASISURL + "/radio-drama-adv";
   }
 
   public static String getNyeProgrammerSiden(String programserieSlug, String dato) {
-    return "http://www.dr.dk/tjenester/mu-apps/new-programs-since/" + programserieSlug + "/" + dato;
+    return BASISURL + "/new-programs-since/" + programserieSlug + "/" + dato;
   }
 
   public static String getPlaylisteUrl(String slug) {
     // Tidligere (marts 2014) skulle kanalens slug med, såsom
     // http://www.dr.dk/tjenester/mu-apps/playlist/monte-carlo-352/p3
     // Det er tilsyneladende ikke nødvendigt mere, per april 2014
-    return "http://www.dr.dk/tjenester/mu-apps/playlist/" + slug + "/0";
+    return BASISURL + "/playlist/" + slug + "/0";
   }
 }

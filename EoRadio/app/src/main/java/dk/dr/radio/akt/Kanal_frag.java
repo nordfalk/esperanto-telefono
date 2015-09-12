@@ -262,6 +262,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
   public void run() {
     if (App.fejlsøgning) Log.d("run() synlig=" + getUserVisibleHint()+" "+this);
     App.forgrundstråd.removeCallbacks(this);
+    if (getActivity()==null) return; // Fragment ikke mere synligt
     App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
 
     if (!kanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
@@ -357,7 +358,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
         listView.setSelectionFromTop(aktuelUdsendelseIndex, topmargen);
       }
     } catch (Exception e1) {
-      Log.rapporterFejl(e1);
+      Log.rapporterFejl(e1, "kanal="+kanal+" med udsendelser "+kanal.udsendelser);
     }
   }
 
@@ -645,7 +646,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
       // Vis normalt et Udsendelser_vandret_skift_frag med flere udsendelser
       // Hvis tilgængelighed er slået til (eller bladring slået fra) vises blot ét Udsendelse_frag
       Fragment f =
-          App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? u.nytFrag() :
+          App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? Fragmentfabrikering.udsendelse(u) :
               new Udsendelser_vandret_skift_frag();
       f.setArguments(new Intent()
           .putExtra(P_kode, kanal.kode)

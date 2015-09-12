@@ -357,7 +357,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     @Override
     public void run() {
       App.forgrundstråd.removeCallbacks(tjekFragmentSynligt);
-      if (!getUserVisibleHint() || !isResumed()) return; // Ekstra tjek
+      if (!getUserVisibleHint() || !isResumed() || udsendelse==null) return; // Ekstra tjek
       Log.d("Udsendelse_frag tjekFragmentSynligt ");
       if (aktuelUdsendelsePåKanalen() || udsendelse.playliste == null) opdaterSpillelisteRunnable.run();
       if (udsendelse.kanHøres && afspiller.getAfspillerstatus() == Status.STOPPET) {

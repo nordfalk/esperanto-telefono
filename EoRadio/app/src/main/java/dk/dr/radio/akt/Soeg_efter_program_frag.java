@@ -55,10 +55,10 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
   private static class SoegElement {
     public Programserie programserie;
-    public Udsendelse udsendelse;
+    public Udsendelse udsendelse; // EO ŝanĝo
     public String titel;
     public String beskrivelse;
-    public String slug;
+    public String slug; // EO ŝanĝo
   }
 
   private ArrayList<SoegElement> søgelistecache;
@@ -144,7 +144,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     udvikling_checkDrSkrifter(rod, this + " rod");
 
     // Indlæs A-Å-liste hvis den ikke allerede er det, så vi har en komplet programliste
-    //if (DRData.instans.programserierAtilÅ.liste == null) {
+    //if (DRData.instans.programserierAtilÅ.liste == null) { // EO ŝanĝo
     //  DRData.instans.programserierAtilÅ.startHentData();
     //}
     return rod;
@@ -227,17 +227,13 @@ public class Soeg_efter_program_frag extends Basisfragment implements
           .commit();
       Sidevisning.vist(Programserie_frag.class, programserie.slug);
 
-    } else if (obj instanceof String){
+    } else if (obj instanceof String) {
       max = max*2;
       søg();
     } else {
       Udsendelse udsendelse = (Udsendelse) obj;
-      Fragment f = udsendelse.nytFrag();
-      f.setArguments(new Intent()
-//        .putExtra(Udsendelse_frag.BLOKER_VIDERE_NAVIGERING, true)
-//        .putExtra(P_kode, titel.kode)
-          .putExtra(DRJson.Slug.name(), udsendelse.slug)
-          .getExtras());
+      Fragment f = Fragmentfabrikering.udsendelse(udsendelse);
+
       getActivity().getSupportFragmentManager().beginTransaction()
           .replace(R.id.indhold_frag, f)
           .addToBackStack(null)
@@ -269,7 +265,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     if (søgelistecache == null) {
       søgelistecache = new ArrayList<SoegElement>(DRData.instans.programserieFraSlug.size());
       Log.d("DRData.instans.programserieFraSlug?=" + DRData.instans.programserieFraSlug);
-      for (Programserie ps : DRData.instans.programserieFraSlug.values()) {
+      for (Programserie ps : new Programserie[0]) { // EO ŝanĝo DRData.instans.programserieFraSlug.values()) {
         SoegElement se = new SoegElement();
         se.programserie = ps;
         se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase()) + (ps.undertitel==null?"":" "+ps.undertitel.toLowerCase());

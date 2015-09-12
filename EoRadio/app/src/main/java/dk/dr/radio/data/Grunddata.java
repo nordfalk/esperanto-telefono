@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Locale;
 
 import dk.dr.radio.akt.EoKanal_frag;
-import dk.dr.radio.akt.Kanal_frag;
-import dk.dr.radio.akt.Kanal_nyheder_frag;
 import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -103,7 +101,6 @@ public class Grunddata {
       k.eo_elsendojRssIgnoruTitolon = kJs.optBoolean("elsendojRssIgnoruTitolon", false);
 
       k.eo_json = kJs;
-      k.fragKlasse = EoKanal_frag.class;
       kanaler.add(k);
 
       if (rektaElsendaSonoUrl != null) {
@@ -334,7 +331,7 @@ public class Grunddata {
    * @throws java.io.IOException hvis der er et problem med netværk
    *                             eller parsning (dvs interne fejl af forskellig art som bør rapporteres til udvikler)
    */
-  public void da_parseFællesGrunddata(String str) throws JSONException {
+  public void parseFællesGrunddata(String str) throws JSONException {
     json = new JSONObject(str);
 
     try {
@@ -344,12 +341,12 @@ public class Grunddata {
       Log.e(e);
     } // Ikke kritisk
 
-    da_parseKanaler(json.getJSONArray("channels"), false);
+    //da_parseKanaler(json.getJSONArray("channels"), false);
     Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
     android_json = json.getJSONObject("android");
     tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
-    DRBackendTidsformater.servertidsformatAndre = da_parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
-    DRBackendTidsformater.servertidsformatPlaylisteAndre = da_parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
+    DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
+    DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
   }
 
@@ -377,7 +374,6 @@ public class Grunddata {
       k.urn = j.getString("urn");
       k.slug = j.optString("slug", "p4");
       k.ingenPlaylister = j.optBoolean("hideLatestTrack", false);
-      k.fragKlasse = k.kode.equals("DRN") ? Kanal_nyheder_frag.class : null;
       k.p4underkanal = parserP4underkanaler;
       kanaler.add(k);
       if (parserP4underkanaler) p4koder.add(k.kode);
@@ -387,19 +383,11 @@ public class Grunddata {
       JSONArray underkanaler = j.optJSONArray("channels");
       if (underkanaler != null) {
         if (!Kanal.P4kode.equals(k.kode)) Log.rapporterFejl(new IllegalStateException("Forkert P4-kode: "), k.kode);
-        da_parseKanaler(underkanaler, true);
+        da_parseKanaler(underkanaler, true); // EO ŝanĝo
       }
     }
   }
 
-  private DateFormat[] da_parseDRBackendTidsformater(JSONArray servertidsformatAndreJson, DateFormat[] servertidsformatAndre) throws JSONException {
-    if (servertidsformatAndreJson==null) return  servertidsformatAndre;
-    DateFormat[] res = new DateFormat[servertidsformatAndreJson.length()];
-    for (int i=0; i<res.length; i++) {
-      res[i] = new SimpleDateFormat(servertidsformatAndreJson.getString(i));
-    }
-    return res;
-  }
 
   /**
    * Sætter flaget udelukHLS, som slår HLS fra på Android-enheder, der ikke understøtter det
@@ -426,5 +414,14 @@ public class Grunddata {
     } catch (Exception e) {
       Log.e(e);
     } // Ikke kritisk
+  }
+
+  private DateFormat[] parseDRBackendTidsformater(JSONArray servertidsformatAndreJson, DateFormat[] servertidsformatAndre) throws JSONException {
+    if (servertidsformatAndreJson==null) return  servertidsformatAndre;
+    DateFormat[] res = new DateFormat[servertidsformatAndreJson.length()];
+    for (int i=0; i<res.length; i++) {
+      res[i] = new SimpleDateFormat(servertidsformatAndreJson.getString(i), Locale.US);
+    }
+    return res;
   }
 }

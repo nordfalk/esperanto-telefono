@@ -84,10 +84,9 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
           Lydkilde lydkilde = DRData.instans.afspiller.getLydkilde();
           if (lydkilde instanceof Udsendelse) {
             Udsendelse udsendelse = lydkilde.getUdsendelse();
-            Fragment f = udsendelse.nytFrag();
-            f.setArguments(new Intent()
-                .putExtra(Basisfragment.P_kode, lydkilde.getKanal().kode)
-                .putExtra(DRJson.Slug.name(), udsendelse.slug).getExtras());
+            Fragment f = Fragmentfabrikering.udsendelse(udsendelse);
+            f.getArguments().putString(Basisfragment.P_kode, lydkilde.getKanal().kode);
+
             getSupportFragmentManager().beginTransaction()
                 .replace(R.id.indhold_frag, f)
                 .addToBackStack("Udsendelse")

@@ -503,7 +503,7 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
     // Vis normalt et Udsendelser_vandret_skift_frag med flere udsendelser
     // Hvis tilgængelighed er slået til (eller bladring slået fra) vises blot ét Udsendelse_frag
     Fragment f =
-        App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? u.nytFrag() :
+        App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? Fragmentfabrikering.udsendelse(u) :
             new Udsendelser_vandret_skift_frag();
     f.setArguments(new Intent()
         .putExtra(P_kode, kanal.kode)

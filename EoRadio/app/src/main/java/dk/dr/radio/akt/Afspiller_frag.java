@@ -278,18 +278,18 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    if (App.accessibilityManager.isEnabled()) {
+    if (App.accessibilityManager.isEnabled()) try {
 
       inflater.inflate(R.menu.tilg_afspiller, menu);
       MenuItem menuItem = menu.findItem(R.id.startStopKnap);
 
       if (DRData.instans.afspiller.getAfspillerstatus() == Status.STOPPET) {
-        menuItem.setTitle(getString(R.string.Start) + DRData.instans.afspiller.getLydkilde());
+        menuItem.setTitle(getString(R.string.Start) + DRData.instans.afspiller.getLydkilde().getNavn());
       } else {
         menuItem.setTitle(R.string.Stop_afspilning);
         menuItem.setIcon(R.drawable.dri_radio_stop_graa40);
       }
-    }
+    } catch (Exception e) { Log.rapporterFejl(e); } // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4021328508
     super.onCreateOptionsMenu(menu, inflater);
   }
 
@@ -448,18 +448,16 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
         Sidevisning.vist(Kanaler_frag.class);
       } else {
         Udsendelse udsendelse = lydkilde.getUdsendelse();
-        Fragment f = udsendelse.nytFrag();
-        f.setArguments(new Intent()
-            .putExtra(P_kode, lydkilde.getKanal().kode)
-            .putExtra(DRJson.Slug.name(), udsendelse.slug).getExtras());
-        //Forkert: getFragmentManager().beginTransaction().replace(R.id.indhold_frag, f).addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-        //Forkert: getChildFragmentManager().beginTransaction().replace(R.id.indhold_frag, f).addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+
+        Fragment f = Fragmentfabrikering.udsendelse(udsendelse);
+        f.getArguments().putString(P_kode, lydkilde.getKanal().kode);
+
         getActivity().getSupportFragmentManager().beginTransaction()
             .replace(R.id.indhold_frag, f)
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit();
-        Sidevisning.vist(Udsendelse_frag.class, udsendelse.slug);
+        Sidevisning.vist(f.getClass(), udsendelse.slug);
       }
     } catch (Exception e) {
       Log.rapporterFejl(e);

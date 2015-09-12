@@ -18,10 +18,10 @@ import android.widget.BaseAdapter;
 import com.androidquery.AQuery;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.DramaOgBog;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.CirclePageIndicator;
@@ -38,7 +38,7 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
   private CirclePageIndicator karruselIndikator;
   private PinnedSectionListView listView;
 
-  boolean[] listesektionerUdvidet = new boolean[DramaOgBog.overskrifter.length];
+  HashSet<Integer> listesektionerUdvidet = new HashSet<Integer>();
 
   @Override
   public void run() {
@@ -48,17 +48,20 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
       DRData.instans.dramaOgBog.startHentData();
       return; // run() kaldes igen når der er data
     } else {
-      for (int sektionsnummer = 0; sektionsnummer < DramaOgBog.overskrifter.length; sektionsnummer++) {
-        liste.add(DramaOgBog.overskrifter[sektionsnummer]+" ("+DRData.instans.dramaOgBog.lister[sektionsnummer].size()+")");
+      int sektionsnummer = 0;
+      for (ArrayList<Programserie> sektion : DRData.instans.dramaOgBog.lister) {
+        liste.add(DRData.instans.dramaOgBog.overskrifter.get(sektionsnummer)+" ("+sektion.size()+")");
         int n = 0;
-        for (Programserie programserie : DRData.instans.dramaOgBog.lister[sektionsnummer]) {
+        for (Programserie programserie : sektion) {
           //Log.d("DramaOgBogF "+sektionsnummer+" "+n+programserie+" "+programserie.antalUdsendelser+" "+programserie.billedeUrl);
           n++;
-          if (programserie.antalUdsendelser>0 && programserie.billedeUrl!=null) karruselListe.add(programserie);
-          if (n < 3  || listesektionerUdvidet[sektionsnummer]) liste.add(programserie);
-          if (n == 3 && !listesektionerUdvidet[sektionsnummer]) liste.add(sektionsnummer); // VIS FLERE
+          if (programserie.antalUdsendelser>0 && programserie.billedeUrl!=null && DRData.instans.dramaOgBog.karuselSerieSlug.contains(programserie.slug)) karruselListe.add(programserie);
+          if (n < 3  || listesektionerUdvidet.contains(sektionsnummer)) liste.add(programserie);
+          if (n == 3 && !listesektionerUdvidet.contains(sektionsnummer)) liste.add(sektionsnummer); // VIS FLERE
         }
+        sektionsnummer++;
       }
+      //karruselListe.addAll(DRData.instans.dramaOgBog.karusel);
     }
     if (karruselAdapter != null) {
       if (viewPager.getCurrentItem() >= karruselListe.size()) {
@@ -267,7 +270,7 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
     Object o = liste.get(position);
     if (o instanceof Integer) {
       int n = (Integer) o;
-      listesektionerUdvidet[n] = !listesektionerUdvidet[n];
+      if (listesektionerUdvidet.contains(n)) listesektionerUdvidet.remove(n); else listesektionerUdvidet.add(n);
       run();
     } else if (o instanceof Programserie) {
       åbn(this, (Programserie) o);

@@ -180,12 +180,8 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
 
     } else {
       Udsendelse udsendelse = (Udsendelse) obj;
-      Fragment f = udsendelse.nytFrag();
-      f.setArguments(new Intent()
-//        .putExtra(Udsendelse_frag.BLOKER_VIDERE_NAVIGERING, true)
-//        .putExtra(P_kode, titel.kode)
-          .putExtra(DRJson.Slug.name(), udsendelse.slug)
-          .getExtras());
+      Fragment f = Fragmentfabrikering.udsendelse(udsendelse);
+
       getActivity().getSupportFragmentManager().beginTransaction()
           .replace(R.id.indhold_frag, f)
           .addToBackStack(null)

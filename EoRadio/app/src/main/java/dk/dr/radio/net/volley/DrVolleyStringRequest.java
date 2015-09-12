@@ -17,6 +17,9 @@ public class DrVolleyStringRequest extends StringRequest {
     super(url, listener, listener);
     lytter = listener;
     lytter.url = url;
+    if (!App.PRODUKTION && url.equals("http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps-test/channel/p4?includeStreams=true")) {
+      throw new Error("P4 streamURL kaldt, uden underkanal");
+    }
     App.sætErIGang(true, url);
     /*
      * DRs serverinfrastruktur caches med Varnish, men det kan tage lang tid for den bagvedliggende

@@ -127,8 +127,17 @@ public class AndroidMediaPlayerWrapper implements MediaPlayerWrapper {
     if (mediaPlayerWrapperKlasse == null) {
       if (App.prefs.getBoolean("exoplayer", false)) {
         mediaPlayerWrapperKlasse = ExoPlayerWrapper.class;
-      } else {
+      } else if (!App.prefs.getBoolean("Rapportér statistik", true)) {
+        App.langToast("DR Radio indsamler ikke brugsstatisik. Rapportér venligst om det gør en forskel for dig MHT batteriforbrug.");
+        App.langToast("Hvis du er sikker på at det medfører væsentligt længere batterilevetid, så kontakt os, så vi kan kigge på problemet.");
         mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
+      } else {
+        try {
+          mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiMediaPlayerWrapper");
+        } catch (ClassNotFoundException e) {
+          mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
+          Log.d("Mangler Akamai-wrapper til statistik: " + e); // EO ŝanĝo
+        }
       }
     }
 

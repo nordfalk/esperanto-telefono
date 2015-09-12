@@ -275,6 +275,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
   }
 
+  // EO ŝanĝo
   private void addIconTabBådeTekstOgBillede(final int position, int resId, Bitmap res, String title) {
     FrameLayout tabfl = new FrameLayout(getContext());
     if (Build.VERSION.SDK_INT>11) tabfl.setLayoutTransition(new LayoutTransition());
@@ -483,7 +484,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       final FrameLayout fl = (FrameLayout) t;
       fl.getChildAt(0).clearAnimation();
       fl.getChildAt(1).clearAnimation();
-      fl.getChildAt(0).setVisibility(View.GONE);
+      fl.getChildAt(0).setVisibility(View.GONE); // EO ŝanĝo
       fl.getChildAt(1).setVisibility(View.VISIBLE);
         /*
         fl.getChildAt(0).startAnimation(fadeUd);
@@ -506,7 +507,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         @Override
         public void onAnimationEnd(Animation animation) {
           fl.getChildAt(0).setVisibility(View.VISIBLE);
-          fl.getChildAt(1).setVisibility(View.GONE);
+          fl.getChildAt(1).setVisibility(View.INVISIBLE);
         }
       });
     }

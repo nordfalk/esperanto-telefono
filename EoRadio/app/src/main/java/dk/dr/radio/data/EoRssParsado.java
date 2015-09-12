@@ -115,12 +115,12 @@ public class EoRssParsado {
       for (Udsendelse u : liste) {
         liste2.add(u);
         for (int n = 1; n < u.sonoUrl.size(); n++) {
-          Udsendelse u2 = u.kopio();
+          Udsendelse u2 = u.kopi();
           u2.sonoUrl = new ArrayList<>();
           u2.sonoUrl.add(u.sonoUrl.get(n));
           u2.titel = u2.titel + " parto (" + (n + 1) + " el " + u.sonoUrl.size() + ") ";
           u2.slug += "/" + (n + 1);
-          Log.d("XXXXXX kopio " + u2.toString() + " de " + u);
+          Log.d("XXXXXX kopi " + u2.toString() + " de " + u);
           liste2.add(u2);
         }
       }

@@ -161,15 +161,12 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
     Fragment f;
     Lydkilde k = liste.get(position).lydkilde;
     if (k instanceof Kanal) {
-      f = new Kanal_frag();
-      f.setArguments(new Intent()
-          .putExtra(P_kode, ((Kanal) k).kode)
-          .getExtras());
+      f = Fragmentfabrikering.kanal((Kanal) k);
+    } else if (k instanceof  Udsendelse) {
+      f = Fragmentfabrikering.udsendelse((Udsendelse) k);
     } else {
-      f = ((Udsendelse) k).nytFrag();
-      f.setArguments(new Intent()
-          .putExtra(DRJson.Slug.name(), k.slug)
-          .getExtras());
+      Log.rapporterFejl(new IllegalStateException("Ukendt type"), k);
+      return;
     }
     getActivity().getSupportFragmentManager().beginTransaction()
         .replace(R.id.indhold_frag, f)

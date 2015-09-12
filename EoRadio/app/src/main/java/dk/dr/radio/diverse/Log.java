@@ -21,13 +21,18 @@ package dk.dr.radio.diverse;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.os.Build;
 
 import com.bugsense.trace.BugSenseHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import dk.dr.radio.data.DRData;
 
@@ -161,13 +166,21 @@ public class Log {
 
     ret += instans.getPackageName() + " (v " + version + ")" + "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT + "\nAndroid v" + Build.VERSION.RELEASE + " (sdk: " + Build.VERSION.SDK + ")";
     */
+    AudioManager am = (AudioManager) App.instans.getSystemService(Context.AUDIO_SERVICE);
+    LinkedHashSet<String> udgange = new LinkedHashSet<>();
+    if (am.isBluetoothA2dpOn()) udgange.add("BluetoothA2dp");
+    if (am.isBluetoothScoOn()) udgange.add("BluetoothSco");
+    if (am.isSpeakerphoneOn()) udgange.add("Speakerphone");
+    if (am.isWiredHeadsetOn()) udgange.add("(Kablede høretelefoner forbundne)");
+
     ret += "\nVersion: "+App.versionsnavn +
         "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT +
         "\nAndroid v" + Build.VERSION.RELEASE + " (sdk: " + Build.VERSION.SDK_INT + ")";
     ret += "\nFunktioner brugt: "+ Sidevisning.getViste();
-    ret += "\nFunktioner ej brugt: "+ Sidevisning.getIkkeViste();
+//    ret += "\nFunktioner ej brugt: "+ Sidevisning.getIkkeViste();
     ret += "\nIndstillinger: "+ App.prefs.getAll();
     ret += "\nAfspiller: "+ DRData.instans.afspiller.toString();
+    ret += "\nUdgange: "+ udgange;
     return ret;
   }
 

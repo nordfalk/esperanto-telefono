@@ -170,12 +170,7 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
     kanHentes = findBedsteStreams(true).size() > 0;
   }
 
-  public Fragment nytFrag() {
-    if (getKanal().eo_datumFonto!=null) return new EoUdsendelse_frag();
-    return new Udsendelse_frag();
-  }
-
-  public Udsendelse kopio() {
+  public Udsendelse kopi() {
     try {
       return (Udsendelse) this.clone();
     } catch (Exception e) {

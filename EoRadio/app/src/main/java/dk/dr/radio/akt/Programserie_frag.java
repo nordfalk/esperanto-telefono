@@ -82,7 +82,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
 
   private void hentUdsendelser(final int offset) {
     String url = DRData.getProgramserieUrl(programserieSlug) + "&offset=" + offset;
-    Log.d("XXX url=" + url);
+    //Log.d("XXX url=" + url);
 
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
       @Override
@@ -329,7 +329,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
       // Vis normalt et Udsendelser_vandret_skift_frag med flere udsendelser
       // Hvis tilgængelighed er slået til (eller bladring slået fra) vises blot ét Udsendelse_frag
       Fragment f =
-          App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? udsendelse.nytFrag() :
+          App.accessibilityManager.isEnabled() || !App.prefs.getBoolean("udsendelser_bladr", true) ? Fragmentfabrikering.udsendelse(udsendelse) :
                   new Udsendelser_vandret_skift_frag(); // standard
       f.setArguments(new Intent()
           .putExtra(Udsendelse_frag.BLOKER_VIDERE_NAVIGERING, true)

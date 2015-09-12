@@ -45,7 +45,12 @@ public enum DRJson {
   Playable,
   /* Om en udsendelse kan hentes. Som #Watchable */
   Downloadable,
-  RectificationTitle, RectificationText;
+  /* Berigtigelser */
+  RectificationTitle, RectificationText,
+
+  /* Drama og Bog */
+  Spots, Series
+  ;
 
   /*
     public enum StreamType {
@@ -196,7 +201,7 @@ public enum DRJson {
     if (dagsbeskrivelse == null) {
       dagsbeskrivelse = ugedagformat.format(tid);
       String år = årformat.format(tid);
-      if (datoStr0.equals(iDagDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_dag);
+      if (datoStr0.equals(iDagDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_dag); // DA ŝanĝo
       else if (datoStr0.equals(iMorgenDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_morgen)+" - " + dagsbeskrivelse;
       else if (datoStr0.equals(iOvermorgenDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_overmorgen) + " - " + dagsbeskrivelse;
       else if (datoStr0.equals(iGårDatoStr)) dagsbeskrivelse = App.instans.getString(R.string.i_går); // "I GÅR - "+dagsbeskrivelse;
@@ -387,13 +392,5 @@ Description: "I 'Efter fyringerne' lykkes det, gennem private optagelser og inte
     ps.urn = o.optString(DRJson.Urn.name());
     ps.antalUdsendelser = o.optInt(DRJson.TotalPrograms.name(), ps.antalUdsendelser);
     return ps;
-  }
-
-  public static void parseDramaOgBog(JSONArray jsonArray, DRData instans) throws JSONException {
-    ArrayList<Programserie> res = new ArrayList<Programserie>();
-    for (int n = 0; n < jsonArray.length(); n++) {
-      res.add(parsProgramserie(jsonArray.getJSONObject(n), new Programserie()));
-    }
-    Log.d("parseDramaOgBog res=" + res);
   }
 }

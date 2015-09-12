@@ -71,7 +71,6 @@ import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.afspilning.Fjernbetjening;
 import dk.dr.radio.akt.Basisaktivitet;
 import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.afproevning.FilCache;
@@ -236,7 +235,7 @@ public class App extends Application {
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
       DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
       DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
-      DRData.instans.grunddata.da_parseFællesGrunddata(grunddata);
+      DRData.instans.grunddata.parseFællesGrunddata(grunddata);
       new Thread() {
         @Override
         public void run() {
@@ -399,7 +398,29 @@ public class App extends Application {
         App.forgrundstråd.postDelayed(this, forsinkelse); // prøv igen om 15 sekunder og se om alle data er klar der
         forsinkelse = 15*forsinkelse/10;
       }
+/*
+      if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) {
+        if (DRData.instans.grunddata.android_json.optBoolean("P4stedplacering", false)) {
+          færdig = false;
+          startP4stedplacering();
+        } else {
+          prefs.edit().putString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, "defekt").commit();
+        }
+      }
 
+      // Forsøg at indlæse Drama&Bog og alle kanaler A-Å én gang ved opstart
+      // Der er givetvis en del der sjældent bruger disse funktioner,
+      // og hvis telefonen tror den er online men man ikke kan få forbindelse,
+      // kan der komme rigtig mange store anomdninger i kø
+      //  - det gøres kun én gang, hvilket skulle dække de fleste scenarier
+      // TODO den rigtige løsning burde være at svarene for Drama&Bog og A-Å bliver hængende i cachen, tjekket her burde være om de er i cachen eller ej
+      if (færdig && !prefs.getBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, false)) {
+        prefs.edit().putBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, true);
+        færdig = false;
+        DRData.instans.dramaOgBog.startHentData();
+        DRData.instans.programserierAtilÅ.startHentData();
+      }
+      */
       if (færdig) {
         netværk.observatører.remove(this); // Hold ikke mere øje med om vi kommer online
         onlineinitialisering = null;
@@ -430,7 +451,7 @@ public class App extends Application {
           DRData.instans.grunddata.kanaler.clear();
           DRData.instans.grunddata.p4koder.clear();
           DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
-          DRData.instans.grunddata.da_parseFællesGrunddata(nyeGrunddata);
+          DRData.instans.grunddata.parseFællesGrunddata(nyeGrunddata);
           String pn = App.instans.getPackageName();
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
@@ -485,7 +506,7 @@ public class App extends Application {
       if (antal>1) Log.d("sætErIGang: "+hvad+" har "+antal+" samtidige anmodninger");
       else if (antal<0) Log.e(new IllegalStateException("erIGang manglede " + hvad));
       else if (netværkErIGang) Log.d("sætErIGang: "+hvad);
-      if (!netværkErIGang && hvad.trim().length()==0) Log.e(new IllegalStateException("hvad er tom"));
+      if (!netværkErIGang && hvad.trim().length()==0) Log.e(new IllegalStateException("hvad EOer tom")); // DA ŝanĝo
     }
     erIGang += netværkErIGang ? 1 : -1;
     boolean nu = erIGang > 0;

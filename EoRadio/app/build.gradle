@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
     buildToolsVersion '22.0.1'
-
     defaultConfig {
         applicationId "dk.nordfalk.esperanto.radio"
         minSdkVersion 7
@@ -11,7 +10,6 @@ android {
         versionCode 3
         versionName '4a de aprilo - lingvaĵo'
     }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -20,6 +18,20 @@ android {
         }
         debug {
             applicationIdSuffix 'beta'
+        }
+    }
+    productFlavors {
+        esperanto {
+            applicationId "dk.nordfalk.esperanto.radio.x"
+            minSdkVersion 8
+            targetSdkVersion 21
+            versionCode 3
+            versionName 'provo'
+        }
+    }
+
+    sourceSets{
+        esperanto {
         }
     }
 }

@@ -10,7 +10,7 @@
     <string name="Dine_favoritprogrammer">"Viaj preferataj programoj"</string>
     <string name="Downloadede_udsendelser">"Elŝutitaj elsendoj"</string>
     <string name="Søg_efter_program">"Serĉi programon"</string>
-    <string name="Senest_lyttede">"Ĵus aŭskultis"</string>
+    <string name="Senest_lyttede">"Lastatempe aŭskultis"</string>
     <string name="Om_D_R_Radio">"Pri Esperanto-radio Muzaiko"</string>
     <string name="Om_DR_Radio">"Pri Esperanto-radio Muzaiko"</string>
     <string name="Skriv_meddelelse_til_DR">"Skribu mesaĝon al la kreinto"</string>
@@ -117,6 +117,9 @@
     <string name="Forbinder">"Konektas"</string>
     <string name="Angiv_vækning">Indiki vekiĝon</string>
     <string name="Indlæser_vent_venligst___">Ŝarĝas, bonvolu atendi...</string>
+    <string name="SENEST_SPILLET">ĴUS LUDIS</string>
+    <string name="LIGE_NU">NUN</string>
+    <string name="Dine_favoritter">Viaj preferataj programoj</string>
 
     <string-array name="lydformat_tekst">
         <item>AAC (HLS)</item>

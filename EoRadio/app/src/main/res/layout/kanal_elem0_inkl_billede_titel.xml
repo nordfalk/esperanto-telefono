@@ -75,7 +75,7 @@
         android:id="@+id/lige_nu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LIGE NU"
+        android:text="@string/LIGE_NU"
         android:textSize="16sp"
         android:textColor="@color/blå"
         android:gravity="center_vertical|center_horizontal"

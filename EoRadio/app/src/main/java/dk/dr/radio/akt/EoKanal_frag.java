@@ -160,7 +160,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     super.onDestroyView();
     DRData.instans.afspiller.observatører.remove(this);
     App.netværk.observatører.remove(this);
-    listView.setAdapter(null); // Fix hukommelseslæk
+    if (listView!=null) listView.setAdapter(null); // Fix hukommelseslæk
     rod = null; listView = null; aktuelUdsendelseViewholder = null;
   }
 
@@ -190,13 +190,14 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     super.onPause();
     App.forgrundstråd.removeCallbacks(this);
     if (senesteSynligeFragment == this) senesteSynligeFragment = null;
-    if (App.fejlsøgning) Log.d("onPause() "+this);
+    if (App.fejlsøgning) Log.d("onPause() " + this);
   }
 
   @Override
   public void run() {
     if (App.fejlsøgning) Log.d("run() synlig=" + getUserVisibleHint()+" "+this);
     App.forgrundstråd.removeCallbacks(this);
+    if (getActivity()==null) return; // Fragment ikke mere synligt
     App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
 
     boolean spillerDenneKanal = DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && DRData.instans.afspiller.getLydkilde() == kanal;
@@ -260,7 +261,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         listView.setSelectionFromTop(aktuelUdsendelseIndex<0?kanal.udsendelser.size()-1 : aktuelUdsendelseIndex , topmargen);
       }
     } catch (Exception e1) {
-      Log.rapporterFejl(e1);
+      Log.rapporterFejl(e1, "kanal="+kanal+" med udsendelser "+kanal.udsendelser);
     }
   }
 

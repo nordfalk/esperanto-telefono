@@ -49,7 +49,7 @@
             android:id="@+id/senest_spillet_overskrift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SENEST SPILLET"
+            android:text="@string/SENEST_SPILLET"
             android:textColor="@color/grå10"
             tools:ignore="HardcodedText"
             />

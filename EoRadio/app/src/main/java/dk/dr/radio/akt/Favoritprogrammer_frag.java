@@ -56,7 +56,7 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
     );
     listView.setCacheColorHint(Color.WHITE);
 
-    aq.id(R.id.overskrift).typeface(App.skrift_gibson_fed).text("Dine favoritter").getTextView();
+    aq.id(R.id.overskrift).typeface(App.skrift_gibson_fed).text(getString(R.string.Dine_favoritter)).getTextView();
 
     favoritter.observatører.add(this);
     run();

@@ -81,7 +81,7 @@ public class Sidevisning {
   public static void vist(Class fk, String slug) {
     String side = m.get(fk);
     if (side==null) {
-      Log.rapporterFejl(new IllegalArgumentException("Klasse mangler navn til sidevisning: "+fk));
+      if (App.ÆGTE_DR) Log.rapporterFejl(new IllegalArgumentException("Klasse mangler navn til sidevisning: "+fk));
       side = fk.getSimpleName();
       m.put(fk, side);
     }

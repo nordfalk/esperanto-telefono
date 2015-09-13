@@ -25,7 +25,7 @@ import dk.dr.radio.net.volley.DrVolleyStringRequest;
 public class Favoritter {
   private static final String PREF_NØGLE = "favorit til startdato";
   private HashMap<String, String> favoritTilStartdato;
-  private HashMap<String, Integer> favoritTilAntalDagsdato = new HashMap<String, Integer>();
+  HashMap<String, Integer> favoritTilAntalDagsdato = new HashMap<String, Integer>();
   private int antalNyeUdsendelser = -1;
   public List<Runnable> observatører = new ArrayList<Runnable>();
   private SharedPreferences prefs;
@@ -101,28 +101,32 @@ public class Favoritter {
       Log.d("Favoritter: Opdaterer favoritTilStartdato=" + favoritTilStartdato + "  favoritTilAntalDagsdato=" + favoritTilAntalDagsdato);
       for (final String programserieSlug : favoritTilStartdato.keySet()) {
         String dato = favoritTilStartdato.get(programserieSlug);
-        String url = DRData.getNyeProgrammerSiden(programserieSlug,dato);
-        Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
-          @Override
-          public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
-            if (!uændret && json != null && !"null".equals(json)) {
-              JSONObject data = new JSONObject(json);
-              favoritTilAntalDagsdato.put(programserieSlug, data.getInt("TotalPrograms"));
-            }
-            //Log.d("favoritter fikSvar(" + fraCache + " " + url + " " + json + " så nu er favoritTilAntalDagsdato=" + favoritTilAntalDagsdato);
-            App.forgrundstråd.postDelayed(beregnAntalNyeUdsendelser, 500); // Vent 1/2 sekund på eventuelt andre svar
-          }
-        }) {
-          public Priority getPriority() {
-            return Priority.LOW;
-          }
-        };
-        App.volleyRequestQueue.add(req);
+        startOpdaterAntalNyeUdsendelserForProgramserie(programserieSlug, dato);
       }
     }
   };
 
-  private Runnable beregnAntalNyeUdsendelser = new Runnable() {
+  void startOpdaterAntalNyeUdsendelserForProgramserie(final String programserieSlug, String dato) {
+    String url = DRData.getNyeProgrammerSiden(programserieSlug, dato);
+    Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
+      @Override
+      public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
+        if (!uændret && json != null && !"null".equals(json)) {
+          JSONObject data = new JSONObject(json);
+          favoritTilAntalDagsdato.put(programserieSlug, data.getInt("TotalPrograms"));
+        }
+        //Log.d("favoritter fikSvar(" + fraCache + " " + url + " " + json + " så nu er favoritTilAntalDagsdato=" + favoritTilAntalDagsdato);
+        App.forgrundstråd.postDelayed(beregnAntalNyeUdsendelser, 500); // Vent 1/2 sekund på eventuelt andre svar
+      }
+    }) {
+      public Priority getPriority() {
+        return Priority.LOW;
+      }
+    };
+    App.volleyRequestQueue.add(req);
+  }
+
+  Runnable beregnAntalNyeUdsendelser = new Runnable() {
     @Override
     public void run() {
       App.forgrundstråd.removeCallbacks(this);

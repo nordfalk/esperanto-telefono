@@ -61,7 +61,7 @@ public class DRData {
 
   public Rapportering rapportering = new Rapportering();
   public SenestLyttede senestLyttede = new SenestLyttede();
-  public Favoritter favoritter = new Favoritter();
+  public Favoritter favoritter = new EoFavoritter();
   public HentedeUdsendelser hentedeUdsendelser = new HentedeUdsendelser();  // Understøttes ikke på Android 2.2
   public ProgramserierAtilAA programserierAtilÅ = new ProgramserierAtilAA();
   public DramaOgBog dramaOgBog = new DramaOgBog();

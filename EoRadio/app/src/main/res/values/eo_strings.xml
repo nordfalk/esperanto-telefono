@@ -41,9 +41,9 @@
     <string name="Manglende_netværksforbindelse___">"&lt;b&gt;Mankas retkonekto&lt;/b&gt;\nAtendas restarigon de interreto"</string>
     <string name="Internetforbindelse_mangler">"Retkonekto mankas"</string>
 
-    <string name="Spil_når_app_en_åbnes">"Tuj ludi kiam la app malfermiĝas"</string>
-    <string name="Start_afspilning_automatisk_når_appen_åbnes">"Komenci ludi aŭtomate kiam la app malfermiĝas"</string>
-    <string name="Afspilning_starter_automatisk_når_appen_åbnes">"Luidas aŭtomate kiam la app malfermigxas"</string>
+    <string name="Spil_når_app_en_åbnes">"Tuj ludi kiam la apo malfermiĝas"</string>
+    <string name="Start_afspilning_automatisk_når_appen_åbnes">"Komenci ludi aŭtomate kiam la apo malfermiĝas"</string>
+    <string name="Afspilning_starter_automatisk_når_appen_åbnes">"Ludas aŭtomate kiam la apo malfermigxas"</string>
     <string name="hentning_af_udsendelser_og_strømbesparende_funktioner_">"Elŝutado de elsendoj"</string>
     <string name="Hentede_udsendelser">"Elŝutitaj elsendoj"</string>
     <string name="Placering_af_hentede_udsendelser">"Loko de elŝutitaj elsendoj"</string>
@@ -84,6 +84,9 @@
     <string name="Tidligere">"Antaŭe"</string>
     <string name="Ingen_senest_lyttede">"Nenio lastatempe aŭskultita"</string>
     <string name="LYTTET_">"AŬSKULTIS "</string>
+    <!--
+    <string name="_kl_">%2$s"</string>
+    -->
     <string name="_kl_">"%1$s je la %2$s"</string>
     <string name="Søgningen_gav_intet_resultat">"Neniu rezulto trovita"</string>
     <string name="AFSPILLER">"LUDAS"</string>

@@ -37,7 +37,7 @@
       />
 
 
-  <FrameLayout
+  <LinearLayout
       android:layout_marginLeft="16dp"
       android:layout_marginRight="16dp"
       android:id="@+id/senest_spillet_container"
@@ -48,9 +48,12 @@
 
       <TextView
           android:id="@+id/titel_og_kunstner"
-          android:layout_width="match_parent"
+          android:layout_width="0dp"
+          android:layout_weight="1"
           android:layout_height="wrap_content"
           android:text="Feel Again One | Republic"
+          android:layout_marginBottom="32dp"
+          android:textSize="18sp"
           tools:ignore="HardcodedText"/>
 
 
@@ -64,7 +67,7 @@
           android:background="@drawable/knap_blaa_bg"
           />
 
-  </FrameLayout>
+  </LinearLayout>
 
 
 </LinearLayout>

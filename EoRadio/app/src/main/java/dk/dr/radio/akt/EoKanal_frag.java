@@ -4,16 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -80,6 +79,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       afbrydManglerData();
       return rod;
     }
+
+    DRData.instans.senestLyttede.getListe();
 
     AQuery aq = new AQuery(rod);
     listView = aq.id(R.id.listView).adapter(adapter).itemClicked(this).getListView();
@@ -272,7 +273,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   private static class Viewholder {
     public AQuery aq;
     public TextView titel;
-    public TextView startid;
+    public TextView starttid;
     public Udsendelse udsendelse;
     public int itemViewType;
   }
@@ -337,13 +338,13 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       if (v == null) {
         v = getLayoutInflater(null).inflate(
             type == AKTUEL ? R.layout.kanal_elem0_aktuel_udsendelse_eo :  // Visning af den aktuelle udsendelse
-                type == NORMAL ? R.layout.kanal_elem1_udsendelse :  // De andre udsendelser
+                type == NORMAL ? R.layout.kanal_elem1_udsendelse_eo :  // De andre udsendelser
                     type == DAGSOVERSKRIFT ? R.layout.kanal_elem3_i_dag_i_morgen  // Dagens overskrift
                         : R.layout.kanal_elem2_tidligere_senere, parent, false);
         vh = new Viewholder();
         vh.itemViewType = type;
         a = vh.aq = new AQuery(v);
-        vh.startid = a.id(R.id.starttid).typeface(App.skrift_gibson).getTextView();
+        vh.starttid = a.id(R.id.starttid).typeface(App.skrift_gibson).getTextView();
         //a.id(R.id.højttalerikon).clicked(new UdsendelseClickListener(vh));
         a.id(R.id.slutttid).typeface(App.skrift_gibson);
         if (type == TIDLIGERE_SENERE) {
@@ -360,10 +361,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           a.id(R.id.billede).width(bbr,false).height(bbr*højde9/bredde16,false);
           a.id(R.id.billedecontainer).width(bbr, false).height(bbr * højde9 / bredde16, false);
         } else { // type == NORMAL
-          vh.titel = a.id(R.id.titel_og_kunstner).typeface(App.skrift_gibson_fed).getTextView();
-          vh.titel.setMaxLines(3);
-          vh.startid.setMaxLines(4);
-          vh.startid.setTextColor(Color.BLACK);
+          vh.starttid.setMaxLines(4);
+          vh.starttid.setTextColor(Color.BLACK);
         }
         v.setTag(vh);
       } else {
@@ -387,24 +386,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       switch (type) {
         case AKTUEL:
           aktuelUdsendelseViewholder = vh;
-          vh.startid.setText(udsendelse.startTidKl);
+          vh.starttid.setText(udsendelse.startTidKl);
           a.id(R.id.slutttid).text(udsendelse.slutTidKl);
-/*
-          vh.titel.setText(udsendelse.titel);
-          if (kanal.eo_elsendojRssIgnoruTitolon) {
-            String bes = Diverse.unescapeHtml3(udsendelse.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
-            else if (bes.length()>0) udsendelse.titel = udsendelse.titel + " - " + bes;
-            if (udsendelse.titel.length()>200) udsendelse.titel = udsendelse.titel.substring(0, 200);
-            udsendelse.titel = bes;
-          } else {
-          }
-scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/app-debug.apk j:javabog.dk/privat/EoRadio.apk &
-          vh.titel.setText(udsendelse.titel.toUpperCase());
-*/
-
-
-          String burl = Basisfragment.skalérBillede(udsendelse);
-          a.id(R.id.billede).image(burl, true, true, 0, 0, null, AQuery.FADE_IN, (float) højde9 / bredde16);
 
           if (udsendelse.rektaElsendaPriskriboUrl!=null && rektaElsendaPriskribo==null) {
             opdaterSenestSpillet(vh.aq, udsendelse);
@@ -419,18 +402,15 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
 
           Spannable spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ Html.fromHtml(udsendelse.beskrivelse));
           int klPos = udsendelse.startTidKl.length();
-          spannable.setSpan(new ForegroundColorSpan(R.color.grå20), 0, klPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+          spannable.setSpan(new ForegroundColorSpan(App.color.grå40), 0, klPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
           spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), klPos+2, klPos+2+udsendelse.titel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-          vh.startid.setText(spannable);
-          vh.titel.setVisibility(View.GONE);//udsendelse.titel);
-          // Stiplet linje skal vises mellem udsendelser - men ikke over aktuel udsendelse
-          // og heller ikke hvis det er en overskrift der er nedenunder
+          vh.starttid.setText(spannable);
+          vh.starttid.setTextColor(DRData.instans.senestLyttede.getStartposition(udsendelse) == 0 ? Color.BLACK : App.color.grå60);
           a.id(R.id.stiplet_linje);
           if (position == aktuelUdsendelseIndex + 1) a.visibility(View.INVISIBLE);
           else if (position > 0 && liste.get(position - 1) instanceof String) a.visibility(View.INVISIBLE);
           else a.visibility(View.VISIBLE);
-          vh.titel.setTextColor(udsendelse.kanHøres ? Color.BLACK : App.color.grå60);
           break;
         case TIDLIGERE_SENERE:
           vh.titel.setText(udsendelse.titel);
@@ -447,6 +427,7 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
     if (rektaElsendaPriskribo != null) {
       aq.id(R.id.senest_spillet_container).visible();
       aq.id(R.id.titel_og_kunstner).text(Html.fromHtml(rektaElsendaPriskribo));
+      aq.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
       aq.id(R.id.senest_spillet_kunstnerbillede).gone();
     } else {
       aq.id(R.id.senest_spillet_container).gone();
@@ -492,10 +473,11 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
   @Override
   public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
     Object o = liste.get(position);
+    Log.d("MONTRAS OBJEKTON "+o);
     // PinnedSectionListView tillader klik på hængende overskrifter, selvom adapteren siger at det skal den ikke
     if (!(o instanceof Udsendelse)) return;
     Udsendelse u = (Udsendelse) o;
-    Log.d("MONTRAS ELSENDON "+u.slug + "  "+ u.getStreamsUrl());
+    Log.d("MONTRAS ELSENDON "+u.slug);
     //startActivity(new Intent(getActivity(), VisFragment_akt.class)
     //    .putExtra(P_kode, getKanal.kode)
     //    .putExtra(VisFragment_akt.KLASSE, Udsendelse_frag.class.getName()).putExtra(DRJson.Slug.name(), u.slug)); // Udsenselses-ID

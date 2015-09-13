@@ -82,7 +82,7 @@ public class Grunddata {
     json = new JSONObject(ĉefdatumojJson);
 
     // Erstat med evt ny værdi
-    radioTxtUrl = json.optString("elsendojUrl", radioTxtUrl);
+    //radioTxtUrl = json.optString("elsendojUrl", radioTxtUrl);
 
     JSONArray kanalojJs = json.getJSONArray("kanaloj");
     int antal = kanalojJs.length();
@@ -134,23 +134,10 @@ public class Grunddata {
 
 
   static void eoElsendoAlDaUdsendelse(Udsendelse e, Kanal k) {
-    e.kanalSlug = k.slug;
+    e.programserieSlug = e.kanalSlug = k.slug;
     if (e.slug==null) e.slug = e.kanalSlug + ":" + e.startTidKl;
     DRData.instans.udsendelseFraSlug.put(e.slug, e);
 
-    if (e.programserieSlug==null) {
-      e.programserieSlug = e.kanalSlug;
-      Programserie ps = DRData.instans.programserieFraSlug.get(e.programserieSlug);
-      if (ps==null) {
-        ps = new Programserie();
-        ps.billedeUrl = k.eo_emblemoUrl;
-        ps.beskrivelse = k.getNavn();
-        DRData.instans.programserieFraSlug.put(e.programserieSlug, ps);
-      }
-      //ps.tilføjUdsendelser(0, k.udsendelser);
-      ps.tilføjUdsendelser(0, k.udsendelser);
-      ps.antalUdsendelser = k.udsendelser.size();
-    }
     e.kanHentes = e.kanHøres = true;
     e.streams = new ArrayList<Lydstream>();
     e.slutTid = e.startTid;
@@ -223,9 +210,27 @@ public class Grunddata {
       }
     }
 
-    for (Kanal k : kanaler) Collections.reverse(k.udsendelser);
+    for (Kanal k : kanaler) {
+      Collections.reverse(k.udsendelser);
+      opdaterProgramserieFraKanal(k);
+    }
   }
 
+  static void opdaterProgramserieFraKanal(Kanal k) {
+    Programserie ps = DRData.instans.programserieFraSlug.get(k.slug);
+    if (ps==null) {
+      ps = new Programserie();
+      ps.billedeUrl = k.eo_emblemoUrl;
+      ps.beskrivelse = k.getNavn();
+      ps.slug = k.slug;
+      ps.titel = k.getNavn();
+      DRData.instans.programserieFraSlug.put(k.slug, ps);
+    } else {
+      ps.getUdsendelser().clear();
+    }
+    ps.tilføjUdsendelser(0, k.udsendelser);
+    ps.antalUdsendelser = k.udsendelser.size();
+  }
 
 
   /**

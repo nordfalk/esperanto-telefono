@@ -118,7 +118,8 @@ public class EoRssParsado {
           Udsendelse u2 = u.kopi();
           u2.sonoUrl = new ArrayList<>();
           u2.sonoUrl.add(u.sonoUrl.get(n));
-          u2.titel = u2.titel + " parto (" + (n + 1) + " el " + u.sonoUrl.size() + ") ";
+          //u2.titel = u2.titel + " parto (" + (n + 1) + " el " + u.sonoUrl.size() + ") ";
+          u2.titel = u2.titel + ", " + (n + 1) + "a parto";
           u2.slug += "/" + (n + 1);
           Log.d("XXXXXX kopi " + u2.toString() + " de " + u);
           liste2.add(u2);
@@ -230,6 +231,7 @@ public class EoRssParsado {
     } catch (Exception ex) {
       Log.e("Eraro parsante " + k.kode, ex);
     }
+    Grunddata.opdaterProgramserieFraKanal(k);
   }
 
 }

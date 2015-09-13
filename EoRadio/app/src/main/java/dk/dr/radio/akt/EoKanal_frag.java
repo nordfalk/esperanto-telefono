@@ -336,7 +336,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       int type = getItemViewType(position);
       if (v == null) {
         v = getLayoutInflater(null).inflate(
-            type == AKTUEL ? R.layout.kanal_elem0_aktuel_udsendelse :  // Visning af den aktuelle udsendelse
+            type == AKTUEL ? R.layout.kanal_elem0_aktuel_udsendelse_eo :  // Visning af den aktuelle udsendelse
                 type == NORMAL ? R.layout.kanal_elem1_udsendelse :  // De andre udsendelser
                     type == DAGSOVERSKRIFT ? R.layout.kanal_elem3_i_dag_i_morgen  // Dagens overskrift
                         : R.layout.kanal_elem2_tidligere_senere, parent, false);
@@ -389,8 +389,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           aktuelUdsendelseViewholder = vh;
           vh.startid.setText(udsendelse.startTidKl);
           a.id(R.id.slutttid).text(udsendelse.slutTidKl);
-          vh.titel.setText(udsendelse.titel);
 /*
+          vh.titel.setText(udsendelse.titel);
           if (kanal.eo_elsendojRssIgnoruTitolon) {
             String bes = Diverse.unescapeHtml3(udsendelse.beskrivelse.replaceAll("\\<.*?\\>", "").replace('\n', ' ').trim());
             else if (bes.length()>0) udsendelse.titel = udsendelse.titel + " - " + bes;
@@ -399,12 +399,12 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           } else {
           }
 scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/app-debug.apk j:javabog.dk/privat/EoRadio.apk &
+          vh.titel.setText(udsendelse.titel.toUpperCase());
 */
 
 
           String burl = Basisfragment.skalérBillede(udsendelse);
           a.id(R.id.billede).image(burl, true, true, 0, 0, null, AQuery.FADE_IN, (float) højde9 / bredde16);
-          vh.titel.setText(udsendelse.titel.toUpperCase());
 
           if (udsendelse.rektaElsendaPriskriboUrl!=null && rektaElsendaPriskribo==null) {
             opdaterSenestSpillet(vh.aq, udsendelse);
@@ -446,7 +446,7 @@ scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/build/outputs/apk/a
   private void opdaterSenestSpilletViews(AQuery aq, Udsendelse u) {
     if (rektaElsendaPriskribo != null) {
       aq.id(R.id.senest_spillet_container).visible();
-      aq.id(R.id.titel_og_kunstner).text(rektaElsendaPriskribo);
+      aq.id(R.id.titel_og_kunstner).text(Html.fromHtml(rektaElsendaPriskribo));
       aq.id(R.id.senest_spillet_kunstnerbillede).gone();
     } else {
       aq.id(R.id.senest_spillet_container).gone();

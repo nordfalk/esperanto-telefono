@@ -216,6 +216,10 @@ Jeg bruger selv følgende macro'er i C til generering af URIs:
   }
 
   public static String skalérBillede(Udsendelse u, int bredde, int højde) {
+    if (!App.ÆGTE_DR) {
+      if (u.billedeUrl != null) return u.billedeUrl;
+      return u.getKanal().eo_emblemoUrl;
+    }
 //    u.billedeUrl = null;
     return u.billedeUrl==null
         ? skalérBilledeFraSlug(u.slug, bredde, højde)

@@ -265,14 +265,14 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
   @Override
   protected Dialog onCreateDialog(final int id) {
     AlertDialog.Builder ab = new AlertDialog.Builder(this);
-    ab.setMessage("Stop afspilningen?");
-    ab.setPositiveButton("Stop", new AlertDialog.OnClickListener() {
+    ab.setMessage(R.string.Stop_afspilningen_);
+    ab.setPositiveButton(R.string.Stop_afspilning, new AlertDialog.OnClickListener() {
       public void onClick(DialogInterface arg0, int arg1) {
         DRData.instans.afspiller.stopAfspilning();
         Hovedaktivitet.super.finish();
       }
     });
-    ab.setNeutralButton("Fortsæt i\nbaggrunden", new AlertDialog.OnClickListener() {
+    ab.setNeutralButton(R.string.Fortsæt_i_baggrunden, new AlertDialog.OnClickListener() {
       public void onClick(DialogInterface arg0, int arg1) {
         Hovedaktivitet.super.finish();
       }

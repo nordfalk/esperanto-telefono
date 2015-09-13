@@ -35,8 +35,8 @@
     <string name="OK">"BONE"</string>
     <string name="pause">"paŭzi"</string>
     <string name="DR_kan_ikke_garantere_mod_tekniske_problemer__vækning">"Ni ne povas garantii kontraŭ teknikaj problemoj je vekigo"</string>
-    <string name="Kan_endnu_ikke_afspilles">"Ankoraŭ\nne ludebla"</string>
-    <string name="hør_udsendelse">"Aŭskilti elsendon"</string>
+    <string name="Kan_endnu_ikke_afspilles">"Ankoraŭ \nne ludebla"</string>
+    <string name="hør_udsendelse">"Aŭskulti elsendon"</string>
     <string name="Kunne_ikke_oprette_forbindelse_til_DR">"Ne eblis konekti al la servilo"</string>
     <string name="Manglende_netværksforbindelse___">"&lt;b&gt;Mankas retkonekto&lt;/b&gt;\nAtendas restarigon de interreto"</string>
     <string name="Internetforbindelse_mangler">"Retkonekto mankas"</string>
@@ -117,9 +117,11 @@
     <string name="Forbinder">"Konektas"</string>
     <string name="Angiv_vækning">Indiki vekiĝon</string>
     <string name="Indlæser_vent_venligst___">Ŝarĝas, bonvolu atendi...</string>
-    <string name="SENEST_SPILLET">ĴUS LUDIS</string>
+    <string name="SENEST_SPILLET">Nun estas ludata…</string>
     <string name="LIGE_NU">NUN</string>
     <string name="Dine_favoritter">Viaj preferataj programoj</string>
+    <string name="Stop_afspilningen_">Stop afspilningen?</string>
+    <string name="Fortsæt_i_baggrunden">Fortsæt i\nbaggrunden</string>
 
     <string-array name="lydformat_tekst">
         <item>AAC (HLS)</item>

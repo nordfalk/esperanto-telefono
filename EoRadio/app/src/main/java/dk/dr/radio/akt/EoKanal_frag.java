@@ -1,6 +1,5 @@
 package dk.dr.radio.akt;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -35,6 +34,7 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.EoRssParsado;
 import dk.dr.radio.data.Kanal;
+import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -337,7 +337,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       int type = getItemViewType(position);
       if (v == null) {
         v = getLayoutInflater(null).inflate(
-            type == AKTUEL ? R.layout.kanal_elem0_aktuel_udsendelse_eo :  // Visning af den aktuelle udsendelse
+            type == AKTUEL ? R.layout.kanal_elem1_udsendelse_eo :  // Visning af den aktuelle udsendelse
                 type == NORMAL ? R.layout.kanal_elem1_udsendelse_eo :  // De andre udsendelser
                     type == DAGSOVERSKRIFT ? R.layout.kanal_elem3_i_dag_i_morgen  // Dagens overskrift
                         : R.layout.kanal_elem2_tidligere_senere, parent, false);
@@ -351,18 +351,10 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           vh.titel = a.id(R.id.titel).typeface(App.skrift_gibson_fed).getTextView();
         } else if (type == DAGSOVERSKRIFT) {
           vh.titel = a.id(R.id.titel).typeface(App.skrift_gibson).getTextView();
-        } else if (type == AKTUEL) {
-          vh.titel = a.id(R.id.titel).typeface(App.skrift_gibson_fed).getTextView();
-          a.id(R.id.senest_spillet_overskrift).typeface(App.skrift_gibson);
-          a.id(R.id.titel_og_kunstner).typeface(App.skrift_gibson);
-          a.id(R.id.lige_nu).typeface(App.skrift_gibson);
-          a.id(R.id.senest_spillet_container).invisible(); // Start uden 'senest spillet, indtil vi har info
-          int bbr = billedeBr - getResources().getDimensionPixelSize(R.dimen.kanalmargen)*2;
-          a.id(R.id.billede).width(bbr,false).height(bbr*højde9/bredde16,false);
-          a.id(R.id.billedecontainer).width(bbr, false).height(bbr * højde9 / bredde16, false);
-        } else { // type == NORMAL
+        } else { // type == NORMAL / AKTUEL
           vh.starttid.setMaxLines(4);
           vh.starttid.setTextColor(Color.BLACK);
+          a.id(R.id.hør).tag(vh).clicked(EoKanal_frag.this);
         }
         v.setTag(vh);
       } else {
@@ -386,6 +378,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       switch (type) {
         case AKTUEL:
           aktuelUdsendelseViewholder = vh;
+          udsendelse.beskrivelse = rektaElsendaPriskribo;
           vh.starttid.setText(udsendelse.startTidKl);
           a.id(R.id.slutttid).text(udsendelse.slutTidKl);
 
@@ -423,14 +416,16 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
 
 
   String rektaElsendaPriskribo = null;
-  private void opdaterSenestSpilletViews(AQuery aq, Udsendelse u) {
+  private void opdaterSenestSpilletViews(AQuery a, Udsendelse udsendelse) {
+    Viewholder vh = aktuelUdsendelseViewholder;
+
     if (rektaElsendaPriskribo != null) {
-      aq.id(R.id.senest_spillet_container).visible();
-      aq.id(R.id.titel_og_kunstner).text(Html.fromHtml(rektaElsendaPriskribo));
-      aq.getTextView().setMovementMethod(LinkMovementMethod.getInstance());
-      aq.id(R.id.senest_spillet_kunstnerbillede).gone();
+      udsendelse.titel = rektaElsendaPriskribo;
+      vh.starttid.setMovementMethod(LinkMovementMethod.getInstance());
+
+      vh.starttid.setText(Html.fromHtml("<b>REKTA<br>" + rektaElsendaPriskribo));
     } else {
-      aq.id(R.id.senest_spillet_container).gone();
+      vh.starttid.setText(Html.fromHtml("REKTA<br>(ŝarĝas elsendon, bv atendu)<br><br>"));
     }
   }
 
@@ -456,18 +451,12 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
 
   @Override
   public void onClick(View v) {
-    if (!kanal.harStreams()) {
-      Log.rapporterOgvisFejl(getActivity(), new IllegalStateException("kanal.streams er null"));
-    } else {
-      // hør_udvidet_klikområde eller hør
-      hør(kanal, getActivity());
-      Log.registrérTestet("Afspilning af direkte udsendelse", kanal.kode);
-    }
-  }
-
-  public static void hør(final Kanal kanal, Activity akt) {
-    DRData.instans.afspiller.setLydkilde(kanal);
+    Viewholder vh = (Viewholder) v.getTag();
+    Lydkilde udsendelse = vh.udsendelse;
+    DRData.instans.afspiller.setLydkilde(udsendelse);
     DRData.instans.afspiller.startAfspilning();
+    vh.starttid.setTextColor(App.color.grå60);
+    DRData.instans.senestLyttede.registrérLytning(udsendelse);
   }
 
   @Override

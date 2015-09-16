@@ -56,9 +56,9 @@ public class Soeg_efter_program_frag extends Basisfragment implements
   private static class SoegElement {
     public Programserie programserie;
     public Udsendelse udsendelse; // EO ŝanĝo
+    public String slug; // EO ŝanĝo
     public String titel;
     public String beskrivelse;
-    public String slug; // EO ŝanĝo
   }
 
   private ArrayList<SoegElement> søgelistecache;

@@ -125,6 +125,13 @@
     <string name="Dine_favoritter">Viaj preferataj programoj</string>
     <string name="Stop_afspilningen_">Stop afspilningen?</string>
     <string name="Fortsæt_i_baggrunden">Fortsæt i\nbaggrunden</string>
+    <string name="Brugergrænseflade">Interfaco</string>
+    <string name="Avanceret">Por progresantoj</string>
+
+    <string name="GRUNDDATA_URL_PRODUKTION">http://javabog.dk/privat/esperantoradio_kanaloj_v8.json</string>
+    <string name="GRUNDDATA_URL_UDVIKLING">http://javabog.dk/privat/esperantoradio_kanaloj_v8.json</string>
+    <string name="HENTEDE_UDS_MAPPENAVN">EsperantoRadio</string>
+    <string name="URL_TIL_DR_RADIO_BETAVERSION">http://javabog.dk/privat/EoRadio.apk</string>
 
     <string-array name="lydformat_tekst">
         <item>AAC (HLS)</item>

@@ -10,7 +10,7 @@
               android:summaryOff="Filtrér ikke Akamai for døde servere"
               />
   -->
-  <PreferenceCategory android:title="Brugergrænseflade">
+  <PreferenceCategory android:title="@string/Brugergrænseflade">
     <CheckBoxPreference
         android:key="startAfspilningMedDetSammme"
         android:title="@string/Spil_når_app_en_åbnes"
@@ -54,7 +54,7 @@
         />
 
 
-    <PreferenceScreen android:title="Avanceret"
+    <PreferenceScreen android:title="@string/Avanceret"
                       android:summary="@string/hentning_af_udsendelser_og_strømbesparende_funktioner_">
 
 

@@ -125,7 +125,7 @@ public class HentedeUdsendelser {
       File dir;
       if (brugervalg != null && new File(brugervalg).exists()) dir = new File(brugervalg);
       else dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
-      dir = new File(dir, "EsperantoRadio");
+      dir = new File(dir, App.instans.getString(R.string.HENTEDE_UDS_MAPPENAVN));
       dir.mkdirs();
       if (!dir.exists()) throw new IOException("kunne ikke oprette " + dir);
 

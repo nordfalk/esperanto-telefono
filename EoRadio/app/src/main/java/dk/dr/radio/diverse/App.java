@@ -305,7 +305,7 @@ public class App extends Application {
       skrift_gibson_fed = Typeface.createFromAsset(getAssets(), "Gibson-SemiBold.otf");
       skrift_georgia = Typeface.createFromAsset(getAssets(), "Georgia.ttf");
     } catch (Exception e) {
-      Log.e("DRs skrifttyper er ikke tilgængelige", e);
+      if (ÆGTE_DR) Log.e("DRs skrifttyper er ikke tilgængelige", e);
       skrift_gibson = Typeface.DEFAULT;
       skrift_gibson_fed = Typeface.DEFAULT_BOLD;
       skrift_georgia = Typeface.SERIF;
@@ -401,8 +401,8 @@ public class App extends Application {
         App.forgrundstråd.postDelayed(this, forsinkelse); // prøv igen om 15 sekunder og se om alle data er klar der
         forsinkelse = 15*forsinkelse/10;
       }
-/*
-      if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) {
+
+      if (ÆGTE_DR && prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) {
         if (DRData.instans.grunddata.android_json.optBoolean("P4stedplacering", false)) {
           færdig = false;
           startP4stedplacering();
@@ -417,13 +417,12 @@ public class App extends Application {
       // kan der komme rigtig mange store anomdninger i kø
       //  - det gøres kun én gang, hvilket skulle dække de fleste scenarier
       // TODO den rigtige løsning burde være at svarene for Drama&Bog og A-Å bliver hængende i cachen, tjekket her burde være om de er i cachen eller ej
-      if (færdig && !prefs.getBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, false)) {
+      if (ÆGTE_DR && færdig && !prefs.getBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, false)) {
         prefs.edit().putBoolean(DRAMA_OG_BOG__A_Å_INDLÆST, true);
         færdig = false;
         DRData.instans.dramaOgBog.startHentData();
         DRData.instans.programserierAtilÅ.startHentData();
       }
-      */
       if (færdig) {
         netværk.observatører.remove(this); // Hold ikke mere øje med om vi kommer online
         onlineinitialisering = null;
@@ -451,8 +450,8 @@ public class App extends Application {
           if (nyeGrunddata.equals(gamleGrunddata)) return; // Det samme som var i prefs
           Log.d("Vi fik nye grunddata: fraCache=" + fraCache + nyeGrunddata);
           if (!PRODUKTION || App.fejlsøgning) App.kortToast("Vi fik nye grunddata");
-          DRData.instans.grunddata.kanaler.clear();
-          DRData.instans.grunddata.p4koder.clear();
+          DRData.instans.grunddata.kanaler.clear(); // EO
+          DRData.instans.grunddata.p4koder.clear(); // EO
           DRData.instans.grunddata.eo_parseFællesGrunddata(nyeGrunddata);
           DRData.instans.grunddata.parseFællesGrunddata(nyeGrunddata);
           String pn = App.instans.getPackageName();

@@ -330,30 +330,6 @@ public class Grunddata {
   }
 
 
-  /**
-   * Henter grunddata (faste data)
-   * @throws java.io.IOException hvis der er et problem med netværk
-   *                             eller parsning (dvs interne fejl af forskellig art som bør rapporteres til udvikler)
-   */
-  public void parseFællesGrunddata(String str) throws JSONException {
-    json = new JSONObject(str);
-
-    try {
-      opdaterGrunddataEfterMs = json.getJSONObject("intervals").getInt("settings") * 1000;
-      opdaterPlaylisteEfterMs = json.getJSONObject("intervals").getInt("playlist") * 1000;
-    } catch (Exception e) {
-      Log.e(e);
-    } // Ikke kritisk
-
-    //da_parseKanaler(json.getJSONArray("channels"), false);
-    Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
-    android_json = json.getJSONObject("android");
-    tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
-    DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
-    DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
-    if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
-    //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
-  }
 
   private void fjernKanalMedFejl(Kanal k) {
     kanaler.remove(k);
@@ -393,6 +369,30 @@ public class Grunddata {
     }
   }
 
+  /**
+   * Henter grunddata (faste data)
+   * @throws java.io.IOException hvis der er et problem med netværk
+   *                             eller parsning (dvs interne fejl af forskellig art som bør rapporteres til udvikler)
+   */
+  public void parseFællesGrunddata(String str) throws JSONException {
+    json = new JSONObject(str);
+
+    try {
+      opdaterGrunddataEfterMs = json.getJSONObject("intervals").getInt("settings") * 1000;
+      opdaterPlaylisteEfterMs = json.getJSONObject("intervals").getInt("playlist") * 1000;
+    } catch (Exception e) {
+      Log.e(e);
+    } // Ikke kritisk
+
+    //da_parseKanaler(json.getJSONArray("channels"), false);
+    Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
+    android_json = json.getJSONObject("android");
+    tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
+    DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
+    DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
+    if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
+    //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
+  }
 
   /**
    * Sætter flaget udelukHLS, som slår HLS fra på Android-enheder, der ikke understøtter det

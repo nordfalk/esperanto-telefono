@@ -485,7 +485,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
           @Override
           public void run() {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://javabog.dk/privat/EoRadio.apk")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.URL_TIL_DR_RADIO_BETAVERSION))));
           }
         });
         aq.id(R.id.tekst).text("Hent nyeste udvikler-version.\nNuværende version:\n" + App.versionsnavn

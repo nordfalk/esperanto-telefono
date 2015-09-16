@@ -1,15 +1,11 @@
 package dk.dr.radio.data;
 
-import android.support.v4.app.Fragment;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import dk.dr.radio.akt.EoUdsendelse_frag;
-import dk.dr.radio.akt.Udsendelse_frag;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 

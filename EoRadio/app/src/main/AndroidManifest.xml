@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="dk.dr.radio.v3"
+          xmlns:tools="http://schemas.android.com/tools" package="dk.dr.radio.v3"
           android:installLocation="auto"
-    >
-
+          tools:ignore="UnusedAttribute">
 
 
   <!-- Nødvendigt til vækkeur -->
@@ -24,10 +22,11 @@
   <application
       android:allowBackup="true"
       android:name="dk.dr.radio.diverse.App"
-      android:icon="@drawable/emblemo"
-      android:logo="@drawable/emblemo"
+      android:icon="@drawable/ic_launcher"
+      android:logo="@drawable/dr_logo"
+      android:label="DR Radio beta"
       android:theme="@style/Theme.Dr"
-      android:label="@string/app_name">
+      tools:ignore="UnusedAttribute">
 
     <!--
     Version 3 havde brug for

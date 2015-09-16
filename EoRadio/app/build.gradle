@@ -5,10 +5,10 @@ android {
     buildToolsVersion '22.0.1'
     defaultConfig {
         applicationId "dk.nordfalk.esperanto.radio"
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 21
         versionCode 3
-        versionName '4a de aprilo - lingvaĵo'
+        versionName '16a de septembro'
     }
     buildTypes {
         release {
@@ -22,11 +22,6 @@ android {
     }
     productFlavors {
         esperanto {
-            applicationId "dk.nordfalk.esperanto.radio.x"
-            minSdkVersion 8
-            targetSdkVersion 21
-            versionCode 3
-            versionName 'provo'
         }
     }
 

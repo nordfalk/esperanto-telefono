@@ -2,9 +2,9 @@
 // ĈIAM post redaktado kontrolu ĉu la dosiero estas valida. Oni faras tion per
 // http://www.freeformatter.com/json-validator.html    kiu devas respondi 'The JSON input is valid in JavaScript.'
 //
-// scp /home/j/android/esperanto/esperanto-telefono/EsperantoRadio/res/raw/esperantoradio_kanaloj_v*.json javabog.dk:javabog.dk/privat/
+// scp /home/j/android/esperanto/esperanto-telefono/EoRadio/app/src/esperanto/res/raw/esperantoradio_kanaloj_v8.json  javabog.dk:javabog.dk/privat/
 
-	"hejmpaĝo": "http://code.google.com/p/esperanto-telefono/wiki/EsperantoRadio",
+	"hejmpaĝo": "https://github.com/nordfalk/esperanto-telefono/blob/wiki/EsperantoRadio.md",
 
  "elsendojUrl": "http://esperanto-radio.com/radio.txt",
 
@@ -185,6 +185,19 @@
 		}
   ],
 
+	"intervals": {
+		"playlist": 30,
+		"settings": 1800
+	},
+	"android" : {
+		"udeluk_HLS" : "",
+		"kontakt_url": "https://github.com/nordfalk/esperanto-telefono/blob/wiki/EsperantoRadio.md",
+		"kontakt_modtagere": ["jacob.nordfalk@gmail.com" ],
+		"kontakt_titel": "Pri la Esperanto-radio",
+		"kontakt_brugerspørgsmål": "\nDankon pro via helpemo!\nSkribu viajn proponojn aŭ ideojn ĉi-sube. (mi eble kontaktos vin por pliaj informoj)\n---\nv8.json\n",
+		"drift_statusmeddelelse": ""
+	},
+	"channels": [ ],
 
 	"sugestoj_por_alarmoj":
 "10000/0/6/45/31/0/=muzaiko/=Muzaiko+matene+labortago/\

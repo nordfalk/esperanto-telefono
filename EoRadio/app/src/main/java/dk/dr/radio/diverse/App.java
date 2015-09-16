@@ -236,7 +236,7 @@ public class App extends Application {
 
       if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
-      DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
+      DRData.instans.grunddata.eo_parseFællesGrunddata(grunddata);
       DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
       DRData.instans.grunddata.parseFællesGrunddata(grunddata);
       new Thread() {
@@ -266,7 +266,7 @@ public class App extends Application {
         Log.d("forvalgtKanal=" + aktuelKanal);
       }
 
-      if (!aktuelKanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
+      if (ÆGTE_DR && !aktuelKanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
         final Kanal kanal = aktuelKanal;
         Request<?> req = new DrVolleyStringRequest(aktuelKanal.getStreamsUrl(), new DrVolleyResonseListener() {
           @Override
@@ -368,7 +368,7 @@ public class App extends Application {
       boolean færdig = true;
       Log.d("Onlineinitialisering starter efter " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
 
-      if (App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
+      if (ÆGTE_DR && App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
         for (final Kanal kanal : DRData.instans.grunddata.kanaler) {
           if (kanal.harStreams()) continue;
           //        Log.d("run()1 " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
@@ -453,7 +453,7 @@ public class App extends Application {
           if (!PRODUKTION || App.fejlsøgning) App.kortToast("Vi fik nye grunddata");
           DRData.instans.grunddata.kanaler.clear();
           DRData.instans.grunddata.p4koder.clear();
-          DRData.instans.grunddata.eo_parseFællesGrunddata(Diverse.læsStreng(res.openRawResource(R.raw.esperantoradio_kanaloj_v8)));
+          DRData.instans.grunddata.eo_parseFællesGrunddata(nyeGrunddata);
           DRData.instans.grunddata.parseFællesGrunddata(nyeGrunddata);
           String pn = App.instans.getPackageName();
           for (final Kanal k : DRData.instans.grunddata.kanaler) {

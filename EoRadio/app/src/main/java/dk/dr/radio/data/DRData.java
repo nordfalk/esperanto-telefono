@@ -35,14 +35,12 @@ public class DRData {
 
   // scp /home/j/android/dr-radio-android/DRRadiov3/res/raw/grunddata_udvikling.json j:../lundogbendsen/hjemmeside/drradiov3_grunddata.json
 
-  public static final String GRUNDDATA_URL = App.PRODUKTION
-      ? "http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.drxml"
-      : "http://android.lundogbendsen.dk/drradiov3_grunddata.json";
+  public static final String GRUNDDATA_URL = "http://javabog.dk/privat/esperantoradio_kanaloj_v8.json";
   //public static final String GRUNDDATA_URL = "http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.json";
 
   //private static final String BASISURL = "http://www.dr.dk/tjenester/mu-apps";
   //private static final String BASISURL = "http://dr-mu-apps.azurewebsites.net";
-  private static final String BASISURL = App.PRODUKTION
+  private static final String BASISURL = App.PRODUKTION || true
      ? "http://www.dr.dk/tjenester/mu-apps"
      : "http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps-test";
 

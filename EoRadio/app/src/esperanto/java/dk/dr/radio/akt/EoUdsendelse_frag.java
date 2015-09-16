@@ -445,11 +445,12 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
         } else if (type == INFOTEKST) {
           aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
                   udsendelse.beskrivelse
+                          + (App.fejlsøgning ? "" : ""
                           + "<small>"
                           + "<br>udsendelse.slug=" + udsendelse.slug
                           + "<br>ligilo=" + udsendelse.ligilo
                           + "<br>sonoUrl=" + udsendelse.sonoUrl
-                          + "</small>"
+                          + "</small>")
                   , "text/html", "utf-8", "");
 
         } else if (type == PLAYLISTEELEM_NU || type == PLAYLISTEELEM) {

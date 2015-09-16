@@ -6,6 +6,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
 import dk.dr.radio.diverse.App;
+import dk.dr.radio.diverse.Log;
 
 /**
  * Oprettet af Jacob Nordfalk d 13-03-14.
@@ -17,6 +18,9 @@ public class DrVolleyStringRequest extends StringRequest {
     super(url, listener, listener);
     lytter = listener;
     lytter.url = url;
+    if (!App.ÆGTE_DR && url.startsWith("http://www.dr.dk/tjenester")) {
+      Log.rapporterFejl(new IllegalAccessException("Dette er ikke en DR app"));
+    }
     if (!App.PRODUKTION && url.equals("http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps-test/channel/p4?includeStreams=true")) {
       throw new Error("P4 streamURL kaldt, uden underkanal");
     }

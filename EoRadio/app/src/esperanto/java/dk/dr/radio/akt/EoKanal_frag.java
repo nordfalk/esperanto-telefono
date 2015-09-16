@@ -423,9 +423,9 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       udsendelse.titel = rektaElsendaPriskribo;
       vh.starttid.setMovementMethod(LinkMovementMethod.getInstance());
 
-      vh.starttid.setText(Html.fromHtml("<b>REKTA<br>" + rektaElsendaPriskribo));
+      vh.starttid.setText(Html.fromHtml("<b>REKTA<br><br>" + rektaElsendaPriskribo+ "<br>"));
     } else {
-      vh.starttid.setText(Html.fromHtml("REKTA<br>(ŝarĝas elsendon, bv atendu)<br><br>"));
+      vh.starttid.setText(Html.fromHtml("REKTA<br><br>(ŝarĝas elsendon, bv atendu)<br><br><br>"));
     }
   }
 

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<!--
     <string name="dr_radio">"Esperanto-radio Muzaiko"</string>
+    -->
+    <string name="dr_radio">"Muzaiko2"</string>
     <string name="navigation_drawer_open">"Malfermi maldekstran menuon"</string>
     <string name="navigation_drawer_close">"Fermi maldekstran menuon"</string>
     <string name="afspiller">"ludado"</string>
     <string name="Søg">"Serĉi"</string>
     <string name="Del">"Konigi"</string>
-    <string name="Dine_favoritprogrammer">"Viaj preferataj programoj"</string>
+    <string name="Dine_favoritprogrammer">"Viaj preferataj kanaloj"</string>
     <string name="Downloadede_udsendelser">"Elŝutitaj elsendoj"</string>
     <string name="Søg_efter_program">"Serĉi programon"</string>
     <string name="Senest_lyttede">"Lastatempe aŭskultis"</string>
@@ -41,16 +43,16 @@
     <string name="Manglende_netværksforbindelse___">"&lt;b&gt;Mankas retkonekto&lt;/b&gt;\nAtendas restarigon de interreto"</string>
     <string name="Internetforbindelse_mangler">"Retkonekto mankas"</string>
 
-    <string name="Spil_når_app_en_åbnes">"Tuj ludi kiam la apo malfermiĝas"</string>
+    <string name="Spil_når_app_en_åbnes">"Tuj ludi"</string>
     <string name="Start_afspilning_automatisk_når_appen_åbnes">"Komenci ludi aŭtomate kiam la apo malfermiĝas"</string>
-    <string name="Afspilning_starter_automatisk_når_appen_åbnes">"Ludas aŭtomate kiam la apo malfermigxas"</string>
+    <string name="Afspilning_starter_automatisk_når_appen_åbnes">"Ludas aŭtomate kiam la apo malfermiĝas"</string>
     <string name="hentning_af_udsendelser_og_strømbesparende_funktioner_">"Elŝutado de elsendoj"</string>
     <string name="Hentede_udsendelser">"Elŝutitaj elsendoj"</string>
     <string name="Placering_af_hentede_udsendelser">"Loko de elŝutitaj elsendoj"</string>
     <string name="Gem_udsendelser_på">"Konservu elsendojn ĉe"</string>
     <string name="Vælg_hvor_på_telefonen_du_vil_gemme_udsendelser_til_offline_brug_">"Elekti kie en la telefono ni savu la elsendojn por senreta ludado."</string>
     <string name="Hent_kun_på_wifi">"Elŝuti nur sur wifi"</string>
-    <string name="Udsendelser_hentes_kun_over_wifi_fremover___">"Estonte nur elŝutu elsendojn per WIFi.\n (se elsendo estas jam elŝutata, vi devas halti kaj rekomenci la elŝuton de ĝi)"</string>
+    <string name="Udsendelser_hentes_kun_over_wifi_fremover___">"Estonte nur elŝutu elsendojn per wifi.\n (se elsendoj estas jam survoje vi devas haltigi kaj rekomenci la elŝutojn)"</string>
     <string name="Udsendelser_hentes_både_over_telefonnet_3g_4g_og_wifi_">"Elŝuti elsendojn kaj per telefona reto (3G / 4G) kaj per WIFi."</string>
     <string name="Kun_til_udviklere">"Nur por programistoj"</string>
     <string name="Beklager_kan_ikke_spille_radio">"Bedaŭrinde ne povis ludi radion"</string>
@@ -95,7 +97,7 @@
     <string name="KAN_IKKE_AFSPILLES">"NE EBLAS\nLUDI"</string>
     <string name="KAN_IKKE_HENTES">"NE EBLAS ELŜUTI"</string>
     <string name="___vis_mere_">"... (MONTRI PLI)"</string>
-    <string name="Udsendelsen_kan_ikke_hentes">"La elsando ne elŝuteblas"</string>
+    <string name="Udsendelsen_kan_ikke_hentes">"La elsendo ne elŝuteblas"</string>
     <string name="i_dag">"hodiaŭ"</string>
     <string name="i_morgen">"morgaŭ"</string>
     <string name="i_overmorgen">"postmorgaŭ"</string>
@@ -123,8 +125,8 @@
     <string name="SENEST_SPILLET">Nun estas ludata…</string>
     <string name="LIGE_NU">NUN</string>
     <string name="Dine_favoritter">Viaj preferataj programoj</string>
-    <string name="Stop_afspilningen_">Stop afspilningen?</string>
-    <string name="Fortsæt_i_baggrunden">Fortsæt i\nbaggrunden</string>
+    <string name="Stop_afspilningen_">Ĉu ĉesi ludi?</string>
+    <string name="Fortsæt_i_baggrunden">Daŭrigi fone</string>
     <string name="Brugergrænseflade">Interfaco</string>
     <string name="Avanceret">Por progresantoj</string>
 

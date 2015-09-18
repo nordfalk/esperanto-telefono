@@ -5,6 +5,9 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -67,6 +70,12 @@ public class DrVolleyStringRequest extends StringRequest {
     */
   }
 
+  @Override
+  public Map<String, String> getHeaders(){
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("User-agent", App.versionsnavn);
+    return headers;
+  }
 
   @Override
   public void cancel() {

@@ -1,3 +1,13 @@
+Konataj eraroj, kiuj mi korektos:
+
+ - Emblemoj nur aperos post restarto de la apo
+ - Ĉiuj datumoj estas ĝuste nun elŝutataj 2foje
+ - Preferataj kanaloj ne funcias
+ - Ne eblas klaki sur la rektan elsendon de Muzaiko
+ - La enhavtabelo pri estontaj elsendoj ne aperos (mi bezonas helpon pri tiu ĉu punkto)
+
+
+
 
 
 Muzaiko:

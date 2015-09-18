@@ -24,7 +24,7 @@
       android:name="dk.dr.radio.diverse.App"
       android:icon="@drawable/ic_launcher"
       android:logo="@drawable/dr_logo"
-      android:label="DR Radio beta"
+      android:label="@string/dr_radio"
       android:theme="@style/Theme.Dr"
       tools:ignore="UnusedAttribute">
 
@@ -105,34 +105,6 @@
     </receiver>
 
 
-    <!-- Denne aktivitet fanger browsning af URLer der starter med http://dr.dk/radio/ondemand/ -->
-    <activity android:name="dk.dr.radio.akt.FangBrowseIntent_akt">
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <!-- direkte udsendelser -->
-        <data
-            android:scheme="http"
-            android:host="dr.dk"
-            android:pathPrefix="/radio/live/"/>
-        <data
-            android:scheme="http"
-            android:host="www.dr.dk"
-            android:pathPrefix="/radio/live/"/>
-
-        <!-- arkiverede udsendelser-->
-        <data
-            android:scheme="http"
-            android:host="dr.dk"
-            android:pathPrefix="/radio/ondemand/"/>
-        <data
-            android:scheme="http"
-            android:host="www.dr.dk"
-            android:pathPrefix="/radio/ondemand/"/>
-      </intent-filter>
-    </activity>
 
     <activity android:name="dk.dr.radio.vaekning.AlarmClock_akt"
               android:icon="@drawable/deskclock_ic_menu_alarms"
@@ -173,9 +145,6 @@
               android:theme="@style/PlayerTheme">
     </activity>  -->
 
-
-    <!-- Gemius-plugin til at måle sidevisninger etc -->
-    <service android:name="com.gemius.sdk.MobilePlugin"/>
 
   </application>
 

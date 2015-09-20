@@ -275,6 +275,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     @Override
     public CharSequence getPageTitle(int position) {
       Udsendelse u = liste2.get(position);
+      if (u.startTidKl.equals("REKTA")) return u.startTidKl;
       String dato = DRJson.datoformat.format(u.startTid);
       if (dato.equals(DRJson.iDagDatoStr)) dato = getString(R.string.i_dag);
       else if (dato.equals(DRJson.iMorgenDatoStr)) dato = getString(R.string.i_morgen);

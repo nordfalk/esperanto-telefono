@@ -120,23 +120,23 @@
 			"uziWebViewPorElsendo": false,
 			"hejmpaĝo": "http://radiofrei.de/index.php?iid=podcast&ssuchtext=esperanto"
 		}
-	],
-//,
-
-  "FORPRENITAJ_KANALOJ" : [
-//    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
-//    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
-		{
+		,{
 			"kodo": "peranto",
 			"nomo": "Esperanta Retradio",
 			"emblemoUrl": "http://members.aon.at/aldone/peranto/retradiologo.gif",
-//			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
+			//    Ho ve, bedaŭrinde "Esperanta Retradio" transiris al 'soundcloud' kiu ne facile elŝuteblas :-(
+			//    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
+			//			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
 			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
 			"elsendojRssUrl": "http://esperantaretradio.blogspot.com/feeds/posts/default?alt=rss",
 			"retpoŝto": "retradio@aldone.de",
 			"hejmpaĝoButono": "http://aldone.de/retradio"
 		}
-		,{
+	],
+//,
+
+  "FORPRENITAJ_KANALOJ" : [
+		{
 			"kodo": "radioaktiva",
 			"nomo": "Radio Aktiva",
 			"emblemoUrl": "http://www.ameriko.org/files/images/radioaktiva_emblemo.160_160.png",
@@ -204,17 +204,14 @@
 10001/0/10/0/96/0/=muzaiko/=Muzaiko+semajnfine/\
 10002/0/17/0/127/0/=peranto/=Esperanta+retradio+%28%C4%89iutage%29/\
 10003/0/16/0/68/0/=polaretradio/=Pola+Retradio%0Avendrede+kaj+semajnfine/\
-10002/0/16/0/8/0/=radiokubo/=Radio+Havano+Kubo%0A%C4%B4a%C5%ADde/\
+10002/0/16/0/8/0/=radiohavanokubo/=Radio+Havano+Kubo%0A%C4%B4a%C5%ADde/\
 10003/0/21/0/8/0/=radiovatikana/=Radio+Vatikana%0A%C4%B4a%C5%ADde/\
 ",
 
 
 	"feedback_modtagere": ["jacob.nordfalk@gmail.com" ],
 
- "feedback_brugerspørgsmål": "Dankon pro via helpemo!\n\
-Skribu viajn proponojn aŭ ideojn ĉi-sube.\
----\n\
-v8.json",
+ "feedback_brugerspørgsmål": "Dankon pro via helpemo!\nSkribu viajn proponojn aŭ ideojn ĉi-sube.---\nv8.json",
 
   "drift_statusmeddelelse": "Dankon ĉar vi uzas la apon!\nTutnova versio estas survoje - mi petas vin havi paciencon pri la aferoj kiuj ne funcias en la aktuala versio.\n\nKore, Jacob"
 }

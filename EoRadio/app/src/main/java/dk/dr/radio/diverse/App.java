@@ -62,6 +62,7 @@ import com.bugsense.trace.BugSenseHandler;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -239,12 +240,32 @@ public class App extends Application {
       DRData.instans.grunddata.eo_parseFællesGrunddata(grunddata);
       DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
       DRData.instans.grunddata.parseFællesGrunddata(grunddata);
+
+      File fil = new File(FilCache.findLokaltFilnavn(DRData.instans.grunddata.radioTxtUrl));
+      if (fil.exists()) {
+        String radioTxtStr = Diverse.læsStreng(new FileInputStream(fil));
+        DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
+      } else {
+        String radioTxtStr = Diverse.læsStreng(res.openRawResource(R.raw.radio));
+        DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
+      }
+
       new Thread() {
         @Override
         public void run() {
           try {
-            boolean ioŜanĝita = DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
-            if (ioŜanĝita) opdaterObservatører(DRData.instans.grunddata.observatører);
+            DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
+
+            final String radioTxtStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(DRData.instans.grunddata.radioTxtUrl, false)));
+            forgrundstråd.post(new Runnable() {
+              @Override
+              public void run() {
+                DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
+                // Povas esti ke la listo de kanaloj ŝanĝiĝis, pro tio denove kontrolu ĉu reŝarĝi bildojn
+                DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
+                opdaterObservatører(DRData.instans.grunddata.observatører);
+              }
+            });
           } catch (Exception e) { Log.e(e); }
         }
       }.start();
@@ -458,8 +479,9 @@ public class App extends Application {
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
           }
+          DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
           // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
-          for (Runnable r : DRData.instans.grunddata.observatører) r.run();
+          opdaterObservatører(DRData.instans.grunddata.observatører);
           // Er vi nået hertil så gik parsning godt - gem de nye stamdata i prefs, så de også bruges ved næste opstart
           grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, nyeGrunddata).commit();
         }

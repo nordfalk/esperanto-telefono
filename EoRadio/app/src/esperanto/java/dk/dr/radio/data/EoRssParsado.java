@@ -109,7 +109,6 @@ public class EoRssParsado {
     }
     if (e != null && e.sonoUrl.size()>0) liste.add(e);
     is.close();
-    Collections.reverse(liste); // Inversa sinsekvo
 
     if (k.kode.equals("varsoviavento")) {
       // Varsovia Vento havas pluraj sondosieroj!

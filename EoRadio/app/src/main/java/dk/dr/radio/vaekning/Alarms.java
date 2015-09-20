@@ -166,22 +166,13 @@ public class Alarms {
   public static void tjekIndlæst(final Context context) {
     if (alarmer == null) {
       alarmer = new ArrayList<Alarm>();
-      String alarmoj = prefs(context).getString("alarmoj", "");
-      /*
+      String alarmoj = prefs(context).getString("alarmoj", null);
       if (alarmoj == null) try {
-        alarmoj = DRData.instans.grunddata.json.getJSONObject("vækning").getString("forslag");
-"forslag_SLET" :
-"10000/0/6/0/31/0/=P1D/=P1+Radioavis+hverdag+kl+6/\
-10001/0/10/0/96/0/=P1D/=P1+Radioavis+weekend+kl+10/\
-10010/0/6/0/31/0/=P3/=P3+hverdag+kl+6/\
-10011/0/10/0/96/0/=P3/=P3+weekend+kl+10/\
-10002/0/17/0/127/0/=RAM/=Ramasjang+Ultra+%28alle dage%29/\
-"
+        alarmoj = DRData.instans.grunddata.json.getString("sugestoj_por_alarmoj");
       } catch (Exception e) {
-        Log.e("Rezignas pri alarmoj!", e);
+        Log.e("Rezignas pri sugestoj_por_alarmoj!", e);
         alarmoj = "";
       }
-      */
       Log.d("tjekIndlæst alarmo=\n" + alarmoj);
       for (String alarmo : alarmoj.split("\n"))
         try {

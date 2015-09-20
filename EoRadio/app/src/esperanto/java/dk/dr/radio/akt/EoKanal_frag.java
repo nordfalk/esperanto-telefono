@@ -133,7 +133,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
 
         @Override
         protected void fikFejl(VolleyError error) {
-          new AQuery(rod).id(R.id.tom).text("Netværksfejl, prøv igen senere");
+          new AQuery(rod).id(R.id.tom).text(R.string.Netværksfejl_prøv_igen_senere);
         }
       }) {
         public Priority getPriority() {
@@ -237,7 +237,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         }
         nyListe.add(u);
       }
-      int nyAktuelUdsendelseIndex = kanal.slug.equals("muzaiko") ? kanal.udsendelser.size()-1 : -1;
+      int nyAktuelUdsendelseIndex = kanal.slug.equals("muzaiko") ? 0 : -1; //kanal.udsendelser.size()-1 : -1;
 
       // Hvis listen er uændret så hop ud - forhindrer en uendelig løkke
       // af opdateringer i tilfælde af, at sendeplanen for dags dato ikke kan hentes
@@ -259,7 +259,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         if (App.fejlsøgning)
           Log.d("hopTilAktuelUdsendelse() aktuelUdsendelseIndex=" + aktuelUdsendelseIndex + " " + this);
         int topmargen = getResources().getDimensionPixelOffset(R.dimen.kanalvisning_aktuelUdsendelse_topmargen);
-        listView.setSelectionFromTop(aktuelUdsendelseIndex<0?kanal.udsendelser.size()-1 : aktuelUdsendelseIndex , topmargen);
+        listView.setSelectionFromTop(0, topmargen);
       }
     } catch (Exception e1) {
       Log.rapporterFejl(e1, "kanal="+kanal+" med udsendelser "+kanal.udsendelser);
@@ -407,7 +407,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           vh.starttid.setText(spannable);
           vh.starttid.setTextColor(DRData.instans.senestLyttede.getStartposition(udsendelse) == 0 ? Color.BLACK : App.color.grå60);
           a.id(R.id.stiplet_linje);
-          if (position == aktuelUdsendelseIndex + 1) a.visibility(View.INVISIBLE);
+          if (position == liste.size() - 1) a.visibility(View.INVISIBLE);
           else if (position > 0 && liste.get(position - 1) instanceof String) a.visibility(View.INVISIBLE);
           else a.visibility(View.VISIBLE);
           break;

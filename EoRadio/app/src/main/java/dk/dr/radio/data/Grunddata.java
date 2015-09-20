@@ -27,12 +27,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -152,6 +154,7 @@ public class Grunddata {
 
   public void leguRadioTxt(String radioTxt) {
     String kapo = null;
+    HashSet<Kanal> kanalojDeRadioTxt = new HashSet<>();
     for (String unuo : radioTxt.split("\n\r?\n")) {
       unuo = unuo.trim();
       //Log.d("Unuo: "+unuo);
@@ -174,6 +177,7 @@ public class Grunddata {
           e.startTidKl = x[1];
           e.startTid = datoformato.parse(x[1]);
           e.sonoUrl.add(x[2]);
+          e.titel = "";
           e.beskrivelse = x[3];
 
           Kanal k = kanalFraSlug.get(e.kanalSlug);
@@ -193,17 +197,27 @@ public class Grunddata {
             k.eo_json = new JSONObject();
             k.kode = k.slug = e.kanalSlug;
             k.navn = x[0];
-            k.eo_datumFonto = "aldonita de radio.txt";
+            k.eo_datumFonto = "radio.txt";
+            Log.d("Aldonas elsendon "+e.toString());
+            k.udsendelser.add(e);
+            kanalojDeRadioTxt.add(k);
+            eoElsendoAlDaUdsendelse(e, k);
+            k.eo_udsendelserFraRadioTxt = k.udsendelser;
             kanalFraKode.put(k.kode, k);
             kanalFraSlug.put(k.slug, k);
             kanaler.add(k);
-          } else if (k.eo_datumFonto ==null) {
-            k.eo_datumFonto = "radio.txt";
           }
-          //Log.d("Aldonas elsendon "+e.toString());
-          k.udsendelser.add(e);
-          eoElsendoAlDaUdsendelse(e, k);
-          k.eo_udsendelserFraRadioTxt = k.udsendelser;
+          if (!"rss".equals(k.eo_datumFonto)) {
+            k.eo_datumFonto = "radio.txt";
+            if (!kanalojDeRadioTxt.contains(k)) {
+              kanalojDeRadioTxt.add(k);
+              k.udsendelser.clear();
+            }
+            //Log.d("Aldonas elsendon "+e.toString());
+            k.udsendelser.add(e);
+            eoElsendoAlDaUdsendelse(e, k);
+            k.eo_udsendelserFraRadioTxt = k.udsendelser;
+          }
         } catch (Exception e) {
           Log.e("Ne povis legi unuon: " + unuo, e);
         }
@@ -211,7 +225,6 @@ public class Grunddata {
     }
 
     for (Kanal k : kanaler) {
-      Collections.reverse(k.udsendelser);
       opdaterProgramserieFraKanal(k);
     }
   }
@@ -255,7 +268,7 @@ public class Grunddata {
 
   public boolean ŝarĝiKanalEmblemojn(boolean nurLokajn) {
     boolean ioEstisSxargxita = false;
-    for (Kanal k : kanaler) {
+    for (Kanal k : new ArrayList<>(kanaler)) {
 
       if (k.eo_emblemoUrl != null && k.eo_emblemo == null) try {
         String dosiero = FilCache.findLokaltFilnavn(k.eo_emblemoUrl);

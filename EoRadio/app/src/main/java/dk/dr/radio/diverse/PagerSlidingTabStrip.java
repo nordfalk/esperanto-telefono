@@ -251,7 +251,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         scrollToChild(currentPosition, 0);
       }
     });
-
+    if (TEKST_DER_FADER_OVER_I_IKONER) {
+      fadeTekstOgIkoner(currentPosition);
+    }
   }
 
   private void addTextTab(final int position, String title) {

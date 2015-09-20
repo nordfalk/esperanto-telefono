@@ -39,7 +39,8 @@ public class EoRssParsado {
 
   static Pattern puriguVinilkosmo = Pattern.compile("<p class=\"who\">.+?</p>", Pattern.DOTALL);
 
-  static Pattern puriguVarsoviaVento = Pattern.compile("<p>.+?Ĉe Facebook ni kreis.+?</p>", Pattern.DOTALL);
+  static Pattern puriguVarsoviaVento1 = Pattern.compile("<p>.+?Ĉe Facebook ni kreis.+?</p>", Pattern.DOTALL);
+  static Pattern puriguVarsoviaVento2 = Pattern.compile("<p>.+?Paŝo post paŝo moderniĝas nia retejo.+?</p>", Pattern.DOTALL);
   static Pattern puriguVarsoviaVentoDownload = Pattern.compile("<p>.+?>Download audio file.+?</p>");
   static Pattern puriguVarsoviaVentoElŝutu = Pattern.compile("<p>.+?>Elŝutu podkaston.+?</p>");
 
@@ -96,7 +97,8 @@ public class EoRssParsado {
 
       } else if ("content".equals(ns) && "encoded".equals(tag)) {
         e.beskrivelse = p.nextText();
-        e.beskrivelse = puriguVarsoviaVento.matcher(e.beskrivelse).replaceAll("");
+        e.beskrivelse = puriguVarsoviaVento1.matcher(e.beskrivelse).replaceAll("");
+        e.beskrivelse = puriguVarsoviaVento2.matcher(e.beskrivelse).replaceAll("");
         e.beskrivelse = puriguVarsoviaVentoDownload.matcher(e.beskrivelse).replaceAll("");
         e.beskrivelse = puriguVarsoviaVentoElŝutu.matcher(e.beskrivelse).replaceAll("");
       } else if (e.beskrivelse != null) {
@@ -119,8 +121,12 @@ public class EoRssParsado {
           u2.sonoUrl = new ArrayList<>();
           u2.sonoUrl.add(u.sonoUrl.get(n));
           //u2.titel = u2.titel + " parto (" + (n + 1) + " el " + u.sonoUrl.size() + ") ";
-          u2.titel = u2.titel + ", " + (n + 1) + "a parto";
+          String parto = (n + 1) + "a parto";
+          u2.titel = u2.titel + ", " + parto;
           u2.slug += "/" + (n + 1);
+          int ind = u2.beskrivelse.indexOf(parto);
+          if (ind>0) u2.beskrivelse = u2.beskrivelse.substring(ind+parto.length());
+
           Log.d("XXXXXX kopi " + u2.toString() + " de " + u);
           liste2.add(u2);
         }

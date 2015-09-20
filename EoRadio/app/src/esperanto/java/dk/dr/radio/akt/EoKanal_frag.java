@@ -392,8 +392,14 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         case NORMAL:
           // Her kom NullPointerException en sjælden gang imellem - se https://www.bugsense.com/dashboard/project/cd78aa05/errors/836338028
           // det skyldtes at hentSendeplanForDag(), der ændrede i listen, mens ListView var ved at kalde fra getView()
+          Spannable spannable;
+          if (udsendelse.titel.equals(udsendelse.beskrivelse)) {
+            spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel);
+          } else {
+            spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ Html.fromHtml(udsendelse.beskrivelse.replaceAll("<.+?>", "")));
+          }
+          if (udsendelse.titel.contains("La 108a")) Log.d(udsendelse.beskrivelse);
 
-          Spannable spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ Html.fromHtml(udsendelse.beskrivelse));
           int klPos = udsendelse.startTidKl.length();
           spannable.setSpan(new ForegroundColorSpan(App.color.grå40), 0, klPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
           spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), klPos+2, klPos+2+udsendelse.titel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

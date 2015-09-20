@@ -135,7 +135,9 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       aq.id(R.id.billede).image("http://radioverda.com/storage/bildoj/programbildoj/"+udsendelse.titel+".png")
           .getImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
     } else {
-      aq.id(R.id.billede).image(kanal.eo_emblemoUrl)
+      String emblemo = udsendelse.billedeUrl;
+      if (emblemo==null || emblemo.length()==0) emblemo = kanal.eo_emblemoUrl;
+      aq.id(R.id.billede).image(emblemo)
           .getImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
@@ -167,12 +169,6 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
 
   private void opdaterTop() {
     AQuery aq = (AQuery) topView.getTag();
-    //aq.id(R.id.højttalerikon).visibility(streams ? View.VISIBLE : View.GONE);
-    /*
-    boolean lydkildeErDenneUds = udsendelse.equals(afspiller.getLydkilde());
-    boolean lydkildeErDenneKanal = kanal == afspiller.getLydkilde().getKanal();
-    boolean aktuelUdsendelsePåKanalen = udsendelse.equals(udsendelse.getKanal().getUdsendelse());
-    */
     boolean spiller = afspiller.getAfspillerstatus() == Status.SPILLER;
     boolean forbinder = afspiller.getAfspillerstatus() == Status.FORBINDER;
     boolean erOnline = App.netværk.erOnline();
@@ -180,10 +176,6 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     boolean udsendelsenSpillerNu = udsendelse.equals(afspiller.getLydkilde().getUdsendelse()) && (spiller||forbinder);
     boolean udsendelsenErAktuelPåKanalen = udsendelse.equals(udsendelse.getKanal().getUdsendelse());
 
-    /* Muligheder
-    Udsendelsen spiller lige nu
-
-     */
     ImageView hør_ikon = aq.id(R.id.hør).getImageView();
     TextView hør_tekst = aq.id(R.id.hør_tekst).getTextView();
     if (false);
@@ -208,9 +200,6 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       hør_ikon.setVisibility(View.VISIBLE);
       hør_tekst.setVisibility(View.GONE);
     }
-    /* skrald
-    aq.id(R.id.hent).text("SPILLER " + kanal.navn.toUpperCase() + " LIVE");
-*/
 
     Cursor c = DRData.instans.hentedeUdsendelser.getStatusCursor(udsendelse);
     aq.id(R.id.hent);
@@ -236,7 +225,6 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     } else {
       aq.text(R.string.DOWNLOAD).enabled(true).textColorId(R.color.blå);
     }
-    udvikling_checkDrSkrifter(topView, this + " position top");
   }
 
 
@@ -289,7 +277,8 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
-    inflater.inflate(R.menu.udsendelse, menu);
+//    inflater.inflate(R.menu.udsendelse, menu);
+    inflater.inflate(R.menu.ludado_menuo, menu);
     //menu.findItem(R.id.hør).setVisible(udsendelse.kanNokHøres).setEnabled(streamsKlar());
     //menu.findItem(R.id.hent).setVisible(DRData.instans.hentedeUdsendelser.virker() && udsendelse.kanNokHøres && udsendelse.hentetStream==null);
   }
@@ -300,8 +289,29 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       hør();
     } else if (item.getItemId() == R.id.hent) {
       hent();
-    } else if (item.getItemId() == R.id.del) {
+    } else if (item.getItemId() == R.id.kundividi) {
       del();
+    } else if (item.getItemId() == R.id.kontakti_kanalon) {
+      try {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("plain/text");
+        i.putExtra(Intent.EXTRA_EMAIL, kanal.eo_retpoŝto);
+        i.putExtra(Intent.EXTRA_CC, "");
+        i.putExtra(Intent.EXTRA_SUBJECT, "Pri " + kanal.getNavn());
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+
+        String navn = udsendelse.getNavn();
+        if (navn.length()>15) navn = navn.substring(0, 15)+"...";
+        i.putExtra(Intent.EXTRA_TEXT, "Saluton!\n"
+                + "Mi aŭskultis vian elsendon '" + udsendelse.getNavn() + "'."
+                + "\n\nPS. Viajn elsendojn mi aŭskultas per la Androjda Esperanto-radio:\n"
+                + "https://play.google.com/store/apps/details?id=dk.nordfalk.esperanto.radio\n");
+        startActivity(i);
+      } catch (Exception e) {
+        App.langToast(e.toString());
+        Log.rapporterFejl(e);
+      }
+
     } else return super.onOptionsItemSelected(item);
     return true;
   }
@@ -446,8 +456,12 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
           aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
                   udsendelse.beskrivelse
                           + (App.fejlsøgning ? "" : ""
-                          + "<small>"
-                          + "<br>udsendelse.slug=" + udsendelse.slug
+                          + "<small><br>"
+                          + "<br>slug=" + udsendelse.slug
+                          + "<br>startTidKl=" + udsendelse.startTidKl
+                          + "<br>titel=" + udsendelse.titel.length()
+                          + "<br>beskrivelse=" + udsendelse.beskrivelse.length()
+                          + "<br>billedeUrl=" + udsendelse.billedeUrl
                           + "<br>ligilo=" + udsendelse.ligilo
                           + "<br>sonoUrl=" + udsendelse.sonoUrl
                           + "</small>")
@@ -520,7 +534,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     try {
       Intent intent = new Intent(Intent.ACTION_SEND);
       intent.setType("text/plain");
-      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
       intent.putExtra(Intent.EXTRA_SUBJECT, udsendelse.titel);
       intent.putExtra(Intent.EXTRA_TEXT, udsendelse.titel + "\n\n"
               + udsendelse.beskrivelse + "\n\n" +

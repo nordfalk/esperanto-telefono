@@ -286,21 +286,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       return liste.size();
     }
 
-    /*
-    public boolean hasStableIds() {
-      return true;
-    }
-
-    @Override
-    public Object getItem(int position) {
-      return liste.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-      return position+getItemViewType(position)*1000;
-    }
-    */
     @Override
     public int getViewTypeCount() {
       return 4;

@@ -8,13 +8,13 @@
         android:defaultValue="false"
         android:summaryOff="@string/Start_afspilning_automatisk_når_appen_åbnes"
         android:summaryOn="@string/Afspilning_starter_automatisk_når_appen_åbnes"/>
-<!--
+
     <CheckBoxPreference
-        android:key="tving_lodret_visning" android:title="Stående visning"
+        android:key="tving_lodret_visning" android:title="Nur staranta"
         android:defaultValue="true"
-        android:summaryOn="Tving lodret visning"
-        android:summaryOff="Tillad vandret visning\n(kræver genstart af app'en)"/>
-        -->
+        android:summaryOn="Ne turnu la ekrano laŭ orientiĝo de la telefono"
+        android:summaryOff="Permesu kuŝanta montrado\n(postulas restarton)"/>
+
   </PreferenceCategory>
 
 <!--

@@ -5,7 +5,7 @@
 
   <!-- Indsæt din egen BugSense-nøgle her -->
   <string name="bugsense_nøgle">b8d4f0e8</string>
-  <string name="bugsense_testnøgle">c0eec1ee</string>
+  <string name="bugsense_testnøgle">b8d4f0e8</string>
 
   <!-- Nøgle til sidevisningsstatistik -->
   <string name="gemius_sidevisninsstatistik_nøgle"></string>

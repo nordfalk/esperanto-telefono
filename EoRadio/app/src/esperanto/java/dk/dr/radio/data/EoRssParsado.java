@@ -82,7 +82,7 @@ public class EoRssParsado {
           e.sonoUrl.add(p.getAttributeValue(null, "url"));
         }
       } else if ("link".equals(tag)) {
-        e.ligilo = p.nextText();
+        e.shareLink = p.nextText();
       } else if (ns == null && "title".equals(tag)) {
         e.titel = EoDiverse.unescapeHtml3(p.nextText());
       } else if ("description".equals(tag)) {
@@ -177,7 +177,7 @@ public class EoRssParsado {
         } else if ("image/jpeg".equals(type) && e.billedeUrl ==null) {
           e.billedeUrl =href;
         } else if ("text/html".equals(type)) {
-          e.ligilo=href;
+          e.shareLink =href;
         }
       } else if ("content".equals(tag)) {
         e.beskrivelse = p.nextText().trim();

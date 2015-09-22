@@ -56,7 +56,6 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
   //// EO
   public ArrayList<String> sonoUrl = new ArrayList<String>();
   public String rektaElsendaPriskriboUrl;
-  public String ligilo;
   //// EO
 
   public Udsendelse(String s) {

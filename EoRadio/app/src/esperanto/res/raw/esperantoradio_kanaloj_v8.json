@@ -24,7 +24,7 @@
 				// RSS-fluo havas nur la daton en la titolo. Tio estas jam videbla kaj tial ni ne montru tion
 			"elsendojRssIgnoruTitolon": true,
 			"retpoŝto": "info@muzaiko.info",
-			"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
+			//"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
 			"hejmpaĝoButono": "http://muzaiko.info/"
 		}
 		,{

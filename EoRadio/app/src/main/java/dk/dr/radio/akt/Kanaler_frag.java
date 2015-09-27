@@ -2,9 +2,11 @@ package dk.dr.radio.akt;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,21 +32,27 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
   private Venstremenu_frag venstremenuFrag;
   private PagerSlidingTabStrip kanalfaneblade;
   private int viewPagerScrollState;
+  public static Kanal eoValgtKanal;
 
 
   @Override
   public void run() {
     kanaler = new ArrayList<Kanal>();
     for (Kanal k : DRData.instans.grunddata.kanaler) {
-      if (!k.p4underkanal) kanaler.add(k);
+      if (!k.p4underkanal) if (DRData.instans.favoritter.erFavorit(k.slug)) { // EO ŝanĝo
+        kanaler.add(0, k);  // EO ŝanĝo
+      } else {  // EO ŝanĝo
+        kanaler.add(k);
+      }
     }
     if (adapter != null) {
       adapter.kanaler2 = kanaler;
       if (viewPager.getCurrentItem() >= kanaler.size()) {
         viewPager.setCurrentItem(0);
       }
-      kanalfaneblade.notifyDataSetChanged();
       adapter.notifyDataSetChanged();
+      if (kanaler.contains(eoValgtKanal)) viewPager.setCurrentItem(kanaler.indexOf(eoValgtKanal));
+      kanalfaneblade.notifyDataSetChanged(); // EO ŝanĝo
     }
   }
 
@@ -73,7 +81,7 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     kanalfaneblade.setViewPager(viewPager);
     kanalfaneblade.setOnPageChangeListener(this);
     DRData.instans.grunddata.observatører.add(this);
-
+    DRData.instans.favoritter.observatører.add(this);  // EO ŝanĝo
     return rod;
   }
 
@@ -97,6 +105,7 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     adapter = null;
     kanalfaneblade = null;
     DRData.instans.grunddata.observatører.remove(this);
+    DRData.instans.favoritter.observatører.remove(this);  // EO ŝanĝo
     super.onDestroyView();
   }
 
@@ -106,6 +115,13 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     // Husk foretrukken getKanal
     App.prefs.edit().putString(App.FORETRUKKEN_KANAL, kanaler.get(position).kode).commit();
     Sidevisning.vist(Kanal_frag.class, kanaler.get(position).slug);
+  }
+
+  @Override
+  public void onViewStateRestored(Bundle savedInstanceState) { // EO sanĝo
+    super.onViewStateRestored(savedInstanceState);
+    if (kanaler.contains(eoValgtKanal)) viewPager.setCurrentItem(kanaler.indexOf(eoValgtKanal));
+    //App.kortToast("00 "+eoValgtKanal);
   }
 
   @Override
@@ -123,9 +139,12 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     }
   }
 
-  public class KanalAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+  public class KanalAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider { // EO ŝanĝo
     public ArrayList<Kanal> kanaler2;
     //public class KanalAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+
+
+    @Override public Parcelable saveState() { return null; } // EO ŝanĝo
 
     public KanalAdapter(FragmentManager fm) {
       super(fm);

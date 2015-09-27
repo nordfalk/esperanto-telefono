@@ -468,6 +468,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   @Override
   public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
     Object o = liste.get(position);
+    Kanaler_frag.eoValgtKanal = kanal;
     Log.d("MONTRAS OBJEKTON "+o);
     // PinnedSectionListView tillader klik på hængende overskrifter, selvom adapteren siger at det skal den ikke
     if (!(o instanceof Udsendelse)) return;

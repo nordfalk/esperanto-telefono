@@ -436,7 +436,7 @@ public class Afspiller {
    * Gem position - og spol herhen næste gang udsendelsen spiller
    */
   private int gemPosition() {
-    if (!lydkilde.erDirekte() && afspillerstatus == Status.SPILLER) {
+    if (!lydkilde.erDirekte() && afspillerstatus == Status.SPILLER) try {
       int pos = mediaPlayer.getCurrentPosition();
       if (pos > 0) {
         //senestLyttet.getUdsendelse().startposition = pos;
@@ -444,7 +444,7 @@ public class Afspiller {
         DRData.instans.senestLyttede.sætStartposition(lydkilde, pos);
       }
       return pos;
-    }
+    } catch (Exception e) { Log.rapporterFejl(e); }
     return 0;
   }
 

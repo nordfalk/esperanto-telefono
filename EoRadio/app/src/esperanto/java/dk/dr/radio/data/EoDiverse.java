@@ -242,4 +242,9 @@ public class EoDiverse {
       lookupMap.put(seq[1].toString(), seq[0]);
   }
 
+  public static String begrænsLgd(String navn) {
+    if (navn == null) return "";
+    if (navn.length()<80) return navn;
+    return navn.substring(0,80);
+  }
 }

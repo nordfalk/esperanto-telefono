@@ -641,7 +641,7 @@ public class App extends Application {
     }
 
     Intent i = new Intent(Intent.ACTION_SEND);
-    i.setType("plain/text");
+    i.setType("text/plain");
     i.putExtra(Intent.EXTRA_EMAIL, modtagere);
     i.putExtra(Intent.EXTRA_SUBJECT, emne);
 

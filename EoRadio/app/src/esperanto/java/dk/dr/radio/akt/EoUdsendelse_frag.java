@@ -12,9 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
+import android.text.Html;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,21 +28,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.androidquery.AQuery;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.EoDiverse;
 import dk.dr.radio.data.HentedeUdsendelser;
 import dk.dr.radio.data.Indslaglisteelement;
 import dk.dr.radio.data.Kanal;
@@ -54,8 +47,6 @@ import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
-import dk.dr.radio.net.volley.DrVolleyResonseListener;
-import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.dr.radio.v3.R;
 
 public class EoUdsendelse_frag extends Basisfragment implements View.OnClickListener, AdapterView.OnItemClickListener, Runnable {
@@ -290,27 +281,11 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     } else if (item.getItemId() == R.id.hent) {
       hent();
     } else if (item.getItemId() == R.id.kundividi) {
-      del();
+      del(new Intent(Intent.ACTION_SEND));
     } else if (item.getItemId() == R.id.kontakti_kanalon) {
-      try {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("plain/text");
-        i.putExtra(Intent.EXTRA_EMAIL, kanal.eo_retpoŝto);
-        i.putExtra(Intent.EXTRA_CC, "");
-        i.putExtra(Intent.EXTRA_SUBJECT, "Pri " + kanal.getNavn());
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-
-        String navn = udsendelse.getNavn();
-        if (navn.length()>15) navn = navn.substring(0, 15)+"...";
-        i.putExtra(Intent.EXTRA_TEXT, "Saluton!\n"
-                + "Mi aŭskultis vian elsendon '" + udsendelse.getNavn() + "'."
-                + "\n\nPS. Viajn elsendojn mi aŭskultas per la Androjda Esperanto-radio:\n"
-                + "https://play.google.com/store/apps/details?id=dk.nordfalk.esperanto.radio\n");
-        startActivity(i);
-      } catch (Exception e) {
-        App.langToast(e.toString());
-        Log.rapporterFejl(e);
-      }
+      del(new Intent(Intent.ACTION_SEND)
+              .putExtra(Intent.EXTRA_EMAIL, kanal.eo_retpoŝto)
+              .putExtra(Intent.EXTRA_CC, "jacob.nordfalk@gmail.com"));
 
     } else return super.onOptionsItemSelected(item);
     return true;
@@ -453,18 +428,25 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
           aq.id(R.id.playliste).clicked(EoUdsendelse_frag.this).typeface(App.skrift_gibson);
           aq.id(R.id.info).clicked(EoUdsendelse_frag.this).typeface(App.skrift_gibson);
         } else if (type == INFOTEKST) {
+          String hp = udsendelse.shareLink==null||udsendelse.shareLink.length()==0 ? kanal.eo_hejmpaĝoButono : udsendelse.shareLink;
+          Log.d("EoUdsendelse_frag hp="+hp);
           aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
                   udsendelse.beskrivelse
+                          + (hp==null||hp.length()==0 ? "" : ""
+                          + "<br><p>Iri al la <a href='"+hp +"'>hejmpaĝo</a></p>"
+                          + "")
+                          /*
                           + (App.fejlsøgning ? "" : ""
                           + "<small><br>"
                           + "<br>slug=" + udsendelse.slug
                           + "<br>startTidKl=" + udsendelse.startTidKl
-                          + "<br>titel=" + udsendelse.titel.length()
+                          + "<br>titel=" + (udsendelse.titel==null?"null":udsendelse.titel.length())
                           + "<br>beskrivelse=" + udsendelse.beskrivelse.length()
                           + "<br>billedeUrl=" + udsendelse.billedeUrl
-                          + "<br>ligilo=" + udsendelse.ligilo
+                          + "<br>shareLink=" + udsendelse.shareLink
                           + "<br>sonoUrl=" + udsendelse.sonoUrl
                           + "</small>")
+                          */
                   , "text/html", "utf-8", "");
 
         } else if (type == PLAYLISTEELEM_NU || type == PLAYLISTEELEM) {
@@ -508,7 +490,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
   @Override
   public void onClick(View v) {
     if (v.getId() == R.id.del) {
-      del();
+      del(new Intent(Intent.ACTION_SEND));
     } else if (v.getId() == R.id.hør) {
       hør();
     } else if (v.getId() == R.id.hent) {
@@ -528,24 +510,27 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
   }
 
 
-  private void del() {
+  private void del(Intent i) {
 
     Log.d("Udsendelse_frag " + "Del med nogen");
     try {
-      Intent intent = new Intent(Intent.ACTION_SEND);
-      intent.setType("text/plain");
-      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-      intent.putExtra(Intent.EXTRA_SUBJECT, udsendelse.titel);
-      intent.putExtra(Intent.EXTRA_TEXT, udsendelse.titel + "\n\n"
-              + udsendelse.beskrivelse + "\n\n" +
-// http://www.dr.dk/radio/ondemand/p6beat/debut-65
-// http://www.dr.dk/radio/ondemand/ramasjangradio/ramasjang-formiddag-44#!/00:03
-              // "http://dr.dk/radio/ondemand/" + kanal.slug + "/" + udsendelse.slug
-              (udsendelse.shareLink != null ? udsendelse.shareLink : "")
-//          + "\n\n" + udsendelse.findBedsteStream(true).url
-      );
-//www.dr.dk/p1/mennesker-og-medier/mennesker-og-medier-100
-      startActivity(intent);
+      i.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+      i.setType("text/plain");
+      i.putExtra(Intent.EXTRA_SUBJECT, "Elsendo de " + kanal.getNavn());
+
+      String titolo = EoDiverse.begrænsLgd(Html.fromHtml(udsendelse.titel).toString());
+      String hp = udsendelse.shareLink==null||udsendelse.shareLink.length()==0 ? kanal.eo_hejmpaĝoButono : udsendelse.shareLink;
+
+      String txt = "Mi aŭskultis la elsendon '" + titolo + "' "+udsendelse.startTidKl+".\n"
+              + (hp != null ? hp : "")
+              + "\n\nPS. Mi uzas la Androjdan Esperanto-radion:\n"
+              + "https://play.google.com/store/apps/details?id=dk.nordfalk.esperanto.radio\n";
+
+      i.putExtra(Intent.EXTRA_TEXT, txt);
+      Log.d(txt);
+      Log.d(i.toString());
+
+      startActivity(i);
       Sidevisning.vist(Sidevisning.DEL, udsendelse.slug);
     } catch (Exception e) {
       Log.rapporterFejl(e);

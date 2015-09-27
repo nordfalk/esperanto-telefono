@@ -1,33 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/vekhorloĝo"
-				android:icon="@drawable/deskclock_ic_menu_alarms"
-				android:showAsAction="ifRoom|withText"
-				android:title="Vekhorloĝo" />
-
-	<item android:id="@+id/pri"
-				android:icon="@android:drawable/ic_menu_help"
-				android:showAsAction="ifRoom|withText"
-				android:title="Pri" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	  xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<item android:id="@+id/kundividi"
 				android:icon="@android:drawable/ic_menu_share"
-				android:showAsAction="ifRoom"
+				app:showAsAction="ifRoom"
 				android:title="Kundividi" />
 
 	<item android:id="@+id/kontakti_kanalon"
 				android:icon="@android:drawable/ic_menu_send"
-				android:showAsAction="ifRoom"
+				app:showAsAction="ifRoom"
 				android:title="Kontakti kanalon" />
-
-	<item android:id="@+id/agordoj"
-				android:icon="@android:drawable/ic_menu_preferences"
-				android:showAsAction="ifRoom|withText"
-				android:title="Agordoj" />
-
-	<item android:id="@+id/elŝalti"
-				android:icon="@android:drawable/ic_menu_close_clear_cancel"
-				android:showAsAction="ifRoom|withText"
-				android:title="Elŝalti" />
 
 </menu>

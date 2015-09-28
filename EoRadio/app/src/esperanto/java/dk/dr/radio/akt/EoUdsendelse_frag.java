@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -430,7 +431,14 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
         } else if (type == INFOTEKST) {
           String hp = udsendelse.shareLink==null||udsendelse.shareLink.length()==0 ? kanal.eo_hejmpaĝoButono : udsendelse.shareLink;
           Log.d("EoUdsendelse_frag hp="+hp);
-          aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
+          if (udsendelse.beskrivelse==null) {
+            aq.id(R.id.titel).getWebView().loadUrl(hp);
+            WebView browser = aq.id(R.id.titel).getWebView();
+            browser.getSettings().setLoadWithOverviewMode(true);
+            browser.getSettings().setUseWideViewPort(true);
+            browser.getSettings().setJavaScriptEnabled(true);
+          }
+          else aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
                   udsendelse.beskrivelse
                           + (hp==null||hp.length()==0 ? "" : ""
                           + "<br><p>Iri al la <a href='"+hp +"'>hejmpaĝo</a></p>"

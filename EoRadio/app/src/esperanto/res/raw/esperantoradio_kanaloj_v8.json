@@ -195,7 +195,7 @@
 		"kontakt_modtagere": ["jacob.nordfalk@gmail.com" ],
 		"kontakt_titel": "Pri la Esperanto-radio",
 		"kontakt_brugerspørgsmål": "\nDankon pro via helpemo!\nSkribu viajn proponojn aŭ ideojn ĉi-sube. (mi eble kontaktos vin por pliaj informoj)\n---\nv8.json\n",
-		"drift_statusmeddelelse": "Bonvenon af la provversio. Kelkaj aferoj ankoraŭ ne funcias. La kanalfotoj aperos nur post ke vi forigas la apon de la memoro (evt post restarto de la telefono) kaj startas ĝin denove. "
+		"drift_statusmeddelelse": "Nova multe pli bona provversio venis! <br> Elŝutu <a href='http://javabog.dk/privat/EoRadio.apk'>ĉi tie</a>."
 	},
 	"channels": [ ],
 

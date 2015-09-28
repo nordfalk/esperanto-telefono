@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
@@ -354,9 +357,49 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         } else if (type == DAGSOVERSKRIFT) {
           vh.titel = a.id(R.id.titel).typeface(App.skrift_gibson).getTextView();
         } else { // type == NORMAL / AKTUEL
-          vh.starttid.setMaxLines(4);
           vh.starttid.setTextColor(Color.BLACK);
           a.id(R.id.hør).tag(vh).clicked(EoKanal_frag.this);
+          if (type==AKTUEL) {
+            vh.starttid.setMaxLines(8);
+            // Anstataŭ setMovementMethod(LinkMovementMethod.getInstance()) - vidu
+            // http://stackoverflow.com/questions/8558732/listview-textview-with-linkmovementmethod-makes-list-item-unclickable
+            vh.starttid.setOnTouchListener(new View.OnTouchListener() {
+              @Override
+              public boolean onTouch(View v, MotionEvent event) {
+                boolean ret = false;
+                CharSequence text = ((TextView) v).getText();
+                Spannable stext = Spannable.Factory.getInstance().newSpannable(text);
+                TextView widget = (TextView) v;
+                int action = event.getAction();
+
+                if (action == MotionEvent.ACTION_UP ||
+                        action == MotionEvent.ACTION_DOWN) {
+                  int x = (int) event.getX();
+                  int y = (int) event.getY();
+
+                  x -= widget.getTotalPaddingLeft();
+                  y -= widget.getTotalPaddingTop();
+
+                  x += widget.getScrollX();
+                  y += widget.getScrollY();
+
+                  Layout layout = widget.getLayout();
+                  int line = layout.getLineForVertical(y);
+                  int off = layout.getOffsetForHorizontal(line, x);
+
+                  ClickableSpan[] link = stext.getSpans(off, off, ClickableSpan.class);
+
+                  if (link.length != 0) {
+                    if (action == MotionEvent.ACTION_UP) {
+                      link[0].onClick(widget);
+                    }
+                    ret = true;
+                  }
+                }
+                return ret;
+              }
+            });
+          }
         }
         v.setTag(vh);
       } else {
@@ -430,11 +473,9 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
 
     if (rektaElsendaPriskribo != null) {
       udsendelse.titel = rektaElsendaPriskribo;
-      vh.starttid.setMovementMethod(LinkMovementMethod.getInstance());
-
-      vh.starttid.setText(Html.fromHtml("<b>NUN LUDAS</b> "+ klokkenformat.format(new Date(rektaElsendoKiam))  +"<br><br><b>" + rektaElsendaPriskribo+ "<br><br>"));
+      vh.starttid.setText(Html.fromHtml("<b>NUN LUDAS</b> - "+ klokkenformat.format(new Date(rektaElsendoKiam))  +"<br><br><b>" + rektaElsendaPriskribo+ "<br>"));
     } else {
-      vh.starttid.setText(Html.fromHtml("REKTA<br><br>(ŝarĝas elsendon, bv atendu)<br><br><br>"));
+      vh.starttid.setText(Html.fromHtml("<b>NUN LUDAS</b><br>(ŝarĝas elsendon, bv atendu)<br><br><br>"));
     }
   }
 
@@ -445,7 +486,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         if (App.fejlsøgning) Log.d("KAN fikSvar playliste(" + fraCache + uændret + " " + url);
         if (getActivity() == null || uændret) return;
-        rektaElsendaPriskribo = json;
+        rektaElsendaPriskribo = json.trim();
+        if (rektaElsendaPriskribo.endsWith("<br>")) rektaElsendaPriskribo=rektaElsendaPriskribo.substring(0,rektaElsendaPriskribo.length()-4);
         rektaElsendoKiam = System.currentTimeMillis();
         if (aktuelUdsendelseViewholder == null) return;
         opdaterSenestSpilletViews(aq2, u2);
@@ -470,7 +512,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   }
 
   @Override
-  public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
+  public void onItemClick(AdapterView<?> listViewxx, View vxx, int position, long idxx) {
     Object o = liste.get(position);
     Kanaler_frag.eoValgtKanal = kanal;
     Log.d("MONTRAS OBJEKTON "+o);

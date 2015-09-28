@@ -109,7 +109,7 @@ public class Grunddata {
         Udsendelse rektaElsendo = new Udsendelse();
         rektaElsendo.startTid = rektaElsendo.slutTid = new Date();
         rektaElsendo.kanalSlug = k.navn;
-        rektaElsendo.startTidKl = "REKTAxx";
+        rektaElsendo.startTidKl = "REKTA";
         rektaElsendo.titel = "";
         rektaElsendo.sonoUrl.add(rektaElsendaSonoUrl);
         rektaElsendo.rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);

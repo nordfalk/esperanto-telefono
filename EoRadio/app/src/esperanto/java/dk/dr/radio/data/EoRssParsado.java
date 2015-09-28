@@ -188,7 +188,6 @@ public class EoRssParsado {
     }
     if (e != null && e.sonoUrl.size()>0) liste.add(e);
     is.close();
-    Collections.reverse(liste); // Inversa sinsekvo
     return liste;
   }
 
@@ -217,7 +216,7 @@ public class EoRssParsado {
         elsendoj = EoRssParsado.parsiElsendojnDeRss(new StringReader(xml), k);
       }
       if (elsendoj.size() > 0) {
-        if (k.eo_rektaElsendo != null) elsendoj.add(k.eo_rektaElsendo);
+        if (k.eo_rektaElsendo != null) elsendoj.add(0, k.eo_rektaElsendo);
         k.udsendelser = elsendoj;
         k.eo_datumFonto = "rss";
       }

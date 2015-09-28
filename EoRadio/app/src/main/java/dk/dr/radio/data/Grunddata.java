@@ -106,16 +106,16 @@ public class Grunddata {
       kanaler.add(k);
 
       if (rektaElsendaSonoUrl != null) {
-        Udsendelse el = new Udsendelse();
-        el.startTid = el.slutTid = new Date();
-        el.kanalSlug = k.navn;
-        el.startTidKl = "REKTA";
-        el.titel = "";
-        el.sonoUrl.add(rektaElsendaSonoUrl);
-        el.rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
-        el.slug = k.slug + "_rekta";
-        eoElsendoAlDaUdsendelse(el, k);
-        k.eo_rektaElsendo = el;
+        Udsendelse rektaElsendo = new Udsendelse();
+        rektaElsendo.startTid = rektaElsendo.slutTid = new Date();
+        rektaElsendo.kanalSlug = k.navn;
+        rektaElsendo.startTidKl = "REKTAxx";
+        rektaElsendo.titel = "";
+        rektaElsendo.sonoUrl.add(rektaElsendaSonoUrl);
+        rektaElsendo.rektaElsendaPriskriboUrl = kJs.optString("rektaElsendaPriskriboUrl", null);
+        rektaElsendo.slug = k.slug + "_rekta";
+        eoElsendoAlDaUdsendelse(rektaElsendo, k);
+        k.eo_rektaElsendo = rektaElsendo;
         k.streams = new ArrayList<Lydstream>();
         Lydstream ls = new Lydstream();
         k.streams.add(ls);

@@ -27,7 +27,9 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
@@ -396,9 +398,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           if (udsendelse.titel.equals(udsendelse.beskrivelse)) {
             spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel);
           } else {
-            spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ Html.fromHtml(udsendelse.beskrivelse.replaceAll("<.+?>", "")));
+            spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ udsendelse.beskrivelse.replaceAll("<.+?>", ""));
           }
-          if (udsendelse.titel.contains("La 108a")) Log.d(udsendelse.beskrivelse);
 
           int klPos = udsendelse.startTidKl.length();
           spannable.setSpan(new ForegroundColorSpan(App.color.grå40), 0, klPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -422,6 +423,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
 
 
   String rektaElsendaPriskribo = null;
+  private long rektaElsendoKiam;
+  DateFormat klokkenformat = DateFormat.getTimeInstance(DateFormat.SHORT);
   private void opdaterSenestSpilletViews(AQuery a, Udsendelse udsendelse) {
     Viewholder vh = aktuelUdsendelseViewholder;
 
@@ -429,7 +432,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       udsendelse.titel = rektaElsendaPriskribo;
       vh.starttid.setMovementMethod(LinkMovementMethod.getInstance());
 
-      vh.starttid.setText(Html.fromHtml("<b>REKTA<br><br>" + rektaElsendaPriskribo+ "<br>"));
+      vh.starttid.setText(Html.fromHtml("<b>NUN LUDAS</b> "+ klokkenformat.format(new Date(rektaElsendoKiam))  +"<br><br><b>" + rektaElsendaPriskribo+ "<br><br>"));
     } else {
       vh.starttid.setText(Html.fromHtml("REKTA<br><br>(ŝarĝas elsendon, bv atendu)<br><br><br>"));
     }
@@ -443,6 +446,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         if (App.fejlsøgning) Log.d("KAN fikSvar playliste(" + fraCache + uændret + " " + url);
         if (getActivity() == null || uændret) return;
         rektaElsendaPriskribo = json;
+        rektaElsendoKiam = System.currentTimeMillis();
         if (aktuelUdsendelseViewholder == null) return;
         opdaterSenestSpilletViews(aq2, u2);
       }

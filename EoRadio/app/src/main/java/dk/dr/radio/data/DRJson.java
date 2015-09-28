@@ -111,7 +111,7 @@ public enum DRJson {
   }
 */
 
-  public static final Locale dansk = new Locale("da", "DA");
+  public static final Locale dansk = Locale.getDefault(); // EO ŝanĝo new Locale("da", "DA");
   public static final DateFormat klokkenformat = new SimpleDateFormat("HH:mm", dansk);
   public static final DateFormat datoformat = new SimpleDateFormat("d. MMM yyyy", dansk);
   private static final DateFormat ugedagformat = new SimpleDateFormat("EEEE d. MMM", dansk);

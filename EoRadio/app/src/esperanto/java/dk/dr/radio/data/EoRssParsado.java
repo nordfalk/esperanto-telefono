@@ -37,15 +37,15 @@ public class EoRssParsado {
    */
   //static Pattern puriguPosterous1 = Pattern.compile("<div class='p_embed...[^i].+?</div>", Pattern.DOTALL);
 
-  static Pattern puriguVinilkosmo = Pattern.compile("<p class=\"who\">.+?</p>", Pattern.DOTALL);
+  private static Pattern puriguVinilkosmo = Pattern.compile("<p class=\"who\">.+?</p>", Pattern.DOTALL);
 
-  static Pattern puriguVarsoviaVento1 = Pattern.compile("<p>.+?Ĉe Facebook ni kreis.+?</p>", Pattern.DOTALL);
-  static Pattern puriguVarsoviaVento2 = Pattern.compile("<p>.+?Paŝo post paŝo moderniĝas nia retejo.+?</p>", Pattern.DOTALL);
-  static Pattern puriguVarsoviaVentoDownload = Pattern.compile("<p>.+?>Download audio file.+?</p>");
-  static Pattern puriguVarsoviaVentoElŝutu = Pattern.compile("<p>.+?>Elŝutu podkaston.+?</p>");
+  private static Pattern puriguVarsoviaVento1 = Pattern.compile("<p>.+?Ĉe Facebook ni kreis.+?</p>", Pattern.DOTALL);
+  private static Pattern puriguVarsoviaVento2 = Pattern.compile("<p>.+?Paŝo post paŝo moderniĝas nia retejo.+?</p>", Pattern.DOTALL);
+  private static Pattern puriguVarsoviaVentoDownload = Pattern.compile("<p>.+?>Download audio file.+?</p>");
+  private static Pattern puriguVarsoviaVentoElŝutu = Pattern.compile("<p>.+?>Elŝutu podkaston.+?</p>");
 
   /** Parser et youtube RSS feed og returnerer det som en liste at Elsendo-objekter */
-  static ArrayList<Udsendelse> parsiElsendojnDeRss(Reader is, Kanal k) throws Exception {
+  private static ArrayList<Udsendelse> parsiElsendojnDeRss(Reader is, Kanal k) throws Exception {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser p = factory.newPullParser();
     p.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
@@ -138,7 +138,7 @@ public class EoRssParsado {
   //public static final DateFormat vinilkosmoDatoformato = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ssZ", Locale.US);
 
   /** Parser et youtube RSS feed og returnerer det som en liste at Elsendo-objekter */
-  static ArrayList<Udsendelse> parsiElsendojnDeRssVinilkosmo(Reader is) throws Exception {
+  private static ArrayList<Udsendelse> parsiElsendojnDeRssVinilkosmo(Reader is) throws Exception {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser p = factory.newPullParser();
     p.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
@@ -189,20 +189,6 @@ public class EoRssParsado {
     if (e != null && e.sonoUrl.size()>0) liste.add(e);
     is.close();
     return liste;
-  }
-
-
-  public static void ŝarĝiElsendojnDeRssUrl(String elsendojRssUrl, Kanal k, boolean nurLokajn) {
-    try {
-      if (elsendojRssUrl== null) return;
-      String dosiero = FilCache.findLokaltFilnavn(elsendojRssUrl);
-      if (nurLokajn && !new File(dosiero).exists()) return;
-      Log.d(" akiris " + elsendojRssUrl);
-      if (dosiero == null) return;
-      ŝarĝiElsendojnDeRssUrl(Diverse.læsStreng(new FileInputStream(dosiero)), k);
-    } catch (Exception ex) {
-      Log.e("Eraro parsante " + k.kode, ex);
-    }
   }
 
 

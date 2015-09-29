@@ -71,20 +71,6 @@
 			"hejmpaĝoButono": "http://www.radiovaticana.org/esp/on_demand.asp"
 		}
 		,{
-			"kodo": "radioverda",
-			"nomo": "Radio Verda",
-			"emblemoUrl": "http://radioverda.com/storage/audio/rv_144.jpg",
-// Ne facile eblas eltiri la MP3-dosierojn. Havas nur ekde RV191
-// "elsendojRssUrl": "http://radioverda.squarespace.com/programoj/rss.xml",
-// Pli granda, malpli informenhava på elsendo, sed havas ekde RV100
-			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
-// 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
-// http://radioverda.com/rv100plus/   http://radioverda.com/programoj/2007/5/5/rv101-20070505.html
-			"montruTitolojn": "true",
-			"retpoŝto": "arono@radioverda.com",
-			"hejmpaĝoButono": "http://radioverda.com/"
-		}
-		,{
 			"kodo": "varsoviavento",
 			"nomo": "Varsovia Vento",
 			"emblemoUrl": "",
@@ -112,6 +98,20 @@
 			"uziWebViewPorElsendo": false,
 			"hejmpaĝo": "http://kern.punkto.info/"
 		}
+  	,{
+			"kodo": "radioverda",
+			"nomo": "Radio Verda",
+			"emblemoUrl": "http://radioverda.com/storage/audio/rv_144.jpg",
+			// Ne facile eblas eltiri la MP3-dosierojn. Havas nur ekde RV191
+			// "elsendojRssUrl": "http://radioverda.squarespace.com/programoj/rss.xml",
+			// Pli granda, malpli informenhava på elsendo, sed havas ekde RV100
+			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
+			// 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
+			// http://radioverda.com/rv100plus/   http://radioverda.com/programoj/2007/5/5/rv101-20070505.html
+			"montruTitolojn": "true",
+			"retpoŝto": "arono@radioverda.com",
+			"hejmpaĝoButono": "http://radioverda.com/"
+		}
 		,{
 			"kodo": "radiofrei",
 			"nomo": "Radio Frei",
@@ -128,7 +128,7 @@
 			//    Por estonta laboro, jen informoj pri kiel fari: http://developers.soundcloud.com/docs/api#authentication
 			//			"elsendojRssUrl": "http://feeds.feedburner.com/peranto",
 			"elsendojRssUrl": "http://esperantaretradio.blogspot.co.at/feeds/posts/default",
-			"elsendojRssUrl": "http://esperantaretradio.blogspot.com/feeds/posts/default?alt=rss",
+			"xxelsendojRssUrl": "http://esperantaretradio.blogspot.com/feeds/posts/default?alt=rss",
 			"retpoŝto": "retradio@aldone.de",
 			"hejmpaĝoButono": "http://aldone.de/retradio"
 		}

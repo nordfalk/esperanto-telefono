@@ -246,17 +246,6 @@ public class Grunddata {
   }
 
 
-  /**
-   * @return true se io estis ŝarĝita
-   */
-  public void ŝarĝiElsendojnDeRss(boolean nurLokajn) {
-    for (Kanal k : kanaler) {
-      EoRssParsado.ŝarĝiElsendojnDeRssUrl(k.eo_elsendojRssUrl, k, nurLokajn);
-      //ŝarĝiElsendojnDeRssUrl(k.eo_json.optString("elsendojRssUrl1", null), k, nurLokajn);
-      //ŝarĝiElsendojnDeRssUrl(k.json.optString("elsendojRssUrl2", null), k, nurLokajn);
-    }
-  }
-
   public void forprenuMalplenajnKanalojn() {
     for (Iterator<Kanal> ki =this.kanaler.iterator(); ki.hasNext(); ) {
       Kanal k = ki.next();
@@ -337,7 +326,7 @@ public class Grunddata {
         }
       }
       if (k.eo_udsendelserFraRadioTxt != null && k.eo_udsendelserFraRadioTxt.size()>k.udsendelser.size()) {
-        Log.rapporterFejl(new IllegalStateException(), "k.eo_udsendelserFraRadioTxt.size()>k.udsendelser.size(): "+k.eo_udsendelserFraRadioTxt.size()+" > " +k.udsendelser.size());
+        Log.rapporterFejl(new IllegalStateException(), "k.eo_udsendelserFraRadioTxt.size()>k.udsendelser.size() for "+k+": "+k.eo_udsendelserFraRadioTxt.size()+" > " +k.udsendelser.size());
       }
     }
   }

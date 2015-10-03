@@ -58,6 +58,7 @@ public class Kanal extends Lydkilde {
   public String eo_datumFonto;
   public ArrayList<Udsendelse> eo_udsendelserFraRadioTxt; // Provizora variablo - por kontroli ĉu ni maltrafas ion dum parsado de RSS
   public String eo_elsendojRssUrl;
+  public String eo_elsendojRssUrl2;
   public boolean eo_elsendojRssIgnoruTitolon;
 
   @Override

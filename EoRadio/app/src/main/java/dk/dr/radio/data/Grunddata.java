@@ -100,6 +100,7 @@ public class Grunddata {
       k.eo_retpoŝto = kJs.optString("retpoŝto", null);
       k.eo_emblemoUrl = kJs.optString("emblemoUrl", null);
       k.eo_elsendojRssUrl = kJs.optString("elsendojRssUrl", null);
+      k.eo_elsendojRssUrl2 = kJs.optString("elsendojRssUrl2", null);
       k.eo_elsendojRssIgnoruTitolon = kJs.optBoolean("elsendojRssIgnoruTitolon", false);
 
       k.eo_json = kJs;

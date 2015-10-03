@@ -27,6 +27,34 @@
 			//"hejmpaĝoEkrane": "http://muzaiko.info/programo.php",
 			"hejmpaĝoButono": "http://muzaiko.info/"
 		}
+	,{
+			"kodo": "varsoviavento",
+			"nomo": "Varsovia Vento",
+			"emblemoUrl": "",
+			"elsendojRssUrl": "http://www.podkasto.net/feed/",
+			"emblemoUrl": "http://www.podkasto.net/wp-content/uploads/2010/07/podkasto5.jpg",
+			"montruTitolojn": "true",
+			"retpoŝto": "podkasto@onet.eu",
+			"hejmpaĝoButono": "http://podkasto.net/"
+		}
+	,{
+			"kodo": "vinilkosmo",
+			"nomo": "Vinilkosmo",
+			"emblemoUrl": "http://www.vinilkosmo-mp3.com/images/banniere_300.jpg",
+			"elsendojRssUrl": "http://api.ipernity.com/feed/doc?user_id=vinilkosmo&only=audio",
+			"montruTitolojn": "true",
+			"uziWebViewPorElsendo": true,
+			"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
+		}
+	,{
+			"kodo": "kernpunkto",
+			"nomo": "Kernpunkto",
+			"emblemoUrl": "http://esperanto-radio.com/_kernpunkto.png",
+			"elsendojRssUrl": "http://kern.punkto.info/feed/mp3",
+			"montruTitolojn": "true",
+			"uziWebViewPorElsendo": false,
+			"hejmpaĝo": "http://kern.punkto.info/"
+		}
 		,{
 			"kodo": "polaretradio",
 			"nomo": "Pola Retradio",
@@ -65,52 +93,10 @@
 			"XXemblemoUrl": "http://eo.radiovaticana.va/img/h_02.gif",
 			"emblemoUrl": "http://esperanto-radio.com/_radiovatikana.png",
  			"elsendojRssUrl": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_1",
+			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
 			"elsendojRssIgnoruTitolon": false,
-// 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
 			"retpoŝto": "esperanto@vatiradio.va",
 			"hejmpaĝoButono": "http://www.radiovaticana.org/esp/on_demand.asp"
-		}
-		,{
-			"kodo": "varsoviavento",
-			"nomo": "Varsovia Vento",
-			"emblemoUrl": "",
- 			"elsendojRssUrl": "http://www.podkasto.net/feed/",
-			"emblemoUrl": "http://www.podkasto.net/wp-content/uploads/2010/07/podkasto5.jpg",
-			"montruTitolojn": "true",
-			"retpoŝto": "podkasto@onet.eu",
-			"hejmpaĝoButono": "http://podkasto.net/"
-		}
-		,{
-			"kodo": "vinilkosmo",
-			"nomo": "Vinilkosmo",
-			"emblemoUrl": "http://www.vinilkosmo-mp3.com/images/banniere_300.jpg",
-			"elsendojRssUrl": "http://api.ipernity.com/feed/doc?user_id=vinilkosmo&only=audio",
-			"montruTitolojn": "true",
-			"uziWebViewPorElsendo": true,
-			"hejmpaĝo": "http://www.vinilkosmo-mp3.com/index.php?language=eo"
-		}
-		,{
-			"kodo": "kernpunkto",
-			"nomo": "Kernpunkto",
-			"emblemoUrl": "http://esperanto-radio.com/_kernpunkto.png",
-			"elsendojRssUrl": "http://kern.punkto.info/feed/mp3",
-			"montruTitolojn": "true",
-			"uziWebViewPorElsendo": false,
-			"hejmpaĝo": "http://kern.punkto.info/"
-		}
-  	,{
-			"kodo": "radioverda",
-			"nomo": "Radio Verda",
-			"emblemoUrl": "http://radioverda.com/storage/audio/rv_144.jpg",
-			// Ne facile eblas eltiri la MP3-dosierojn. Havas nur ekde RV191
-			// "elsendojRssUrl": "http://radioverda.squarespace.com/programoj/rss.xml",
-			// Pli granda, malpli informenhava på elsendo, sed havas ekde RV100
-			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
-			// 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
-			// http://radioverda.com/rv100plus/   http://radioverda.com/programoj/2007/5/5/rv101-20070505.html
-			"montruTitolojn": "true",
-			"retpoŝto": "arono@radioverda.com",
-			"hejmpaĝoButono": "http://radioverda.com/"
 		}
 		,{
 			"kodo": "radiofrei",
@@ -131,6 +117,20 @@
 			"xxelsendojRssUrl": "http://esperantaretradio.blogspot.com/feeds/posts/default?alt=rss",
 			"retpoŝto": "retradio@aldone.de",
 			"hejmpaĝoButono": "http://aldone.de/retradio"
+		}
+		,{
+			"kodo": "radioverda",
+			"nomo": "Radio Verda",
+			"emblemoUrl": "http://radioverda.com/storage/audio/rv_144.jpg",
+			// Ne facile eblas eltiri la MP3-dosierojn. Havas nur ekde RV191
+			// "elsendojRssUrl": "http://radioverda.squarespace.com/programoj/rss.xml",
+			// Pli granda, malpli informenhava på elsendo, sed havas ekde RV100
+			"elsendojRssUrl": "http://radioverda.squarespace.com/storage/audio/radioverda.xml",
+			// 			"elsendojRssUrl2": "http://media01.vatiradio.va/podmaker/podcaster.aspx?c=esperanto_2",
+			// http://radioverda.com/rv100plus/   http://radioverda.com/programoj/2007/5/5/rv101-20070505.html
+			"montruTitolojn": "true",
+			"retpoŝto": "arono@radioverda.com",
+			"hejmpaĝoButono": "http://radioverda.com/"
 		}
 	],
 //,

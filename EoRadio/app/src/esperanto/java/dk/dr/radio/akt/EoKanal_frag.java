@@ -32,6 +32,7 @@ import com.androidquery.AQuery;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import dk.dr.radio.afspilning.Status;
@@ -134,6 +135,23 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           Log.d("eo RSS por "+kanal+" ="+json);
           EoRssParsado.ŝarĝiElsendojnDeRssUrl(json, kanal);
           opdaterListe();
+
+          if (kanal.eo_elsendojRssUrl2!=null) {
+            final ArrayList<Udsendelse> uds1 = kanal.udsendelser;
+            Request<?> req = new DrVolleyStringRequest(kanal.eo_elsendojRssUrl2, new DrVolleyResonseListener() {
+              @Override
+              public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
+                if (uændret || listView == null || getActivity() == null) return;
+                Log.d("eo RSS por " + kanal + " =" + json);
+                EoRssParsado.ŝarĝiElsendojnDeRssUrl(json, kanal);
+                kanal.udsendelser.addAll(uds1);
+                Collections.sort(kanal.udsendelser);
+                Collections.reverse(kanal.udsendelser);
+                opdaterListe();
+              }
+            }).setTag(this);
+            App.volleyRequestQueue.add(req);
+          }
         }
 
         @Override
@@ -291,21 +309,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       return liste.size();
     }
 
-    /*
-    public boolean hasStableIds() {
-      return true;
-    }
-
-    @Override
-    public Object getItem(int position) {
-      return liste.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-      return position+getItemViewType(position)*1000;
-    }
-    */
     @Override
     public int getViewTypeCount() {
       return 4;
@@ -441,7 +444,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           if (udsendelse.titel.equals(udsendelse.beskrivelse)) {
             spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel);
           } else {
-            spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ udsendelse.beskrivelse.replaceAll("<.+?>", ""));
+            spannable = new SpannableString(udsendelse.startTidKl+"  "+udsendelse.titel+"\n"+ Html.fromHtml(udsendelse.beskrivelse.replaceAll("<.+?>", "")));
           }
 
           int klPos = udsendelse.startTidKl.length();

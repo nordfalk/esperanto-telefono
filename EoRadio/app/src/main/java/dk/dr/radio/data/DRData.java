@@ -76,12 +76,14 @@ public class DRData {
 		 */
 
   public static String getUdsendelseStreamsUrlFraUrn(String urn) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     // http://www.dr.dk/tjenester/mu-apps/program?urn=urn:dr:mu:programcard:52e6fa58a11f9d1588de9c49&includeStreams=true
     return BASISURL + "/program?includeStreams=true&urn=" + urn;
   }
 
 
   public static String getProgramserieUrl(String programserieSlug) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     // svarer til v3_programserie.json
     // http://www.dr.dk/tjenester/mu-apps/series/monte-carlo?type=radio&includePrograms=true
     // http://www.dr.dk/tjenester/mu-apps/series/monte-carlo?type=radio&includePrograms=true&includeStreams=true
@@ -90,11 +92,13 @@ public class DRData {
   }
 
   public static String getKanalStreamsUrlFraSlug(String slug) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     //return BASISURL + "/channel?includeStreams=true&urn=" + urn;
     return BASISURL + "/channel/" + slug + "?includeStreams=true";
   }
 
   public static String getKanalUdsendelserUrlFraKode(String kode, String datoStr) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     return BASISURL + "/schedule/" + URLEncoder.encode(kode) + "/date/" + datoStr;  // svarer til v3_kanalside__p3.json;
   }
 
@@ -103,14 +107,17 @@ public class DRData {
   }
 
   public static String getUdsendelseStreamsUrlFraSlug(String udsendelseSlug) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     return BASISURL + "/program/" + udsendelseSlug + "?type=radio&includeStreams=true";
   }
 
   public static String getSøgIUdsendelserUrl(String søgStr) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     return BASISURL + "/search/programs?q=" + URLEncoder.encode(søgStr) + "&type=radio";
   }
 
   public static String getSøgISerierUrl(String søgStr) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     return BASISURL + "/search/series?q=" + URLEncoder.encode(søgStr) + "&type=radio";
   }
 
@@ -119,10 +126,12 @@ public class DRData {
   }
 
   public static String getNyeProgrammerSiden(String programserieSlug, String dato) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     return BASISURL + "/new-programs-since/" + programserieSlug + "/" + dato;
   }
 
   public static String getPlaylisteUrl(String slug) {
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     // Tidligere (marts 2014) skulle kanalens slug med, såsom
     // http://www.dr.dk/tjenester/mu-apps/playlist/monte-carlo-352/p3
     // Det er tilsyneladende ikke nødvendigt mere, per april 2014

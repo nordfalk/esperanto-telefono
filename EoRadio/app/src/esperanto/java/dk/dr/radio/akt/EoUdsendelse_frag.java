@@ -437,6 +437,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
             browser.getSettings().setLoadWithOverviewMode(true);
             browser.getSettings().setUseWideViewPort(true);
             browser.getSettings().setJavaScriptEnabled(true);
+            browser.getSettings().setBuiltInZoomControls(true);
           }
           else aq.id(R.id.titel).getWebView().loadDataWithBaseURL("fake://not/needed",
                   udsendelse.beskrivelse

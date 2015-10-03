@@ -234,7 +234,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
       kanallogo.setImageResource(kanal.kanallogo_resid);
     }
 
-    direktetekst.setVisibility(lydkilde.erDirekte() || "muzaiko_rekta".equals(lydkilde.slug) ? View.VISIBLE : View.GONE);
+    direktetekst.setVisibility(lydkilde.erDirekte() ? View.VISIBLE : View.GONE);
     metainformation.setText(Html.fromHtml(udsendelse!=null?udsendelse.titel:kanal.navn));
     switch (DRData.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:

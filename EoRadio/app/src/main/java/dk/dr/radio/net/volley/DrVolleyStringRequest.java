@@ -2,6 +2,8 @@ package dk.dr.radio.net.volley;
 
 import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
@@ -82,4 +84,12 @@ public class DrVolleyStringRequest extends StringRequest {
     super.cancel();
     lytter.annulleret();
   }
+
+
+  @Override
+  protected Response<String> parseNetworkResponse(NetworkResponse response) {
+    response.headers.remove("Cache-Control");
+    return super.parseNetworkResponse(response);
+  }
+
 }

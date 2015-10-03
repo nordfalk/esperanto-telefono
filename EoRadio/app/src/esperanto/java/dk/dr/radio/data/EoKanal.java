@@ -17,4 +17,13 @@ public class EoKanal extends Kanal {
     return udsendelser.get(0);
   }
 
+  @Override
+  public boolean harStreams() {
+    return true;
+  }
+
+  @Override
+  public boolean erDirekte() {
+    return eo_rektaElsendo!=null;
+  }
 }

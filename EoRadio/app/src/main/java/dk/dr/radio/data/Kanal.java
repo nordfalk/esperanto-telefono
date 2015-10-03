@@ -52,7 +52,6 @@ public class Kanal extends Lydkilde {
   public String eo_hejmpaĝoEkrane;
   public String eo_hejmpaĝoButono;
   public String eo_retpoŝto;
-  public JSONObject eo_json;
   public Udsendelse eo_rektaElsendo;
   public String eo_emblemoUrl;
   public String eo_datumFonto;
@@ -60,6 +59,7 @@ public class Kanal extends Lydkilde {
   public String eo_elsendojRssUrl;
   public String eo_elsendojRssUrl2;
   public boolean eo_elsendojRssIgnoruTitolon;
+  public boolean eo_montruTitolojn;
 
   @Override
   public String toString() {

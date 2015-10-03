@@ -139,7 +139,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     aq.id(R.id.kanallogo).gone();
     aq.id(R.id.p4navn).text("");
 
-    if (kanal.eo_json.optBoolean("montruTitolojn")) {
+    if (kanal.eo_montruTitolojn) {
       aq.id(R.id.titel).typeface(App.skrift_gibson_fed).text(udsendelse.titel)
           .getTextView().setContentDescription("\u00A0");  // SLUK for højtlæsning, det varetages af listviewet
     } else {

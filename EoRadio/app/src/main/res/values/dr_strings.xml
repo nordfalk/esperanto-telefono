@@ -129,6 +129,7 @@
   <string name="GRUNDDATA_URL_UDVIKLING">http://android.lundogbendsen.dk/drradiov3_grunddata.json</string>
   <string name="HENTEDE_UDS_MAPPENAVN">DR_Radio</string>
   <string name="URL_TIL_DR_RADIO_BETAVERSION">http://android.lundogbendsen.dk/DRRadiov3.apk</string>
+  <string name="_LIVE">LIVE</string>
 
   <string-array name="lydformat_tekst">
     <item>AAC (HLS)</item>

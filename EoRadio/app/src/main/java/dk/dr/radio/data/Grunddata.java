@@ -90,7 +90,7 @@ public class Grunddata {
     int antal = kanalojJs.length();
     for (int i = 0; i < antal; i++) {
       JSONObject kJs = kanalojJs.getJSONObject(i);
-      Kanal k = new Kanal();
+      Kanal k = new EoKanal();
       k.slug = k.kode = kJs.optString("kodo", null);
       if (k.kode ==null) continue;
       k.navn = kJs.getString("nomo");
@@ -102,8 +102,8 @@ public class Grunddata {
       k.eo_elsendojRssUrl = kJs.optString("elsendojRssUrl", null);
       k.eo_elsendojRssUrl2 = kJs.optString("elsendojRssUrl2", null);
       k.eo_elsendojRssIgnoruTitolon = kJs.optBoolean("elsendojRssIgnoruTitolon", false);
+      k.eo_montruTitolojn = kJs.optBoolean("montruTitolojn", false);
 
-      k.eo_json = kJs;
       kanaler.add(k);
 
       if (rektaElsendaSonoUrl != null) {
@@ -122,6 +122,7 @@ public class Grunddata {
         k.streams.add(ls);
         ls.url = rektaElsendaSonoUrl;
         ls.type = DRJson.StreamType.Shoutcast;
+        ls.kvalitet = DRJson.StreamQuality.Medium;
         //k.udsendelser.add(el);
       }
     }
@@ -178,8 +179,7 @@ public class Grunddata {
           e.startTidKl = x[1];
           e.startTid = datoformato.parse(x[1]);
           e.sonoUrl.add(x[2]);
-          e.titel = "";
-          e.beskrivelse = x[3];
+          e.titel = e.beskrivelse = x[3];
 
           Kanal k = kanalFraSlug.get(e.kanalSlug);
           // Jen problemo. "Esperanta Retradio" nomiĝas "Peranto" en
@@ -194,8 +194,7 @@ public class Grunddata {
 
           if (k == null) {
             Log.d("Nekonata kanalnomo - ALDONAS GXIN: " + e.kanalSlug);
-            k = new Kanal();
-            k.eo_json = new JSONObject();
+            k = new EoKanal();
             k.kode = k.slug = e.kanalSlug;
             k.navn = x[0];
             k.eo_datumFonto = "radio.txt";

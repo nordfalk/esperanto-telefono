@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -227,14 +228,14 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     }
     Udsendelse udsendelse = lydkilde.getUdsendelse();
 
-    if (kanal.eo_emblemo==null) {
+    if (kanal.eo_emblemo!=null) {
       kanallogo.setImageBitmap(kanal.eo_emblemo);
     } else {
       kanallogo.setImageResource(kanal.kanallogo_resid);
     }
 
-    direktetekst.setVisibility(lydkilde.erDirekte()?View.VISIBLE:View.GONE);
-    metainformation.setText(udsendelse!=null?udsendelse.titel:kanal.navn);
+    direktetekst.setVisibility(lydkilde.erDirekte() || "muzaiko_rekta".equals(lydkilde.slug) ? View.VISIBLE : View.GONE);
+    metainformation.setText(Html.fromHtml(udsendelse!=null?udsendelse.titel:kanal.navn));
     switch (DRData.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:
         startStopKnapNyImageResource = R.drawable.afspiller_spil;

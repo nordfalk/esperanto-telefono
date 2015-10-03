@@ -8,7 +8,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 21
         versionCode 3
-        versionName '28a de sept'
+        versionName '3a de okt'
     }
     buildTypes {
         release {

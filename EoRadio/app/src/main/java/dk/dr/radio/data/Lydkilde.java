@@ -117,6 +117,10 @@ public abstract class Lydkilde implements Serializable {
     streams = DRJson.parsStreams(o.getJSONArray(DRJson.Streams.name()));
   }
 
+  public void setStreams(String json) throws JSONException {
+    setStreams(new JSONObject(json));
+  }
+
   public boolean harStreams() {
     return streams != null || hentetStream != null;
   }

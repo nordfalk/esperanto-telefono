@@ -1,5 +1,8 @@
 package dk.dr.radio.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 
 import dk.dr.radio.diverse.App;
@@ -19,11 +22,27 @@ public class EoKanal extends Kanal {
 
   @Override
   public boolean harStreams() {
-    return true;
+    return udsendelser.size()>0;
   }
 
   @Override
   public boolean erDirekte() {
     return eo_rektaElsendo!=null;
+  }
+
+  @Override
+  public String getStreamsUrl() {
+    return eo_elsendojRssUrl;
+  }
+
+  @Override
+  public void setStreams(JSONObject o) throws JSONException {
+    throw new IllegalArgumentException("Ne rajtas voki, la rezulto ne estas JSON");
+  }
+
+  @Override
+  public void setStreams(String json) throws JSONException {
+    Log.d("eo RSS QQ por " + this + " =" + json);
+    EoRssParsado.ŝarĝiElsendojnDeRssUrl(json, this);
   }
 }

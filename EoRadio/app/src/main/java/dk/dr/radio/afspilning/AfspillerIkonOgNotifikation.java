@@ -126,27 +126,27 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
     remoteViews.setViewVisibility(R.id.direktetekst, lydkilde.erDirekte()?View.VISIBLE:View.GONE);
     remoteViews.setTextViewText(R.id.metainformation, udsendelse!=null?udsendelse.titel:kanal.navn);
     if (Build.VERSION.SDK_INT >= 15) {
-      remoteViews.setContentDescription(R.id.metainformation, "D R Radio " + kanal.navn);
+      remoteViews.setContentDescription(R.id.metainformation, App.instans.getString(R.string.D_R_Radio)+" " + kanal.navn);
     }
     switch (DRData.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:
         remoteViews.setImageViewResource(R.id.startStopKnap, R.drawable.afspiller_spil);
-        if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, "Start afspilning");
+        if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, App.instans.getString(R.string.Start_afspilning));
         remoteViews.setViewVisibility(R.id.progressBar, View.GONE);
         //remoteViews.setTextColor(R.id.metainformation, App.color.grå60);
         break;
       case FORBINDER:
         remoteViews.setImageViewResource(R.id.startStopKnap, R.drawable.afspiller_pause);
-        if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, "Stop afspilning");
+        if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, App.instans.getString(R.string.Stop_afspilning));
         remoteViews.setViewVisibility(R.id.progressBar, View.VISIBLE);
         int fpct = DRData.instans.afspiller.getForbinderProcent();
-        remoteViews.setTextViewText(R.id.metainformation, "Forbinder " + (fpct > 0 ? fpct : ""));
+        remoteViews.setTextViewText(R.id.metainformation, App.instans.getString(R.string.Forbinder) + (fpct > 0 ? fpct : ""));
         //remoteViews.setTextColor(R.id.metainformation, type == TYPE_hjemmeskærm ? App.color.grå60 : App.color.blå);
         break;
       case SPILLER:
         //  App.kortToast("SPILLER " + k.navn);
         remoteViews.setImageViewResource(R.id.startStopKnap, R.drawable.afspiller_pause);
-        if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, "Stop afspilning");
+        if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, App.instans.getString(R.string.Stop_afspilning));
         remoteViews.setViewVisibility(R.id.progressBar, View.GONE);
         //remoteViews.setTextColor(R.id.metainformation, type == TYPE_hjemmeskærm ? App.color.grå60 : App.color.grå60);
         break;

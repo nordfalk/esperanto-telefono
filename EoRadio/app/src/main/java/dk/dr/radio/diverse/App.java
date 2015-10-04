@@ -287,14 +287,13 @@ public class App extends Application {
         Log.d("forvalgtKanal=" + aktuelKanal);
       }
 
-      if (ÆGTE_DR && !aktuelKanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
+      if (!aktuelKanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
         final Kanal kanal = aktuelKanal;
         Request<?> req = new DrVolleyStringRequest(aktuelKanal.getStreamsUrl(), new DrVolleyResonseListener() {
           @Override
           public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
             if (uændret) return; // ingen grund til at parse det igen
-            JSONObject o = new JSONObject(json);
-            kanal.setStreams(o);
+            kanal.setStreams(json);
             Log.d("hentStreams akt fraCache=" + fraCache + " => " + kanal);
           }
         }) {
@@ -389,7 +388,7 @@ public class App extends Application {
       boolean færdig = true;
       Log.d("Onlineinitialisering starter efter " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
 
-      if (ÆGTE_DR && App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
+      if (App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
         for (final Kanal kanal : DRData.instans.grunddata.kanaler) {
           if (kanal.harStreams()) continue;
           //        Log.d("run()1 " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
@@ -397,8 +396,7 @@ public class App extends Application {
             @Override
             public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
               if (uændret) return;
-              JSONObject o = new JSONObject(json);
-              kanal.setStreams(o);
+              kanal.setStreams(json);
               Log.d("hentStreams app fraCache=" + fraCache + " => " + kanal);
             }
           }) {

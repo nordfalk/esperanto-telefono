@@ -28,7 +28,6 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_marginLeft="8dp"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -38,7 +37,8 @@
             android:layout_height="0px"
             android:src="@drawable/kanalappendix_ab4"
             android:layout_weight="1"
-            android:scaleType="fitStart"/>
+            android:scaleType="fitStart"
+            android:layout_gravity="left"/>
 
       <TextView
           android:id="@+id/metainformation"

@@ -147,40 +147,44 @@ public class Log {
 
   public static String lavKontaktinfo() {
     String ret = "";
-
-    /*
-    for (String afprøvet : afprøvedeTing.keySet()) {
-      ret += "\n" + afprøvet + ": " + afprøvedeTing.get(afprøvet);
-    }
-    ret += "\nOvenstående er korrekt: JA/NEJ\n\n";
-
-    PackageManager pm = instans.getPackageManager();
-    String version;
     try {
-      PackageInfo pi = pm.getPackageInfo(instans.getPackageName(), 0);
-      version = pi.versionName;
+
+      /*
+      for (String afprøvet : afprøvedeTing.keySet()) {
+        ret += "\n" + afprøvet + ": " + afprøvedeTing.get(afprøvet);
+      }
+      ret += "\nOvenstående er korrekt: JA/NEJ\n\n";
+
+      PackageManager pm = instans.getPackageManager();
+      String version;
+      try {
+        PackageInfo pi = pm.getPackageInfo(instans.getPackageName(), 0);
+        version = pi.versionName;
+      } catch (Exception e) {
+        version = e.toString();
+        e.printStackTrace();
+      }
+
+      ret += instans.getPackageName() + " (v " + version + ")" + "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT + "\nAndroid v" + Build.VERSION.RELEASE + " (sdk: " + Build.VERSION.SDK + ")";
+      */
+      AudioManager am = (AudioManager) App.instans.getSystemService(Context.AUDIO_SERVICE);
+      LinkedHashSet<String> udgange = new LinkedHashSet<>();
+      if (am.isBluetoothA2dpOn()) udgange.add("BluetoothA2dp");
+      if (am.isBluetoothScoOn()) udgange.add("BluetoothSco");
+      if (am.isSpeakerphoneOn()) udgange.add("Speakerphone");
+      if (am.isWiredHeadsetOn()) udgange.add("(Kablede høretelefoner forbundne)");
+
+      ret += "\nVersion: "+App.versionsnavn +
+          "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT +
+          "\nAndroid v" + Build.VERSION.RELEASE + " (sdk: " + Build.VERSION.SDK_INT + ")";
+      ret += "\nFunktioner brugt: "+ Sidevisning.getViste();
+  //    ret += "\nFunktioner ej brugt: "+ Sidevisning.getIkkeViste();
+      ret += "\nIndstillinger: "+ App.prefs.getAll();
+      ret += "\nAfspiller: "+ DRData.instans.afspiller.toString();
+      ret += "\nUdgange: "+ udgange;
     } catch (Exception e) {
-      version = e.toString();
-      e.printStackTrace();
+      Log.rapporterFejl(e);
     }
-
-    ret += instans.getPackageName() + " (v " + version + ")" + "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT + "\nAndroid v" + Build.VERSION.RELEASE + " (sdk: " + Build.VERSION.SDK + ")";
-    */
-    AudioManager am = (AudioManager) App.instans.getSystemService(Context.AUDIO_SERVICE);
-    LinkedHashSet<String> udgange = new LinkedHashSet<>();
-    if (am.isBluetoothA2dpOn()) udgange.add("BluetoothA2dp");
-    if (am.isBluetoothScoOn()) udgange.add("BluetoothSco");
-    if (am.isSpeakerphoneOn()) udgange.add("Speakerphone");
-    if (am.isWiredHeadsetOn()) udgange.add("(Kablede høretelefoner forbundne)");
-
-    ret += "\nVersion: "+App.versionsnavn +
-        "\nTelefonmodel: " + Build.MODEL + " " + Build.PRODUCT +
-        "\nAndroid v" + Build.VERSION.RELEASE + " (sdk: " + Build.VERSION.SDK_INT + ")";
-    ret += "\nFunktioner brugt: "+ Sidevisning.getViste();
-//    ret += "\nFunktioner ej brugt: "+ Sidevisning.getIkkeViste();
-    ret += "\nIndstillinger: "+ App.prefs.getAll();
-    ret += "\nAfspiller: "+ DRData.instans.afspiller.toString();
-    ret += "\nUdgange: "+ udgange;
     return ret;
   }
 

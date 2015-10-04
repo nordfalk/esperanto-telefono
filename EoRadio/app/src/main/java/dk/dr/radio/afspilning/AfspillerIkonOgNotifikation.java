@@ -120,8 +120,8 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
       if (kanal.eo_emblemo!=null) {
         remoteViews.setImageViewBitmap(R.id.kanallogo, kanal.eo_emblemo);
       } else {
-        remoteViews.setImageViewResource(R.id.kanallogo, kanal.kanallogo_resid);
-      }
+      remoteViews.setImageViewResource(R.id.kanallogo, kanal.kanallogo_resid);
+    }
     }
     remoteViews.setViewVisibility(R.id.direktetekst, lydkilde.erDirekte()?View.VISIBLE:View.GONE);
     remoteViews.setTextViewText(R.id.metainformation, udsendelse!=null?udsendelse.titel:kanal.navn);

@@ -390,7 +390,7 @@ public class App extends Application {
 
       if (App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
         for (final Kanal kanal : DRData.instans.grunddata.kanaler) {
-          if (kanal.harStreams()) continue;
+          if (kanal.harStreams() || Kanal.P4kode.equals(kanal.kode))  continue;
           //        Log.d("run()1 " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
           Request<?> req = new DrVolleyStringRequest(kanal.getStreamsUrl(), new DrVolleyResonseListener() {
             @Override

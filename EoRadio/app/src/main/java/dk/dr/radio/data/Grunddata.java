@@ -346,11 +346,11 @@ public class Grunddata {
     int antal = jsonArray.length();
     for (int i = 0; i < antal; i++) {
       JSONObject j = jsonArray.getJSONObject(i);
-      String kanalkode = j.optString("scheduleIdent", "P4F");
+      String kanalkode = j.optString("scheduleIdent", Kanal.P4kode);
       Kanal k = kanalFraKode.get(kanalkode);
       if (k == null) {
         k = new Kanal();
-        k.kode = j.optString("scheduleIdent", "P4F");
+        k.kode = j.optString("scheduleIdent", Kanal.P4kode);
         kanalFraKode.put(k.kode, k);
       }
       k.navn = j.getString("title");
@@ -386,14 +386,16 @@ public class Grunddata {
       Log.e(e);
     } // Ikke kritisk
 
-    //da_parseKanaler(json.getJSONArray("channels"), false);
+    // kanaler.clear(); // EO ŝanĝo
+    // p4koder.clear(); // EO ŝanĝo
+    // parseKanaler(json.getJSONArray("channels"), false);  // EO ŝanĝo
     Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
     android_json = json.getJSONObject("android");
     tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
     DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
     DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
-    //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();
+    //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();  // EO ŝanĝo
   }
 
   /**

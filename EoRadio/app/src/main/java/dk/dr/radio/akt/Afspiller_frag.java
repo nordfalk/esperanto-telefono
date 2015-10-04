@@ -231,10 +231,10 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     if (kanal.eo_emblemo!=null) {
       kanallogo.setImageBitmap(kanal.eo_emblemo);
     } else {
-      kanallogo.setImageResource(kanal.kanallogo_resid);
+    kanallogo.setImageResource(kanal.kanallogo_resid);
     }
 
-    direktetekst.setVisibility(lydkilde.erDirekte() ? View.VISIBLE : View.GONE);
+    direktetekst.setVisibility(lydkilde.erDirekte()?View.VISIBLE:View.GONE);
     metainformation.setText(Html.fromHtml(udsendelse!=null?udsendelse.titel:kanal.navn));
     switch (DRData.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:

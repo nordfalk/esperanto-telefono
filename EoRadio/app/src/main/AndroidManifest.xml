@@ -4,6 +4,7 @@
           android:installLocation="auto"
           tools:ignore="UnusedAttribute">
 
+  <uses-sdk tools:overrideLibrary="com.google.android.exoplayer"/>
 
   <!-- Nødvendigt til vækkeur -->
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -139,7 +140,7 @@
     </receiver>
 
     <!-- Eksperiment - bruge ExoPlayer i stedet for indbygget MediaPlayer
-    <activity android:name="dk.dr.exoplayer.DRFullPlayerActivity"
+    <activity android:name="dk.dr.exoplayer.PlayerActivity"
               android:configChanges="keyboardHidden|orientation|screenSize"
               android:label="@string/application_name"
               android:theme="@style/PlayerTheme">

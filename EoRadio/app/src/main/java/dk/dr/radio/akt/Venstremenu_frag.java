@@ -496,7 +496,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
           @Override
           public void run() {
-            startActivity(new Intent(getActivity(), DRFullPlayerActivity.class)
+            startActivity(new Intent(getActivity(), PlayerActivity.class)
                 .setData(Uri.parse(DRData.instans.afspiller.getLydkilde().findBedsteStreamUrl(false))));
           }
         });
@@ -504,7 +504,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
           @Override
           public void run() {
-            startActivity(new Intent(getActivity(), DRFullPlayerActivity.class)
+            startActivity(new Intent(getActivity(), PlayerActivity.class)
                 .setData(Uri.parse("http://dr02-lh.akamaihd.net/i/dr02_0@147055/master.m3u8")));
           }
         });

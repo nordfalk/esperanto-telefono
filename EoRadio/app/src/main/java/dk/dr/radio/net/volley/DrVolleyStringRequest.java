@@ -24,10 +24,11 @@ public class DrVolleyStringRequest extends StringRequest {
     lytter = listener;
     lytter.url = url;
     if (!App.ÆGTE_DR && url.startsWith("http://www.dr.dk/tjenester")) {
-      Log.rapporterFejl(new IllegalAccessException("Dette er ikke en DR app"));
+      Log.rapporterFejl(new IllegalAccessException("Dette er ikke en DR app: "+url));
     }
-    if (!App.PRODUKTION && url.equals("http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps-test/channel/p4?includeStreams=true")) {
-      throw new Error("P4 streamURL kaldt, uden underkanal");
+
+    if (!App.PRODUKTION && url.contains("channel/p4?")) {
+      throw new IllegalStateException("P4 streamURL kaldt, uden underkanal: "+url);
     }
     App.sætErIGang(true, url);
     /*
@@ -85,11 +86,10 @@ public class DrVolleyStringRequest extends StringRequest {
     lytter.annulleret();
   }
 
-
   @Override
   protected Response<String> parseNetworkResponse(NetworkResponse response) {
+    // ignorér forbud mod caching -  i vores tilfælde er en gammel værdi er altid bedre at have liggende end ingen
     response.headers.remove("Cache-Control");
     return super.parseNetworkResponse(response);
   }
-
 }

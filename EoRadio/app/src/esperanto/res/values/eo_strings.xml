@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--
-    <string name="dr_radio">"Esperanto-radio Muzaiko"</string>
-    -->
     <string name="dr_radio">"Muzaiko2"</string>
+    -->
+    <string name="dr_radio">"Esperanto-radio Muzaiko"</string>
     <string name="navigation_drawer_open">"Malfermi maldekstran menuon"</string>
     <string name="navigation_drawer_close">"Fermi maldekstran menuon"</string>
     <string name="afspiller">"ludado"</string>

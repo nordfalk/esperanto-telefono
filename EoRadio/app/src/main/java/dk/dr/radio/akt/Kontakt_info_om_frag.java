@@ -72,8 +72,7 @@ public class Kontakt_info_om_frag extends Basisfragment implements OnClickListen
 
   public void onClick(View v) {
     Sidevisning.vist(Sidevisning.KONTAKT_SKRIV);
-    String brødtekst = "";
-    brødtekst += DRData.instans.grunddata.android_json.optString("kontakt_brugerspørgsmål");
+    String brødtekst = DRData.instans.grunddata.android_json.optString("kontakt_brugerspørgsmål");
     //brødtekst += "\nkanal: " + DRData.instans.afspiller.kanalNavn + " (" + DRData.instans.afspiller.kanalUrl + ")";
     brødtekst += "\n" + Log.lavKontaktinfo();
 

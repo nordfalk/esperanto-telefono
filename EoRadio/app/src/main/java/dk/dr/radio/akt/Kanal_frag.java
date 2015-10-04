@@ -300,7 +300,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
     if (App.serverCurrentTimeMillis() > vh.udsendelse.slutTid.getTime()) {
       opdaterListe();
-      if (App.fejlsøgning) App.kortToast("Kanal_frag opdaterListe()");
+      //if (App.fejlsøgning) App.kortToast("Kanal_frag opdaterListe()");
       if (vh.startid.isShown()) rulBlødtTilAktuelUdsendelse();
     }
 
@@ -404,7 +404,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
     @Override
     public int getItemViewType(int position) {
-      if (position == 0 || position == liste.size() - 1) return TIDLIGERE_SENERE;
+      if (position == 0 || position >= liste.size() - 1) return TIDLIGERE_SENERE;
       if (position == aktuelUdsendelseIndex) return AKTUEL;
       if (liste.get(position) instanceof Udsendelse) return NORMAL;
       return DAGSOVERSKRIFT;
@@ -468,6 +468,10 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
       }
       udvikling_checkDrSkrifter(v, this.getClass() + " type=" + type);
 
+      if (position>=liste.size()) { // Der er set et crash her
+        Log.rapporterFejl(new IllegalStateException("liste.size()<=position: "+liste.size()+" <= "+position+" for "+kanal));
+        return v;
+      }
       // Opdatér viewholderens data
       Object elem = liste.get(position);
       if (elem instanceof String) {  // Overskrifter
@@ -608,7 +612,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
   }
 
   public static void hør(final Kanal kanal, Activity akt) {
-    if (App.fejlsøgning) App.kortToast("kanal=" + kanal);
+    //if (App.fejlsøgning) App.kortToast("kanal=" + kanal);
     if (App.prefs.getBoolean("manuelStreamvalg", false)) {
       kanal.nulstilForetrukkenStream();
       final List<Lydstream> lydstreamList = kanal.findBedsteStreams(false);

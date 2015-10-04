@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.dr.radio.diverse.App;
+import dk.dr.radio.diverse.Log;
 
 /**
  * Created by j on 06-03-14.
@@ -29,7 +30,6 @@ public class Netvaerksstatus extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     NetworkInfo networkInfo = App.connectivityManager.getActiveNetworkInfo();
-    if (App.fejlsøgning) App.kortToast("Netvaerksstatus\n" + intent + "\n" + networkInfo);
 
     Status nyStatus;
 
@@ -43,7 +43,8 @@ public class Netvaerksstatus extends BroadcastReceiver {
 
     if (status != nyStatus) {
       status = nyStatus;
-      if (App.fejlsøgning) App.kortToast("Netvaerksstatus\n" + status);
+      Log.d("Netvaerksstatus\n" + intent + "\n" + networkInfo);
+      //if (App.fejlsøgning) App.kortToast("Netvaerksstatus\n" + status);
       for (Runnable o : new ArrayList<Runnable>(observatører)) o.run();
     }
   }

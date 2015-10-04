@@ -112,13 +112,14 @@
 
 
           <CheckBoxPreference
-              android:key="exoplayer" android:title="ExoPlayer"
-              android:summaryOn="ExoPlayer benyttes.\nNogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
-              android:summaryOff="Den indbyggede MediaPlayer benyttes"/>
+              android:key="tving_exoplayer" android:title="Tving ExoPlayer"
+              android:summaryOn="ExoPlayer benyttes altid.\nNogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
+              android:summaryOff="forvalgt"/>
 
-          <!-- 	<EditTextPreference android:key="udviklerKontakt" android:title="Kontakt"
-              android:summary="Skriv din e-postadresse hvis du vil kunne kontaktes i forbindelse
-              med udvikling" android:defaultValue="" /> -->
+          <CheckBoxPreference
+              android:key="tving_mediaplayer" android:title="Tving MediaPlayer"
+              android:summaryOn="Den indbyggede MediaPlayer benyttes"
+              android:summaryOff="forvalgt"/>
 
           <CheckBoxPreference
               android:key="fejlsøgning" android:title="Fejlsøgning"

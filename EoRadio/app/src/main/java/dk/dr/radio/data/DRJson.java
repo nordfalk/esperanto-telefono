@@ -103,7 +103,7 @@ public enum DRJson {
   /**
    * Datoformat som serveren forventer det forskellige steder
    */
-  public static DateFormat apiDatoFormat = new SimpleDateFormat("yyyy-MM-dd");
+  public static DateFormat apiDatoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 /*
   public static void main(String[] a) throws ParseException {
     System.out.println(servertidsformat.format(new Date()));

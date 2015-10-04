@@ -123,24 +123,42 @@ public class AndroidMediaPlayerWrapper implements MediaPlayerWrapper {
   private static Class<? extends MediaPlayerWrapper> mediaPlayerWrapperKlasse = null;
 
   public static MediaPlayerWrapper opret() {
-    if (!App.PRODUKTION) mediaPlayerWrapperKlasse = null; // TODO skal nok fjernes igen
     if (mediaPlayerWrapperKlasse == null) {
-      if (App.prefs.getBoolean("exoplayer", false)) {
-        mediaPlayerWrapperKlasse = ExoPlayerWrapper.class;
-      } else if (!App.prefs.getBoolean("Rapportér statistik", true)) {
+      boolean rapporter = App.prefs.getBoolean("Rapportér statistik", true);
+      if (!rapporter) {
         App.langToast("DR Radio indsamler ikke brugsstatisik. Rapportér venligst om det gør en forskel for dig MHT batteriforbrug.");
         App.langToast("Hvis du er sikker på at det medfører væsentligt længere batterilevetid, så kontakt os, så vi kan kigge på problemet.");
-        mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
+      }
+      if (App.EMULATOR || !App.ÆGTE_DR) rapporter = false;
+
+      boolean exoplayer = App.PRODUKTION||!App.ÆGTE_DR ? false : Math.random()>0.5;
+      if (App.prefs.getBoolean("tving_exoplayer", false)) exoplayer = true;
+      if (App.prefs.getBoolean("tving_mediaplayer", false)) exoplayer = false;
+
+      if (exoplayer) {
+        try {
+          if (!rapporter)
+            mediaPlayerWrapperKlasse = ExoPlayerWrapper.class;
+          else
+            mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiExoPlayerWrapper");
+        } catch (Exception e) {
+          e.printStackTrace();
+          mediaPlayerWrapperKlasse = ExoPlayerWrapper.class;
+          if (App.ÆGTE_DR) Log.e("Mangler Akamai-wrapper til statistik", e);
+        }
       } else {
         try {
-          mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiMediaPlayerWrapper");
+          if (!rapporter)
+            mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
+          else
+            mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiMediaPlayerWrapper");
         } catch (ClassNotFoundException e) {
           mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
           if (App.ÆGTE_DR) Log.e("Mangler Akamai-wrapper til statistik", e);
         }
       }
+      if (App.fejlsøgning) App.kortToast(mediaPlayerWrapperKlasse.getSimpleName());
     }
-
     try {
       Log.d("MediaPlayerWrapper opret() " + mediaPlayerWrapperKlasse);
       return mediaPlayerWrapperKlasse.newInstance();
@@ -149,4 +167,10 @@ public class AndroidMediaPlayerWrapper implements MediaPlayerWrapper {
     }
     return new AndroidMediaPlayerWrapper();
   }
+
+  public static void nulstilWrapper() {
+    if (App.fejlsøgning) App.kortToast("Fjerner wrapper\n"+mediaPlayerWrapperKlasse);
+    mediaPlayerWrapperKlasse = null;
+  }
+
 }

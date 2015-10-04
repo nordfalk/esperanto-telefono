@@ -5,10 +5,10 @@ android {
     buildToolsVersion '22.0.1'
     defaultConfig {
         applicationId "dk.nordfalk.esperanto.radio"
-        minSdkVersion 8
+        minSdkVersion 10 // eble fakte 7 ??
         targetSdkVersion 21
-        versionCode 3
-        versionName '3a de okt v3'
+        versionCode 31
+        versionName '2.0'
     }
     buildTypes {
         release {
@@ -32,9 +32,19 @@ android {
 }
 
 dependencies {
-    compile files('libs/ExoPlayer-HLS.jar')
+    /*
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+
+    compile 'com.android.support:support-v4:22.0.+'
+     */
+    compile 'com.android.support:appcompat-v7:22.0.+'
+    compile 'com.google.android.exoplayer:exoplayer:r1.5.0'
+//    compile 'com.devbrackets.android:exomedia:2.3.5'
+//    compile files('libs/ExoPlayer-HLS.jar')
     compile files('libs/android-query-full.0.26.7.jar')
     compile files('libs/bugsense-3.6.jar')
+    compile files('libs/gemiusSDK.jar')
+    compile files('libs/libAkamaiAnalytics.jar')
     compile files('libs/volley.jar')
-    compile 'com.android.support:appcompat-v7:21.0.3'
 }

@@ -10,10 +10,10 @@ import com.google.android.exoplayer.ExoPlayerLibraryInfo;
 
 import java.io.IOException;
 
-import dk.dr.radio.afspilning.exoplayer.DefaultRendererBuilder;
-import dk.dr.radio.afspilning.exoplayer.DemoPlayer;
-import dk.dr.radio.afspilning.exoplayer.EventLogger;
-import dk.dr.radio.afspilning.exoplayer.HlsRendererBuilder;
+import com.google.android.exoplayer.demo.player.ExtractorRendererBuilder;
+import com.google.android.exoplayer.demo.player.DemoPlayer;
+import com.google.android.exoplayer.demo.EventLogger;
+import com.google.android.exoplayer.demo.player.HlsRendererBuilder;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -37,12 +37,12 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
       public void run() {
         String versionName;
         versionName = "ExoPlayerDemo/" + App.versionsnavn + " (Linux;Android " + Build.VERSION.RELEASE + ") " + "ExoPlayerLib/" + ExoPlayerLibraryInfo.VERSION;
-        if (url.endsWith("m3u8")) {
-          player = new DemoPlayer(new HlsRendererBuilder(versionName, url, url));
-          App.kortToast("HlsRendererBuilder\n" + url);
+        if (url.contains("m3u8")) {
+          player = new DemoPlayer(new HlsRendererBuilder(App.instans, versionName, url));
+          if (App.fejlsøgning) App.kortToast("HlsRendererBuilder\n" + url);
         } else {
-          player = new DemoPlayer(new DefaultRendererBuilder(App.instans, Uri.parse(url), null));
-          App.kortToast("DefaultRendererBuilder\n" + url);
+          player = new DemoPlayer(new ExtractorRendererBuilder(App.instans, versionName, Uri.parse(url)));
+          if (App.fejlsøgning) App.kortToast("ExtractorRendererBuilder\n" + url);
         }
         player.addListener(ExoPlayerWrapper.this);
         player.seekTo(0);
@@ -73,7 +73,9 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
 
   @Override
   public void seekTo(int offsetMs) {
+    if (App.fejlsøgning) App.kortToast("seekTo(" + offsetMs+"\n"+player);
     if (player!=null) player.seekTo(offsetMs);
+//    else udeståendeSeekToOffsetMs = offsetMs;
   }
 
   @Override
@@ -199,7 +201,7 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
   }
 
   @Override
-  public void onVideoSizeChanged(int width, int height, float pixelWidthHeightRatio) {
+  public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
 
   }
 }

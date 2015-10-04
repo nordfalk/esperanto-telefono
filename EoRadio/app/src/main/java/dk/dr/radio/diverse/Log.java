@@ -44,7 +44,7 @@ import dk.dr.radio.data.DRData;
  * @author j
  */
 public class Log {
-  public static final String TAG = "DRRadio";
+  public static final String TAG = "EoRadio";
 
   private static final StringBuilder log = new StringBuilder(18000);
 

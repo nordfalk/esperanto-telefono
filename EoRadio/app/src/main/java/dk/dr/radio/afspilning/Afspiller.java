@@ -53,6 +53,7 @@ import dk.dr.radio.afspilning.wrapper.ExoPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerLytter;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerWrapper;
 import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.EoKanal;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Lydstream;
@@ -173,8 +174,7 @@ public class Afspiller {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret) return; // ingen grund til at parse det igen
-          JSONObject o = new JSONObject(json);
-          lydkilde.setStreams(o);
+          lydkilde.setStreams(json);
           Log.d("hentStreams afsp fraCache=" + fraCache + " => " + lydkilde);
           if (onErrorTæller++>2) {
             App.kortToast(R.string.Kunne_ikke_oprette_forbindelse_til_DR);
@@ -469,6 +469,7 @@ public class Afspiller {
 
   public void setLydkilde(Lydkilde lydkilde) {
     Log.d("setLydkilde(" + lydkilde);
+    if (lydkilde instanceof EoKanal) lydkilde = lydkilde.getUdsendelse();
     if (lydkilde == this.lydkilde) return;
     if (lydkilde == null) {
       Log.rapporterFejl(new IllegalStateException("setLydkilde(null"));

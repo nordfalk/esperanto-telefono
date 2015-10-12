@@ -595,7 +595,9 @@ public class Afspiller {
 
   /** Position i millisekunder */
   public int getCurrentPosition() {
-    if (afspillerstatus == Status.SPILLER) return mediaPlayer.getCurrentPosition();
+    try {  // EO ŝanĝo
+      if (afspillerstatus == Status.SPILLER) return mediaPlayer.getCurrentPosition();
+    } catch (Exception e) { Log.rapporterFejl(e); } // EO ŝanĝo
     return 0;
   }
 

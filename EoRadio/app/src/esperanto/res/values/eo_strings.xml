@@ -40,7 +40,7 @@
     <string name="Kan_endnu_ikke_afspilles">"Ankoraŭ \nne ludebla"</string>
     <string name="hør_udsendelse">"Aŭskulti elsendon"</string>
     <string name="Kunne_ikke_oprette_forbindelse_til_DR">"Ne eblis konekti al la servilo"</string>
-    <string name="Manglende_netværksforbindelse___">"&lt;b&gt;Mankas retkonekto&lt;/b&gt;\nAtendas restarigon de interreto"</string>
+    <string name="Manglende_netværksforbindelse___">"<b>Mankas retkonekto</b>\nAtendas restarigon de interreto"</string>
     <string name="Internetforbindelse_mangler">"Retkonekto mankas"</string>
 
     <string name="Spil_når_app_en_åbnes">"Tuj ludi"</string>
@@ -60,11 +60,11 @@
     <string name="Start_afspilning">"Komenci ludi"</string>
     <string name="Stop_afspilning">"Ĉesi ludi"</string>
     <string name="D_R_Radio">"DR Radio"</string>
-    <string name="Saml_dine_favoritter_her____">"&lt;b&gt;Kolektu viajn preferatajn elsendojn ĉi tie&lt;/ b&gt;&lt;br&gt;Klaku sur la koro ĉe viaj preferataj kanaloj. Vi havos facilan aliron - kaj vi povas rapide vidi kiam estas novaj shows."</string>
+    <string name="Saml_dine_favoritter_her____">"&lt;b>Kolektu viajn preferatajn elsendojn ĉi tie&lt;/b>&lt;br>Klaku sur la koro ĉe viaj preferataj kanaloj. Vi havos facilan aliron - kaj vi povas rapide vidi kiam estas novaj shows."</string>
     <string name="_ny_udsendelse">" nova elsendo"</string>
     <string name="_nye_udsendelser">" novaj elsendoj"</string>
-    <string name="Du_har_ingen_downloads___">"&lt;b&gt;Vi ne elŝutis ion&lt;/ b&gt;&lt;br&gt;Vi povas elŝuti elsendojn kaj aŭskulti ilin ĉi tie sen retkonekto."</string>
-    <string name="Slet_udsendelse">"Forigi elsendon"</string>
+    <string name="Du_har_ingen_downloads___">"&lt;b>Vi ne elŝutis ion&lt;/b>&lt;br>Vi povas elŝuti elsendojn kaj aŭskulti ilin ĉi tie sen retkonekto."</string>
+    <string name="Slet_udsendelse">"Forigi elsendon?"</string>
     <string name="Vil_du_slette_denne_udsendele_du_kan_altid_hente_den_igen_">"Ĉu vi volas forigi tiun ĉi elsendon? \nVi povas ĉiam elŝuti ĝin denove."</string>
     <string name="Indstillinger">"Agordoj"</string>
     <string name="D_R_Radio_Indstillinger">"DR Radio Agordoj"</string>
@@ -129,6 +129,8 @@
     <string name="Fortsæt_i_baggrunden">Daŭrigi fone</string>
     <string name="Brugergrænseflade">Interfaco</string>
     <string name="Avanceret">Por progresantoj</string>
+    <string name="Udviklertilstand">Por la programisto</string>
+    <string name="Vis_ekstra_muligheder_til_udvikling_og_fejlfinding">Montri ekstrajn eblecojn por elovuigado kaj trovi erarojn</string>
 
     <string name="GRUNDDATA_URL_PRODUKTION">http://javabog.dk/privat/esperantoradio_kanaloj_v8.json</string>
     <string name="GRUNDDATA_URL_UDVIKLING">http://javabog.dk/privat/esperantoradio_kanaloj_v8.json</string>

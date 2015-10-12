@@ -165,10 +165,12 @@ public class EoRssParsado {
       } else if ("title".equals(tag)) {
         e.titel = EoDiverse.unescapeHtml3(p.nextText());
       } else if ("published".equals(tag)) {
-        e.startTidKl = p.nextText().split("T")[0];
+        String txt = p.nextText();
+        e.startTidKl = txt.split("T")[0];
         //Log.d("e.datoStr="+e.datoStr);
         e.startTid = Grunddata.datoformato.parse(e.startTidKl);
         e.startTidKl = Grunddata.datoformato.format(e.startTid);
+        e.slug = "vk:"+txt.split("\\+")[0];
       } else if ("link".equals(tag)) {
         String type = p.getAttributeValue(null, "type");
         String href = p.getAttributeValue(null, "href");

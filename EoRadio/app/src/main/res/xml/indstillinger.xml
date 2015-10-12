@@ -96,9 +96,9 @@
 
 
         <CheckBoxPreference
-            android:key="udviklerEkstra" android:title="Udviklertilstand"
+            android:key="udviklerEkstra" android:title="@string/Udviklertilstand"
             android:defaultValue="false"
-            android:summary="Vis ekstra muligheder til udvikling og fejlfinding"
+            android:summary="@string/Vis_ekstra_muligheder_til_udvikling_og_fejlfinding"
             />
 
         <PreferenceScreen android:dependency="udviklerEkstra"

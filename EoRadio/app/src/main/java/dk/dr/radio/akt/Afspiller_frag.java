@@ -199,6 +199,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     DRData.instans.afspiller.observatører.add(this);
     DRData.instans.afspiller.forbindelseobservatører.add(this);
     DRData.instans.afspiller.positionsobservatører.add(this);
+    DRData.instans.grunddata.observatører.add(this);
     lydstyrke.init(aq.id(R.id.lydstyrke).getSeekBar());
     run(); // opdatér views
     if (App.accessibilityManager.isEnabled()) setHasOptionsMenu(true);
@@ -210,6 +211,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     DRData.instans.afspiller.observatører.remove(this);
     DRData.instans.afspiller.forbindelseobservatører.remove(this);
     DRData.instans.afspiller.positionsobservatører.remove(this);
+    DRData.instans.grunddata.observatører.remove(this);
     super.onDestroyView();
   }
 
@@ -231,7 +233,10 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     if (kanal.eo_emblemo!=null) {
       kanallogo.setImageBitmap(kanal.eo_emblemo);
     } else {
-    kanallogo.setImageResource(kanal.kanallogo_resid);
+      kanallogo.setImageResource(R.drawable.dr_logo);
+      Kanal lk = DRData.instans.grunddata.kanalFraSlug.get(kanal.slug);
+      Log.rapporterFejl(new IllegalStateException(kanal+ "  "+lk.eo_emblemo));
+      App.kortToast(""+lk.eo_emblemo);
     }
 
     direktetekst.setVisibility(lydkilde.erDirekte()?View.VISIBLE:View.GONE);

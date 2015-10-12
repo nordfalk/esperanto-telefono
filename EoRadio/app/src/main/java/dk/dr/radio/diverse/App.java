@@ -74,6 +74,7 @@ import dk.dr.radio.akt.Basisaktivitet;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
+import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.net.Diverse;
 import dk.dr.radio.net.Netvaerksstatus;
@@ -145,7 +146,7 @@ public class App extends Application {
     }
     String packageName = getPackageName();
     try {
-      if ("dk.dr.radio".equals(packageName)) {
+      if (ÆGTE_DR) if ("dk.dr.radio".equals(packageName)) {
         if (!PRODUKTION) App.langToast("Sæt PRODUKTIONs-flaget");
       } else {
         if (PRODUKTION) App.langToast("Testudgave - fjern PRODUKTIONs-flaget");
@@ -391,8 +392,13 @@ public class App extends Application {
       if (App.netværk.status == Netvaerksstatus.Status.WIFI) { // Tjek at alle kanaler har deres streamsurler
         for (final Kanal kanal : DRData.instans.grunddata.kanaler) {
           if (kanal.harStreams() || Kanal.P4kode.equals(kanal.kode))  continue;
+          String url = kanal.getStreamsUrl();
+          if (url==null) { // EO ŝanĝo
+            Log.rapporterFejl(new IllegalStateException("url er null for "+kanal));
+            continue;
+          }
           //        Log.d("run()1 " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
-          Request<?> req = new DrVolleyStringRequest(kanal.getStreamsUrl(), new DrVolleyResonseListener() {
+          Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
             @Override
             public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
               if (uændret) return;
@@ -494,6 +500,15 @@ public class App extends Application {
 
   /** Opdaterer alle observatører fra forgrundstråden, præcist én gang (selv ved gentagne kald) */
   public static void opdaterObservatører(ArrayList<Runnable> observatører) {
+    // xxx ne funcias
+    /*
+    Lydkilde lk = DRData.instans.afspiller.getLydkilde();
+    if (lk instanceof Kanal) {
+      lk = DRData.instans.grunddata.kanalFraSlug.get(lk.getKanal().slug);
+      DRData.instans.afspiller.setLydkilde(lk);
+    }
+    */
+
     // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
     for (Runnable r : new ArrayList<Runnable>(observatører)) {
       forgrundstråd.removeCallbacks(r);

@@ -73,6 +73,7 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
 
   @Override
   public String getStreamsUrl() {
+    Log.rapporterFejl(new IllegalStateException("getStreamsUrl "+this));
     return DRData.getUdsendelseStreamsUrlFraUrn(urn);
   }
 

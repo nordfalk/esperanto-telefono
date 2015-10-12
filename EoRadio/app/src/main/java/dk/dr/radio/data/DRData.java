@@ -76,7 +76,7 @@ public class DRData {
 		 */
 
   public static String getUdsendelseStreamsUrlFraUrn(String urn) {
-    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
+    if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR - URN="+urn);
     // http://www.dr.dk/tjenester/mu-apps/program?urn=urn:dr:mu:programcard:52e6fa58a11f9d1588de9c49&includeStreams=true
     return BASISURL + "/program?includeStreams=true&urn=" + urn;
   }

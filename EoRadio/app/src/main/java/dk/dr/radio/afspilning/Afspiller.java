@@ -52,6 +52,7 @@ import dk.dr.radio.afspilning.wrapper.AndroidMediaPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.ExoPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerLytter;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerWrapper;
+import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.EoKanal;
 import dk.dr.radio.data.Kanal;
@@ -61,6 +62,7 @@ import dk.dr.radio.data.Playlisteelement;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
+import dk.dr.radio.diverse.Sidevisning;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
 import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.dr.radio.v3.R;
@@ -123,7 +125,7 @@ public class Afspiller {
    * Forudsætter DRData er initialiseret
    */
   public Afspiller() {
-    mediaPlayer = AndroidMediaPlayerWrapper.opret();
+    mediaPlayer = Wrapperfabrikering.opret();
 
     sætMediaPlayerLytter(mediaPlayer, this.lytter);
     // Indlæs gamle værdier så vi har nogle...
@@ -163,6 +165,7 @@ public class Afspiller {
   private long onErrorTællerNultid;
 
   public void startAfspilning() {
+    if (App.fejlsøgning) App.kortToast("startAfspilning() "+mediaPlayer);
     if (lydkilde.hentetStream == null && !App.erOnline()) {
       App.kortToast(R.string.Internetforbindelse_mangler);
       if (vækningIGang) ringDenAlarm();
@@ -230,6 +233,7 @@ public class Afspiller {
       // Skru op til 1/5 styrke hvis volumen er lavere end det
       tjekVolumenMindst5tedele(1);
 
+      Sidevisning.i().vist("afspilning_start", lydkilde.slug);
     } else Log.d(" forkert status=" + afspillerstatus);
 
     // Hvis det er en favorit så opdater favoritter så der ikke mere optræder nye udsendelser i denne programserie
@@ -413,7 +417,7 @@ public class Afspiller {
       }
     }.start();
 
-    mediaPlayer = AndroidMediaPlayerWrapper.opret();
+    mediaPlayer = Wrapperfabrikering.opret();
     sætMediaPlayerLytter(mediaPlayer, this.lytter); // registrér lyttere på den nye instans
 
     afspillerstatus = Status.STOPPET;
@@ -422,7 +426,7 @@ public class Afspiller {
   }
 
   synchronized public void pauseAfspilning() {
-    int pos = gemPosition();
+    long pos = gemPosition();
     pauseAfspilningIntern();
     if (wifilock != null) wifilock.release();
     gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Pause, pos / 1000);
@@ -435,13 +439,13 @@ public class Afspiller {
   /**
    * Gem position - og spol herhen næste gang udsendelsen spiller
    */
-  private int gemPosition() {
+  private long gemPosition() {
     if (!lydkilde.erDirekte() && afspillerstatus == Status.SPILLER) try {
-      int pos = mediaPlayer.getCurrentPosition();
+      long pos = mediaPlayer.getCurrentPosition();
       if (pos > 0) {
         //senestLyttet.getUdsendelse().startposition = pos;
         Log.d("senestLyttede.sætStartposition("+lydkilde+" , "+pos);
-        DRData.instans.senestLyttede.sætStartposition(lydkilde, pos);
+        DRData.instans.senestLyttede.sætStartposition(lydkilde, (int) pos);
       }
       return pos;
     } catch (Exception e) { Log.rapporterFejl(e); }
@@ -452,6 +456,7 @@ public class Afspiller {
   synchronized public void stopAfspilning() {
     Log.d("Afspiller stopAfspilning");
     gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Stopped, getCurrentPosition() / 1000);
+    Sidevisning.vist("afspilning_stop");
     gemPosition();
     pauseAfspilningIntern();
     if (wifilock != null) wifilock.release();
@@ -484,23 +489,16 @@ public class Afspiller {
       String kanalkode = App.tjekP4OgVælgUnderkanal(((Kanal) lydkilde).kode);
       lydkilde = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
     }
-    // TODO konsistenstjek - fjern efter et par måneder i drift (dec 2014)
+    // Tjek om der er en hentet udsendelse - det sker også i brugergrænsefladen men det kan være den ikke har været i spil
     if (lydkilde.hentetStream==null && lydkilde instanceof Udsendelse) {
       DRData.instans.hentedeUdsendelser.tjekOmHentet((Udsendelse) lydkilde);
-      if (lydkilde.hentetStream!=null) {
-        Log.rapporterFejl(new IllegalStateException("Sen opdagelse af hentet udsendelse "), lydkilde);
-      }
     }
 
 
     if ((afspillerstatus == Status.SPILLER) || (afspillerstatus == Status.FORBINDER)) {
       pauseAfspilning(); // gemmer lydkildens position
       this.lydkilde = lydkilde;
-      try {
-        startAfspilning(); // sætter afspilleren til den nye lydkildes position
-      } catch (Exception e) {
-        Log.rapporterFejl(e); // TODO fjern efter et par måneder i drift (nov 2014)
-      }
+      startAfspilning(); // sætter afspilleren til den nye lydkildes position
     } else {
       this.lydkilde = lydkilde;
     }
@@ -578,7 +576,7 @@ public class Afspiller {
   }
 
   /** Flyt til position (i millisekunder) */
-  public void seekTo(int offsetMs) {
+  public void seekTo(long offsetMs) {
     Log.d("afspiler seekTo " + offsetMs);
     mediaPlayer.seekTo(offsetMs);
     gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Seeking, offsetMs / 1000);
@@ -588,13 +586,13 @@ public class Afspiller {
   }
 
   /** Længde i millisekunder */
-  public int getDuration() {
+  public long getDuration() {
     if (afspillerstatus == Status.SPILLER) return mediaPlayer.getDuration();
     return 0;
   }
 
   /** Position i millisekunder */
-  public int getCurrentPosition() {
+  public long getCurrentPosition() {
     try {  // EO ŝanĝo
       if (afspillerstatus == Status.SPILLER) return mediaPlayer.getCurrentPosition();
     } catch (Exception e) { Log.rapporterFejl(e); } // EO ŝanĝo
@@ -617,7 +615,7 @@ public class Afspiller {
     }
     Udsendelse u = lydkilde.getUdsendelse();
     if (u == null) return;
-    int posMs = getCurrentPosition(); // spol hen til sang, der var 10 sekunder før denne
+    long posMs = getCurrentPosition(); // spol hen til sang, der var 10 sekunder før denne
     // TODO hvis posMs<0, skal der så skiftes til forrige udsendelse/lytning?
     int index = u.findPlaylisteElemTilTid(posMs-10000, 0);
     if (index < 0) {
@@ -653,7 +651,7 @@ public class Afspiller {
     }
     Udsendelse u = lydkilde.getUdsendelse();
     if (u == null) return;
-    int posMs = getCurrentPosition();
+    long posMs = getCurrentPosition();
     int index = u.findPlaylisteElemTilTid(posMs, 0);
     if (index < 0) {
       // Skift 5% af udsendelsens varighed
@@ -682,7 +680,7 @@ public class Afspiller {
           try { // Fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/825188032
             Log.d("mediaPlayer.start() " + mpTils());
             int startposition = DRData.instans.senestLyttede.getStartposition(lydkilde);
-            int varighed = mediaPlayer.getDuration();
+            long varighed = mediaPlayer.getDuration();
             Log.d("mediaPlayer genoptager afspilning ved " + startposition + " varighed="+varighed);
             if (varighed>0 && startposition>0.95*varighed) {
               Log.d("mediaPlayer nej, det er for langt henne, starter ved starten");
@@ -735,7 +733,7 @@ public class Afspiller {
 
         if (lydkilde.erDirekte()) {
           Log.d("Genstarter afspilning!");
-          mediaPlayer = AndroidMediaPlayerWrapper.opret();
+          mediaPlayer = Wrapperfabrikering.opret();
           sætMediaPlayerLytter(mediaPlayer, this); // registrér lyttere på den nye instans
           startAfspilningIntern();
           if (afspillerlyde) afspillerlyd.forbinder.start();
@@ -829,16 +827,20 @@ public class Afspiller {
   };
 
   void ringDenAlarm() {
-    Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-    if (alert == null) {
-      // alert is null, using backup
-      alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-      if (alert == null) {  // I can't see this ever being null (as always have a default notification) but just incase
-        // alert backup is null, using 2nd backup
-        alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+    // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2819028090
+    //  - undgå at wrappe lydkilde i AlarmLydkilde igen og igen
+    if (!(lydkilde instanceof AlarmLydkilde)) {
+      Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+      if (alert == null) {
+        // alert is null, using backup
+        alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (alert == null) {  // I can't see this ever being null (as always have a default notification) but just incase
+          // alert backup is null, using 2nd backup
+          alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        }
       }
+      lydkilde = new AlarmLydkilde(alert.toString(), lydkilde);
     }
-    lydkilde = new AlarmLydkilde(alert.toString(), lydkilde);
     handler.postDelayed(startAfspilningIntern, 100);
     vibru(4000);
   }
@@ -856,6 +858,6 @@ public class Afspiller {
   }
 
   public String toString() {
-    return afspillerstatus+" "+lydstream;
+    return mediaPlayer + " " + afspillerstatus+" "+lydstream;
   }
 }

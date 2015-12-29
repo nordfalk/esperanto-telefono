@@ -1,6 +1,5 @@
 package dk.dr.radio.akt;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
@@ -32,14 +32,14 @@ import dk.dr.radio.v3.R;
 
 public class Udsendelser_vandret_skift_frag extends Basisfragment implements ViewPager.OnPageChangeListener {
 
-  private ViewPager viewPager;
-
   private Udsendelse startudsendelse;
   private Programserie programserie;
-  private ArrayList<Udsendelse> liste;
   private Kanal kanal;
-  private UdsendelserAdapter adapter;
+  private ArrayList<Udsendelse> udsendelser;
   private int antalHentedeSendeplaner;
+
+  private ViewPager viewPager;
+  private UdsendelserAdapter adapter;
   private View pager_title_strip;
 
   @Override
@@ -68,8 +68,6 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
       ft.replace(R.id.indhold_frag, new Kanaler_frag());
       ft.addToBackStack(null);
       ft.commit();
-      Sidevisning.vist(Kanaler_frag.class);
-
       return rod;
     }
     programserie = DRData.instans.programserieFraSlug.get(startudsendelse.programserieSlug);
@@ -85,87 +83,18 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     adapter = new UdsendelserAdapter(getChildFragmentManager());
     DRJson.opdateriDagIMorgenIGårDatoStr(App.serverCurrentTimeMillis());
 
-    liste = new ArrayList<Udsendelse>();
-    if (programserie == null) {
-      liste.add(startudsendelse);
-      adapter.liste2 = liste;
-      viewPager.setAdapter(adapter);
-      hentUdsendelser(0);
-    } else {
-      liste.addAll(programserie.getUdsendelser());  // EO ŝanĝo
-      int n = Programserie.findUdsendelseIndexFraSlug(liste, startudsendelse.slug);
-      if (n < 0) {
-        liste.add(startudsendelse);
-        adapter.liste2 = liste;
-        viewPager.setAdapter(adapter);
-        hentUdsendelser(0);
-      } else {
-        // liste.addAll(programserie.getUdsendelser());  // EO ŝanĝo
-        adapter.liste2 = liste;
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(n);
-      }
-    }
+    udsendelser = new ArrayList<Udsendelse>();
+    udsendelser.add(startudsendelse);
+    adapter.setListe(udsendelser);
+    viewPager.setAdapter(adapter);
+    hentUdsendelser(0);
 
-/*    int n = programserie == null ? -1 : programserie.findUdsendelseIndexFraSlug(startudsendelse.slug);
-
-    Log.d("programserie.udsendelser.indexOf(startudsendelse) = " + n);
-    if (n >= 0) {
-      liste.addAll(programserie.getUdsendelser());
-      viewPager.setAdapter(adapter);
-      viewPager.setCurrentItem(n);
-    } else {
-      liste.add(startudsendelse);
-      viewPager.setAdapter(adapter);
-      if (programserie == null) hentUdsendelser(0);
-    }
-    */
     vispager_title_strip();
     viewPager.setOnPageChangeListener(this);
     // Nødvendigt fordi underfragmenter har optionsmenu
     // - ellers nulstilles optionsmenuen ikke når man hopper ud igen!
     setHasOptionsMenu(true);
     return rod;
-  }
-
-  private void vispager_title_strip() {
-    pager_title_strip.setVisibility(
-        !App.prefs.getBoolean("vispager_title_strip", false) ? View.GONE :
-            liste.size() > 1 ? View.VISIBLE : View.INVISIBLE);
-  }
-
-
-  private void opdaterListe() {
-    if (viewPager == null) return;
-    Udsendelse udsFør = liste.size()>viewPager.getCurrentItem() ? liste.get(viewPager.getCurrentItem()) : null;
-    liste = new ArrayList<Udsendelse>();
-    liste.addAll(programserie.getUdsendelser());
-    if (Programserie.findUdsendelseIndexFraSlug(liste, startudsendelse.slug) < 0) {
-      liste.add(startudsendelse);
-      // hvis startudsendelse ikke er med i listen, så hent nogle flere, i håb om at komme hen til
-      // startudsendelsen (hvis vi ikke allerede har forsøgt 7 gange)
-      if (antalHentedeSendeplaner++ < 7) {
-        hentUdsendelser(programserie.getUdsendelser().size());
-      }
-    }
-    int nEft = udsFør==null?0:Programserie.findUdsendelseIndexFraSlug(liste, udsFør.slug);
-    if (nEft < 0) nEft = liste.size() - 1; // startudsendelsen
-    adapter.liste2 = liste;
-    adapter.notifyDataSetChanged();
-    if (App.fejlsøgning) Log.d("xxx setCurrentItem " + viewPager.getCurrentItem() + "   nEft=" + nEft);
-    viewPager.setCurrentItem(nEft, false); // - burde ikke være nødvendig, vi har defineret getItemPosition
-    vispager_title_strip();
-/*
-    if (programserie.getUdsendelser().size() < programserie.antalUdsendelser) {
-      hentUdsendelser(programserie.getUdsendelser().size());
-    }
-    // hvis vi er sidst i listen og der er flere at hente, så hent nogle flere,
-    // i håb om at komme hen til den aktuelle startudsendelse (hvis vi ikke allerede har forsøgt 7 gange)
-    if (nEft==liste.size()-1 && nEft<programserie.antalUdsendelser-1 && antalHentedeSendeplaner++ < 7) {
-      // da det element vi viser lige nu
-      hentUdsendelser(programserie.getUdsendelser().size()-1);
-    }
-*/
   }
 
   @Override
@@ -177,10 +106,51 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     super.onDestroyView();
   }
 
+  private void vispager_title_strip() {
+    pager_title_strip.setVisibility(
+        !App.prefs.getBoolean("vispager_title_strip", false) ? View.GONE :
+            udsendelser.size() > 1 ? View.VISIBLE : View.INVISIBLE);
+  }
+
+  private HashSet<Integer> alledeForsøgtHentet = new HashSet<>(); // forsøg ikke at hente det samme offset flere gange
+  private void opdaterUdsendelser() {
+    if (viewPager == null) return;
+    Udsendelse udsFør = udsendelser.size()>viewPager.getCurrentItem() ? udsendelser.get(viewPager.getCurrentItem()) : null;
+    udsendelser = new ArrayList<Udsendelse>();
+    udsendelser.addAll(programserie.getUdsendelser());
+    int udsIndexFør = Programserie.findUdsendelseIndexFraSlug(udsendelser, startudsendelse.slug);
+    if (udsIndexFør < 0) {
+      udsendelser.add(0, startudsendelse);
+      // hvis startudsendelse ikke er med i listen, så hent nogle flere, i håb om at komme hen til
+      // startudsendelsen (hvis vi ikke allerede har forsøgt 7 gange)
+      final int offset = programserie.getUdsendelser().size();
+      if (alledeForsøgtHentet.add(offset) && antalHentedeSendeplaner++ < 7) {
+        // Fix for en lang række crashes, bl.a.:
+        // https://mint.splunk.com/dashboard/project/cd78aa05/errors/3004788237
+        // https://mint.splunk.com/dashboard/project/cd78aa05/errors/4207258113
+        // Kald ikke hentUdsendelser(offset); direkte herfra - medfører rekursion
+        // da den kalder direkte tilbage i opdaterUdsendelser() hvis der foreligger et cachet svar
+        // og det giver rod i systemet hvis antal elementer i udsendelser skifter midt i det hele
+        App.forgrundstråd.post(new Runnable() {
+          @Override
+          public void run() {
+            hentUdsendelser(offset);
+          }
+        });
+      }
+    }
+    int udsIndexEfter = udsFør==null?0:Programserie.findUdsendelseIndexFraSlug(udsendelser, udsFør.slug);
+    if (udsIndexEfter < 0) udsIndexEfter = udsendelser.size() - 1; // startudsendelsen
+    adapter.setListe(udsendelser);
+    if (App.fejlsøgning) Log.d("xxx setCurrentItem " + viewPager.getCurrentItem() + "   udsIndexEfter=" + udsIndexEfter);
+    viewPager.setCurrentItem(udsIndexEfter, false); // - burde ikke være nødvendig, hvis vi havde defineret getItemPosition
+    vispager_title_strip();
+  }
+
   private void hentUdsendelser(final int offset) {
     if (!App.ÆGTE_DR) return;
-    String url = DRData.getProgramserieUrl(startudsendelse.programserieSlug) + "&offset=" + offset;
-    Log.d("XXX url=" + url);
+    String url = DRData.getProgramserieUrl(programserie, startudsendelse.programserieSlug) + "&offset=" + offset;
+    Log.d("hentUdsendelser url=" + url);
 
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
       @Override
@@ -197,7 +167,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
           ArrayList<Udsendelse> udsendelser = DRJson.parseUdsendelserForProgramserie(prg, kanal, DRData.instans);
           programserie.tilføjUdsendelser(offset, udsendelser);
           //programserie.tilføjUdsendelser(Arrays.asList(startudsendelse));
-          opdaterListe();
+          opdaterUdsendelser();
         }
       }
     }).setTag(this);
@@ -210,10 +180,10 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
 
   @Override
   public void onPageSelected(int position) {
-    if (programserie != null && position == liste.size() - 1 && antalHentedeSendeplaner++ < 7) { // Hent flere udsendelser
+    if (programserie != null && position == udsendelser.size() - 1 && antalHentedeSendeplaner++ < 7) { // Hent flere udsendelser
       hentUdsendelser(programserie.getUdsendelser() == null ? 0 : programserie.getUdsendelser().size());
     }
-    Sidevisning.vist(Udsendelse_frag.class, liste.get(position).slug);
+    Sidevisning.vist(Udsendelse_frag.class, udsendelser.get(position).slug);
   }
 
   @Override
@@ -229,8 +199,16 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
       super(fm);
     }
 
+
+    public void setListe(ArrayList<Udsendelse> liste) {
+      liste2 = new ArrayList<>(liste);
+      //if (App.EMULATOR) Log.d("setListe() liste2.size() = "+liste2.size());
+      notifyDataSetChanged();
+    }
+
     @Override
     public Fragment getItem(int position) {
+      //if (App.EMULATOR) Log.d("getItem() liste2.size() = "+liste2.size());
       Udsendelse u = liste2.get(position);
       Fragment f = Fragmentfabrikering.udsendelse(u);
       f.getArguments().putString(Kanal_frag.P_kode, kanal.kode);
@@ -262,18 +240,20 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
      Log.rapporterFejl(new Exception("getItemPosition gav fragment uden slug!??!"), ""+arg);
      return POSITION_NONE;
      }
-     int nyPos = Programserie.findUdsendelseIndexFraSlug(liste, slug);
+     int nyPos = Programserie.findUdsendelseIndexFraSlug(udsendelser, slug);
      Log.d("xxx getItemPosition "+object+" "+arg +"   - nyPos="+nyPos);
      return nyPos;
      }
      */
     @Override
     public int getCount() {
+      //if (App.EMULATOR) Log.d("getCount() liste2.size() = "+liste2.size());
       return liste2.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
+      //if (App.EMULATOR) Log.d("getPageTitle() liste2.size() = "+liste2.size());
       Udsendelse u = liste2.get(position);
       if (u.startTidKl.equals("REKTA")) return u.startTidKl;
       String dato = DRJson.datoformat.format(u.startTid);

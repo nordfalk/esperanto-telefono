@@ -32,6 +32,8 @@ import com.androidquery.AQuery;
 
 import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.afspilning.Status;
+import dk.dr.radio.afspilning.wrapper.AndroidMediaPlayerWrapper;
+import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.Kanal;
@@ -108,10 +110,10 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
             seekBar.setEnabled(true);
             starttid.setVisibility(View.VISIBLE);
             slutttid.setVisibility(View.VISIBLE);
-            int længdeMs = afspiller.getDuration();
+            int længdeMs = (int) afspiller.getDuration();
             if (længdeMs>0) seekBar.setMax(længdeMs);
             slutttid.setText(DateUtils.formatElapsedTime(længdeMs / 1000));
-            int pos = afspiller.getCurrentPosition();
+            int pos = (int) afspiller.getCurrentPosition();
             Log.d("   pos " + pos + "   " + længdeMs);
             if (pos > 0) { // pos=0 rapporteres efter onSeekComplete, det skal ignoreres
               starttid.setText(DateUtils.formatElapsedTime(pos / 1000));
@@ -373,8 +375,6 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
   public void udvidSkjulOmråde() {
     if (!viserUdvidetOmråde()) {
       Sidevisning.vist(Afspiller_frag.class);
-      opdaterSeekBar.run();
-      lydstyrke.run();
       indhold_overskygge.setOnTouchListener(indhold_overskygge_onTouchListener);
       int forrigeNæsteSynlighed = DRData.instans.afspiller.getLydkilde().erDirekte() ? View.GONE : View.VISIBLE;
       aq.id(R.id.forrige).visibility(forrigeNæsteSynlighed).id(R.id.næste).visibility(forrigeNæsteSynlighed);
@@ -402,6 +402,8 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
         indhold_overskygge.setVisibility(View.VISIBLE);
         udvidSkjulOmråde.setVisibility(View.VISIBLE);
       }
+      opdaterSeekBar.run(); // skal ske efter at udvidSkjulOmråde er sat til synligt
+      lydstyrke.run();
     } else {
       App.forgrundstråd.removeCallbacks(opdaterSeekBar);
       App.forgrundstråd.removeCallbacks(lydstyrke);

@@ -20,11 +20,11 @@ public interface MediaPlayerWrapper {
 
   void release();
 
-  void seekTo(int offsetMs);
+  void seekTo(long offsetMs);
 
-  int getDuration();
+  long getDuration();
 
-  int getCurrentPosition();
+  long getCurrentPosition();
 
   void start();
 

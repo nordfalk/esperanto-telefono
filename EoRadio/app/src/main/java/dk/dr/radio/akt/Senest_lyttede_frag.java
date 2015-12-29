@@ -157,7 +157,7 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
 
   @Override
   public void onItemClick(AdapterView<?> listView, View v, int position, long id) {
-
+    if (getActivity()==null) return;
     Fragment f;
     Lydkilde k = liste.get(position).lydkilde;
     if (k instanceof Kanal) {

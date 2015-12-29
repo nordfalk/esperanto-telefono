@@ -186,7 +186,7 @@ public class FilCache {
     return cacheFilnavn;
   }
 
-  private static void kopierOgLuk(InputStream in, OutputStream out) throws IOException {
+  public static void kopierOgLuk(InputStream in, OutputStream out) throws IOException {
     try {
       byte[] b = new byte[BUFFERSTR];
       int read;

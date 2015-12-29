@@ -34,8 +34,9 @@
         android:summary="Standard er 96kbps og bruger ca. 45 MB data per time, mens høj kvalitet bruger ca. 90 MB/time"
         android:entries="@array/lydkvalitet_tekst"
         android:entryValues="@array/lydkvalitet_kode"/>
+    <!-- Hedder fra v 3.5.3 lydformat2 for at få den nulstillet i forhold til det oprindelige lydformat -->
     <ListPreference
-        android:key="lydformat"
+        android:key="lydformat2"
         android:title="Lydformat"
         android:summary="Hvis du ikke kan få lyd så prøv at vælge MP3 (Shoutcast) her"
         android:defaultValue="auto"
@@ -43,38 +44,40 @@
         android:entryValues="@array/lydformat_kode"/>
   </PreferenceCategory>
 
+  <PreferenceCategory android:title="@string/Hentede_udsendelser">
+
+    <CheckBoxPreference
+      android:key="hentKunOverWifi"
+      android:title="@string/Hent_kun_på_wifi"
+      android:defaultValue="false"
+      android:summaryOn="@string/Udsendelser_hentes_kun_over_wifi_fremover___"
+      android:summaryOff="@string/Udsendelser_hentes_både_over_telefonnet_3g_4g_og_wifi_"/>
+
+    <ListPreference
+      android:key="placeringAfHentedeFiler"
+      android:title="@string/Placering_af_hentede_udsendelser"
+      android:dialogTitle="@string/Gem_udsendelser_på"
+      android:summary="@string/Vælg_hvor_på_telefonen_du_vil_gemme_udsendelser_til_offline_brug_"
+      />
+
+  </PreferenceCategory>
+
+
 
   <PreferenceCategory android:title="Andet">
 
     <CheckBoxPreference
-        android:key="fjernbetjening" android:title="Fjernbetjening"
-        android:defaultValue="true"
-        android:summaryOff="Ingen betjening fra Bluetooth og ændrer ikke baggrunden på låseskærmen"
-        android:summaryOn="Betjening fra Bluetooth headset og låseskærmen på Android 4.\nLåseskærmens baggrund viser grafik fra udsendelsen, der afspilles."
-        />
+      android:key="fjernbetjening" android:title="Fjernbetjening"
+      android:defaultValue="true"
+      android:summaryOff="Ingen betjening fra Bluetooth og ændrer ikke baggrunden på låseskærmen"
+      android:summaryOn="Betjening fra Bluetooth headset og låseskærmen på Android 4.\nLåseskærmens baggrund viser grafik fra udsendelsen, der afspilles."
+      />
+  </PreferenceCategory>
 
 
-    <PreferenceScreen android:title="@string/Avanceret"
-                      android:summary="@string/hentning_af_udsendelser_og_strømbesparende_funktioner_">
 
-
-      <PreferenceCategory android:title="@string/Hentede_udsendelser">
-        <ListPreference
-            android:key="placeringAfHentedeFiler"
-            android:title="@string/Placering_af_hentede_udsendelser"
-            android:dialogTitle="@string/Gem_udsendelser_på"
-            android:summary="@string/Vælg_hvor_på_telefonen_du_vil_gemme_udsendelser_til_offline_brug_"
-            />
-
-        <CheckBoxPreference
-            android:key="hentKunOverWifi"
-            android:title="@string/Hent_kun_på_wifi"
-            android:defaultValue="false"
-            android:summaryOn="@string/Udsendelser_hentes_kun_over_wifi_fremover___"
-            android:summaryOff="@string/Udsendelser_hentes_både_over_telefonnet_3g_4g_og_wifi_"/>
-
-      </PreferenceCategory>
-
+  <PreferenceScreen android:title="@string/Avanceret"
+                      android:summary="@string/strømbesparende_funktioner_og_andet">
 
       <PreferenceCategory android:title="Strømforbrug">
         <CheckBoxPreference
@@ -112,14 +115,19 @@
 
 
           <CheckBoxPreference
-              android:key="tving_exoplayer" android:title="Tving ExoPlayer"
+              android:key="tving_exoplayer" android:title="Brug ExoPlayer"
               android:summaryOn="ExoPlayer benyttes altid.\nNogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
-              android:summaryOff="forvalgt"/>
+              android:summaryOff="ikke forvalgt"/>
 
           <CheckBoxPreference
-              android:key="tving_mediaplayer" android:title="Tving MediaPlayer"
+              android:key="tving_mediaplayer" android:title="Brug MediaPlayer"
               android:summaryOn="Den indbyggede MediaPlayer benyttes"
-              android:summaryOff="forvalgt"/>
+              android:summaryOff="ikke forvalgt"/>
+
+          <CheckBoxPreference
+            android:key="tving_emaplayer" android:title="Brug EmaPlayer" android:defaultValue="true"
+            android:summaryOn="EmaPlayer benyttes altid.\nNogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
+            android:summaryOff="ExoPlayer eller MediaPlayer bruges hvis krydset af ovenfor"/>
 
           <CheckBoxPreference
               android:key="fejlsøgning" android:title="Fejlsøgning"
@@ -160,6 +168,5 @@
       </PreferenceCategory>
 
     </PreferenceScreen>
-  </PreferenceCategory>
 
 </PreferenceScreen>

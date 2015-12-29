@@ -6,7 +6,6 @@ import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,7 +44,7 @@ import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.HentedeUdsendelser;
+import dk.dr.radio.data.HentetStatus;
 import dk.dr.radio.data.Indslaglisteelement;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydstream;
@@ -227,6 +226,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
       }
     });
     */
+    run();
     return rod;
   }
 
@@ -309,22 +309,18 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     aq.id(R.id.hent).text("SPILLER " + kanal.navn.toUpperCase() + " LIVE");
 */
 
-    Cursor c = DRData.instans.hentedeUdsendelser.getStatusCursor(udsendelse);
     aq.id(R.id.hent);
+    HentetStatus hs;
 
     if (!DRData.instans.hentedeUdsendelser.virker()) {
       aq.gone();
     }
-    else if (c != null) {
-      int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-      if (status != DownloadManager.STATUS_SUCCESSFUL && status != DownloadManager.STATUS_FAILED) {
+    else if (null!=(hs = DRData.instans.hentedeUdsendelser.getHentetStatus(udsendelse))) {
+      if (hs.status != DownloadManager.STATUS_SUCCESSFUL && hs.status != DownloadManager.STATUS_FAILED) {
         App.forgrundstråd.removeCallbacks(this);
         App.forgrundstråd.postDelayed(this, 5000);
       }
-      String statustekst = HentedeUdsendelser.getStatustekst(c);
-      c.close();
-      if (status == DownloadManager.STATUS_SUCCESSFUL) statustekst = "Hentet";
-
+      String statustekst = hs.statustekst;
       aq.text(statustekst.toUpperCase()).enabled(true).textColorId(R.color.grå40);
     } else if (!udsendelse.kanHentes) {
       aq.text(R.string.KAN_IKKE_HENTES).enabled(false).textColorId(R.color.grå40);
@@ -378,7 +374,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
       App.forgrundstråd.removeCallbacks(opdaterSpillelisteRunnable);
       if (!getUserVisibleHint() || !isResumed() || kanal.ingenPlaylister) return;
       //new Exception("startOpdaterSpilleliste() for "+this).printStackTrace();
-      Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(udsendelse.slug), new DrVolleyResonseListener() {
+      Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(udsendelse), new DrVolleyResonseListener() {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (App.fejlsøgning) Log.d("fikSvar playliste(" + fraCache + " " + url + "   " + this);
@@ -387,7 +383,17 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
           if (udsendelse.playliste != null && uændret) return;
           if (json == null || "null".equals(json)) return; // fejl
           Log.d("UDS fikSvar playliste(" + fraCache + uændret + " " + url);
-          udsendelse.playliste = DRJson.parsePlayliste(new JSONArray(json));
+          ArrayList<Playlisteelement> playliste = DRJson.parsePlayliste(new JSONArray(json));
+          if (playliste.size()==0 && udsendelse.playliste!=null && udsendelse.playliste.size()>0) {
+            // Server-API er desværre ikke så stabilt - behold derfor en spilleliste med elementer,
+            // selvom serveren har ombestemt sig, og siger at listen er tom.
+            // Desværre caches den tomme værdi, men der må være grænser for hvor langt vi går
+            Log.d("Server-API gik fra spilleliste med "+udsendelse.playliste.size()+" til tom liste - det ignorerer vi");
+            return;
+          }
+          udsendelse.playliste = playliste;
+          if (DRData.instans.grunddata.serverapi_ret_forkerte_offsets_i_playliste) DRJson.retForkerteOffsetsIPlayliste(udsendelse);
+//          Log.d("UDS fikSvar playliste: " + json);
           if (!aktuelUdsendelsePåKanalen()) { // Aktuel udsendelse skal have senest spillet nummer øverst
             Collections.reverse(udsendelse.playliste); // andre udsendelser skal have stigende tid nedad
           }
@@ -414,6 +420,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     afspiller.observatører.remove(this);
     DRData.instans.hentedeUdsendelser.observatører.remove(this);
     DRData.instans.favoritter.observatører.remove(opdaterFavoritter);
+    App.forgrundstråd.removeCallbacks(this);
     super.onDestroyView();
   }
 
@@ -475,7 +482,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
   boolean visHelePlaylisten = false;
 
   void bygListe() {
-    Log.d("Udsendelse_frag bygListe");
+    Log.d("Udsendelse_frag bygListe "+liste.size() + " -> "+udsendelse.playliste);
     liste.clear();
     liste.add(TOP);
     if (udsendelse.berigtigelseTitel!=null) {
@@ -517,17 +524,25 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     if (udsendelse == null) return; // fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/834728045 ???
     App.forgrundstråd.removeCallbacks(this);
 
-    int spillerNuIndexNy = -1;
     if (udsendelse.equals(DRData.instans.afspiller.getLydkilde().getUdsendelse()))
     {
       // Find og fremhævet nummeret der spilles lige nu
-      int pos = DRData.instans.afspiller.getCurrentPosition();
-      spillerNuIndexNy = udsendelse.findPlaylisteElemTilTid(pos, playlisteElemDerSpillerNuIndex);
-      App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
-    }
-    if (playlisteElemDerSpillerNuIndex != spillerNuIndexNy) {
-      playlisteElemDerSpillerNuIndex = spillerNuIndexNy;
-      playlisteElemDerSpillerNu = playlisteElemDerSpillerNuIndex < 0 ? null : udsendelse.playliste.get(playlisteElemDerSpillerNuIndex);
+      long pos = DRData.instans.afspiller.getCurrentPosition();
+      int spillerNuIndexNy = udsendelse.findPlaylisteElemTilTid(pos, playlisteElemDerSpillerNuIndex);
+      // Opdatér igen om 10 sekunder hvis musikken spiller, så vi kan markere det punkt på playlisten der spilles nu
+      if (DRData.instans.afspiller.getAfspillerstatus()!=Status.STOPPET || DRData.instans.afspiller.getLydkilde().erDirekte()) {
+        App.forgrundstråd.postDelayed(this, 10000);
+      }
+
+      Log.d("spillerNuIndex=" + spillerNuIndexNy + " for pos=" + pos);
+      if (pos > 0 && playlisteElemDerSpillerNuIndex != spillerNuIndexNy) {
+        playlisteElemDerSpillerNuIndex = spillerNuIndexNy;
+        playlisteElemDerSpillerNu = playlisteElemDerSpillerNuIndex < 0 ? null : udsendelse.playliste.get(playlisteElemDerSpillerNuIndex);
+        Log.d("playlisteElemDerSpillerNu="+playlisteElemDerSpillerNu);
+      }
+    } else {
+      playlisteElemDerSpillerNuIndex = -1;
+      playlisteElemDerSpillerNu = null;
     }
     DRData.instans.hentedeUdsendelser.tjekOmHentet(udsendelse);
     adapter.notifyDataSetChanged(); // Opdater knapper etc
@@ -723,7 +738,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
       );
 //www.dr.dk/p1/mennesker-og-medier/mennesker-og-medier-100
       startActivity(intent);
-      Sidevisning.vist(Sidevisning.DEL, udsendelse.slug);
+      Sidevisning.i().vist(Sidevisning.DEL, udsendelse.slug);
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
@@ -751,10 +766,7 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
       Log.rapporterFejl(e);
     }
 
-    Cursor c = DRData.instans.hentedeUdsendelser.getStatusCursor(udsendelse);
-    if (c != null) {
-      c.close();
-      // Skift til Hentede_frag
+    if (DRData.instans.hentedeUdsendelser.getHentetStatus(udsendelse)!=null) {
       try {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         // Fjern IKKE backstak - vi skal kunne hoppe tilbage hertil

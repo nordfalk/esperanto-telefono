@@ -39,17 +39,17 @@ public class MediaPlayerProxyWrapper implements MediaPlayerWrapper {
   }
 
   @Override
-  public void seekTo(int offsetMs) {
+  public void seekTo(long offsetMs) {
     mediaPlayer.seekTo(offsetMs);
   }
 
   @Override
-  public int getDuration() {
+  public long getDuration() {
     return mediaPlayer.getDuration();
   }
 
   @Override
-  public int getCurrentPosition() {
+  public long getCurrentPosition() {
     return mediaPlayer.getCurrentPosition();
   }
 

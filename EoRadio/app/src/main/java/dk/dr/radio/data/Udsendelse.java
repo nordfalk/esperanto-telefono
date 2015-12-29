@@ -73,8 +73,9 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
 
   @Override
   public String getStreamsUrl() {
-    Log.rapporterFejl(new IllegalStateException("getStreamsUrl "+this));
-    return DRData.getUdsendelseStreamsUrlFraUrn(urn);
+    Log.rapporterFejl(new IllegalStateException("Eo getStreamsUrl ne devus okazi "+this));
+    Log.d("getStreamsUrl "+this);
+    return DRData.getUdsendelseStreamsUrl(this);
   }
 
 
@@ -135,7 +136,7 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
    * @param indeks   Gæt på index, f.eks fra sidste kald
    * @return korrekt indeks
    */
-  public int findPlaylisteElemTilTid(int offsetMs, int indeks) {
+  public int findPlaylisteElemTilTid(long offsetMs, int indeks) {
     if (playliste == null || playliste.size() == 0) return -1;
     if (indeks < 0 || playliste.size() <= indeks) {
       indeks = 0;
@@ -158,9 +159,9 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
       boolean kanHøresNy = findBedsteStreams(false).size() > 0;
       boolean kanHentesNy = findBedsteStreams(true).size() > 0;
       if (kanHentes && !kanHentesNy)
-        Log.rapporterFejl(new IllegalArgumentException("API løj om kanHentes for " + o.optString(DRJson.Slug.name())));
+        Log.d("API løj om kanHentes for " + o.optString(DRJson.Slug.name())+": "+kanHentes +"->" +kanHentesNy);
       if (kanHøres && !kanHøresNy)
-        Log.rapporterFejl(new IllegalArgumentException("API løj om kanHøres for " + o.optString(DRJson.Slug.name())));
+        Log.d("API løj om kanHøres for " + o.optString(DRJson.Slug.name())+": "+kanHøres +"->" +kanHøresNy);
     }
     kanHøres = findBedsteStreams(false).size() > 0;
     kanHentes = findBedsteStreams(true).size() > 0;

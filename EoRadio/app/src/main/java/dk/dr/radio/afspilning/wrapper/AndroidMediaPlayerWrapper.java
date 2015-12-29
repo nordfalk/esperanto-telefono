@@ -7,9 +7,6 @@ import android.net.Uri;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import dk.dr.radio.diverse.App;
-import dk.dr.radio.diverse.Log;
-
 /**
  * Wrapper til MediaPlayer.
  * Akamai kræver at MediaPlayer'en bliver 'wrappet' sådan at deres statistikmodul
@@ -71,17 +68,17 @@ public class AndroidMediaPlayerWrapper implements MediaPlayerWrapper {
   }
 
   @Override
-  public void seekTo(int offsetMs) {
-    mediaPlayer.seekTo(offsetMs);
+  public void seekTo(long offsetMs) {
+    mediaPlayer.seekTo((int) offsetMs);
   }
 
   @Override
-  public int getDuration() {
+  public long getDuration() {
     return mediaPlayer.getDuration();
   }
 
   @Override
-  public int getCurrentPosition() {
+  public long getCurrentPosition() {
     return mediaPlayer.getCurrentPosition();
   }
 
@@ -120,57 +117,8 @@ public class AndroidMediaPlayerWrapper implements MediaPlayerWrapper {
     mediaPlayer.setOnSeekCompleteListener(lytter);
   }
 
-  private static Class<? extends MediaPlayerWrapper> mediaPlayerWrapperKlasse = null;
-
-  public static MediaPlayerWrapper opret() {
-    if (mediaPlayerWrapperKlasse == null) {
-      boolean rapporter = App.prefs.getBoolean("Rapportér statistik", true);
-      if (!rapporter) {
-        App.langToast("DR Radio indsamler ikke brugsstatisik. Rapportér venligst om det gør en forskel for dig MHT batteriforbrug.");
-        App.langToast("Hvis du er sikker på at det medfører væsentligt længere batterilevetid, så kontakt os, så vi kan kigge på problemet.");
-      }
-      if (App.EMULATOR || !App.ÆGTE_DR) rapporter = false;
-
-      boolean exoplayer = App.PRODUKTION||!App.ÆGTE_DR ? false : Math.random()>0.5;
-      if (App.prefs.getBoolean("tving_exoplayer", false)) exoplayer = true;
-      if (App.prefs.getBoolean("tving_mediaplayer", false)) exoplayer = false;
-
-      if (exoplayer) {
-        try {
-          if (!rapporter)
-            mediaPlayerWrapperKlasse = ExoPlayerWrapper.class;
-          else
-            mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiExoPlayerWrapper");
-        } catch (Exception e) {
-          e.printStackTrace();
-          mediaPlayerWrapperKlasse = ExoPlayerWrapper.class;
-          if (App.ÆGTE_DR) Log.e("Mangler Akamai-wrapper til statistik", e);
-        }
-      } else {
-        try {
-          if (!rapporter)
-            mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
-          else
-            mediaPlayerWrapperKlasse = (Class<? extends MediaPlayerWrapper>) Class.forName("dk.dr.radio.afspilning.wrapper.AkamaiMediaPlayerWrapper");
-        } catch (ClassNotFoundException e) {
-          mediaPlayerWrapperKlasse = AndroidMediaPlayerWrapper.class;
-          if (App.ÆGTE_DR) Log.e("Mangler Akamai-wrapper til statistik", e);
-        }
-      }
-      if (App.fejlsøgning) App.kortToast(mediaPlayerWrapperKlasse.getSimpleName());
-    }
-    try {
-      Log.d("MediaPlayerWrapper opret() " + mediaPlayerWrapperKlasse);
-      return mediaPlayerWrapperKlasse.newInstance();
-    } catch (Exception e) {
-      Log.rapporterFejl(e);
-    }
-    return new AndroidMediaPlayerWrapper();
+  @Override
+  public String toString() {
+    return "Android MediaPlayer";
   }
-
-  public static void nulstilWrapper() {
-    if (App.fejlsøgning) App.kortToast("Fjerner wrapper\n"+mediaPlayerWrapperKlasse);
-    mediaPlayerWrapperKlasse = null;
-  }
-
 }

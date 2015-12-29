@@ -67,7 +67,7 @@ public class Basisaktivitet extends ActionBarActivity {
       menu.add(0, 642, 0, "Fejlsøgning");
       menu.add(0, 643, 0, "Vis log");
       menu.add(0, 646, 0, "Send fejlrapport");
-      menu.add(0, 2645, 0, "Status på hentninger");
+//      menu.add(0, 2645, 0, "Status på hentninger");
       menu.add(0, 13643, 0, "Vis servertid");
     }
     return super.onCreateOptionsMenu(menu);
@@ -112,9 +112,9 @@ public class Basisaktivitet extends ActionBarActivity {
           }
         }.execute();
         return true;
-      case 2645:
-        DRData.instans.hentedeUdsendelser.status();
-        return true;
+//      case 2645:
+//        DRData.instans.hentedeUdsendelser.status();
+//        return true;
       case 13643:
         App.langToast("Server:\n" + new Date(App.serverCurrentTimeMillis()) + "\n/Lokalt:\n" + new Date());
         return true;

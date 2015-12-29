@@ -309,7 +309,7 @@ public class PinnedSectionListView extends ListView {
 
     // align shadow according to next section position, if needed
     int nextPosition = sectionPosition + 1;
-    if (nextPosition < getCount()) {
+    if (nextPosition < getCount()) try {
       int nextSectionPosition = findFirstVisibleSectionPosition(nextPosition,
           visibleItemCount - (nextPosition - firstVisibleItem));
       if (nextSectionPosition > -1) {
@@ -328,7 +328,7 @@ public class PinnedSectionListView extends ListView {
         mTranslateY = 0;
         mSectionsDistanceY = Integer.MAX_VALUE;
       }
-    }
+    } catch (Exception e) { Log.rapporterFejl(e); }  // Workaround for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4088408563 hvor PinnedSectionListView spørger ud over adapterens størrelse
   }
 
   int findPreviousVisibleSectionPosition(int fromPosition) {

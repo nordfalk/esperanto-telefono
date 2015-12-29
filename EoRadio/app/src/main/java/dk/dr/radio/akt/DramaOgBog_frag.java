@@ -55,7 +55,10 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
         for (Programserie programserie : sektion) {
           //Log.d("DramaOgBogF "+sektionsnummer+" "+n+programserie+" "+programserie.antalUdsendelser+" "+programserie.billedeUrl);
           n++;
-          if (programserie.antalUdsendelser>0 && programserie.billedeUrl!=null && DRData.instans.dramaOgBog.karuselSerieSlug.contains(programserie.slug)) karruselListe.add(programserie);
+          if (programserie.antalUdsendelser>0 && programserie.billedeUrl!=null
+                  && DRData.instans.dramaOgBog.karuselSerieSlug.contains(programserie.slug)) {
+            karruselListe.add(programserie);
+          }
           if (n < 3  || listesektionerUdvidet.contains(sektionsnummer)) liste.add(programserie);
           if (n == 3 && !listesektionerUdvidet.contains(sektionsnummer)) liste.add(sektionsnummer); // VIS FLERE
         }
@@ -64,9 +67,6 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
       //karruselListe.addAll(DRData.instans.dramaOgBog.karusel);
     }
     if (karruselAdapter != null) {
-      if (viewPager.getCurrentItem() >= karruselListe.size()) {
-        viewPager.setCurrentItem(0);
-      }
       karruselAdapter.notifyDataSetChanged();
       listeAdapter.notifyDataSetChanged();
     }
@@ -162,6 +162,11 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
       programserieSlug = getArguments().getString(DRJson.SeriesSlug.name());
       View rod = inflater.inflate(R.layout.kanal_elem0_inkl_billede_titel, container, false);
       programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+      if (programserie==null) {
+        // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4024198209
+        Log.rapporterFejl(new IllegalStateException(programserieSlug + " fandtes ikke i DRData.instans.programserieFraSlug"));
+        return rod;
+      }
       String burl = Basisfragment.skalérBillede(programserie);
       //Log.d("onCreateView " + this + " viser " + programserie+" "+burl);
       AQuery aq = new AQuery(rod);
@@ -202,6 +207,7 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
 
     @Override
     public int getItemViewType(int position) {
+      if (position>=liste.size()) return 0; // Workaround for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4088408563 hvor PinnedSectionListView spørger ud over adapterens størrelse
       Object o = liste.get(position);
       if (o instanceof String) return 0;
       if (o instanceof Integer) return 2;

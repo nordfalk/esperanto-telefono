@@ -28,7 +28,6 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
   private EventLogger eventLogger;
   private MediaPlayerLytter lytter;
   private PowerManager.WakeLock mWakeLock = null;
-  private boolean mStayAwake;
 
   @Override
   public void setDataSource(final String url) throws IOException {
@@ -65,6 +64,7 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
     App.forgrundstråd.post(new Runnable() {
       @Override
       public void run() {
+        if (player==null) return;
         player.prepare();
         player.setPlayWhenReady(true);
       }
@@ -72,21 +72,21 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
   }
 
   @Override
-  public void seekTo(int offsetMs) {
+  public void seekTo(long offsetMs) {
     if (App.fejlsøgning) App.kortToast("seekTo(" + offsetMs+"\n"+player);
     if (player!=null) player.seekTo(offsetMs);
 //    else udeståendeSeekToOffsetMs = offsetMs;
   }
 
   @Override
-  public int getDuration() {
+  public long getDuration() {
     if (player==null) return 0; // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/3038148734
-    return (int) player.getDuration();
+    return player.getDuration();
   }
 
   @Override
-  public int getCurrentPosition() {
-    return (int) player.getCurrentPosition();
+  public long getCurrentPosition() {
+    return player.getCurrentPosition();
   }
 
   @Override
@@ -105,11 +105,13 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
   @Override
   public void release() {
     player.release();
+    stayAwake(false);
   }
 
   @Override
   public void reset() {
     //player.reset();
+    stayAwake(false);
   }
 
   @Override
@@ -162,7 +164,6 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
         mWakeLock.release();
       }
     }
-    mStayAwake = awake;
   }
 
   @Override
@@ -197,11 +198,17 @@ public class ExoPlayerWrapper implements MediaPlayerWrapper, DemoPlayer.Listener
 
   @Override
   public void onError(Exception e) {
+    if (lytter==null) return;
     lytter.onError(null, 42, 42);
   }
 
   @Override
   public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
 
+  }
+
+  @Override
+  public String toString() {
+    return "ExoPlayer";
   }
 }

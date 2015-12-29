@@ -46,7 +46,7 @@
     <string name="Spil_når_app_en_åbnes">"Tuj ludi"</string>
     <string name="Start_afspilning_automatisk_når_appen_åbnes">"Komenci ludi aŭtomate kiam la apo malfermiĝas"</string>
     <string name="Afspilning_starter_automatisk_når_appen_åbnes">"Ludas aŭtomate kiam la apo malfermiĝas"</string>
-    <string name="hentning_af_udsendelser_og_strømbesparende_funktioner_">"Elŝutado de elsendoj"</string>
+    <string name="strømbesparende_funktioner_og_andet">"Aliaj aferoj"</string>
     <string name="Hentede_udsendelser">"Elŝutitaj elsendoj"</string>
     <string name="Placering_af_hentede_udsendelser">"Loko de elŝutitaj elsendoj"</string>
     <string name="Gem_udsendelser_på">"Konservu elsendojn ĉe"</string>
@@ -68,7 +68,7 @@
     <string name="Vil_du_slette_denne_udsendele_du_kan_altid_hente_den_igen_">"Ĉu vi volas forigi tiun ĉi elsendon? \nVi povas ĉiam elŝuti ĝin denove."</string>
     <string name="Indstillinger">"Agordoj"</string>
     <string name="D_R_Radio_Indstillinger">"DR Radio Agordoj"</string>
-    <string name="__ikke_tilgængelig_">" (Ne disponebla)"</string>
+    <string name="_ikke_tilgængelig_">"(Ne disponebla)"</string>
     <string name="ledig">"libera"</string>
     <string name="Fejl__adgang_til_eksternt_lager_mangler_indsæt_sd_kort_">"Eraro - aliro al ekstera stokado mankas (enmetu SD-karton)"</string>
     <string name="Netværksfejl_prøv_igen_senere">"Eraro, bonvolu reprovi poste"</string>
@@ -118,6 +118,8 @@
     <string name="Hentning_pauset__">"Elŝutado paŭzas ... "</string>
     <string name="Henter__">"Elŝutas ..."</string>
     <string name="Udsendelsen___blev_hentet">"Sukcese elŝutis la elsendon %1$s"</string>
+    <string name="Flytter__">Movas…</string>
+    <string name="Kunne_ikke_flytte__">"Ne povis movi %1$s al %2$s"</string>
     <string name="Det_lykkedes_ikke_at_hente_udsendelsen___tjek_at___">"Ne sukcesis elŝuti la elsendon %1$s\nKontrolu ĉu vi havas sufiĉe da libera spaco"</string>
     <string name="Forbinder">"Konektas"</string>
     <string name="Angiv_vækning">Indiki vekiĝon</string>

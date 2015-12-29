@@ -404,7 +404,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
     @Override
     public int getItemViewType(int position) {
-      if (position == 0 || position >= liste.size() - 1) return TIDLIGERE_SENERE;
+      if (position == 0 || position >= liste.size() - 1) return TIDLIGERE_SENERE;  // Workaround for https://mint.splunk.com/dashboard/project/cd78aa05/errors/3004788237 hvor PinnedSectionListView spørger ud over adapterens størrelse
       if (position == aktuelUdsendelseIndex) return AKTUEL;
       if (liste.get(position) instanceof Udsendelse) return NORMAL;
       return DAGSOVERSKRIFT;
@@ -566,7 +566,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
       opdaterSenestSpilletViews(aq2, u2);
       return;
     }
-    Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(u2.slug), new DrVolleyResonseListener() {
+    Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(u2), new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         if (App.fejlsøgning) Log.d("KAN fikSvar playliste(" + fraCache + uændret + " " + url);
@@ -575,6 +575,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
         if (u2.playliste != null && uændret) return; // så har vi allerede den nyeste liste i MEM
         if (json != null && !"null".equals(json)) {
           u2.playliste = DRJson.parsePlayliste(new JSONArray(json));
+          if (DRData.instans.grunddata.serverapi_ret_forkerte_offsets_i_playliste) DRJson.retForkerteOffsetsIPlayliste(u2);
         }
         if (aktuelUdsendelseViewholder == null) return;
         opdaterSenestSpilletViews(aq2, u2);

@@ -40,6 +40,7 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.EoDiverse;
 import dk.dr.radio.data.HentedeUdsendelser;
+import dk.dr.radio.data.HentetStatus;
 import dk.dr.radio.data.Indslaglisteelement;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydstream;
@@ -193,21 +194,19 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       hør_tekst.setVisibility(View.GONE);
     }
 
-    Cursor c = DRData.instans.hentedeUdsendelser.getStatusCursor(udsendelse);
+    HentetStatus hs = DRData.instans.hentedeUdsendelser.getHentetStatus(udsendelse);
     aq.id(R.id.hent);
 
     if (!DRData.instans.hentedeUdsendelser.virker()) {
       aq.gone();
     }
-    else if (c != null) {
-      int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+    else if (hs != null) {
+      int status = hs.status;
       if (status != DownloadManager.STATUS_SUCCESSFUL && status != DownloadManager.STATUS_FAILED) {
         App.forgrundstråd.removeCallbacks(this);
         App.forgrundstråd.postDelayed(this, 5000);
       }
-      String statustekst = HentedeUdsendelser.getStatustekst(c);
-      c.close();
-      if (status == DownloadManager.STATUS_SUCCESSFUL) statustekst = "Hentet";
+      String statustekst = hs.statustekst;
 
       aq.text(statustekst.toUpperCase()).enabled(true).textColorId(R.color.grå40);
     } else if (!udsendelse.kanHentes) {
@@ -342,7 +341,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     if (udsendelse.equals(DRData.instans.afspiller.getLydkilde().getUdsendelse()))
     {
       // Find og fremhævet nummeret der spilles lige nu
-      int pos = DRData.instans.afspiller.getCurrentPosition();
+      long pos = DRData.instans.afspiller.getCurrentPosition();
       spillerNuIndexNy = udsendelse.findPlaylisteElemTilTid(pos, playlisteElemDerSpillerNuIndex);
       App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
     }
@@ -540,7 +539,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       Log.d(i.toString());
 
       startActivity(i);
-      Sidevisning.vist(Sidevisning.DEL, udsendelse.slug);
+      Sidevisning.i().vist(Sidevisning.DEL, udsendelse.slug);
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
@@ -568,9 +567,8 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
       Log.rapporterFejl(e);
     }
 
-    Cursor c = DRData.instans.hentedeUdsendelser.getStatusCursor(udsendelse);
-    if (c != null) {
-      c.close();
+    HentetStatus hs = DRData.instans.hentedeUdsendelser.getHentetStatus(udsendelse);
+    if (hs != null) {
       // Skift til Hentede_frag
       try {
         FragmentManager fm = getActivity().getSupportFragmentManager();

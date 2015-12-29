@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import dk.dr.radio.afspilning.wrapper.AndroidMediaPlayerWrapper;
+import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.HentedeUdsendelser;
 import dk.dr.radio.data.Lydkilde;
@@ -97,7 +98,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
                 File dir = l.get(i);
                 String dirs = dir.toString();
                 værdi[i] = dirs;
-                visVærdi[i] = dir.getParent() + getString(R.string.__ikke_tilgængelig_);
+                visVærdi[i] = dir.getParent() + " " + getString(R.string._ikke_tilgængelig_);
                 // Find ledig plads
                 boolean fandtesFørMkdirs = dir.exists();
                 dir.mkdirs();
@@ -165,8 +166,8 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
   protected void onDestroy() {
     super.onDestroy();
     App.fejlsøgning = App.prefs.getBoolean("fejlsøgning", false);
-    AndroidMediaPlayerWrapper.nulstilWrapper();
-    AndroidMediaPlayerWrapper.opret();
+    Wrapperfabrikering.nulstilWrapper();
+    Wrapperfabrikering.opret();
   }
 
   @Override

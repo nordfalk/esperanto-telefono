@@ -2,9 +2,8 @@
 
 <resources>
 
-  <style name="Theme.Dr" parent="@style/Theme.AppCompat.Light">
+  <style name="Theme.Dr" parent="@style/Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@color/hvid</item>
-    <item name="windowActionBar">false</item>
     <!--
     <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_holo_dark</item>
     -->
@@ -18,9 +17,8 @@
     <item name="android:textColor">@color/sort</item>
   </style>
 
-  <style name="Theme.Indstillinger" parent="@style/Theme.AppCompat.Light">
+  <style name="Theme.Indstillinger" parent="@style/Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@color/hvid</item>
-    <item name="windowActionBar">false</item>
     <item name="android:listViewStyle">@style/lightListView</item>
   </style>
   <!-- fix for at PreferenceScreen var sort på sort på Android 2: Lav hvid baggrund på ListViews

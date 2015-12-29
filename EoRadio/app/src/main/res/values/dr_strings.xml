@@ -44,13 +44,13 @@
   <string name="Spil_når_app_en_åbnes">Spil når app\'en åbnes</string>
   <string name="Start_afspilning_automatisk_når_appen_åbnes">Start afspilning automatisk, når appen åbnes</string>
   <string name="Afspilning_starter_automatisk_når_appen_åbnes">Afspilning starter automatisk, når appen åbnes</string>
-  <string name="hentning_af_udsendelser_og_strømbesparende_funktioner_">Hentning af udsendelser og strømbesparende funktioner.</string>
+  <string name="strømbesparende_funktioner_og_andet">Strømbesparende funktioner og andet.</string>
   <string name="Hentede_udsendelser">Hentede udsendelser</string>
   <string name="Placering_af_hentede_udsendelser">Placering af hentede udsendelser</string>
   <string name="Gem_udsendelser_på">Gem udsendelser på</string>
-  <string name="Vælg_hvor_på_telefonen_du_vil_gemme_udsendelser_til_offline_brug_">Vælg hvor på telefonen du vil gemme udsendelser til offline brug.</string>
+  <string name="Vælg_hvor_på_telefonen_du_vil_gemme_udsendelser_til_offline_brug_">Vælg hvor på telefonen du vil gemme udsendelser du henter til senere afspilning.</string>
   <string name="Hent_kun_på_wifi">Hent kun på wifi</string>
-  <string name="Udsendelser_hentes_kun_over_wifi_fremover___">Udsendelser hentes kun over wifi fremover.\n(er en udsendelse i gang med at blive hentet skal du stoppe og genoptage hentning af den før det træder i kraft)</string>
+  <string name="Udsendelser_hentes_kun_over_wifi_fremover___">Udsendelser hentes kun over wifi.\n(stop og genoptag hentning af en udsendelse før det træder i kraft)</string>
   <string name="Udsendelser_hentes_både_over_telefonnet_3g_4g_og_wifi_">Udsendelser hentes både over telefonnet (3G/4G) og wifi.</string>
   <string name="Kun_til_udviklere">Kun til udviklere</string>
   <string name="Beklager_kan_ikke_spille_radio">Beklager, kan ikke spille radio</string>
@@ -66,7 +66,7 @@
   <string name="Vil_du_slette_denne_udsendele_du_kan_altid_hente_den_igen_">Vil du slette denne udsendele?\nDu kan altid hente den igen.</string>
   <string name="Indstillinger">Indstillinger</string>
   <string name="D_R_Radio_Indstillinger">D R Radio Indstillinger</string>
-  <string name="__ikke_tilgængelig_">" (ikke tilgængelig)"</string>
+  <string name="_ikke_tilgængelig_">"(ikke tilgængelig)"</string>
   <string name="ledig">"ledig"</string>
   <string name="Fejl__adgang_til_eksternt_lager_mangler_indsæt_sd_kort_">"Fejl - adgang til eksternt lager mangler (isæt et SD-kort)"</string>
   <string name="Netværksfejl_prøv_igen_senere">Netværksfejl, prøv igen senere</string>
@@ -106,13 +106,15 @@
   <string name="Kontakt_info_om">Kontakt / info / om</string>
   <string name="Beklager_udsendelsen_kunne_ikke_hentes">Beklager, udsendelsen kunne ikke hentes</string>
   <string name="Kunne_ikke_få_adgang_til_eksternt_lager__se_evt__">Kunne ikke få adgang til eksternt lager.\nSe eventuelt indstillingen til placering af hentede udsendelser</string>
-  <string name="Klar___mb_">Klar (%1$d MB)</string>
+  <string name="Klar___mb_">Hentet (%1$d MB)</string>
   <string name="Mislykkedes">Mislykkedes</string>
   <string name="Venter___">Venter…</string>
   <string name="Hentet___mb_af___mb">Hentet %1$d MB af %2$d MB</string>
   <string name="Hentning_pauset__">"Hentning pauset… "</string>
   <string name="Henter__">Henter…</string>
   <string name="Udsendelsen___blev_hentet">Udsendelsen %1$s blev hentet</string>
+  <string name="Flytter__">Flytter…</string>
+  <string name="Kunne_ikke_flytte__">"Kunne ikke flytte %1$s til %2$s"</string>
   <string name="Det_lykkedes_ikke_at_hente_udsendelsen___tjek_at___">Det lykkedes ikke at hente udsendelsen %1$s\nTjek at du har tilstrækkeligt ledigt plads</string>
   <string name="Forbinder">Forbinder</string>
   <string name="Angiv_vækning">Angiv vækning</string>
@@ -124,6 +126,8 @@
   <string name="Fortsæt_i_baggrunden">Fortsæt i\nbaggrunden</string>
   <string name="Brugergrænseflade">Brugergrænseflade</string>
   <string name="Avanceret">Avanceret</string>
+  <string name="Udviklertilstand">Udviklertilstand</string>
+  <string name="Vis_ekstra_muligheder_til_udvikling_og_fejlfinding">Vis ekstra muligheder til udvikling og fejlfinding</string>
 
   <string name="GRUNDDATA_URL_PRODUKTION">http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.drxml</string>
   <string name="GRUNDDATA_URL_UDVIKLING">http://android.lundogbendsen.dk/drradiov3_grunddata.json</string>

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +27,7 @@ import java.util.Collections;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.HentedeUdsendelser;
+import dk.dr.radio.data.HentetStatus;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -39,12 +39,13 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
   private ArrayList<Udsendelse> liste = new ArrayList<Udsendelse>();
   protected View rod;
   HentedeUdsendelser hentedeUdsendelser = DRData.instans.hentedeUdsendelser;
+  private AQuery aq;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    rod = inflater.inflate(R.layout.senest_lyttede, container, false);
+    rod = inflater.inflate(R.layout.hentede_udsendelser_frag, container, false);
 
-    AQuery aq = new AQuery(rod);
+    aq = new AQuery(rod);
     listView = aq.id(R.id.listView).adapter(adapter).itemClicked(this).getListView();
     View emptyView = aq.id(R.id.tom).typeface(App.skrift_gibson)
         .text(Html.fromHtml(getString(R.string.Du_har_ingen_downloads___)))
@@ -54,12 +55,26 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
     listView.setCacheColorHint(Color.WHITE);
 
     aq.id(R.id.overskrift).typeface(App.skrift_gibson_fed).text(R.string.Downloadede_udsendelser).getTextView();
-
+    aq.id(R.id.supplerende_info).typeface(App.skrift_gibson).clicked(this);
 
     hentedeUdsendelser.observatører.add(this);
     run();
     udvikling_checkDrSkrifter(rod, this + " rod");
     return rod;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    //File dir = DRData.instans.hentedeUdsendelser.findPlaceringAfHentedeFilerFraPrefs();
+    //String tekst = App.res.getString(R.string.Gem_udsendelser_på)+" "+dir+"\n";
+    String tekst = App.res.getString(
+            App.prefs.getBoolean("hentKunOverWifi", false) ?
+                    R.string.Udsendelser_hentes_kun_over_wifi_fremover___ :
+                    R.string.Udsendelser_hentes_både_over_telefonnet_3g_4g_og_wifi_  );
+
+    aq.id(R.id.supplerende_info).text(tekst);
   }
 
   @Override
@@ -73,6 +88,7 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
   public void run() {
     liste.clear();
     liste.addAll(hentedeUdsendelser.getUdsendelser());
+    aq.id(R.id.supplerende_info).visibility(liste.size()>0?View.VISIBLE:View.GONE);
     Collections.reverse(liste);
     adapter.notifyDataSetChanged();
   }
@@ -121,8 +137,8 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
       aq.id(R.id.slet).tag(udsendelse);
       aq.id(R.id.hør).tag(udsendelse);
 
-      Cursor c = hentedeUdsendelser.getStatusCursor(udsendelse);
-      if (c == null) {
+      HentetStatus hs = hentedeUdsendelser.getHentetStatus(udsendelse);
+      if (hs == null) {
         aq.id(R.id.startStopKnap).visible().image(R.drawable.dri_radio_spil_graa40);
         aq.id(R.id.progressBar).gone();
         aq.id(R.id.linje1).text(udsendelse.titel).textColor(App.color.grå40);
@@ -130,27 +146,26 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
         return v;
       }
 
-      int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-      String statustekst = HentedeUdsendelser.getStatustekst(c);
-      int iAlt = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)) / 1000000;
-      int hentet = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) / 1000000;
-      c.close();
-      aq.id(R.id.linje2).text(DRJson.datoformat.format(udsendelse.startTid).toUpperCase() + " - " + statustekst.toUpperCase());
+      aq.id(R.id.linje1).text(udsendelse.titel)
+              .textColor(hs.status == DownloadManager.STATUS_SUCCESSFUL ? Color.BLACK : App.color.grå60);
 
-      if (status != DownloadManager.STATUS_SUCCESSFUL && status != DownloadManager.STATUS_FAILED) {
+      aq.id(R.id.linje2).text(DRJson.datoformat.format(udsendelse.startTid).toUpperCase() + " - " + hs.statustekst.toUpperCase());
+
+      if (hs.status == DownloadManager.STATUS_SUCCESSFUL) {
+        aq.id(R.id.progressBar).gone();
+        aq.id(R.id.startStopKnap).gone();
+      } else if (hs.status == DownloadManager.STATUS_FAILED) {
+        aq.id(R.id.progressBar).gone();
+        aq.id(R.id.startStopKnap).visible().image(R.drawable.dri_radio_stop_graa40);
+      } else {
         // Genopfrisk hele listen om 1 sekund
         App.forgrundstråd.removeCallbacks(Hentede_udsendelser_frag.this);
         App.forgrundstråd.postDelayed(Hentede_udsendelser_frag.this, 1000);
         ProgressBar progressBar = aq.id(R.id.progressBar).visible().getProgressBar();
-        progressBar.setMax(iAlt);
-        progressBar.setProgress(hentet);
+        progressBar.setMax(hs.iAlt);
+        progressBar.setProgress(hs.hentet);
         aq.id(R.id.startStopKnap).visible().image(R.drawable.dri_radio_stop_graa40);
-      } else {
-        aq.id(R.id.progressBar).gone();
-        aq.id(R.id.startStopKnap).gone();
       }
-      aq.id(R.id.linje1).text(udsendelse.titel)
-          .textColor(status == DownloadManager.STATUS_SUCCESSFUL ? Color.BLACK : App.color.grå60);
 
       udvikling_checkDrSkrifter(v, this.getClass() + " ");
 
@@ -185,6 +200,10 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
 
   @Override
   public void onClick(View v) {
+    if (v.getId()==R.id.supplerende_info) {
+      startActivity(new Intent(getActivity(), Indstillinger_akt.class));
+      return;
+    }
     try {
       final Udsendelse u = (Udsendelse) v.getTag();
       if (v.getId() == R.id.hør) {
@@ -200,10 +219,10 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                       // Animeret fjernelse af listeelement
                       int pos = liste.indexOf(u);
-                      final View le = listView.getChildAt(pos);
-                      if (le==null) { // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2732198295
+                      final View le = listView.getChildAt(pos-listView.getFirstVisiblePosition());
+                      if (le==null) { // Burde ikke ske efter 28 dec 2015 - TODO fjern
                         hentedeUdsendelser.slet(u);
-                        Log.rapporterFejl(new NullPointerException("sletning index "+pos+" på liste med "+liste.size()+" elementer"));
+                        Log.rapporterFejl(new Exception("Burde ikke ske efter 28 dec 2015: sletning index "+pos+" på liste med "+liste.size()+" elementer"));
                         return;
                       }
                       le.animate().alpha(0).translationX(le.getWidth()).withEndAction(new Runnable() {
@@ -223,14 +242,16 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
             .setNegativeButton(android.R.string.cancel, null)
             .show();
 
-      } else {
-        Cursor c = hentedeUdsendelser.getStatusCursor(u);
-        if (c != null) {
-          hentedeUdsendelser.stop(u);
-          c.close();
+      } else { // startStopKnap
+        HentetStatus hs = hentedeUdsendelser.getHentetStatus(u);
+        if (hs!=null) {
+          hentedeUdsendelser.stop(u); //xxx
         } else {
           if (u.streamsKlar()) hentedeUdsendelser.hent(u); // vi har streams, hent dem
-          else visUdsendelse_frag(u); // hack - vis udsendelsessiden, den indlæser streamsne
+          else {
+            Log.d("Hentede_udsendelser_frag - hack - vis udsendelsessiden, den indlæser streamsne");
+            visUdsendelse_frag(u);
+          }
         }
       }
     } catch (Exception e) {

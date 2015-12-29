@@ -3,6 +3,7 @@ package dk.dr.radio.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ public abstract class Lydkilde implements Serializable {
   public String slug;  // Bemærk - kan være tom!
   transient ArrayList<Lydstream> streams;
   public transient Lydstream hentetStream;
-  public static final String INDST_lydformat = "lydformat";
+  public static final String INDST_lydformat = "lydformat2";
 
   @Override
   public boolean equals(Object o) {
@@ -42,7 +43,7 @@ public abstract class Lydkilde implements Serializable {
 
   public List<Lydstream> findBedsteStreams(boolean tilHentning) {
     ArrayList<Lydstream> kandidater = new ArrayList<Lydstream>();
-    if (hentetStream != null) kandidater.add(hentetStream);
+    if (hentetStream != null && new File(hentetStream.url).canRead()) kandidater.add(hentetStream);
     if (streams == null) return kandidater;
 
     //Bedst bedst = new Bedst();
@@ -99,7 +100,7 @@ public abstract class Lydkilde implements Serializable {
       }
 
     Collections.sort(kandidater);
-    Log.d("findBedsteStreams " + kandidater);
+    if (App.fejlsøgning) Log.d("findBedsteStreams " + kandidater);
     return kandidater;
   }
 

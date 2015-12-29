@@ -26,7 +26,7 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.os.Build;
 
-import com.bugsense.trace.BugSenseHandler;
+import com.splunk.mint.Mint;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -107,20 +107,20 @@ public class Log {
   public static void rapporterFejl(final Exception e) {
     Log.e(e);
     if (fejlRapporteret++ > 3) return; // rapportér ikke mere end 3 fejl per kørsel
-    if (!App.EMULATOR) BugSenseHandler.sendException(e);
+    if (!App.EMULATOR) Mint.logException(e);
     if (!App.PRODUKTION && App.instans!=null) App.langToast("Fejl: " + e);
   }
 
   public static void rapporterFejl(final Exception e, final Object f) {
     Log.e("" + f, e);
     if (fejlRapporteret++ > 3) return; // rapportér ikke mere end 3 fejl per kørsel
-    if (!App.EMULATOR) BugSenseHandler.sendExceptionMessage("fejl", "" + f, e);
+    if (!App.EMULATOR) Mint.logExceptionMessage("fejl", "" + f, e);
     if (!App.PRODUKTION && App.instans!=null) App.langToast("Fejl: " + f);
   }
 
 
   public static void rapporterOgvisFejl(final Activity akt, final Exception e) {
-    if (!App.EMULATOR) BugSenseHandler.sendException(e);
+    if (!App.EMULATOR) Mint.logException(e);
     Log.e(e);
 
     Builder ab = new Builder(akt);
@@ -137,6 +137,13 @@ public class Log {
 
     });
     ab.create().show();
+  }
+
+
+  public static void fejlantagelse(String fejl) {
+    IllegalStateException e = new IllegalStateException(fejl);
+    if (!App.PRODUKTION) throw e;
+    else Log.rapporterFejl(e);
   }
 
   //private static LinkedHashMap<String, String> afprøvedeTing = new LinkedHashMap<String, String>();

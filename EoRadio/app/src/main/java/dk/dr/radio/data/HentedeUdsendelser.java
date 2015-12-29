@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +15,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
@@ -26,6 +29,7 @@ import java.util.Scanner;
 
 import dk.dr.radio.akt.Hentede_udsendelser_frag;
 import dk.dr.radio.akt.Hovedaktivitet;
+import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Serialisering;
@@ -39,7 +43,6 @@ import dk.dr.radio.v3.R;
 public class HentedeUdsendelser {
   public static final String NØGLE_placeringAfHentedeFiler = "placeringAfHentedeFiler";
   private DownloadManager downloadService = null;
-  private ArrayList<Udsendelse> udsendelser;
 
   public static class Data implements Serializable {
     // Fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/1415558087
@@ -47,9 +50,15 @@ public class HentedeUdsendelser {
     // Se også http://stackoverflow.com/questions/16210831/serialization-deserialization-proguard
     private static final long serialVersionUID = -3292059648694915445L;
 
+    /** slug -> downloadId */
     private Map<String, Long> downloadIdFraSlug = new LinkedHashMap<String, Long>();
+
+    /** DownloadId -> udsendelse */
     private Map<Long, Udsendelse> udsendelseFraDownloadId = new LinkedHashMap<Long, Udsendelse>();
     private ArrayList<Udsendelse> udsendelser = new ArrayList<Udsendelse>();
+
+    /** slug -> filnavn */
+    private Map<String, HentetStatus> hentetStatusFraSlug = new LinkedHashMap<>();
   }
 
   private Data data;
@@ -71,11 +80,101 @@ public class HentedeUdsendelser {
     }
   }
 
+  public Collection<Udsendelse> getUdsendelser() {
+    tjekDataOprettet();
+    return data.udsendelser;
+  }
+
+  public HentetStatus getHentetStatus(Udsendelse udsendelse) {
+    if (!virker()) return null;
+    tjekDataOprettet();
+
+    HentetStatus hs = data.hentetStatusFraSlug.get(udsendelse.slug);
+    if (hs != null && (hs.status==DownloadManager.STATUS_SUCCESSFUL || hs.status == DownloadManager.STATUS_FAILED)) {
+      hs.statustekst = lavStatustekst(hs);
+      return hs;
+    }
+
+    Long downloadId = data.downloadIdFraSlug.get(udsendelse.slug);
+    if (downloadId == null) return null;
+    DownloadManager.Query query = new DownloadManager.Query();
+    query.setFilterById(downloadId);
+    Cursor c = downloadService.query(query);
+    if (c==null) return null; // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4066198043
+    if (!c.moveToFirst()) {
+      c.close();
+      return null;
+    }
+
+    if (hs == null) {
+      hs = new HentetStatus();
+      data.hentetStatusFraSlug.put(udsendelse.slug, hs);
+    }
+    hs.status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+    hs.iAlt = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)) / 1000000;
+    hs.hentet = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) / 1000000;
+    hs.startUri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+    hs.statustekst = lavStatustekst(hs);
+    if (hs.status==DownloadManager.STATUS_FAILED || hs.status==DownloadManager.STATUS_PAUSED) {
+      int grund = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON));
+      Log.d(udsendelse.slug+ " hs.grund til fejl "+ grund);
+      if (grund==DownloadManager.ERROR_INSUFFICIENT_SPACE) hs.statustekst += " - Ikke nok plads";
+    }
+    c.close();
+    //if (!App.PRODUKTION) hs.statustekst+="\n"+hs.startUri+"\n"+hs.destinationFil; // til fejlfinding
+    return hs;
+  }
+
+  public static String lavStatustekst(HentetStatus hs) {
+    if (hs.status == DownloadManager.STATUS_SUCCESSFUL) {
+      if (hs.statusFlytningIGang) return App.res.getString(R.string.Flytter__);
+      if (new File(hs.destinationFil).canRead()) return App.instans.getString(R.string.Klar___mb_, hs.iAlt);
+      return App.instans.getString(R.string._ikke_tilgængelig_);
+    } else if (hs.status == DownloadManager.STATUS_FAILED) {
+      return App.instans.getString(R.string.Mislykkedes);
+    } else if (hs.status == DownloadManager.STATUS_PENDING) {
+      return App.instans.getString(R.string.Venter___);
+    } else if (hs.status == DownloadManager.STATUS_PAUSED) {
+      return App.instans.getString(R.string.Hentning_pauset__) + App.instans.getString(R.string.Hentet___mb_af___mb, hs.hentet, hs.iAlt);
+    }
+    // RUNNING
+    if (hs.hentet > 0 || hs.iAlt > 0) return App.instans.getString(R.string.Hentet___mb_af___mb, hs.hentet, hs.iAlt);
+    return App.instans.getString(R.string.Henter__);
+  }
+
+  public void tjekOmHentet(Udsendelse udsendelse) {
+    if (!virker()) return;
+    if (udsendelse.hentetStream == null) {
+      HentetStatus hs = getHentetStatus(udsendelse);
+      if (hs == null) return;
+      if (hs.status != DownloadManager.STATUS_SUCCESSFUL) return;
+      File file = new File(hs.destinationFil);
+      if (file.exists()) {
+        udsendelse.hentetStream = new Lydstream();
+        udsendelse.hentetStream.url = hs.destinationFil;
+        udsendelse.hentetStream.score = 500; // Rigtig god!
+        udsendelse.kanHøres = true;
+        Log.registrérTestet("Afspille hentet udsendelse", udsendelse.slug);
+      } else {
+        Log.rapporterFejl(new IllegalStateException("Fil " + file + " hentet, men fandtes ikke alligevel??!"));
+      }
+    }
+    /*
+    if (udsendelse.hentetStream!=null && !new File(udsendelse.hentetStream.url).canRead()) {
+      Log.d("Fil findes pt ikke" + udsendelse.hentetStream.url);
+      udsendelse.hentetStream = null;
+    }
+    */
+  }
 
   private void tjekDataOprettet() {
     if (data != null) return;
     if (new File(FILNAVN).exists()) try {
       data = (Data) Serialisering.hent(FILNAVN);
+
+      if (data.hentetStatusFraSlug == null) { // Feltet data.udsendelser kom med 26. dec 2015 - tjek kan slettes efter sommer 2016
+        data.hentetStatusFraSlug = new LinkedHashMap<>();
+      }
       if (data.udsendelser == null) { // Feltet data.udsendelser kom med 2. okt 2014 - tjek kan slettes efter sommer 2015
         data.udsendelser = new ArrayList<Udsendelse>(data.udsendelseFraDownloadId.values());
       }
@@ -119,15 +218,21 @@ public class HentedeUdsendelser {
         return;
       }
       Uri uri = Uri.parse(prioriteretListe.get(0).url);
-      Log.d("uri=" + uri);
 
-      String brugervalg = App.prefs.getString(NØGLE_placeringAfHentedeFiler, null);
-      File dir;
-      if (brugervalg != null && new File(brugervalg).exists()) dir = new File(brugervalg);
-      else dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
+      File dir = findPlaceringAfHentedeFilerFraPrefs();
+      Log.d("Hent uri=" + uri +" til "+dir);
       dir = new File(dir, App.instans.getString(R.string.HENTEDE_UDS_MAPPENAVN));
       dir.mkdirs();
       if (!dir.exists()) throw new IOException("kunne ikke oprette " + dir);
+      File destination = new File(dir, udsendelse.slug.replace(':','_') + ".mp3");
+
+      String externalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+      if (!dir.getPath().startsWith(externalPath)) {
+        dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
+        dir.mkdirs();
+        Log.d("DownloadManager kan ikke hente til "+destination+" - gem midlertidigt på "+dir);
+        if (!App.PRODUKTION) App.langToast("DownloadManager kan ikke hente til "+destination+" - gem midlertidigt på "+dir);
+      }
 
       int typer = App.prefs.getBoolean("hentKunOverWifi", false) ?
           DownloadManager.Request.NETWORK_WIFI :
@@ -138,14 +243,15 @@ public class HentedeUdsendelser {
           .setAllowedOverRoaming(false)
           .setTitle(udsendelse.titel)
           .setDescription(udsendelse.beskrivelse);
-      //req.setDestinationInExternalPublicDir(Environment.DIRECTORY_PODCASTS, udsendelse.slug + ".mp3");
-      //req.setDestinationInExternalPublicDir("DR_Radio", udsendelse.slug + ".mp3");
-      //req.setDestinationInExternalFilesDir(App.instans, Environment.DIRECTORY_PODCASTS, "DRRADIO4xx"+ udsendelse.slug + ".mp3");
-      req.setDestinationUri(Uri.fromFile(new File(dir, udsendelse.slug.replace(':','_') + ".mp3")));
+
+      req.setDestinationUri(Uri.fromFile(new File(dir, destination.getName())));
 
       if (Build.VERSION.SDK_INT >= 11) req.allowScanningByMediaScanner();
 
       long downloadId = downloadService.enqueue(req);
+      HentetStatus hs = new HentetStatus();
+      hs.destinationFil = destination.getPath();
+      data.hentetStatusFraSlug.put(udsendelse.slug, hs);
       data.downloadIdFraSlug.put(udsendelse.slug, downloadId);
       data.udsendelseFraDownloadId.put(downloadId, udsendelse);
       if (!data.udsendelser.contains(udsendelse)) data.udsendelser.add(udsendelse);
@@ -159,125 +265,25 @@ public class HentedeUdsendelser {
     }
   }
 
-  /**
-   * Finder stien til et eksternt SD-kort - altså ikke til den 'external storage' der fra Android 4.2
-   * oftest er intern.
-   * Se også http://source.android.com/devices/tech/storage/,
-   * http://stackoverflow.com/questions/13646669/android-securityexception-destination-must-be-on-external-storage og
-   * http://www.androidpolice.com/2014/02/17/external-blues-google-has-brought-big-changes-to-sd-cards-in-kitkat-and-even-samsung-may-be-implementing-them/
-   * @return en liste af stier, hvor en af dem muligvis er til et eksternt SD-kort
-   */
-  public static ArrayList<File> findMuligeEksternLagerstier() {
-
-    // Hjælpemetode til at tjekke
-    class Res {
-      LinkedHashMap<File, File> res = new LinkedHashMap<File, File>();
-
-      public void put(File dir) {
-        File nøgle = dir;
-        try {
-          nøgle = nøgle.getCanonicalFile();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        if (!res.containsKey(nøgle)) {
-          // Se om der er en mappe, eller vi kan lave en
-          boolean fandtesFørMkdirs = dir.exists();
-          dir.mkdirs();
-          if (dir.isDirectory()) res.put(nøgle, dir);
-          if (!fandtesFørMkdirs) dir.delete(); // ryd op
-        }
-      }
+  public static File findPlaceringAfHentedeFilerFraPrefs() {
+    String brugervalg = App.prefs.getString(NØGLE_placeringAfHentedeFiler, null);
+    File dir = null;
+    if (brugervalg != null) dir = new File(brugervalg);
+    if (dir == null || !dir.canWrite()) {
+      dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
     }
-
-    Res res = new Res();
-    res.put(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS));
-
-    File fstab = new File("/etc/vold.fstab"); // læs i vold.fstab hvor der t.o.m Android 4.2 er nævnt det rigtige SD-kort
-    if (fstab.canRead()) {
-      try {
-        Scanner scanner = new Scanner(fstab);
-
-        while (scanner.hasNext()) {
-          String s = scanner.nextLine().trim();
-          if (s.startsWith("dev_mount")) {
-            // dev_mount sdcard /mnt/sdcard auto /devices/platform/goldfish_mmc.0 /devices/platform/msm_sdcc.2/mmc_host/mmc1
-            String sti = s.split("\\s")[2]; // /mnt/sdcard
-            Log.d("findStiTilRigtigtSDKort - fandt " + sti);
-            res.put(new File(sti, Environment.DIRECTORY_PODCASTS));
-          }
-        }
-        scanner.close();
-      } catch (Exception e) {
-        Log.rapporterFejl(e);
-      }
-    }
-
-    Log.d("findMuligeEksternLagerstier: " + res.res);
-    ArrayList<File> liste = new ArrayList<File>(res.res.values());
-    return liste;
+    return dir;
   }
 
-  public Collection<Udsendelse> getUdsendelser() {
-    tjekDataOprettet();
-    return data.udsendelser;
-  }
-
-  /**
-   * Giver status
-   * @param udsendelse
-   * @return
-   */
-  public Cursor getStatusCursor(Udsendelse udsendelse) {
-    if (!virker()) return null;
-    tjekDataOprettet();
-    Long downloadId = data.downloadIdFraSlug.get(udsendelse.slug);
-    //Log.d("HentedeUdsendelser getStatus gav downloadId = " + downloadId + " for u=" + udsendelse);
-    if (downloadId == null) return null;
-    DownloadManager.Query query = new DownloadManager.Query();
-    query.setFilterById(downloadId);
-    Cursor c = downloadService.query(query);
-    if (c.moveToFirst()) {
-      return c;
-    }
-    c.close();
-    return null;
-  }
-
-  public static int getStatus(Cursor c) {
-    return c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-  }
-
-  public static String getStatustekst(Cursor c) {
-    int status = getStatus(c);
-    long iAlt = c.getLong(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)) / 1000000;
-    long hentet = c.getLong(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) / 1000000;
-    String txt;
-    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-      txt = App.instans.getString(R.string.Klar___mb_, iAlt);
-    } else if (status == DownloadManager.STATUS_FAILED) {
-      txt = App.instans.getString(R.string.Mislykkedes);
-    } else if (status == DownloadManager.STATUS_PENDING) {
-      txt = App.instans.getString(R.string.Venter___);
-    } else if (status == DownloadManager.STATUS_PAUSED) {
-      txt = App.instans.getString(R.string.Hentning_pauset__)+App.instans.getString(R.string.Hentet___mb_af___mb, hentet, iAlt);
-    } else { // RUNNING
-      if (hentet > 0 || iAlt > 0) txt = App.instans.getString(R.string.Hentet___mb_af___mb, hentet, iAlt);
-      else txt = App.instans.getString(R.string.Henter__);
-    }
-    return txt;
-  }
-
-  /** Sletter udsendelsen fuldstændigt fra listen */
-  public void slet(Udsendelse u) {
-    data.udsendelser.remove(u);
-    stop(u);
-  }
 
   /** Sletter udsendelsen, men viser den stadig på listen, hvis brugern vil hente den igen senere */
   public void stop(Udsendelse u) {
     tjekDataOprettet();
-    sletLokalFil(u);
+    HentetStatus hs = getHentetStatus(u);
+    if (hs.startUri!=null) new File(URI.create(hs.startUri)).delete(); // Hvis ikke hentet færdig endnu er hs.startUri==null
+    new File(hs.destinationFil).delete();
+
+    data.hentetStatusFraSlug.remove(u.slug);
     Long id = data.downloadIdFraSlug.remove(u.slug);
     if (id == null) {
       Log.d("stop() udsendelse " + u + " ikke i data.downloadIdFraSlug - den er nok allerede stoppet");
@@ -285,20 +291,15 @@ public class HentedeUdsendelser {
       data.udsendelseFraDownloadId.remove(id);
       downloadService.remove(id);
     }
+    u.hentetStream = null;
     gemListe();
     for (Runnable obs : new ArrayList<Runnable>(observatører)) obs.run();
   }
 
-  private void sletLokalFil(Udsendelse u) {
-    Cursor c = getStatusCursor(u);
-    String uri = null;
-    if (c != null) {
-      uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-      c.close();
-    }
-    if (uri != null) {
-      new File(URI.create(uri).getPath()).delete();
-    }
+  /** Sletter udsendelsen fuldstændigt fra listen */
+  public void slet(Udsendelse u) {
+    data.udsendelser.remove(u);
+    stop(u); // kald til sidst, da listen gemmes her
   }
 
 
@@ -306,11 +307,11 @@ public class HentedeUdsendelser {
     @Override
     public void onReceive(Context context, Intent intent) {
       String action = intent.getAction();
-      Log.d("DLS " + intent);
+      Log.d("HentedeUdsendelser DLS " + intent);
       if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) try {
         long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
         DRData.instans.hentedeUdsendelser.tjekDataOprettet(); // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/803968027
-        Udsendelse u = DRData.instans.hentedeUdsendelser.data.udsendelseFraDownloadId.get(downloadId);
+        final Udsendelse u = DRData.instans.hentedeUdsendelser.data.udsendelseFraDownloadId.get(downloadId);
         if (u == null) {
           Log.d("Ingen udsendelse for hentning for " + downloadId + " den er nok blevet slettet");
           return;
@@ -320,10 +321,44 @@ public class HentedeUdsendelser {
         query.setFilterById(downloadId);
         Cursor c = DRData.instans.hentedeUdsendelser.downloadService.query(query);
         if (c.moveToFirst()) {
-          Log.d("DLS " + c + "  " + c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS)));
+          Log.d("HentedeUdsendelser DLS " + c + "  " + c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS)));
           if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
             App.langToast(App.instans.getString(R.string.Udsendelsen___blev_hentet, u.titel));
             Log.registrérTestet("Hente udsendelse", u.slug);
+
+            final HentetStatus hs = DRData.instans.hentedeUdsendelser.getHentetStatus(u);
+            hs.startUri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+            final File hentet =  new File(URI.create(hs.startUri));
+            final File dest = new File(hs.destinationFil);
+
+            if (!hentet.equals(dest)) {
+              Log.d("HentedeUdsendelser flytter fil fra " + hentet + " til " + hs.destinationFil);
+              if (!App.PRODUKTION) App.kortToast("flytter fra\n" + hentet + " til\n" + hs.destinationFil);
+              dest.getParentFile().mkdirs();
+              hs.statusFlytningIGang = true;
+              if (!App.PRODUKTION) hs.statustekst+="\n"+hentet + " til " + hs.destinationFil;
+              new AsyncTask() {
+                @Override
+                protected Object doInBackground(Object[] params) {
+                  try {
+                    FilCache.kopierOgLuk(new FileInputStream(hentet), new FileOutputStream(dest));
+                    hentet.delete();
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                    App.langToast(App.instans.getString(R.string.Kunne_ikke_flytte__, u.titel, dest));
+                  }
+                  return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                  hs.statusFlytningIGang = false;
+                  hs.statustekst = lavStatustekst(hs);
+                  DRData.instans.hentedeUdsendelser.gemListe();
+                  for (Runnable obs : new ArrayList<Runnable>(DRData.instans.hentedeUdsendelser.observatører)) obs.run();
+                }
+              }.execute();
+            }
           } else {
             App.langToast(App.instans.getString(R.string.Det_lykkedes_ikke_at_hente_udsendelsen___tjek_at___, u.titel));
           }
@@ -367,59 +402,68 @@ public class HentedeUdsendelser {
     }
   }
 
+  /**
+   * Finder stien til et eksternt SD-kort - altså ikke til den 'external storage' der fra Android 4.2
+   * oftest er intern.
+   * Se også http://source.android.com/devices/tech/storage/,
+   * http://stackoverflow.com/questions/13646669/android-securityexception-destination-must-be-on-external-storage og
+   * http://www.androidpolice.com/2014/02/17/external-blues-google-has-brought-big-changes-to-sd-cards-in-kitkat-and-even-samsung-may-be-implementing-them/
+   * @return en liste af stier, hvor en af dem muligvis er til et eksternt SD-kort
+   */
+  public static ArrayList<File> findMuligeEksternLagerstier() {
 
-  public void status() {
-    if (!virker()) return;
-//    Cursor c= downloadService.query(new DownloadManager.Query().setFilterById(lastDownload));
-    Cursor c = downloadService.query(new DownloadManager.Query());
+    // Hjælpemetode til at tjekke
+    class Res {
+      LinkedHashMap<File, File> res = new LinkedHashMap<File, File>();
 
-    while (c.moveToNext()) {
-      Log.d(c.getLong(c.getColumnIndex(DownloadManager.COLUMN_ID)));
-      Log.d(c.getLong(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)));
-      Log.d(c.getLong(c.getColumnIndex(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP)));
-      Log.d(c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)));
-      Log.d(c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS)));
-      Log.d(c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON)));
-    }
-    c.close();
-  }
-
-  public void tjekOmHentet(Udsendelse udsendelse) {
-    if (!virker()) return;
-    if (udsendelse.hentetStream == null) {
-      Cursor c = getStatusCursor(udsendelse);
-      if (c == null) return;
-      try {
-        Log.d(c.getLong(c.getColumnIndex(DownloadManager.COLUMN_ID)));
-        Log.d(c.getLong(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)));
-        Log.d(c.getLong(c.getColumnIndex(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP)));
-        Log.d(c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)));
-        Log.d(c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS)));
-        Log.d(c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON)));
-
-        if (c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS)) != DownloadManager.STATUS_SUCCESSFUL)
-          return;
-        String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-        File file = new File(URI.create(uri).getPath());
-        if (file.exists()) {
-          udsendelse.hentetStream = new Lydstream();
-          udsendelse.hentetStream.url = uri;
-          udsendelse.hentetStream.score = 500; // Rigtig god!
-          udsendelse.kanHøres = true;
-          Log.registrérTestet("Afspille hentet udsendelse", udsendelse.slug);
-        } else {
-//          Log.rapporterFejl(new IllegalStateException("Fil " + file + "  fandtes ikke alligevel??! for " + udsendelse));
-          Log.rapporterFejl(new IllegalStateException("Fil " + file + " hentet, men fandtes ikke alligevel??!"));
+      public void put(File dir) {
+        File nøgle = dir;
+        try {
+          nøgle = nøgle.getCanonicalFile();
+        } catch (IOException e) {
+          e.printStackTrace();
         }
-      } finally {
-        c.close();
-      }
-    } else {
-      if (!new File(URI.create(udsendelse.hentetStream.url).getPath()).exists()) {
-        Log.d("Fil findes pt ikke" + udsendelse.hentetStream);
-        udsendelse.hentetStream = null;
+        if (!res.containsKey(nøgle)) {
+          // Se om der er en mappe, eller vi kan lave en
+          boolean fandtesFørMkdirs = dir.exists();
+          dir.mkdirs();
+          if (dir.isDirectory()) res.put(nøgle, dir);
+          if (!fandtesFørMkdirs) dir.delete(); // ryd op
+        }
       }
     }
-  }
 
+    Res res = new Res();
+    if (Build.VERSION.SDK_INT>=19) try {
+      for (File f : App.instans.getExternalFilesDirs(Environment.DIRECTORY_PODCASTS)) {
+        res.put(f);
+      }
+    } catch (Exception e) { Log.rapporterFejl(e); }
+    else {
+      res.put(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS));
+    }
+    File fstab = new File("/etc/vold.fstab"); // læs i vold.fstab hvor der t.o.m Android 4.2 er nævnt det rigtige SD-kort
+    if (fstab.canRead()) {
+      try {
+        Scanner scanner = new Scanner(fstab);
+
+        while (scanner.hasNext()) {
+          String s = scanner.nextLine().trim();
+          if (s.startsWith("dev_mount")) {
+            // dev_mount sdcard /mnt/sdcard auto /devices/platform/goldfish_mmc.0 /devices/platform/msm_sdcc.2/mmc_host/mmc1
+            String sti = s.split("\\s")[2]; // /mnt/sdcard
+            Log.d("findStiTilRigtigtSDKort - fandt " + sti);
+            res.put(new File(sti, Environment.DIRECTORY_PODCASTS));
+          }
+        }
+        scanner.close();
+      } catch (Exception e) {
+        Log.rapporterFejl(e);
+      }
+    }
+
+    Log.d("findMuligeEksternLagerstier: " + res.res);
+    ArrayList<File> liste = new ArrayList<File>(res.res.values());
+    return liste;
+  }
 }

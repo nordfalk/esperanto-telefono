@@ -81,7 +81,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
   }
 
   private void hentUdsendelser(final int offset) {
-    String url = DRData.getProgramserieUrl(programserieSlug) + "&offset=" + offset;
+    String url = DRData.getProgramserieUrl(programserie, programserieSlug) + "&offset=" + offset;
     //Log.d("XXX url=" + url);
 
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {

@@ -57,9 +57,10 @@ public class DRBackendTidsformater {
   public static DateFormat servertidsformatPlayliste = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 
   /**
-   * Der er pr ikke andre formater
+   * Nogle gange kommer et andet tidsformat, når vi rammer ny Azure-backend
    */
-  public static DateFormat[] servertidsformatPlaylisteAndre = new SimpleDateFormat[]{
+  public static DateFormat[] servertidsformatPlaylisteAndre = new DateFormat[]{
+          new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.US),
   };
 
   private static Date parseUpålideigtServertidsformat(String tid, DateFormat tidsformat, DateFormat[] tidsformatAndre) {

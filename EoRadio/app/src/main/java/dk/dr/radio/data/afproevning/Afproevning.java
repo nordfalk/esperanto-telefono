@@ -130,7 +130,7 @@ public class Afproevning {
         if (!u.harStreams()) Log.d("Ingen lydstreams");
 
         try {
-          u.playliste = DRJson.parsePlayliste(new JSONArray(hentStreng(DRData.getPlaylisteUrl(u.slug))));
+          u.playliste = DRJson.parsePlayliste(new JSONArray(hentStreng(DRData.getPlaylisteUrl(u))));
           Log.d("u.playliste= " + u.playliste);
         } catch (IOException e) {
           e.printStackTrace();
@@ -139,7 +139,7 @@ public class Afproevning {
         boolean gavNull = false;
         Programserie ps = i.programserieFraSlug.get(u.programserieSlug);
         if (ps == null) {
-          String str = hentStreng(DRData.getProgramserieUrl(u.programserieSlug));
+          String str = hentStreng(DRData.getProgramserieUrl(null, u.programserieSlug));
           if ("null".equals(str)) gavNull = true;
           else {
             JSONObject data = new JSONObject(str);

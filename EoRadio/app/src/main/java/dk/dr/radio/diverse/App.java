@@ -57,7 +57,7 @@ import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.androidquery.callback.BitmapAjaxCallback;
-import com.bugsense.trace.BugSenseHandler;
+import com.splunk.mint.Mint;
 
 import org.json.JSONObject;
 
@@ -91,8 +91,11 @@ public class App extends Application {
   public static final String FORETRUKKEN_KANAL = "FORETRUKKEN_kanal";
   public static final String NØGLE_advaretOmInstalleretPåSDKort = "erInstalleretPåSDKort";
   public static final boolean PRODUKTION = !BuildConfig.DEBUG;
+  public static final boolean PRODUKTION_PÅ_PRØVE = false; // TODO sæt til false
   public static final boolean ÆGTE_DR = false;
   private static final String DRAMA_OG_BOG__A_Å_INDLÆST = "DRAMA_OG_BOG__A_Å_INDLÆST";
+  /** Bruges på nye funktioner - for at tjekke om de altid er opfyldt i felten. Fjernes ved næste udgivelser */
+  public static final boolean TJEK_ANTAGELSER = true;
   public static boolean EMULATOR = true; // Sæt i onCreate(), ellers virker det ikke i std Java
   public static App instans;
   public static SharedPreferences prefs;
@@ -128,7 +131,7 @@ public class App extends Application {
     netværk = new Netvaerksstatus();
     EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator");
     if (!EMULATOR)
-      BugSenseHandler.initAndStartSession(this, getString(PRODUKTION ? R.string.bugsense_nøgle : R.string.bugsense_testnøgle));
+      Mint.initAndStartSession(this, getString(PRODUKTION ? R.string.bugsense_nøgle : R.string.bugsense_testnøgle));
     super.onCreate();
 
     forgrundstråd = new Handler();
@@ -333,6 +336,7 @@ public class App extends Application {
     }
     skrift_gibson_fed_span = new EgenTypefaceSpan("Gibson fed", App.skrift_gibson_fed);
 
+    if (!EMULATOR) AppOpdatering.tjekForNyAPK(this);
     Log.d("onCreate tog " + (System.currentTimeMillis() - TIDSSTEMPEL_VED_OPSTART) + " ms");
   }
 
@@ -576,13 +580,26 @@ public class App extends Application {
       }
     }
     if (kørFørsteGangAppIkkeMereErSynlig != null) forgrundstråd.removeCallbacks(kørFørsteGangAppIkkeMereErSynlig);
+    forgrundstråd.postDelayed(synlighedsSporing, 50);
   }
 
   public void aktivitetStoppet(Activity akt) {
     if (akt != aktivitetIForgrunden) return; // en anden aktivitet er allerede startet
     aktivitetIForgrunden = null;
     if (kørFørsteGangAppIkkeMereErSynlig != null) forgrundstråd.postDelayed(kørFørsteGangAppIkkeMereErSynlig, 1000);
+    forgrundstråd.postDelayed(synlighedsSporing, 50);
   }
+
+  Runnable synlighedsSporing = new Runnable() {
+    boolean sidstSynlig = false;
+    @Override
+    public void run() {
+      boolean synligNu = aktivitetIForgrunden!=null;
+      if (sidstSynlig == synligNu) return;
+      sidstSynlig = synligNu;
+      Sidevisning.i().synlig(synligNu);
+    }
+  };
 
   /**
    * Køres et sekund efter at app'en ikke mere er synlig.

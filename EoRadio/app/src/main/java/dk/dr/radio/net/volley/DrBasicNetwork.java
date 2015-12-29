@@ -127,7 +127,7 @@ public class DrBasicNetwork implements Network {
         }
         return new NetworkResponse(statusCode, responseContents, responseHeaders, false);
       } catch (EOFException e) {
-        attemptRetryOnException("DR: server lukkede forbindelsen", request, new TimeoutError());
+        attemptRetryOnException("DR: server lukkede forbindelsen", request, new VolleyError("DR: server lukkede forbindelsen for "+request.getUrl()));
       } catch (SocketTimeoutException e) {
         attemptRetryOnException("socket", request, new TimeoutError());
       } catch (ConnectTimeoutException e) {

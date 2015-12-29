@@ -137,7 +137,7 @@ public class DrDiskBasedCache implements Cache {
         if (App.fejlsøgning) Log.d("DrVolleyDiskBasedCache fil1-hit for " + key);
       }
       return entry.toCacheEntry(data);
-    } catch (IOException e) {
+    } catch (Throwable e) { // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2765158427
       VolleyLog.d("%s: %s", file.getAbsolutePath(), e.toString());
       remove(key);
       return null;

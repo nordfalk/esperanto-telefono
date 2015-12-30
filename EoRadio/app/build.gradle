@@ -14,7 +14,7 @@ android {
         minSdkVersion 10 // eble fakte 7 ??
         targetSdkVersion 21
         versionCode 33
-        versionName '2.0.2 novaj_bibliotekoj'
+        versionName '2.0.2 novaj_bibliotekoj2'
     }
     buildTypes {
         release {

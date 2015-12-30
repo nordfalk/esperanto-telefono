@@ -148,7 +148,10 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
   }
 
   private void hentUdsendelser(final int offset) {
-    if (!App.ÆGTE_DR) return;
+    if (!App.ÆGTE_DR) {
+      opdaterUdsendelser();
+      return;
+    }
     String url = DRData.getProgramserieUrl(programserie, startudsendelse.programserieSlug) + "&offset=" + offset;
     Log.d("hentUdsendelser url=" + url);
 

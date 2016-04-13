@@ -241,7 +241,7 @@ public class App extends Application {
         App.prefs.edit().remove("stamdata22").remove("stamdata23").remove("stamdata24").commit();
       }
 
-      if (grunddata == null)
+      if (grunddata == null || !App.PRODUKTION)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
       DRData.instans.grunddata.eo_parseFællesGrunddata(grunddata);
       DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);

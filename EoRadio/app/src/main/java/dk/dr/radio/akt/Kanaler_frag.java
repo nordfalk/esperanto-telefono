@@ -47,10 +47,10 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     }
     if (adapter != null) {
       adapter.kanaler2 = kanaler;
+      adapter.notifyDataSetChanged();
       if (viewPager.getCurrentItem() >= kanaler.size()) {
         viewPager.setCurrentItem(0);
       }
-      adapter.notifyDataSetChanged();
       if (kanaler.contains(eoValgtKanal)) viewPager.setCurrentItem(kanaler.indexOf(eoValgtKanal));
       kanalfaneblade.notifyDataSetChanged(); // EO ŝanĝo
     }

@@ -237,8 +237,9 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     } else {
       kanallogo.setImageResource(R.drawable.dr_logo);
       Kanal lk = DRData.instans.grunddata.kanalFraSlug.get(kanal.slug);
-      Log.rapporterFejl(new IllegalStateException(kanal+ "  "+lk.eo_emblemo));
-      App.kortToast(""+lk.eo_emblemo);
+      String eraro = "Mankas emblemo por "+kanal+ "  "+lk.eo_emblemo;
+      Log.rapporterFejl(new IllegalStateException(eraro));
+      if (App.fejlsøgning) App.kortToast(eraro);
     }
 
     direktetekst.setVisibility(lydkilde.erDirekte()?View.VISIBLE:View.GONE);

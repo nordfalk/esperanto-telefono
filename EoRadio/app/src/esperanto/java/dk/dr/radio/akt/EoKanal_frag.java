@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
@@ -259,6 +260,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           if (u.dagsbeskrivelse == DRJson.I_DAG) nyListe.add("");
         }
         nyListe.add(u);
+        GeoblokaDetektilo.esploruĈuEstasBlokata(u);
       }
       int nyAktuelUdsendelseIndex = kanal.slug.equals("muzaiko") ? 0 : -1; //kanal.udsendelser.size()-1 : -1;
 
@@ -507,11 +509,19 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   @Override
   public void onClick(View v) {
     Viewholder vh = (Viewholder) v.getTag();
-    Lydkilde udsendelse = vh.udsendelse;
+    Udsendelse udsendelse = vh.udsendelse;
     DRData.instans.afspiller.setLydkilde(udsendelse);
-    DRData.instans.afspiller.startAfspilning();
-    vh.starttid.setTextColor(App.color.grå60);
-    DRData.instans.senestLyttede.registrérLytning(udsendelse);
+
+    if (GeoblokaDetektilo.estasBlokata(udsendelse)) {
+      new AlertDialog.Builder(getActivity())
+              .setTitle("Elsendo blokata")
+              .setMessage("Ŝajnas ke tiu ĉi elsendo ne estas havebla en via lando")
+              .show();
+    } else {
+      DRData.instans.afspiller.startAfspilning();
+      vh.starttid.setTextColor(App.color.grå60);
+      DRData.instans.senestLyttede.registrérLytning(udsendelse);
+    }
   }
 
   @Override

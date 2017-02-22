@@ -14,7 +14,7 @@
 		{
 			"kodo": "muzaiko",
 			"nomo": "Muzaiko",
-			"rektaElsendaSonoUrl": "http://listen.radionomy.com/muzaikoinfo",
+			"rektaElsendaSonoUrl": "http://streaming.radionomy.com/Muzaiko",
 			"rektaElsendaPriskriboUrl": "http://muzaiko.info/public/datumoj/aktuala_kanto.html",
 			"XXemblemoUrl": "http://muzaiko.info/images/emblemo.png",
 			"XXemblemoUrl": "http://muzaiko.info/reklambendoj/rb2.png",
@@ -207,7 +207,8 @@
 		"xxdrift_statusmeddelelse": "Nova multe pli bona provversio denove venis!<br> Elŝutu <a href='http://javabog.dk/privat/EoRadio.apk'>ĉi tie</a>.",
 		"yydrift_statusmeddelelse": "Finfine la nova versio eldoniĝis!<br> Elŝutu <a href='http://javabog.dk/privat/EoRadio.apk'>ĉi tie</a>.",
 		"qqdrift_statusmeddelelse": "",
-		"drift_statusmeddelelse": "17a de aprilo 2016:<br><br>Ni aldonis kanalon 'Spiritisma Voĉo'.<br><br>Kore, Jacob Nordfalk."
+		"XXXdrift_statusmeddelelse": "17a de aprilo 2016:<br><br>Ni aldonis kanalon 'Spiritisma Voĉo'.<br><br>Kore, Jacob Nordfalk.",
+		"drift_statusmeddelelse": ""
 	},
 	"channels": [ ],
 
@@ -225,5 +226,5 @@
 
  "feedback_brugerspørgsmål": "Dankon pro via helpemo!\nSkribu viajn proponojn aŭ ideojn ĉi-sube.---\nv8.json",
 
-  "drift_statusmeddelelse": "Dankon ĉar vi uzas la apon!\nTutnova versio estas survoje - mi petas vin havi paciencon pri la aferoj kiuj ne funcias en la aktuala versio.\n\nKore, Jacob"
+  "drift_statusmeddelelse": "NE UZATA"
 }

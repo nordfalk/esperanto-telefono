@@ -13,6 +13,9 @@ Saluton kaj bonvenon al la eldono de Esperanto-radio por Androjdaj aparatoj.
   * Kaliningrada E-radio
   * Vinilkosmo
 
+# Privateco #
+
+Mi kolektas aŭ registras neniujn privatajn informojn
 
 # Aŭskultantoj, helpu nin enkonduki pli da kanaloj #
 

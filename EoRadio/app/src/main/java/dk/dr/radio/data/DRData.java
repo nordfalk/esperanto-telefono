@@ -44,7 +44,7 @@ public class DRData {
   //public static final String GRUNDDATA_URL = "http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.json";
 
   private static final String BASISURL = "http://www.dr.dk/tjenester/mu-apps";
-  //private static final String BASISURL = "http://dr-mu-apps.azurewebsites.net";
+//  private static final String BASISURL = "http://dr-mu-apps.azurewebsites.net/tjenester/mu-apps";
   //private static final String BASISURL = App.PRODUKTION
   //   ? "http://www.dr.dk/tjenester/mu-apps"
   //   : "http://dr-mu-apps.azurewebsites.net";

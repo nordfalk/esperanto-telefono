@@ -313,6 +313,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
   private void opdaterListe() {
     try {
+      if (kanal.udsendelser.size()==0) return; // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4210518028 oma
 //      ArrayList<Udsendelse> nyuliste = kanal.udsendelser;
       if (App.fejlsøgning) Log.d(kanal + " opdaterListe " + kanal.udsendelser.size());
       tidligere.startTid = new Date(kanal.udsendelser.get(0).startTid.getTime() - 12 * 60 * 60 * 1000); // Døgnet starter kl 5, så vi er på den sikre side med 12 timer

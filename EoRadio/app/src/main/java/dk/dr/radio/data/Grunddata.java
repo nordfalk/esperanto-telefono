@@ -27,11 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,9 +38,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
-import dk.dr.radio.akt.EoKanal_frag;
-import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.App;
+import dk.dr.radio.diverse.FilCache;
 import dk.dr.radio.diverse.Log;
 
 public class Grunddata {
@@ -251,7 +248,7 @@ public class Grunddata {
 
 
   public void forprenuMalplenajnKanalojn() {
-    for (Iterator<Kanal> ki =this.kanaler.iterator(); ki.hasNext(); ) {
+    for (Iterator<Kanal> ki = this.kanaler.iterator(); ki.hasNext(); ) {
       Kanal k = ki.next();
       if (k.udsendelser.isEmpty()) {
         Log.d("============ FORPRENAS "+k.kode +", ĉar ĝi ne havas elsendojn! "+k.eo_datumFonto);
@@ -397,7 +394,7 @@ public class Grunddata {
     android_json = json.getJSONObject("android");
     tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
     DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
-    DRBackendTidsformater.servertidsformatPlaylisteAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre"), DRBackendTidsformater.servertidsformatPlaylisteAndre);
+    DRBackendTidsformater.servertidsformatPlaylisteAndre2 = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre2"), DRBackendTidsformater.servertidsformatPlaylisteAndre2);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
     //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();  // EO ŝanĝo
   }
@@ -415,7 +412,7 @@ public class Grunddata {
       return;
     }
 
-    if (søgEfterMatch(model_og_version, android_json.optString("udeluk_HLS2"))) udelukHLS = true;
+    udelukHLS = søgEfterMatch(model_og_version, android_json.optString("udeluk_HLS2"));
     tving_exoplayer = søgEfterMatch(model_og_version, android_json.optString("tving_exoplayer"));
     tving_mediaplayer = søgEfterMatch(model_og_version, android_json.optString("tving_mediaplayer"));
     tving_emaplayer = søgEfterMatch(model_og_version, android_json.optString("tving_emaplayer"));

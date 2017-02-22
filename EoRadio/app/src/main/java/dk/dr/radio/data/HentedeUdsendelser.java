@@ -29,7 +29,7 @@ import java.util.Scanner;
 
 import dk.dr.radio.akt.Hentede_udsendelser_frag;
 import dk.dr.radio.akt.Hovedaktivitet;
-import dk.dr.radio.data.afproevning.FilCache;
+import dk.dr.radio.diverse.FilCache;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Serialisering;
@@ -230,8 +230,8 @@ public class HentedeUdsendelser {
       if (!dir.getPath().startsWith(externalPath)) {
         dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
         dir.mkdirs();
-        Log.d("DownloadManager kan ikke hente til "+destination+" - gem midlertidigt på "+dir);
-        if (!App.PRODUKTION) App.langToast("DownloadManager kan ikke hente til "+destination+" - gem midlertidigt på "+dir);
+        Log.d("DownloadManager kan ikke direkte hente til "+destination+"\nGem midlertidigt i "+dir);
+        if (!App.PRODUKTION) App.langToast("DownloadManager kan ikke direkte hente til\n"+destination+".\n\nGem midlertidigt i\n"+dir);
       }
 
       int typer = App.prefs.getBoolean("hentKunOverWifi", false) ?
@@ -280,8 +280,8 @@ public class HentedeUdsendelser {
   public void stop(Udsendelse u) {
     tjekDataOprettet();
     HentetStatus hs = getHentetStatus(u);
-    if (hs.startUri!=null) new File(URI.create(hs.startUri)).delete(); // Hvis ikke hentet færdig endnu er hs.startUri==null
-    if (hs.destinationFil!=null) new File(hs.destinationFil).delete();
+    if (hs != null && hs.startUri!=null) new File(URI.create(hs.startUri)).delete(); // Hvis ikke hentet færdig endnu er hs.startUri==null
+    if (hs != null && hs.destinationFil!=null) new File(hs.destinationFil).delete();
 
     data.hentetStatusFraSlug.remove(u.slug);
     Long id = data.downloadIdFraSlug.remove(u.slug);
@@ -333,10 +333,10 @@ public class HentedeUdsendelser {
 
             if (!hentet.equals(dest)) {
               Log.d("HentedeUdsendelser flytter fil fra " + hentet + " til " + hs.destinationFil);
-              if (!App.PRODUKTION) App.kortToast("flytter fra\n" + hentet + " til\n" + hs.destinationFil);
+              if (App.fejlsøgning) App.kortToast("flytter fra\n" + hentet + " til\n" + hs.destinationFil);
               dest.getParentFile().mkdirs();
               hs.statusFlytningIGang = true;
-              if (!App.PRODUKTION) hs.statustekst+="\n"+hentet + " til " + hs.destinationFil;
+              if (App.fejlsøgning) hs.statustekst+="\n"+hentet + " til " + hs.destinationFil;
               new AsyncTask() {
                 @Override
                 protected Object doInBackground(Object[] params) {
@@ -417,6 +417,7 @@ public class HentedeUdsendelser {
       LinkedHashMap<File, File> res = new LinkedHashMap<File, File>();
 
       public void put(File dir) {
+        if (dir == null) return;
         File nøgle = dir;
         try {
           nøgle = nøgle.getCanonicalFile();

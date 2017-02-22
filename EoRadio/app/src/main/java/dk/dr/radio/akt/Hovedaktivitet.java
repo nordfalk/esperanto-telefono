@@ -41,6 +41,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    //com.ensighten.Ensighten.bootstrap(this, "drdk-ensighten", "dr_radio_android", true);
     super.onCreate(savedInstanceState);
 
     if (App.prefs.getBoolean("tving_lodret_visning", true)) {
@@ -237,7 +238,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
 
     if (DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && getIntent().getBooleanExtra(SPØRG_OM_STOP, true)) {
       // Spørg brugeren om afspilningen skal stoppes
-      showDialog(0);
+      showDialog(0, null);
       return;
     }
     super.finish();
@@ -264,7 +265,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
   }
 
   @Override
-  protected Dialog onCreateDialog(final int id) {
+  protected Dialog onCreateDialog(int id, Bundle args) {
     AlertDialog.Builder ab = new AlertDialog.Builder(this);
     ab.setMessage(R.string.Stop_afspilningen_);
     ab.setPositiveButton(R.string.Stop_afspilning, new AlertDialog.OnClickListener() {

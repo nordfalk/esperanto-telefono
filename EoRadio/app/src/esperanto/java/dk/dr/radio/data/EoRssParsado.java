@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.net.Diverse;
 

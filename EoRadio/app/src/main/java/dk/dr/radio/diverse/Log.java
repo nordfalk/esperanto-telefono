@@ -26,7 +26,7 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.os.Build;
 
-import com.splunk.mint.Mint;
+import com.crashlytics.android.Crashlytics;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -77,20 +77,20 @@ public class Log {
   public static void d(Object o) {
     String s = String.valueOf(o);
     logappend(s);
-    if (App.instans == null) {
+    if (App.instans == null || App.IKKE_Android_VM) {
       System.out.println(o);
       return; // Hop ud hvis vi ikke kører i en Android VM
     }
     android.util.Log.d(TAG, s);
   }
 
-  public static void e(Exception e) {
+  public static void e(Throwable e) {
     e("fejl", e);
   }
 
-  public static void e(String tekst, Exception e) {
+  public static void e(String tekst, Throwable e) {
     if (e == null) e = new Exception(tekst);
-    if (App.instans == null) {
+    if (App.instans == null || App.IKKE_Android_VM) {
       System.err.println(tekst);
       e.printStackTrace();
       return; // Hop ud hvis vi ikke kører i en Android VM
@@ -104,23 +104,33 @@ public class Log {
 
   static int fejlRapporteret = 0;
 
-  public static void rapporterFejl(final Exception e) {
+  public static void rapporterFejl(final Throwable e) {
     Log.e(e);
-    if (fejlRapporteret++ > 3) return; // rapportér ikke mere end 3 fejl per kørsel
-    if (!App.EMULATOR) Mint.logException(e);
-    if (!App.PRODUKTION && App.instans!=null) App.langToast("Fejl: " + e);
+    if (fejlRapporteret++ > 2) return; // rapportér ikke mere end 2 fejl per kørsel
+    if (!App.EMULATOR) {
+      Crashlytics.logException(e);
+      //Mint.logException(e);
+      if (!App.PRODUKTION && App.instans!=null) App.langToast("fejl: " + e);
+    }
   }
 
-  public static void rapporterFejl(final Exception e, final Object f) {
+  public static void rapporterFejl(final Throwable e, final Object f) {
     Log.e("" + f, e);
-    if (fejlRapporteret++ > 3) return; // rapportér ikke mere end 3 fejl per kørsel
-    if (!App.EMULATOR) Mint.logExceptionMessage("fejl", "" + f, e);
+    if (fejlRapporteret++ > 2) return; // rapportér ikke mere end 2 fejl per kørsel
+    if (!App.EMULATOR) {
+      Crashlytics.log("fejl " + f);
+      Crashlytics.logException(e);
+      //Mint.logExceptionMessage("fejl", "" + f, e);
+    }
     if (!App.PRODUKTION && App.instans!=null) App.langToast("Fejl: " + f);
   }
 
 
   public static void rapporterOgvisFejl(final Activity akt, final Exception e) {
-    if (!App.EMULATOR) Mint.logException(e);
+    if (!App.EMULATOR) {
+      Crashlytics.logException(e);
+      //Mint.logException(e);
+    }
     Log.e(e);
 
     Builder ab = new Builder(akt);

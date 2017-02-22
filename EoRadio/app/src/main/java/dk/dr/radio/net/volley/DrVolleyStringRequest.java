@@ -12,6 +12,7 @@ import java.util.Map;
 
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
+import dk.dr.radio.diverse.Log;
 
 /**
  * Oprettet af Jacob Nordfalk d 13-03-14.
@@ -50,27 +51,14 @@ public class DrVolleyStringRequest extends StringRequest {
       // fra en listeopdatering eller fra getView
       lytter.fikSvar(listener.cachetVærdi, true, false);
     } catch (Exception e) {
-      e.printStackTrace();
+      Log.e(e);
       // En fejl i den cachede værdi - smid indholdet af cachen væk, det kan alligevel ikke bruges
       App.volleyRequestQueue.getCache().remove(url);
       return;
+    } catch (Throwable e) {
+      // Der kom sandsynligvis en OOM! Smid indholdet af cachen væk, det fylder alligevel for meget i RAM
+      Log.rapporterFejl(e);
     }
-    //Log.d("XXXXXXXXXXXXXX Cache.Entry  e=" + response);
-    // Kald først fikSvar når forgrundstråden er færdig med hvad den er i gang med
-    // - i tilfælde af at en forespørgsel er startet midt under en listeopdatering giver det problemer
-    // at opdatere listen omgående, da elementer så kan skifte position (og måske type) midt i det hele
-    /*
-    App.forgrundstråd.post(new Runnable() {
-      @Override
-      public void run() {
-    try {
-      listener.fikSvar(listener.cachetVærdi, true, false);
-    } catch (Exception e) {
-      listener.onErrorResponse(new VolleyError(e));
-    }
-      }
-    });
-    */
   }
 
   @Override

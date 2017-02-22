@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,7 @@ import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.P4Stedplacering;
 import dk.dr.radio.v3.R;
 
-public class Basisaktivitet extends ActionBarActivity {
+public class Basisaktivitet extends AppCompatActivity {
   protected final AQuery aq = new AQuery(this);
   private ProgressBar progressBar;
 
@@ -67,6 +68,7 @@ public class Basisaktivitet extends ActionBarActivity {
       menu.add(0, 642, 0, "Fejlsøgning");
       menu.add(0, 643, 0, "Vis log");
       menu.add(0, 646, 0, "Send fejlrapport");
+      menu.add(0, 647, 0, "Fremtving crash (og send rapport)");
 //      menu.add(0, 2645, 0, "Status på hentninger");
       menu.add(0, 13643, 0, "Vis servertid");
     }
@@ -142,6 +144,8 @@ public class Basisaktivitet extends ActionBarActivity {
       case 646:
         Log.rapporterFejl(new Exception("Fejlrapport for enhed sendes"));
         return true;
+      case 647:
+        throw new IllegalStateException("Brugeren lavede et test-crash");
     }
     return super.onOptionsItemSelected(item);
   }

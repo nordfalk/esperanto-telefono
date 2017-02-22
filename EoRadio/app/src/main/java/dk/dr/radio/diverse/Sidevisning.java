@@ -69,7 +69,7 @@ public class Sidevisning {
   private static Intent intent;
 
   public void vist(String side, String slug) {
-    if (!App.PRODUKTION) App.kortToast("vist "+side+" "+slug);
+    //if (!App.PRODUKTION) App.kortToast("vist "+side+" "+slug);
     // Gemius sidevisningsstatistik
     // appname=MyApp|version=1.0.0
     // app=DRRadio|platform=Android|page=Z|action=W|version=1.0.0

@@ -426,7 +426,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
 
       if (App.ÆGTE_DR) {
         tilføj(R.layout.venstremenu_elem_overskrift, DramaOgBog_frag.class);
-        aq.id(R.id.tekst).text("Drama & Bog").typeface(App.skrift_gibson_fed);
+        aq.id(R.id.tekst).text("DR Podcast").typeface(App.skrift_gibson_fed);
 
         tilføj(R.layout.venstremenu_elem_overskrift, AlleUdsendelserAtilAA_frag.class);
         aq.id(R.id.tekst).text("Alle udsendelser A-Å").typeface(App.skrift_gibson_fed);

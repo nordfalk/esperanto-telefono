@@ -258,6 +258,10 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     public CharSequence getPageTitle(int position) {
       //if (App.EMULATOR) Log.d("getPageTitle() liste2.size() = "+liste2.size());
       Udsendelse u = liste2.get(position);
+      if (u.startTid==null) {
+        Log.rapporterFejl(new IllegalStateException("u.startTid==null for "+u.slug));
+        return getString(R.string.i_dag);
+      }
       if (u.startTidKl.equals("REKTA")) return u.startTidKl;
       String dato = DRJson.datoformat.format(u.startTid);
       if (dato.equals(DRJson.iDagDatoStr)) dato = getString(R.string.i_dag);

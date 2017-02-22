@@ -57,9 +57,7 @@ import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.androidquery.callback.BitmapAjaxCallback;
-import com.splunk.mint.Mint;
-
-import org.json.JSONObject;
+import com.crashlytics.android.Crashlytics;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,7 +73,6 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
-import dk.dr.radio.data.afproevning.FilCache;
 import dk.dr.radio.net.Diverse;
 import dk.dr.radio.net.Netvaerksstatus;
 import dk.dr.radio.net.volley.DrBasicNetwork;
@@ -84,6 +81,7 @@ import dk.dr.radio.net.volley.DrVolleyResonseListener;
 import dk.dr.radio.net.volley.DrVolleyStringRequest;
 import dk.dr.radio.v3.BuildConfig;
 import dk.dr.radio.v3.R;
+import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
   public static final String P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING = "P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING";
@@ -95,8 +93,9 @@ public class App extends Application {
   public static final boolean ÆGTE_DR = false;
   private static final String DRAMA_OG_BOG__A_Å_INDLÆST = "DRAMA_OG_BOG__A_Å_INDLÆST";
   /** Bruges på nye funktioner - for at tjekke om de altid er opfyldt i felten. Fjernes ved næste udgivelser */
-  public static final boolean TJEK_ANTAGELSER = true;
+  public static final boolean TJEK_ANTAGELSER = !PRODUKTION;
   public static boolean EMULATOR = true; // Sæt i onCreate(), ellers virker det ikke i std Java
+  public static boolean IKKE_Android_VM = false; // Hvis test fra almindelig JVM
   public static App instans;
   public static SharedPreferences prefs;
   public static ConnectivityManager connectivityManager;
@@ -129,10 +128,13 @@ public class App extends Application {
     TIDSSTEMPEL_VED_OPSTART = System.currentTimeMillis();
     instans = this;
     netværk = new Netvaerksstatus();
-    EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator");
+    EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator") || IKKE_Android_VM;
     if (!EMULATOR) {
-      Mint.initAndStartSession(this, getString(PRODUKTION ? R.string.bugsense_nøgle : R.string.bugsense_testnøgle));
-      Mint.enableLogging(true);
+//      Mint.initAndStartSession(this, getString(PRODUKTION ? R.string.bugsense_nøgle : R.string.bugsense_testnøgle));
+//      Mint.enableLogging(true);
+//      Mint.setLogging(5);
+      Fabric.with(this, new Crashlytics());
+      Log.d("Crashlytics startet");
     }
     super.onCreate();
 
@@ -241,7 +243,7 @@ public class App extends Application {
         App.prefs.edit().remove("stamdata22").remove("stamdata23").remove("stamdata24").commit();
       }
 
-      if (grunddata == null || !App.PRODUKTION)
+      if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
       DRData.instans.grunddata.eo_parseFællesGrunddata(grunddata);
       DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
@@ -685,7 +687,14 @@ public class App extends Application {
       fos.write(vedhæftning.getBytes());
       fos.close();
       Uri uri = Uri.fromFile(new File(akt.getFilesDir().getAbsolutePath(), logfil));
+
+//      https://medium.com/google-developers/sharing-content-between-android-apps-2e6db9d1368b#.kkoqnbkar
+//      Uri uriToImage = FileProvider.getUriForFile(
+//              akt, FILES_AUTHORITY, imageFile);
+// ??
+
       txt += "\n\nRul op øverst i meddelelsen og giv din feedback, tak.";
+      i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       i.putExtra(Intent.EXTRA_STREAM, uri);
     } catch (Exception e) {
       Log.e(e);

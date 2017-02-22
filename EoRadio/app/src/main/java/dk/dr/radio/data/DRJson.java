@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -28,7 +29,7 @@ public enum DRJson {
   Streams,
   Uri, Played, Artist, Image,
   Type, Kind, Quality, Kbps, ChannelSlug, TotalPrograms, Programs,
-  FirstBroadcast, DurationInSeconds, Format, OffsetMs, OffsetInMs,
+  FirstBroadcast, BroadcastStartTime, DurationInSeconds, Format, OffsetMs, OffsetInMs,
   ProductionNumber, ShareLink, Episode, Chapters, Subtitle,
 
   /**
@@ -113,6 +114,7 @@ public enum DRJson {
 
   public static final Locale dansk = Locale.getDefault(); // EO ŝanĝo new Locale("da", "DA");
   public static final DateFormat klokkenformat = new SimpleDateFormat("HH:mm", dansk);
+  static { klokkenformat.setTimeZone(TimeZone.getTimeZone("Europe/Copenhagen"));} // GMT+1 om vinteren, GMT+2 om sommeren
   public static final DateFormat datoformat = new SimpleDateFormat("d. MMM yyyy", dansk);
   private static final DateFormat ugedagformat = new SimpleDateFormat("EEEE d. MMM", dansk);
   private static final DateFormat årformat = new SimpleDateFormat("yyyy", dansk);
@@ -230,7 +232,7 @@ public enum DRJson {
     Udsendelse u = opretUdsendelse(drData, o);
     if (kanal != null && kanal.slug.length() > 0) u.kanalSlug = kanal.slug;
     else u.kanalSlug = o.optString(DRJson.ChannelSlug.name());  // Bemærk - kan være tom.
-    u.startTid = DRBackendTidsformater.parseUpålideigtServertidsformat(o.getString(DRJson.FirstBroadcast.name()));
+    u.startTid = DRBackendTidsformater.parseUpålideigtServertidsformat(o.getString(DRJson.BroadcastStartTime.name()));
     u.startTidKl = klokkenformat.format(u.startTid);
     u.slutTid = new Date(u.startTid.getTime() + o.getInt(DRJson.DurationInSeconds.name()) * 1000);
 

@@ -30,6 +30,7 @@ public class Programserie { //implements Serializable {
 
 
   public void tilføjUdsendelser(int offset, ArrayList<Udsendelse> uds) {
+    Log.d(this + " tilføjUdsendelser:" + (udsendelserListe == null ? "nul" : udsendelserListe.size()) + "  får tilføjet " + (uds == null ? "nul" : uds.size()) + " elementer på offset="+offset);
     if (App.fejlsøgning) Log.d(this + " tilføjUdsendelser:" + (udsendelserListe == null ? "nul" : udsendelserListe.size()) + " elem liste:\n" + udsendelserListe + "\nfår tilføjet " + (uds == null ? "nul" : uds.size()) + " elem:\n" + uds);
 
     udsendelserListeFraOffset.put(offset, uds);

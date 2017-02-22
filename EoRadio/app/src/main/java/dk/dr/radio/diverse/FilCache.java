@@ -1,4 +1,4 @@
-package dk.dr.radio.data.afproevning;
+package dk.dr.radio.diverse;
 
 import java.io.Closeable;
 import java.io.File;

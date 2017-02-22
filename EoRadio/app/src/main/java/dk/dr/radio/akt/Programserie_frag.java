@@ -62,6 +62,10 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
     programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
     if (programserie == null || programserie.getUdsendelser()==null) {
       hentUdsendelser(0); // hent kun en frisk udgave hvis vi ikke allerede har en
+    } else if (programserie.getUdsendelser().size()==0 && programserie.antalUdsendelser>0) {
+      Log.d("Har ingen udsendelser for "+programserieSlug+ ", så den hentes igen. Der burde være "+programserie.antalUdsendelser );
+      if (!App.PRODUKTION) App.kortToast("Har ingen udsendelser for "+programserieSlug+ ", så den hentes igen. Der burde være "+programserie.antalUdsendelser);
+      hentUdsendelser(0);
     }
     bygListe();
 
@@ -93,7 +97,8 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
           programserie = DRJson.parsProgramserie(data, programserie);
           DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
         }
-        programserie.tilføjUdsendelser(offset, DRJson.parseUdsendelserForProgramserie(data.getJSONArray(DRJson.Programs.name()), kanal, DRData.instans));
+        ArrayList<Udsendelse> uds = DRJson.parseUdsendelserForProgramserie(data.getJSONArray(DRJson.Programs.name()), kanal, DRData.instans);
+        programserie.tilføjUdsendelser(offset, uds);
         bygListe();
       }
 
@@ -340,7 +345,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
           .replace(R.id.indhold_frag, f)
           .addToBackStack(null)
           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-          .commit();
+          .commitAllowingStateLoss(); // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4061148411
       Sidevisning.vist(Udsendelse_frag.class, udsendelse.slug);
       return;
     }

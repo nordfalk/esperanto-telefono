@@ -52,20 +52,21 @@ public class DRBackendTidsformater {
 
 
   /**
-   * Det tidformat, DRs backend normalt sender for playlister: "2014-02-13T10:03:00"
+   * Det tidformat, DRs backend normalt sender for playlister når vi rammer ny Azure-backend: "2014-02-13T10:03:00+0000"
    */
-  public static DateFormat servertidsformatPlayliste = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+  public static DateFormat servertidsformatPlayliste = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.US);
 
   /**
-   * Nogle gange kommer et andet tidsformat, når vi rammer ny Azure-backend
+   * Nogle gange kommer et andet tidsformat, når vi rammer gammel backend: "2014-02-13T10:03:00"
    */
-  public static DateFormat[] servertidsformatPlaylisteAndre = new DateFormat[]{
-          new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.US),
+  public static DateFormat[] servertidsformatPlaylisteAndre2 = new DateFormat[]{
+          new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US),
   };
 
   private static Date parseUpålideigtServertidsformat(String tid, DateFormat tidsformat, DateFormat[] tidsformatAndre) {
     try {
-      return tidsformat.parse(tid);
+      Date res = tidsformat.parse(tid);
+      return res;
     } catch (Exception e) {
       Log.d("Kunne ikke ikke parse "+tid+" med "+tidsformat.format(juleaften)+" "+e+" (prøver med et andet)");
       for (DateFormat tidsformatAndet : tidsformatAndre) {
@@ -85,14 +86,17 @@ public class DRBackendTidsformater {
   }
 
   public static Date parseUpålideigtServertidsformatPlayliste(String tid) {
-    return parseUpålideigtServertidsformat(tid, servertidsformatPlayliste, servertidsformatPlaylisteAndre);
+    return parseUpålideigtServertidsformat(tid, servertidsformatPlayliste, servertidsformatPlaylisteAndre2);
   }
 
 
 
   public static void main(String[] a) throws Exception {
-    DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
-    parseUpålideigtServertidsformat("2014-02-13T10:03:00+01:00");
+//    DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
+//    parseUpålideigtServertidsformat("2014-02-13T10:03:00+01:00");
+    DRBackendTidsformater.servertidsformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.US); // +01:00 springes over da kolon i +01:00 er ikke-standard Java
+    Date res = parseUpålideigtServertidsformat("2016-04-01T08:03:00+0000");
+    System.out.println("res = "+res);
   }
 
 

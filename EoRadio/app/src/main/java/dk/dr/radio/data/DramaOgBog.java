@@ -25,53 +25,64 @@ public class DramaOgBog {
   public HashSet<String> karuselSerieSlug = new HashSet<String>();
 
   public List<Runnable> observatører = new ArrayList<Runnable>();
+  public final String url = DRData.getBogOgDramaUrl();
+
+  /**
+   * Parser JSON-svar og opdaterer data derefter. Bør ikke kaldes udefra, udover i afprøvningsøjemed
+   * @param json
+   * @throws JSONException
+   */
+  void parseSvar(String json) throws JSONException {
+    JSONArray jsonArray = new JSONArray(json);
+    overskrifter.clear();
+    lister.clear();
+    karusel.clear();
+    karuselSerieSlug.clear();
+    for (int i=0; i<jsonArray.length(); i++) {
+      JSONObject jsonObject = jsonArray.getJSONObject(i);
+      JSONArray karuselJson = jsonObject.optJSONArray(DRJson.Spots.name());
+      if (karuselJson!=null) for (int n = 0; n < karuselJson.length(); n++) try {
+        JSONObject udsendelseJson = karuselJson.getJSONObject(n);
+        // TODO mangler
+        Udsendelse u = DRJson.parseUdsendelse(null, DRData.instans, udsendelseJson);
+        karusel.add(u);
+        karuselSerieSlug.add(u.programserieSlug);
+      } catch (JSONException je) {
+        Log.d("Fejl i "+ url +" element nr +"+n+ ": " + je);
+        Log.d(karuselJson.getJSONObject(n));
+        Log.e(je);
+      }
+
+      String titel = jsonObject.optString(DRJson.Title.name());
+      JSONArray jsonArray2 = jsonObject.optJSONArray(DRJson.Series.name());
+      ArrayList<Programserie> res = new ArrayList<Programserie>();
+
+      if (jsonArray2!=null) for (int n = 0; n < jsonArray2.length(); n++) {
+        JSONObject programserieJson = jsonArray2.getJSONObject(n);
+        String programserieSlug = programserieJson.getString(DRJson.Slug.name());
+        //Log.d("\n DramaOgBog =========================================== programserieSlug = " + programserieSlug);
+        Programserie programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+        if (programserie == null) {
+          programserie = new Programserie();
+          DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
+        }
+        res.add(DRJson.parsProgramserie(programserieJson, programserie));
+//            Log.d("DramaOgBogD "+sektionsnummer+" "+n+programserie+" "+programserie.antalUdsendelser+" "+programserie.billedeUrl);
+      }
+      if (!res.isEmpty()) {
+        overskrifter.add(titel);
+        lister.add(res);
+      }
+//          Log.d("parseDramaOgBog "+overskrifter[sektionsnummer]+ " res=" + res);
+    }
+  }
 
   public void startHentData() {
-    Request<?> req = new DrVolleyStringRequest(DRData.getBogOgDramaUrl(), new DrVolleyResonseListener() {
+    Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         if (uændret) return;
-        JSONArray jsonArray = new JSONArray(json);
-        overskrifter.clear();
-        lister.clear();
-        karusel.clear();
-        karuselSerieSlug.clear();
-        for (int i=0; i<jsonArray.length(); i++) {
-          JSONObject jsonObject = jsonArray.getJSONObject(i);
-          JSONArray karuselJson = jsonObject.optJSONArray(DRJson.Spots.name());
-          if (karuselJson!=null) for (int n = 0; n < karuselJson.length(); n++) try {
-            JSONObject udsendelseJson = karuselJson.getJSONObject(n);
-            // TODO mangler
-            Udsendelse u = DRJson.parseUdsendelse(null, DRData.instans, udsendelseJson);
-            karusel.add(u);
-            karuselSerieSlug.add(u.programserieSlug);
-          } catch (JSONException je) {
-            Log.d("Fejl i "+ url +" element nr +"+n+ ": " + je);
-            Log.d(karuselJson.getJSONObject(n));
-          }
-
-          String titel = jsonObject.optString(DRJson.Title.name());
-          JSONArray jsonArray2 = jsonObject.optJSONArray(DRJson.Series.name());
-          ArrayList<Programserie> res = new ArrayList<Programserie>();
-
-          if (jsonArray2!=null) for (int n = 0; n < jsonArray2.length(); n++) {
-            JSONObject programserieJson = jsonArray2.getJSONObject(n);
-            String programserieSlug = programserieJson.getString(DRJson.Slug.name());
-            //Log.d("\n DramaOgBog =========================================== programserieSlug = " + programserieSlug);
-            Programserie programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
-            if (programserie == null) {
-              programserie = new Programserie();
-              DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
-            }
-            res.add(DRJson.parsProgramserie(programserieJson, programserie));
-//            Log.d("DramaOgBogD "+sektionsnummer+" "+n+programserie+" "+programserie.antalUdsendelser+" "+programserie.billedeUrl);
-          }
-          if (!res.isEmpty()) {
-            overskrifter.add(titel);
-            lister.add(res);
-          }
-//          Log.d("parseDramaOgBog "+overskrifter[sektionsnummer]+ " res=" + res);
-        }
+        parseSvar(json);
         for (Runnable r : observatører) r.run(); // Informér observatører
       }
     }) {

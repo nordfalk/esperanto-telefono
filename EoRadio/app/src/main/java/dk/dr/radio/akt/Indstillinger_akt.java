@@ -60,6 +60,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     toolbar.setLogo(R.drawable.dr_logo);
     toolbar.setTitle(R.string.Indstillinger);
+// SdkVersion 24 og frem: toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
     toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override
@@ -118,7 +119,6 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
 
         @Override
         protected void onPostExecute(Object o) {
-          try {
             ListPreference lp = (ListPreference) findPreference(HentedeUdsendelser.NØGLE_placeringAfHentedeFiler);
             Log.d("Indstillinger_akt placeringAfHentedeFiler " + Arrays.toString(værdi) + Arrays.toString(visVærdi));
             lp.setEntries(visVærdi);
@@ -131,14 +131,11 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
               lp.setEnabled(false);
               int tilladelse = App.instans.getPackageManager().checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, App.instans.getPackageName());
               if (tilladelse != PackageManager.PERMISSION_GRANTED) {
-                lp.setSummary(lp.getSummary() + " Fejl - tilladelse til eksternt lager mangler (du skal opdatere app'en)");
+                lp.setSummary(lp.getSummary() + " Du skal give app'en tilladelse til eksternt lager");
               } else {
                 lp.setSummary(lp.getSummary() + " " + getString(R.string.Fejl__adgang_til_eksternt_lager_mangler_indsæt_sd_kort_));
               }
             }
-          } catch (Exception ex) {
-            Log.rapporterFejl(ex); // Indsat 17 nov 2014 - fjernes i 2015
-          }
         }
       }.execute();
     }

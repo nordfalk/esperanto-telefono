@@ -42,13 +42,10 @@ import android.telephony.TelephonyManager;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import dk.dr.radio.afspilning.wrapper.AndroidMediaPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.ExoPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerLytter;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerWrapper;
@@ -102,6 +99,7 @@ public class Afspiller {
   public List<Runnable> observatører = new ArrayList<Runnable>();
   public List<Runnable> forbindelseobservatører = new ArrayList<Runnable>();
   public List<Runnable> positionsobservatører = new ArrayList<Runnable>();
+  private HovedtelefonFjernetReciever hovedtelefonFjernetReciever = new HovedtelefonFjernetReciever();
 
   private Lydstream lydstream;
   private int forbinderProcent;
@@ -227,6 +225,11 @@ public class Afspiller {
           App.fjernbetjening.registrér();
         }
       }
+
+      if (!hovedtelefonFjernetReciever.aktiv) {
+        hovedtelefonFjernetReciever.aktiv = true;
+        App.instans.registerReceiver(hovedtelefonFjernetReciever, hovedtelefonFjernetReciever.FILTER);
+      }
       startAfspilningIntern();
 
 
@@ -305,7 +308,8 @@ public class Afspiller {
             // Dette sker hvis en anden app med lyd startes, f.eks. et spil
             case (AudioManager.AUDIOFOCUS_LOSS):
               Log.d("JPER stop");
-              stopAfspilning();
+              // stopAfspilning();
+              pauseAfspilning();
               am.abandonAudioFocus(this);
               break;
 
@@ -428,6 +432,10 @@ public class Afspiller {
   synchronized public void pauseAfspilning() {
     long pos = gemPosition();
     pauseAfspilningIntern();
+    if (hovedtelefonFjernetReciever.aktiv) {
+      hovedtelefonFjernetReciever.aktiv = false;
+      App.instans.unregisterReceiver(hovedtelefonFjernetReciever);
+    }
     if (wifilock != null) wifilock.release();
     gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Pause, pos / 1000);
     if (vækkeurWakeLock != null) {

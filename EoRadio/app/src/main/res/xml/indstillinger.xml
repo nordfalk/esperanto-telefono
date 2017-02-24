@@ -115,11 +115,6 @@
 
 
           <CheckBoxPreference
-              android:key="tving_exoplayer" android:title="Brug ExoPlayer"
-              android:summaryOn="ExoPlayer benyttes altid.\nNogle funktioner, bl.a. valg af musiknummer, og at en udsende fortsætter hvor den sidst blev stoppet, er ikke implementeret"
-              android:summaryOff="ikke forvalgt"/>
-
-          <CheckBoxPreference
               android:key="tving_mediaplayer" android:title="Brug MediaPlayer"
               android:summaryOn="Den indbyggede MediaPlayer benyttes"
               android:summaryOff="ikke forvalgt"/>

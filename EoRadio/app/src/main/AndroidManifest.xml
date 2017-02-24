@@ -4,8 +4,6 @@
           android:installLocation="auto"
           tools:ignore="UnusedAttribute">
 
-  <uses-sdk tools:overrideLibrary="com.google.android.exoplayer"/>
-
   <!-- Nødvendigt til vækkeur -->
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
@@ -109,6 +107,34 @@
     </receiver>
 
 
+    <!-- Denne aktivitet fanger browsning af URLer der starter med http://dr.dk/radio/ondemand/ -->
+    <activity android:name="dk.dr.radio.akt.FangBrowseIntent_akt">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <!-- direkte udsendelser -->
+        <data
+            android:scheme="http"
+            android:host="dr.dk"
+            android:pathPrefix="/radio/live/"/>
+        <data
+            android:scheme="http"
+            android:host="www.dr.dk"
+            android:pathPrefix="/radio/live/"/>
+
+        <!-- arkiverede udsendelser-->
+        <data
+            android:scheme="http"
+            android:host="dr.dk"
+            android:pathPrefix="/radio/ondemand/"/>
+        <data
+            android:scheme="http"
+            android:host="www.dr.dk"
+            android:pathPrefix="/radio/ondemand/"/>
+      </intent-filter>
+    </activity>
 
     <activity android:name="dk.dr.radio.vaekning.AlarmClock_akt"
               android:icon="@drawable/deskclock_ic_menu_alarms"

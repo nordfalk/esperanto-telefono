@@ -36,6 +36,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.media.AudioManager;
@@ -65,6 +66,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.afspilning.Fjernbetjening;
@@ -127,6 +129,14 @@ public class App extends Application {
   public void onCreate() {
     TIDSSTEMPEL_VED_OPSTART = System.currentTimeMillis();
     instans = this;
+
+    // Sæt sprogvalg til dansk eller esperanto alt efter hvilken version der køres med
+    Locale locale = new Locale( ÆGTE_DR ?  "da_DK" : "eo");
+    Locale.setDefault(locale);
+    Configuration config = new Configuration();
+    config.locale = locale;
+    getApplicationContext().getResources().updateConfiguration(config, null);
+
     netværk = new Netvaerksstatus();
     EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator") || IKKE_Android_VM;
     if (!EMULATOR) {
@@ -166,7 +176,6 @@ public class App extends Application {
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
-
     accessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
 
 

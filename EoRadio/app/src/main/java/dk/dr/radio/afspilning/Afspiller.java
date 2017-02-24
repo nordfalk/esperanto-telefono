@@ -46,7 +46,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import dk.dr.radio.afspilning.wrapper.ExoPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerLytter;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
@@ -488,15 +487,6 @@ public class Afspiller {
       Log.rapporterFejl(new IllegalStateException("setLydkilde(null"));
       return;
     }
-    if (lydkilde instanceof Kanal && Kanal.P4kode.equals(((Kanal) lydkilde).kode)) { // TODO - fjern tjek 9.okt 2014
-      // Nærmere fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/820758400
-      Log.rapporterFejl(new IllegalStateException("setLydkilde(P4F"));
-      // return;
-
-      // Nyt fix - vi vælger bare en underkanal.
-      String kanalkode = App.tjekP4OgVælgUnderkanal(((Kanal) lydkilde).kode);
-      lydkilde = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
-    }
     // Tjek om der er en hentet udsendelse - det sker også i brugergrænsefladen men det kan være den ikke har været i spil
     if (lydkilde.hentetStream==null && lydkilde instanceof Udsendelse) {
       DRData.instans.hentedeUdsendelser.tjekOmHentet((Udsendelse) lydkilde);
@@ -696,11 +686,7 @@ public class Afspiller {
             }
             gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Play, startposition / 1000);
             if (startposition > 0) {
-              if (mediaPlayer instanceof ExoPlayerWrapper) {
-                Log.d("exoplayer.seekTo() er slået fra - TODO fix"); //TODO fix
-              } else {
-                mediaPlayer.seekTo(startposition);
-              }
+              mediaPlayer.seekTo(startposition);
             }
             mediaPlayer.start();
             if (afspillerlyde) afspillerlyd.spiller.start();

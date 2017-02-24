@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--
-    <string name="dr_radio">"Muzaiko2"</string>
-    -->
     <string name="dr_radio">"Esperanto-radio Muzaiko"</string>
     <string name="navigation_drawer_open">"Malfermi maldekstran menuon"</string>
     <string name="navigation_drawer_close">"Fermi maldekstran menuon"</string>
@@ -67,7 +64,7 @@
     <string name="Slet_udsendelse">"Forigi elsendon?"</string>
     <string name="Vil_du_slette_denne_udsendele_du_kan_altid_hente_den_igen_">"Ĉu vi volas forigi tiun ĉi elsendon? \nVi povas ĉiam elŝuti ĝin denove."</string>
     <string name="Indstillinger">"Agordoj"</string>
-    <string name="D_R_Radio_Indstillinger">"DR Radio Agordoj"</string>
+    <string name="D_R_Radio_Indstillinger">"Radio Agordoj"</string>
     <string name="_ikke_tilgængelig_">"(Ne disponebla)"</string>
     <string name="ledig">"libera"</string>
     <string name="Fejl__adgang_til_eksternt_lager_mangler_indsæt_sd_kort_">"Eraro - aliro al ekstera stokado mankas (enmetu SD-karton)"</string>

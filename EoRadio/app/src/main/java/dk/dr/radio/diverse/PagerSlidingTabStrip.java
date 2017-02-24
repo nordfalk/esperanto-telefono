@@ -106,6 +106,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   private int dividerPadding = 0;//12;
   private int tabPadding = 4;//16;//24;
   private int dividerWidth = 1;
+  private int minBredde = 44; // dip
 
   private int tabTextSize = 12;
   private int tabTextColor = 0xFF666666;
@@ -146,6 +147,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     tabPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, tabPadding, dm);
     dividerWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dividerWidth, dm);
     tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
+    minBredde = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, minBredde, dm);
 
     // get system attrs (android:textSize and android:textColor)
 
@@ -288,10 +290,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       tabi.setImageBitmap(res);
       tabi.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
       tabi.setAdjustViewBounds(true);
+      tabi.setVisibility(View.GONE);
     } else {
       tabi.setImageResource(resId);
+      tabi.setVisibility(View.INVISIBLE);
     }
-    tabi.setVisibility(View.GONE);
     TextView tabt = new TextView(getContext());
     tabt.setText(title);
     tabt.setTypeface(App.skrift_gibson);
@@ -331,6 +334,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     });
 
     tab.setPadding(tabPadding, 0, tabPadding, 0);
+    tab.setMinimumWidth(minBredde);
     tabsContainer.addView(tab, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
   }
 

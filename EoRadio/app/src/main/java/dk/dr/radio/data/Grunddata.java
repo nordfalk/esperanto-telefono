@@ -62,7 +62,6 @@ public class Grunddata {
   public long opdaterGrunddataEfterMs = 30 * 60 * 1000;
   /** Om Http Live Streaming skal udelukkes fra mulige lydformater. Gælder på Android 2 og visse Android 4-enheder */
   public boolean udelukHLS;
-  public boolean tving_exoplayer;
   public boolean tving_mediaplayer;
   public boolean tving_emaplayer;
   public boolean serverapi_ret_forkerte_offsets_i_playliste;
@@ -415,7 +414,6 @@ public class Grunddata {
     }
 
     udelukHLS = søgEfterMatch(model_og_version, android_json.optString("udeluk_HLS2"));
-    tving_exoplayer = søgEfterMatch(model_og_version, android_json.optString("tving_exoplayer"));
     tving_mediaplayer = søgEfterMatch(model_og_version, android_json.optString("tving_mediaplayer"));
     tving_emaplayer = søgEfterMatch(model_og_version, android_json.optString("tving_emaplayer"));
 

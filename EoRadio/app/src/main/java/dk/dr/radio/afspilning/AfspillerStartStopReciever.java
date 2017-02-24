@@ -57,11 +57,7 @@ public class AfspillerStartStopReciever extends BroadcastReceiver {
         App.forgrundstråd.postDelayed(new Runnable() {
           @Override
           public void run() {
-            try {
-              DRData.instans.afspiller.startAfspilning();
-            } catch (Exception ex) { // TODO fjern. 9. okt 2014
-              Log.rapporterFejl(ex);
-            }
+            DRData.instans.afspiller.startAfspilning();
           }
         }, 1); // for en sikkerheds skyld. 1 millisekund skulle bringe den sidst i køen
       } else {

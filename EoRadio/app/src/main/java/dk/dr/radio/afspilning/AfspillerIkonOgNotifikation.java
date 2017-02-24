@@ -173,12 +173,7 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
 
   @SuppressLint("NewApi")
   public static Notification lavNotification(Context ctx) {
-    String kanalNavn = "";
-    try {
-      kanalNavn = DRData.instans.afspiller.getLydkilde().getKanal().navn;
-    } catch (Exception e) {
-      Log.rapporterFejl(e);
-    } // TODO fjern try-catch efter nogle måneder i drift. 9. okt 2014
+    String kanalNavn = DRData.instans.afspiller.getLydkilde().getKanal().navn;
 
     NotificationCompat.Builder b = new NotificationCompat.Builder(ctx)
         .setSmallIcon(R.drawable.dr_notifikation)

@@ -231,15 +231,18 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
       return;
     }
     Udsendelse udsendelse = lydkilde.getUdsendelse();
-
-    if (kanal.eo_emblemo!=null) {
-      kanallogo.setImageBitmap(kanal.eo_emblemo);
+    if (App.ÆGTE_DR) {
+      kanallogo.setImageResource(kanal.kanallogo_resid);
     } else {
-      kanallogo.setImageResource(R.drawable.dr_logo);
-      Kanal lk = DRData.instans.grunddata.kanalFraSlug.get(kanal.slug);
-      String eraro = "Mankas emblemo por "+kanal+ "  "+lk.eo_emblemo;
-      Log.rapporterFejl(new IllegalStateException(eraro));
-      if (App.fejlsøgning) App.kortToast(eraro);
+      if (kanal.eo_emblemo!=null) {
+        kanallogo.setImageBitmap(kanal.eo_emblemo);
+      } else {
+        kanallogo.setImageResource(R.drawable.dr_logo);
+        Kanal lk = DRData.instans.grunddata.kanalFraSlug.get(kanal.slug);
+        String eraro = "Mankas emblemo por "+kanal+ "  "+lk.eo_emblemo;
+        Log.rapporterFejl(new IllegalStateException(eraro));
+        if (App.fejlsøgning) App.kortToast(eraro);
+      }
     }
 
     direktetekst.setVisibility(lydkilde.erDirekte()?View.VISIBLE:View.GONE);

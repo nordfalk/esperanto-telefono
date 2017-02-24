@@ -21,9 +21,9 @@ import dk.dr.radio.v3.R;
  * Created by j on 19-01-14.
  */
 public enum DRJson {
-  Slug,       // unik ID for en udsendelse eller getKanal
+  Slug,       // unik ID for en udsendelse eller getKanal - https://en.wikipedia.org/wiki/Slug_(publishing)
   SeriesSlug, // unik ID for en programserie
-  Urn,        // en anden slags unik ID
+  Urn,        // en anden slags unik ID - https://en.wikipedia.org/wiki/Uniform_Resource_Name
   Title, Description, ImageUrl,
   StartTime, EndTime,
   Streams,
@@ -112,7 +112,7 @@ public enum DRJson {
   }
 */
 
-  public static final Locale dansk = Locale.getDefault(); // EO ŝanĝo new Locale("da", "DA");
+  public static final Locale dansk = App.ÆGTE_DR ? new Locale("da", "DA") : Locale.getDefault(); // EO ŝanĝo
   public static final DateFormat klokkenformat = new SimpleDateFormat("HH:mm", dansk);
   static { klokkenformat.setTimeZone(TimeZone.getTimeZone("Europe/Copenhagen"));} // GMT+1 om vinteren, GMT+2 om sommeren
   public static final DateFormat datoformat = new SimpleDateFormat("d. MMM yyyy", dansk);

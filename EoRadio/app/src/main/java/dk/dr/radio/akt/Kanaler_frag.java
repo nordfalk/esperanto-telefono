@@ -47,8 +47,9 @@ public class Kanaler_frag extends Basisfragment implements ViewPager.OnPageChang
     }
     if (adapter != null) {
       adapter.kanaler2 = kanaler;
+      int valgt = viewPager.getCurrentItem();
       adapter.notifyDataSetChanged();
-      if (viewPager.getCurrentItem() >= kanaler.size()) {
+      if (valgt >= kanaler.size()) {
         viewPager.setCurrentItem(0);
       }
       if (kanaler.contains(eoValgtKanal)) viewPager.setCurrentItem(kanaler.indexOf(eoValgtKanal));

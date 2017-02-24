@@ -130,9 +130,6 @@ public class App extends Application {
     netværk = new Netvaerksstatus();
     EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator") || IKKE_Android_VM;
     if (!EMULATOR) {
-//      Mint.initAndStartSession(this, getString(PRODUKTION ? R.string.bugsense_nøgle : R.string.bugsense_testnøgle));
-//      Mint.enableLogging(true);
-//      Mint.setLogging(5);
       Fabric.with(this, new Crashlytics());
       Log.d("Crashlytics startet");
     }
@@ -165,21 +162,7 @@ public class App extends Application {
       Log.d("App.versionsnavn=" + App.versionsnavn);
 
       App.erInstalleretPåSDKort = 0!=(pi.applicationInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE);
-      /* check for API level 7 - check files dir
-      try {
-        String filesDir = context.getFilesDir().getAbsolutePath();
-        if (filesDir.startsWith("/data/")) {
-          return false;
-        } else if (filesDir.contains("/mnt/") || filesDir.contains("/sdcard/")) {
-          return true;
-        }
-      } catch (Throwable e) {
-        // ignore
-      }
-      */
       if (!App.erInstalleretPåSDKort) prefs.edit().remove(NØGLE_advaretOmInstalleretPåSDKort).commit();
-
-      Class.forName("android.os.AsyncTask"); // Fix for http://code.google.com/p/android/issues/detail?id=20915
     } catch (Exception e) {
       Log.rapporterFejl(e);
     }
@@ -190,17 +173,10 @@ public class App extends Application {
     if (!ÆGTE_DR) FilCache.init(new File(getCacheDir(), "FilCache"));
     // Initialisering af Volley
 
-    // Prior to Gingerbread, HttpUrlConnection was unreliable.
-    // See: http://android-developers.blogspot.com/2011/09/androids-http-clients.html
-    HttpStack stack =
-        Build.VERSION.SDK_INT >= 9 ? new HurlStack()
-            : Build.VERSION.SDK_INT >= 8 ? new HttpClientStack(AndroidHttpClient.newInstance(App.versionsnavn))
-//            : new HttpClientStack(new DefaultHttpClient()); // Android 2.1 -
-            : new HurlStack(); // Android 2.1
-    // HTTP connection reuse was buggy pre-froyo
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-      System.setProperty("http.keepAlive", "false");
-    }
+    HttpStack stack = new HurlStack();
+//            new HttpClientStack(AndroidHttpClient.newInstance(App.versionsnavn))
+//            new HttpClientStack(new DefaultHttpClient());
+
     // Vi bruger vores eget Netværkslag, da DRs Varnish-servere ofte svarer med HTTP-kode 500,
     // som skal håndteres som et timeout og at der skal prøves igen
     Network network = new DrBasicNetwork(stack);
@@ -214,11 +190,6 @@ public class App extends Application {
     volleyRequestQueue = new RequestQueue(volleyCache, network);
     volleyRequestQueue.start();
 
-    // P4 stedplacering skal ske så tidligt som muligt - ellers
-    // når P4-valgskærmbilledet at blive instantieret med ukendt placering og foreslår derfor København
-    // Slået fra, da stedplaceringen ikke virker
-    // if (prefs.getString(P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, null) == null) startP4stedplacering();
-
     try {
       DRData.instans = new DRData();
       DRData.instans.grunddata = new Grunddata();
@@ -229,56 +200,46 @@ public class App extends Application {
       grunddata_prefs = App.instans.getSharedPreferences("grunddata", 0);
       String grunddata = grunddata_prefs.getString(DRData.GRUNDDATA_URL, null);
 
-      if (grunddata == null) {
-        grunddata = App.prefs.getString(DRData.GRUNDDATA_URL, null);
-        if (grunddata!=null) { // 28 nov 2014 - flyt data fra fælles prefs til separat fil - kan fjernes ultimo 2015
-          App.prefs.edit().remove(DRData.GRUNDDATA_URL).commit();
-          grunddata_prefs.edit().putString(DRData.GRUNDDATA_URL, grunddata).commit();
-        }
-        if (!ÆGTE_DR) App.prefs.edit().putBoolean("vispager_title_strip", true).commit();
-      }
-
-      if (App.prefs.contains("stamdata23") || App.prefs.contains("stamdata24")) {
-        // 24 feb 2015 - fjern gamle stamdata fra prefs - kan fjernes primo 2016
-        App.prefs.edit().remove("stamdata22").remove("stamdata23").remove("stamdata24").commit();
-      }
-
       if (grunddata == null)
         grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
-      DRData.instans.grunddata.eo_parseFællesGrunddata(grunddata);
-      DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
-      DRData.instans.grunddata.parseFællesGrunddata(grunddata);
-
-      File fil = new File(FilCache.findLokaltFilnavn(DRData.instans.grunddata.radioTxtUrl));
-      if (fil.exists()) {
-        String radioTxtStr = Diverse.læsStreng(new FileInputStream(fil));
-        DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
+      if (App.ÆGTE_DR) {
+        DRData.instans.grunddata.parseFællesGrunddata(grunddata);
       } else {
-        String radioTxtStr = Diverse.læsStreng(res.openRawResource(R.raw.radio));
-        DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
-      }
+        DRData.instans.grunddata.eo_parseFællesGrunddata(grunddata);
+        DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
+        DRData.instans.grunddata.parseFællesGrunddata(grunddata);
 
-      new Thread() {
-        @Override
-        public void run() {
-          try {
-            DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
-
-            final String radioTxtStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(DRData.instans.grunddata.radioTxtUrl, false)));
-            forgrundstråd.post(new Runnable() {
-              @Override
-              public void run() {
-                DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
-                // Povas esti ke la listo de kanaloj ŝanĝiĝis, pro tio denove kontrolu ĉu reŝarĝi bildojn
-                DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
-                opdaterObservatører(DRData.instans.grunddata.observatører);
-              }
-            });
-          } catch (Exception e) { Log.e(e); }
+        File fil = new File(FilCache.findLokaltFilnavn(DRData.instans.grunddata.radioTxtUrl));
+        if (fil.exists()) {
+          String radioTxtStr = Diverse.læsStreng(new FileInputStream(fil));
+          DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
+        } else {
+          String radioTxtStr = Diverse.læsStreng(res.openRawResource(R.raw.radio));
+          DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
         }
-      }.start();
 
-      if (App.fejlsøgning && DRData.instans.grunddata.udelukHLS) App.kortToast("HLS er udelukket");
+        new Thread() {
+          @Override
+          public void run() {
+            try {
+              DRData.instans.grunddata.ŝarĝiKanalEmblemojn(false);
+
+              final String radioTxtStr = Diverse.læsStreng(new FileInputStream(FilCache.hentFil(DRData.instans.grunddata.radioTxtUrl, false)));
+              forgrundstråd.post(new Runnable() {
+                @Override
+                public void run() {
+                  DRData.instans.grunddata.leguRadioTxt(radioTxtStr);
+                  // Povas esti ke la listo de kanaloj ŝanĝiĝis, pro tio denove kontrolu ĉu reŝarĝi bildojn
+                  DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
+                  opdaterObservatører(DRData.instans.grunddata.observatører);
+                }
+              });
+            } catch (Exception e) {
+              Log.e(e);
+            }
+          }
+        }.start();
+      }
 
       String pn = App.instans.getPackageName();
       for (final Kanal k : DRData.instans.grunddata.kanaler) {
@@ -483,15 +444,17 @@ public class App extends Application {
           if (nyeGrunddata.equals(gamleGrunddata)) return; // Det samme som var i prefs
           Log.d("Vi fik nye grunddata: fraCache=" + fraCache + nyeGrunddata);
           if (!PRODUKTION || App.fejlsøgning) App.kortToast("Vi fik nye grunddata");
-          DRData.instans.grunddata.kanaler.clear(); // EO
-          DRData.instans.grunddata.p4koder.clear(); // EO
-          DRData.instans.grunddata.eo_parseFællesGrunddata(nyeGrunddata);
+          if (!App.ÆGTE_DR) {
+            DRData.instans.grunddata.kanaler.clear(); // EO
+            DRData.instans.grunddata.p4koder.clear(); // EO
+            DRData.instans.grunddata.eo_parseFællesGrunddata(nyeGrunddata);
+          }
           DRData.instans.grunddata.parseFællesGrunddata(nyeGrunddata);
           String pn = App.instans.getPackageName();
           for (final Kanal k : DRData.instans.grunddata.kanaler) {
             k.kanallogo_resid = res.getIdentifier("kanalappendix_" + k.kode.toLowerCase().replace('ø', 'o').replace('å', 'a'), "drawable", pn);
           }
-          DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
+          if (!App.ÆGTE_DR) DRData.instans.grunddata.ŝarĝiKanalEmblemojn(true);
           // fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2774928662
           opdaterObservatører(DRData.instans.grunddata.observatører);
           // Er vi nået hertil så gik parsning godt - gem de nye stamdata i prefs, så de også bruges ved næste opstart

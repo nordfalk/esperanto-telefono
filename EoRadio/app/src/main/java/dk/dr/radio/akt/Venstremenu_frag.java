@@ -488,7 +488,8 @@ public class Venstremenu_frag extends Fragment implements Runnable {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.URL_TIL_DR_RADIO_BETAVERSION))));
           }
         });
-        aq.id(R.id.tekst).text("Elŝuti plej novan provversion.\n\nNuna versio:\n" + App.versionsnavn + "\n\n" + Build.MODEL + " " + Build.PRODUCT);
+        if (App.ÆGTE_DR) aq.id(R.id.tekst).text("Hent nyeste udvikler-version.\nNuværende version:\n" + App.versionsnavn + "\n" + "/" + Build.MODEL + " " + Build.PRODUCT);
+        else aq.id(R.id.tekst).text("Elŝuti plej novan provversion.\n\nNuna versio:\n" + App.versionsnavn + "\n\n" + Build.MODEL + " " + Build.PRODUCT);
 
         aq.typeface(App.skrift_gibson).textSize(12);
 

@@ -168,7 +168,8 @@ public class Alarms {
       alarmer = new ArrayList<Alarm>();
       String alarmoj = prefs(context).getString("alarmoj", null);
       if (alarmoj == null) try {
-        alarmoj = DRData.instans.grunddata.json.getString("sugestoj_por_alarmoj");
+        if (App.ÆGTE_DR) alarmoj = DRData.instans.grunddata.json.getJSONObject("vækning").getString("forslag");
+        else alarmoj = DRData.instans.grunddata.json.getString("sugestoj_por_alarmoj");
       } catch (Exception e) {
         Log.e("Rezignas pri sugestoj_por_alarmoj!", e);
         alarmoj = "";

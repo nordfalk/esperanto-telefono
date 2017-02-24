@@ -73,7 +73,7 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
 
   @Override
   public String getStreamsUrl() {
-    Log.rapporterFejl(new IllegalStateException("Eo getStreamsUrl ne devus okazi "+this));
+    if (!App.ÆGTE_DR) Log.rapporterFejl(new IllegalStateException("Eo getStreamsUrl ne devus okazi "+this));
     Log.d("getStreamsUrl "+this);
     return DRData.getUdsendelseStreamsUrl(this);
   }

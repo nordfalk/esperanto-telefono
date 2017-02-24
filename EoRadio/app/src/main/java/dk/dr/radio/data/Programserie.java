@@ -17,9 +17,9 @@ public class Programserie { //implements Serializable {
   public String undertitel = "";
   public String beskrivelse;
   public String billedeUrl; // Bemærk - kan være tom
-  public String slug;
+  public String slug; // https://en.wikipedia.org/wiki/Slug_(publishing)
   public int antalUdsendelser;
-  public String urn;
+  public String urn; // https://en.wikipedia.org/wiki/Uniform_Resource_Name
   private ArrayList<Udsendelse> udsendelserListe;
   private TreeMap<Integer, ArrayList<Udsendelse>> udsendelserListeFraOffset = new TreeMap<Integer, ArrayList<Udsendelse>>();
   private TreeSet<Udsendelse> udsendelserSorteret;

@@ -264,14 +264,14 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     if (søgelistecache == null) {
       søgelistecache = new ArrayList<SoegElement>(DRData.instans.programserieFraSlug.size());
       Log.d("DRData.instans.programserieFraSlug?=" + DRData.instans.programserieFraSlug);
-      for (Programserie ps : new Programserie[0]) { // EO ŝanĝo DRData.instans.programserieFraSlug.values()) {
+      if (App.ÆGTE_DR) for (Programserie ps : DRData.instans.programserieFraSlug.values()) {
         SoegElement se = new SoegElement();
         se.programserie = ps;
         se.titel = " "+ps.titel.toLowerCase() + " " + ps.undertitel.toLowerCase();
         se.beskrivelse = " "+ps.beskrivelse.toLowerCase();
         søgelistecache.add(se);
       }
-      for (Udsendelse ps : DRData.instans.udsendelseFraSlug.values()) {  // EO ŝanĝo
+      else for (Udsendelse ps : DRData.instans.udsendelseFraSlug.values()) {  // EO ŝanĝo
         SoegElement se = new SoegElement();
         se.udsendelse = ps;
         se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase());
@@ -311,92 +311,4 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     }
 
   }
-
-/*
-  public void søg_gammel() {
-    Log.d("Liste " + liste);
-
-    // Anullér forrige søgning
-    App.volleyRequestQueue.cancelAll(this);
-
-    søgStr = søgFelt.getText().toString().trim();
-    if (søgStr.length() == 0) {
-      tomStr.setText("");
-      liste.clear();
-      adapter.notifyDataSetChanged();
-    }
-
-
-    if (SØG_OGSÅ_EFTER_UDSENDELSER) {
-      String url = DRData.getSøgIUdsendelserUrl(søgStr);
-      Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
-        @Override
-        public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
-          Log.d("SØG: fikSvar fraCache=" + fraCache + " uændret=" + uændret + " data = " + json);
-          if (json != null && !"null".equals(json)) {
-            JSONArray data = new JSONArray(json);
-            udsendelseListe = DRJson.parseUdsendelserForProgramserie(data, null, DRData.instans);
-            liste.clear();
-            liste.addAll(programserieListe);
-            liste.addAll(udsendelseListe);
-            Log.d("liste = " + liste);
-            adapter.notifyDataSetChanged();
-
-            if (liste.size() == 0) {
-              tomStr.setText(R.string.Søgningen_gav_intet_resultat);
-            }
-            return;
-          }
-          Log.d("Slut søgning!");
-        }
-
-        @Override
-        protected void fikFejl(VolleyError error) {
-          super.fikFejl(error);
-          liste.clear();
-          adapter.notifyDataSetChanged();
-          //tomStr.setText("Søgningen gav intet resultat");
-        }
-      }).setTag(this);
-      App.volleyRequestQueue.add(req);
-    }
-
-    String url = DRData.getSøgISerierUrl(søgStr);
-    Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
-      @Override
-      public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
-        Log.d("SØG: fikSvar fraCache=" + fraCache + " uændret=" + uændret + " data = " + json);
-        if (json != null) {
-          JSONArray data = new JSONArray(json);
-          programserieListe.clear();
-          for (int n = 0; n < data.length(); n++) {
-            JSONObject elem = data.getJSONObject(n);
-            programserieListe.add(DRJson.parsProgramserie(elem, null));
-          }
-          liste.clear();
-          liste.addAll(programserieListe);
-          liste.addAll(udsendelseListe);
-          Log.d("liste = " + liste);
-          adapter.notifyDataSetChanged();
-
-          if (liste.size() == 0) {
-            tomStr.setText(R.string.Søgningen_gav_intet_resultat);
-          }
-          return;
-        }
-        Log.d("Slut søgning!");
-      }
-
-      @Override
-      protected void fikFejl(VolleyError error) {
-        super.fikFejl(error);
-        liste.clear();
-        adapter.notifyDataSetChanged();
-        //tomStr.setText("Søgningen gav intet resultat");
-      }
-    }).setTag(this);
-    App.volleyRequestQueue.add(req);
-
-  }
-*/
 }

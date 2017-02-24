@@ -387,16 +387,18 @@ public class Grunddata {
       Log.e(e);
     } // Ikke kritisk
 
-    // kanaler.clear(); // EO ŝanĝo
-    // p4koder.clear(); // EO ŝanĝo
-    // parseKanaler(json.getJSONArray("channels"), false);  // EO ŝanĝo
+    if (App.ÆGTE_DR) {
+      kanaler.clear(); // EO ŝanĝo
+      p4koder.clear(); // EO ŝanĝo
+      parseKanaler(json.getJSONArray("channels"), false);  // EO ŝanĝo
+    }
     Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
     android_json = json.getJSONObject("android");
     tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
     DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
     DRBackendTidsformater.servertidsformatPlaylisteAndre2 = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre2"), DRBackendTidsformater.servertidsformatPlaylisteAndre2);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
-    //for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();  // EO ŝanĝo
+    if (App.ÆGTE_DR) for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();  // EO ŝanĝo
   }
 
   /**

@@ -33,7 +33,7 @@ android {
         minSdkVersion 10 // eble fakte 7 ??
         targetSdkVersion 21
         versionCode 35
-        versionName '2.0.5 februaro 2017'
+        versionName '2.0.6 februaro 2017'
     }
     buildTypes {
         release {

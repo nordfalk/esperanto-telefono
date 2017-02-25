@@ -11,7 +11,6 @@ import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
@@ -23,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,9 +39,9 @@ import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.EoRssParsado;
 import dk.dr.radio.data.Kanal;
-import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
+import dk.dr.radio.diverse.EoGeoblokaDetektilo;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
@@ -60,7 +58,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   private boolean brugerHarNavigeret;
   private int antalHentedeSendeplaner;
   public static EoKanal_frag senesteSynligeFragment;
-  private Button hør_live;
 
   @Override
   public String toString() {
@@ -104,24 +101,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       }
     });
 
-    // Knappen er meget vigtig, og har derfor et udvidet område hvor det også er den man rammer
-    // se http://developer.android.com/reference/android/view/TouchDelegate.html
-    hør_live = aq.id(R.id.hør_live).typeface(App.skrift_gibson).clicked(this).getButton();
-    hør_live.post(new Runnable() {
-      final int udvid = getResources().getDimensionPixelSize(R.dimen.hørknap_udvidet_klikområde);
-
-      @Override
-      public void run() {
-        Rect r = new Rect();
-        hør_live.getHitRect(r);
-        r.top -= udvid;
-        r.bottom += udvid;
-        r.right += udvid;
-        r.left -= udvid;
-        //Log.d("hør_udvidet_klikområde=" + r);
-        ((View) hør_live.getParent()).setTouchDelegate(new TouchDelegate(r, hør_live));
-      }
-    });
     // Klikker man på den hvide baggrund rulles til aktuel udsendelse
     aq.id(R.id.rulTilAktuelUdsendelse).clicked(this).gone();
 
@@ -171,7 +150,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     }
 
     //Log.d(this + " onCreateView 4 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
-    udvikling_checkDrSkrifter(rod, this + " rod");
     DRData.instans.afspiller.observatører.add(this);
     App.netværk.observatører.add(this);
     run(); // opdater HØR-knap
@@ -225,16 +203,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     if (getActivity()==null) return; // Fragment ikke mere synligt
     App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
 
-    boolean spillerDenneKanal = DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && DRData.instans.afspiller.getLydkilde() == kanal;
-    boolean online = App.netværk.erOnline();
-
-    hør_live.setEnabled(!spillerDenneKanal && online && kanal.harStreams());
-    hør_live.setText(!online ? "Internetforbindelse mangler" :
-            (spillerDenneKanal ? " SPILLER "  + kanal.navn.toUpperCase() : " HØR " + kanal.navn.toUpperCase()));
-    hør_live.setContentDescription(!online ? "Internetforbindelse mangler" :
-        (spillerDenneKanal ? "Spiller " : "Hør ") + kanal.navn.toUpperCase());
-
-
     if (aktuelUdsendelseViewholder == null) return;
     Viewholder vh = aktuelUdsendelseViewholder;
     if (!getUserVisibleHint() || !isResumed()) return;
@@ -260,7 +228,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           if (u.dagsbeskrivelse == DRJson.I_DAG) nyListe.add("");
         }
         nyListe.add(u);
-        GeoblokaDetektilo.esploruĈuEstasBlokata(u);
+        EoGeoblokaDetektilo.esploruĈuEstasBlokata(u);
       }
       int nyAktuelUdsendelseIndex = kanal.slug.equals("muzaiko") ? 0 : -1; //kanal.udsendelser.size()-1 : -1;
 
@@ -363,7 +331,27 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           vh.titel = a.id(R.id.titel).typeface(App.skrift_gibson).getTextView();
         } else { // type == NORMAL / AKTUEL
           vh.starttid.setTextColor(Color.BLACK);
-          a.id(R.id.hør).tag(vh).clicked(EoKanal_frag.this);
+
+          // Knappen er meget vigtig, og har derfor et udvidet område hvor det også er den man rammer
+          // se http://developer.android.com/reference/android/view/TouchDelegate.html
+          final View hør = a.id(R.id.hør).tag(vh).clicked(EoKanal_frag.this).getView();
+          hør.post(new Runnable() {
+            final int udvid = getResources().getDimensionPixelSize(R.dimen.hørknap_udvidet_klikområde);
+
+            @Override
+            public void run() {
+              Rect r = new Rect();
+              hør.getHitRect(r);
+              r.top -= udvid;
+              r.bottom += udvid;
+              r.right += udvid;
+              r.left -= udvid;
+              //Log.d("hør_udvidet_klikområde=" + r);
+              ((View) hør.getParent()).setTouchDelegate(new TouchDelegate(r, hør));
+            }
+          });
+
+
           if (type==AKTUEL) {
             vh.starttid.setMaxLines(8);
             // Anstataŭ setMovementMethod(LinkMovementMethod.getInstance()) - vidu
@@ -413,7 +401,6 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
         if (!App.PRODUKTION && vh.itemViewType != type)
           throw new IllegalStateException("Liste ej konsistent, der er nok sket ændringer i den fra f.eks. getView()");
       }
-      udvikling_checkDrSkrifter(v, this.getClass() + " type=" + type);
 
       // Opdatér viewholderens data
       Object elem = liste.get(position);
@@ -512,7 +499,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     Udsendelse udsendelse = vh.udsendelse;
     DRData.instans.afspiller.setLydkilde(udsendelse);
 
-    if (GeoblokaDetektilo.estasBlokata(udsendelse)) {
+    if (EoGeoblokaDetektilo.estasBlokata(udsendelse)) {
       new AlertDialog.Builder(getActivity())
               .setTitle("Elsendo blokata")
               .setMessage("Ŝajnas ke tiu ĉi elsendo ne estas havebla en via lando")

@@ -184,7 +184,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     afspiller.observatører.add(this);
     DRData.instans.hentedeUdsendelser.observatører.add(this);
     DRData.instans.favoritter.observatører.add(opdaterFavoritter);
-    udvikling_checkDrSkrifter(rod, this + " rod");
     /*
     ListViewScrollObserver listViewScrollObserver = new ListViewScrollObserver(listView);
     listViewScrollObserver.setOnScrollUpAndDownListener(new ListViewScrollObserver.OnListViewScrollListener() {
@@ -331,7 +330,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
     } else {
       aq.text(R.string.DOWNLOAD).enabled(true).textColorId(R.color.blå);
     }
-    udvikling_checkDrSkrifter(topView, this + " position top");
   }
 
 
@@ -684,7 +682,6 @@ public class Udsendelse_frag extends Basisfragment implements View.OnClickListen
         aq.id(R.id.playliste).background(visInfo ? R.drawable.knap_graa40_bg : R.drawable.knap_sort_bg);
         aq.id(R.id.info).background(visInfo ? R.drawable.knap_sort_bg : R.drawable.knap_graa40_bg);
       }
-      udvikling_checkDrSkrifter(v, this + " position " + position);
       return v;
     }
   };

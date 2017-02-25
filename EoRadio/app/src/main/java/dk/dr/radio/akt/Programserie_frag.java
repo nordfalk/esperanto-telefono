@@ -74,7 +74,6 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
     listView.setOnItemClickListener(this);
 
     Log.registrérTestet("Visning af programserie", "ja");
-    udvikling_checkDrSkrifter(rod, this + " rod");
     return rod;
   }
 
@@ -320,7 +319,6 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
         }
 
       }
-      udvikling_checkDrSkrifter(v, this + " position " + position);
       return v;
     }
   };

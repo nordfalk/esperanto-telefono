@@ -141,8 +141,6 @@ public class Soeg_efter_program_frag extends Basisfragment implements
       }
     });
 
-    udvikling_checkDrSkrifter(rod, this + " rod");
-
     // Indlæs A-Å-liste hvis den ikke allerede er det, så vi har en komplet programliste
     if (App.ÆGTE_DR && DRData.instans.programserierAtilÅ.liste == null) {
       DRData.instans.programserierAtilÅ.startHentData();
@@ -189,7 +187,6 @@ public class Soeg_efter_program_frag extends Basisfragment implements
 
         aq.id(R.id.stiplet_linje).background(position == 0 ? 0 : R.drawable.stiplet_linje);
 
-        udvikling_checkDrSkrifter(v, this.getClass() + " ");
       } catch (Exception e) {
         Log.rapporterFejl(e);
       }

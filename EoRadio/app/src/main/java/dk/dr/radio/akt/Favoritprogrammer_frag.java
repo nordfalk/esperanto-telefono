@@ -66,7 +66,6 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
       sidstOpdateretAntalNyeUdsendelser = System.currentTimeMillis();
     }
 
-    udvikling_checkDrSkrifter(rod, this + " rod");
     return rod;
   }
 
@@ -153,7 +152,6 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
         v.setBackgroundResource(0);
 
 
-        udvikling_checkDrSkrifter(v, this.getClass() + " ");
       } catch (Exception e) {
         Log.rapporterFejl(e);
       }

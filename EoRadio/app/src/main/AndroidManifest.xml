@@ -11,8 +11,11 @@
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
-  <!-- For at kunne gemme podcasts -->
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!-- TODO Android 6 tjek-->
+  <!-- For at kunne gemme podcasts på eksternt lager -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+  <!-- For at kunne afbryde afspilningen ved et telefonopkald-->
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" android:maxSdkVersion="22" />
 
   <uses-feature android:name="android.hardware.TOUCHSCREEN" android:required="false"/>
   <uses-feature android:name="android.hardware.WIFI" android:required="false"/>
@@ -20,28 +23,12 @@
   <application
       android:allowBackup="true"
       android:name="dk.dr.radio.diverse.App"
-      android:icon="@drawable/ic_launcher"
-      android:logo="@drawable/dr_logo"
+      android:icon="@drawable/appikon_eo"
+      android:logo="@drawable/appikon_eo"
       android:label="@string/appnavn_beta"
       android:theme="@style/Theme.Dr"
       tools:ignore="UnusedAttribute">
 
-    <!--
-    Version 3 havde brug for
-    android.permission.ACCESS_NETWORK_STATE
-    android.permission.INTERNET
-    android.permission.READ_PHONE_STATE
-    android.permission.WAKE_LOCK
-    android.permission.ACCESS_WIFI_STATE
-    android.permission.READ_EXTERNAL_STORAGE
-    android.permission.WRITE_EXTERNAL_STORAGE
-
-    Version 2.8.0 havde
-    android.permission.ACCESS_NETWORK_STATE
-    android.permission.INTERNET
-    android.permission.READ_PHONE_STATE
-    android.permission.WAKE_LOCK
-                        -->
     <activity
         android:launchMode="singleTop"
         android:name="dk.dr.radio.akt.Hovedaktivitet">

@@ -145,7 +145,6 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     // Hent sendeplan for den pågældende dag. Døgnskifte sker kl 5, så det kan være dagen før
     hentSendeplanForDag(new Date(App.serverCurrentTimeMillis() - 5 * 60 * 60 * 1000));
     //Log.d(this + " onCreateView 4 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
-    udvikling_checkDrSkrifter(rod, this + " rod");
     DRData.instans.afspiller.observatører.add(this);
     App.netværk.observatører.add(this);
     run(); // opdater HØR-knap
@@ -467,7 +466,6 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
         if (!App.PRODUKTION && vh.itemViewType != type)
           throw new IllegalStateException("Liste ej konsistent, der er nok sket ændringer i den fra f.eks. getView()");
       }
-      udvikling_checkDrSkrifter(v, this.getClass() + " type=" + type);
 
       if (position>=liste.size()) { // Der er set et crash her
         Log.rapporterFejl(new IllegalStateException("liste.size()<=position: "+liste.size()+" <= "+position+" for "+kanal));

@@ -253,7 +253,6 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
           aq.id(R.id.titel).typeface(App.skrift_gibson);
           aq.id(R.id.stiplet_linje).visibility(position==liste.size()-1?View.GONE:View.VISIBLE);
       }
-      udvikling_checkDrSkrifter(v, this + " position " + position);
       return v;
     }
   };

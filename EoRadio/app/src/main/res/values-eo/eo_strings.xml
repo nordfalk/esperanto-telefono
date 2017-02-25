@@ -138,39 +138,9 @@
     <string name="URL_TIL_DR_RADIO_BETAVERSION">http://javabog.dk/privat/EoRadio.apk</string>
     <string name="_LIVE">REKTA</string>
 
-    <string-array name="lydformat_tekst">
-        <item>AAC (HLS)</item>
-        <item>MP3 (Shoutcast)</item>
-        <item>Automatisk</item>
-    </string-array>
-
-    <string-array name="lydformat_kode">
-        <item>hls</item>
-        <item>shoutcast</item>
-        <item>auto</item>
-    </string-array>
-
-    <string-array name="lydkvalitet_tekst">
-        <item>Standard</item>
-        <item>Høj (192 kbps)</item>
-        <item>Automatisk</item>
-    </string-array>
-
-    <string-array name="lydkvalitet_kode">
-        <item>standard</item>
-        <item>høj</item>
-        <item>auto</item>
-    </string-array>
-
     <string name="Hentet">"Elŝutita"</string>
 
 
-
-    <string name="app_name">Esperanto-radio Muzaiko</string>
-<string name="about">Pri</string>
-<string name="send_feedback_mail">Skribu retmesaĝon pri la radio</string>
-
-<string name="donaci">Subteni per donaco</string>
 
 <string name="AppRater_taksu">"Taksu Esperanto-radion"</string>
 <string name="AppRater_teksto">"Se vi ŝatas la programon, bonvolu uzi momenton por taksi ĝin.\n\nDankon!"</string>

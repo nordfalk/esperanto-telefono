@@ -58,25 +58,6 @@ public class AfproevBackend {
   }
 
   @Test
-  public void tjekUdelukFraHLS() throws Exception {
-    DRData i = DRData.instans;
-    i.grunddata.android_json.put("udeluk_HLS2", "C6603 .*/18, IdeaPadA10 A10/17, LIFETAB_E7312 LIFETAB_E7310/17, LIFETAB_E10310/.*");
-    i.grunddata.udelukHLS = false;
-    i.grunddata.tjekUdelukFraHLS("C6603 C6603/18");
-    if (i.grunddata.udelukHLS != true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("C6603 C6603/17");
-    if (i.grunddata.udelukHLS == true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A10/17");
-    if (i.grunddata.udelukHLS != true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A10/23");
-    if (i.grunddata.udelukHLS == true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("IdeaPadA10 A11/17");
-    if (i.grunddata.udelukHLS == true) throw new Exception();
-    i.grunddata.tjekUdelukFraHLS("LIFETAB_E10310/16");
-    if (i.grunddata.udelukHLS != true) throw new Exception();
-  }
-
-  @Test
   public void tjek_hent_a_til_å() throws Exception {
     System.out.println("tjek_hent_a_til_å");
     DRData.instans.programserierAtilÅ.parseSvar(hentStreng(DRData.getAtilÅUrl()));

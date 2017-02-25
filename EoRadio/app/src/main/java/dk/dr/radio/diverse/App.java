@@ -86,22 +86,26 @@ import dk.dr.radio.v3.R;
 import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
-  public static final String P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING = "P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING";
-  public static final String P4_FORETRUKKEN_AF_BRUGER = "P4_FORETRUKKEN_AF_BRUGER";
-  public static final String FORETRUKKEN_KANAL = "FORETRUKKEN_kanal";
-  public static final String NØGLE_advaretOmInstalleretPåSDKort = "erInstalleretPåSDKort";
+  public static App instans;
+
   public static final boolean PRODUKTION = !BuildConfig.DEBUG;
-  public static final boolean PRODUKTION_PÅ_PRØVE = false; // TODO sæt til false
-  public static final boolean ÆGTE_DR = false;
-  private static final String DRAMA_OG_BOG__A_Å_INDLÆST = "DRAMA_OG_BOG__A_Å_INDLÆST";
-  /** Bruges på nye funktioner - for at tjekke om de altid er opfyldt i felten. Fjernes ved næste udgivelser */
-  public static final boolean TJEK_ANTAGELSER = !PRODUKTION;
   public static boolean EMULATOR = true; // Sæt i onCreate(), ellers virker det ikke i std Java
   public static boolean IKKE_Android_VM = false; // Hvis test fra almindelig JVM
-  public static App instans;
+
+  public static boolean ÆGTE_DR = false;
+  /** Sæt sprogvalg til dansk eller esperanto alt efter hvilken version der køres med */
+  public static Configuration sprogKonfig;
+  /** Bruges på nye funktioner - for at tjekke om de altid er opfyldt i felten. Fjernes ved næste udgivelser */
+  public static final boolean TJEK_ANTAGELSER = !PRODUKTION;
+  public static String versionsnavn = "(ukendt)";
+
+  public static final String P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING = "P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING";
+  public static final String P4_FORETRUKKEN_AF_BRUGER = "P4_FORETRUKKEN_AF_BRUGER";
+  private static final String DRAMA_OG_BOG__A_Å_INDLÆST = "DRAMA_OG_BOG__A_Å_INDLÆST";
+  public static final String FORETRUKKEN_KANAL = "FORETRUKKEN_kanal";
+  public static final String NØGLE_advaretOmInstalleretPåSDKort = "erInstalleretPåSDKort";
   public static SharedPreferences prefs;
   public static ConnectivityManager connectivityManager;
-  public static String versionsnavn = "(ukendt)";
   public static NotificationManager notificationManager;
   public static AudioManager audioManager;
   public static boolean fejlsøgning = false;
@@ -130,12 +134,16 @@ public class App extends Application {
     TIDSSTEMPEL_VED_OPSTART = System.currentTimeMillis();
     instans = this;
 
-    // Sæt sprogvalg til dansk eller esperanto alt efter hvilken version der køres med
-    Locale locale = new Locale( ÆGTE_DR ?  "da_DK" : "eo");
-    Locale.setDefault(locale);
-    Configuration config = new Configuration();
-    config.locale = locale;
-    getApplicationContext().getResources().updateConfiguration(config, null);
+    prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    fejlsøgning = prefs.getBoolean("fejlsøgning", false);
+
+    App.ÆGTE_DR = App.prefs.getBoolean("ÆGTE_DR", App.ÆGTE_DR);
+
+    sprogKonfig = new Configuration();
+    sprogKonfig.locale = new Locale( ÆGTE_DR ?  "da_DK" : "eo");
+    Locale.setDefault(sprogKonfig.locale);
+    getResources().updateConfiguration(App.sprogKonfig, null);
+
 
     netværk = new Netvaerksstatus();
     EMULATOR = Build.PRODUCT.contains("sdk") || Build.MODEL.contains("Emulator") || IKKE_Android_VM;
@@ -149,8 +157,6 @@ public class App extends Application {
     connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     audioManager = (AudioManager) App.instans.getSystemService(Context.AUDIO_SERVICE);
-    prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    fejlsøgning = prefs.getBoolean("fejlsøgning", false);
     res = App.instans.getResources();
     App.color = new DRFarver();
 
@@ -209,8 +215,9 @@ public class App extends Application {
       grunddata_prefs = App.instans.getSharedPreferences("grunddata", 0);
       String grunddata = grunddata_prefs.getString(DRData.GRUNDDATA_URL, null);
 
-      if (grunddata == null)
-        grunddata = Diverse.læsStreng(res.openRawResource(App.PRODUKTION ? R.raw.grunddata : R.raw.grunddata_udvikling));
+      if (grunddata == null || App.EMULATOR) { // Ingen grunddata fra sidste - det er nok en frisk installation
+        grunddata = Diverse.læsStreng(res.openRawResource(R.raw.grunddata));
+      }
       if (App.ÆGTE_DR) {
         DRData.instans.grunddata.parseFællesGrunddata(grunddata);
       } else {
@@ -328,7 +335,7 @@ public class App extends Application {
       AlertDialog.Builder dialog = new AlertDialog.Builder(akt);
       dialog.setTitle("SD-kort");
       dialog.setIcon(R.drawable.dri_advarsel_hvid);
-      dialog.setMessage("Vækning fungerer muligvis ikke altid, når DR Radio er flyttet til SD-kort");
+      dialog.setMessage("Vækning fungerer muligvis ikke, når app'en er flyttet til SD-kort");
       dialog.setPositiveButton(android.R.string.ok, new AlertDialog.OnClickListener() {
         public void onClick(DialogInterface arg0, int arg1) {
           prefs.edit().putBoolean(NØGLE_advaretOmInstalleretPåSDKort, true).commit();

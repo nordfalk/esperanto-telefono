@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<!--
   <string name="appnavn">Radio</string>
   <string name="appnavn_beta">Radio beta</string>
+-->
+  <string name="appnavn">Esperanto-radio Muzaiko</string>
+  <string name="appnavn_beta">Esperanto-radio Muzaiko beta</string>
   <string name="navigation_drawer_open">Åbn venstremenu</string>
   <string name="navigation_drawer_close">Luk venstremenu</string>
   <string name="afspiller">afspiller</string>
@@ -133,7 +136,7 @@
   <string name="GRUNDDATA_URL_PRODUKTION">http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.drxml</string>
   <string name="GRUNDDATA_URL_UDVIKLING">http://android.lundogbendsen.dk/drradiov3_grunddata.json</string>
   <string name="HENTEDE_UDS_MAPPENAVN">DR_Radio</string>
-  <string name="URL_TIL_DR_RADIO_BETAVERSION">http://android.lundogbendsen.dk/DRRadiov3.apk</string>
+  <string name="URL_TIL_DR_RADIO_BETAVERSION">http://javabog.dk/privat/EoRadio.apk</string>
   <string name="_LIVE">LIVE</string>
 
   <string-array name="lydformat_tekst">

@@ -25,7 +25,6 @@ import java.util.HashSet;
 import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.diverse.Rapportering;
 import dk.dr.radio.v3.R;
 
 /**
@@ -62,7 +61,6 @@ public class DRData {
    */
   public HashSet<String> programserieSlugFindesIkke = new HashSet<String>();
 
-  public Rapportering rapportering = new Rapportering();
   public SenestLyttede senestLyttede = new SenestLyttede();
   public Favoritter favoritter = App.ÆGTE_DR? new Favoritter() : new EoFavoritter();
   public HentedeUdsendelser hentedeUdsendelser = new HentedeUdsendelser();  // Understøttes ikke på Android 2.2

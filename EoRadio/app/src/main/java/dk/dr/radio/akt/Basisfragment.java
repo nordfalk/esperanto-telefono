@@ -289,27 +289,6 @@ Jeg bruger selv følgende macro'er i C til generering af URIs:
   }
 
 
-  public static void udvikling_checkDrSkrifter(View view, String beskrivelse) {
-    if (App.PRODUKTION) return;
-    if (view instanceof ViewGroup) {
-      ViewGroup vg = (ViewGroup) view;
-      for (int i = 0; i < vg.getChildCount(); i++) {
-        udvikling_checkDrSkrifter(vg.getChildAt(i), beskrivelse);
-      }
-    } else if (view instanceof TextView) {
-      TextView tv = ((TextView) view);
-      Typeface tf = tv.getTypeface();
-      if (tv.getVisibility() != View.VISIBLE || tv.getText().length() == 0) return;
-      if (tf == App.skrift_gibson || tf == App.skrift_gibson_fed) return;
-      if (tf == App.skrift_georgia) return;
-
-      String resId = tv.getId() > 0 ? App.instans.getResources().getResourceEntryName(tv.getId()) : "(MANGLER ID)";
-      Log.e(new Exception("udvikling_checkDrSkrifter: TextView " + resId + " har forkert skrift: " + tf + " for " + beskrivelse));
-      //tv.setTypeface(App.skrift_gibson);
-    }
-  }
-
-
   protected static Spannable lavFedSkriftTil(String tekst, int fedTil) {
     Spannable spannable = new SpannableString(tekst);
     spannable.setSpan(App.skrift_gibson_fed_span, 0, fedTil, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

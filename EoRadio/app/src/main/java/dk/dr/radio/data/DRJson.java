@@ -240,10 +240,6 @@ public enum DRJson {
       Log.rapporterFejl(new IllegalStateException("Mangler Playable eller Downloadable"), o.toString());
     u.kanHøres = o.optBoolean(DRJson.Playable.name());
     u.kanHentes = o.optBoolean(DRJson.Downloadable.name());
-    // Hvis HLS ikke understøttes må vi bruge vi hentningsURL (mp3) til streaming
-    if (DRData.instans.grunddata.udelukHLS) {
-      u.kanHøres = u.kanHentes;
-    }
     u.berigtigelseTitel = o.optString(DRJson.RectificationTitle.name(), null);
     u.berigtigelseTekst = o.optString(DRJson.RectificationText.name(), null);
     if (!App.PRODUKTION && false) {

@@ -58,7 +58,6 @@ public abstract class Lydkilde implements Serializable {
         int score = 100;
         switch (s.type) {
           case HLS_fra_Akamai:
-            if (DRData.instans.grunddata.udelukHLS) continue næste_stream;
             if (tilHentning) continue næste_stream;
             if ("hls".equals(ønsketformat)) score += 40;
             if ("auto".equals(ønsketformat)) score += 20;

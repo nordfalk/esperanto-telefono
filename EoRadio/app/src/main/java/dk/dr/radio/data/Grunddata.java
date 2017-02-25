@@ -60,8 +60,6 @@ public class Grunddata {
   public static final Kanal ukendtKanal = new Kanal();
   public long opdaterPlaylisteEfterMs = 30 * 1000;
   public long opdaterGrunddataEfterMs = 30 * 60 * 1000;
-  /** Om Http Live Streaming skal udelukkes fra mulige lydformater. Gælder på Android 2 og visse Android 4-enheder */
-  public boolean udelukHLS;
   public boolean tving_mediaplayer;
   public boolean tving_emaplayer;
   public boolean serverapi_ret_forkerte_offsets_i_playliste;
@@ -393,46 +391,13 @@ public class Grunddata {
     }
     Log.d("parseKanaler " + kanaler + " - P4:" + p4koder);
     android_json = json.getJSONObject("android");
-    tjekUdelukFraHLS(Build.MODEL + " " + Build.PRODUCT + "/" + Build.VERSION.SDK_INT);
+    serverapi_ret_forkerte_offsets_i_playliste = android_json.optBoolean("serverapi_ret_forkerte_offsets_i_playliste", true);
     DRBackendTidsformater.servertidsformatAndre = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatAndre"), DRBackendTidsformater.servertidsformatAndre);
     DRBackendTidsformater.servertidsformatPlaylisteAndre2 = parseDRBackendTidsformater(android_json.optJSONArray("servertidsformatPlaylisteAndre2"), DRBackendTidsformater.servertidsformatPlaylisteAndre2);
     if (forvalgtKanal == null) forvalgtKanal = kanaler.get(2); // Det er nok P3 :-)
     if (App.ÆGTE_DR) for (Runnable r : new ArrayList<Runnable>(observatører)) r.run();  // EO ŝanĝo
   }
 
-  /**
-   * Sætter flaget udelukHLS, som slår HLS fra på Android-enheder, der ikke understøtter det
-   * @param model_og_version
-   */
-  public void tjekUdelukFraHLS(String model_og_version) {
-    Log.d("tjekUdelukFraHLS(" + model_og_version);
-
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH && !App.testFraMain()) {
-      Log.d("tjekUdelukFraHLS() - Android 2 (og 3) understøtter ikke HLS");
-      udelukHLS = true;
-      return;
-    }
-
-    udelukHLS = søgEfterMatch(model_og_version, android_json.optString("udeluk_HLS2"));
-    tving_mediaplayer = søgEfterMatch(model_og_version, android_json.optString("tving_mediaplayer"));
-    tving_emaplayer = søgEfterMatch(model_og_version, android_json.optString("tving_emaplayer"));
-
-    serverapi_ret_forkerte_offsets_i_playliste = android_json.optBoolean("serverapi_ret_forkerte_offsets_i_playliste", true);
-  }
-
-  private static boolean søgEfterMatch(String model_og_version, String søgestreng) {
-    try {
-      for (String lin : søgestreng.split(",")) {
-        if (model_og_version.matches(lin.trim())) {
-          Log.d("tjek " + søgestreng + " linjen " + lin + " MATCHER " + model_og_version);
-          return true;
-        }
-      }
-    } catch (Exception e) {
-      Log.e(e);
-    } // Ikke kritisk
-    return false;
-  }
 
   private DateFormat[] parseDRBackendTidsformater(JSONArray servertidsformatAndreJson, DateFormat[] servertidsformatAndre) throws JSONException {
     if (servertidsformatAndreJson==null) return  servertidsformatAndre;

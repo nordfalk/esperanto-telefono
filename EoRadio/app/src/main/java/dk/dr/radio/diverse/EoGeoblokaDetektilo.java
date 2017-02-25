@@ -1,4 +1,4 @@
-package dk.dr.radio.akt;
+package dk.dr.radio.diverse;
 
 import android.os.AsyncTask;
 
@@ -16,7 +16,7 @@ import dk.dr.radio.diverse.Log;
  * Jen mi esploras ĉu iu elsendo estas blokata aŭ ne.
  */
 
-class GeoblokaDetektilo {
+public class EoGeoblokaDetektilo {
   private static final String NE_BLOKITA = "NE_BLOKITA";
   private static final String BLOKITA = "BLOKITA";
   private static final HashSet<String> esploritajUrl = new HashSet<>();

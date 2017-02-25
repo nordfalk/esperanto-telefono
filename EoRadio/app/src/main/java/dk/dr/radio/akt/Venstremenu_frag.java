@@ -491,26 +491,17 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         if (App.ÆGTE_DR) aq.id(R.id.tekst).text("Hent nyeste udvikler-version.\nNuværende version:\n" + App.versionsnavn + "\n" + "/" + Build.MODEL + " " + Build.PRODUCT);
         else aq.id(R.id.tekst).text("Elŝuti plej novan provversion.\n\nNuna versio:\n" + App.versionsnavn + "\n\n" + Build.MODEL + " " + Build.PRODUCT);
 
+        tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
+          @Override
+          public void run() {
+            App.prefs.edit().putBoolean("ÆGTE_DR", !App.ÆGTE_DR).commit();
+            System.exit(0);
+          }
+        });
+        aq.id(R.id.tekst).text("Skift udseende").typeface(App.skrift_gibson_fed);
+
         aq.typeface(App.skrift_gibson).textSize(12);
 
-/*
-        tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
-          @Override
-          public void run() {
-            startActivity(new Intent(getActivity(), PlayerActivity.class)
-                .setData(Uri.parse(DRData.instans.afspiller.getLydkilde().findBedsteStreamUrl(false))));
-          }
-        });
-        aq.id(R.id.tekst).text("ExoPlayer");
-        tilføj(R.layout.venstremenu_elem_overskrift, new Runnable() {
-          @Override
-          public void run() {
-            startActivity(new Intent(getActivity(), PlayerActivity.class)
-                .setData(Uri.parse("http://dr02-lh.akamaihd.net/i/dr02_0@147055/master.m3u8")));
-          }
-        });
-        aq.id(R.id.tekst).text("ExoPlayer DR2");
-        */
       }
     }
 

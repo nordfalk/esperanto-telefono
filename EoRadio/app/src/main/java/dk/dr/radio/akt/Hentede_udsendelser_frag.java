@@ -59,7 +59,6 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
 
     hentedeUdsendelser.observatører.add(this);
     run();
-    udvikling_checkDrSkrifter(rod, this + " rod");
     return rod;
   }
 
@@ -166,8 +165,6 @@ public class Hentede_udsendelser_frag extends Basisfragment implements AdapterVi
         progressBar.setProgress(hs.hentet);
         aq.id(R.id.startStopKnap).visible().image(R.drawable.dri_radio_stop_graa40);
       }
-
-      udvikling_checkDrSkrifter(v, this.getClass() + " ");
 
 
       return v;

@@ -69,8 +69,6 @@ import dk.dr.radio.vaekning.AlarmAlertWakeLock;
  */
 public class Afspiller {
 
-  private final GemiusStatistik gemiusStatistik;
-
   class Afspillerlyd {
     MediaPlayer start;
     MediaPlayer fejl;
@@ -125,37 +123,16 @@ public class Afspiller {
     mediaPlayer = Wrapperfabrikering.opret();
 
     sætMediaPlayerLytter(mediaPlayer, this.lytter);
-    // Indlæs gamle værdier så vi har nogle...
-    // Fjernet. Skulle ikke være nødvendigt. Jacob 22/10-2011
-    // kanalNavn = p.getString("kanalNavn", "P1");
-    // lydUrl = p.getString("lydUrl", "rtsp://live-rtsp.dr.dk/rtplive/_definst_/Channel5_LQ.stream");
-
-    /*
-    // Gem værdi hvis den ikke findes, sådan at indstillingsskærm viser det rigtige
-    if (!App.prefs.contains(NØGLEholdSkærmTændt)) {
-      // Xperia Play har brug for at holde skærmen tændt. Muligvis også andre....
-      boolean holdSkærmTændt = "R800i".equals(Build.MODEL);
-      App.prefs.edit().putBoolean(NØGLEholdSkærmTændt, holdSkærmTændt).commit();
-    }
-    */
-
     wifilock = ((WifiManager) App.instans.getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "DR Radio");
     wifilock.setReferenceCounted(false);
     Opkaldshaandtering opkaldshåndtering = new Opkaldshaandtering(this);
-    TelephonyManager tm = (TelephonyManager) App.instans.getSystemService(Context.TELEPHONY_SERVICE);
-    tm.listen(opkaldshåndtering, PhoneStateListener.LISTEN_CALL_STATE);
-    /*
-    // Opret en baggrundstråd med en Handler til at sende Runnables ind i
-    new Thread() {
-      public void run() {
-        Looper.prepare();
-        baggrundstråd = new Handler();
-        Looper.loop();
-      }
-    }.start();
-    */
-    if (App.fejlsøgning) tjekLydAktiv.run();
-    gemiusStatistik = new GemiusStatistik();
+    try {
+      /* kræver
+        <uses-permission android:name="android.permission.READ_PHONE_STATE" android:maxSdkVersion="22" />
+      */
+      TelephonyManager tm = (TelephonyManager) App.instans.getSystemService(Context.TELEPHONY_SERVICE);
+      tm.listen(opkaldshåndtering, PhoneStateListener.LISTEN_CALL_STATE);
+    } catch (Exception e) { Log.rapporterFejl(e); }
   }
 
   private int onErrorTæller;
@@ -214,15 +191,11 @@ public class Afspiller {
         wifilock.acquire();
       }
 
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-        // Se http://developer.android.com/training/managing-audio/audio-focus.html
-        int result = audioManager.requestAudioFocus(getOnAudioFocusChangeListener(),
-            AudioManager.STREAM_MUSIC,
-            AudioManager.AUDIOFOCUS_GAIN);
-        Log.d("requestAudioFocus res=" + result);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-          App.fjernbetjening.registrér();
-        }
+      // Se http://developer.android.com/training/managing-audio/audio-focus.html
+      int res = audioManager.requestAudioFocus(onAudioFocusChangeListener,
+          AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+      if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+        App.fjernbetjening.registrér();
       }
 
       if (!hovedtelefonFjernetReciever.aktiv) {
@@ -261,76 +234,54 @@ public class Afspiller {
   }
 
 
-  /**
-   * Typen er OnAudioFocusChangeListener, men da den ikke findes i API<8 kan vi ikke bruge klassen her
-   */
-  Object onAudioFocusChangeListener;
+  private OnAudioFocusChangeListener onAudioFocusChangeListener = new OnAudioFocusChangeListener() {
+    public void onAudioFocusChange(int focusChange) {
+      Log.d("onAudioFocusChange " + focusChange);
+      AudioManager am = (AudioManager) App.instans.getSystemService(Context.AUDIO_SERVICE);
 
-  /**
-   * Responding to the loss of audio focus
-   */
-  @SuppressLint("NewApi")
-  private OnAudioFocusChangeListener getOnAudioFocusChangeListener() {
-    if (onAudioFocusChangeListener == null)
-      onAudioFocusChangeListener = new OnAudioFocusChangeListener() {
-
-        //private int lydstyreFørDuck = -1;
-
-        @TargetApi(Build.VERSION_CODES.FROYO)
-        public void onAudioFocusChange(int focusChange) {
-          Log.d("onAudioFocusChange " + focusChange);
-          AudioManager am = (AudioManager) App.instans.getSystemService(Context.AUDIO_SERVICE);
-
-          switch (focusChange) {
-            // Kommer ved f.eks. en SMS eller taleinstruktion i Google Maps
-            case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK):
-              Log.d("JPER duck");
-              if (afspillerstatus != Status.STOPPET) {
-                // Vi 'dukker' lyden mens den vigtigere lyd høres
-                // Sæt lydstyrken ned til en 1/3-del
-                //lydstyreFørDuck = am.getStreamVolume(AudioManager.STREAM_MUSIC);
-                //am.setStreamVolume(AudioManager.STREAM_MUSIC, (lydstyreFørDuck + 2) / 3, 0);
-                mediaPlayer.setVolume(0.1f, 0.1f); // logaritmisk skala - 0.1 svarer til 1/3-del
-              }
-              break;
-
-            // Dette sker ved f.eks. opkald
-            case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT):
-              Log.d("JPER pause");
-              if (afspillerstatus != Status.STOPPET) {
-                pauseAfspilning(); // sætter afspilningPåPause=false
-                if (afspillerlyde) afspillerlyd.stop.start();
-                afspilningPåPause = true;
-              }
-              break;
-
-            // Dette sker hvis en anden app med lyd startes, f.eks. et spil
-            case (AudioManager.AUDIOFOCUS_LOSS):
-              Log.d("JPER stop");
-              // stopAfspilning();
-              pauseAfspilning();
-              am.abandonAudioFocus(this);
-              break;
-
-            // Dette sker når opkaldet er slut og ved f.eks. opkald
-            case (AudioManager.AUDIOFOCUS_GAIN):
-              Log.d("JPER Gain");
-              if (afspillerstatus == Status.STOPPET) {
-                if (afspilningPåPause) startAfspilningIntern();
-              } else {
-                // Genskab lydstyrke før den blev dukket
-                mediaPlayer.setVolume(1f, 1f);
-                //if (lydstyreFørDuck > 0) {
-                //  am.setStreamVolume(AudioManager.STREAM_MUSIC, lydstyreFørDuck, 0);
-                //}
-                // Genstart ikke afspilning, der spilles allerede!
-                //startAfspilningIntern();
-              }
+      switch (focusChange) {
+        // Kommer ved f.eks. en SMS eller taleinstruktion i Google Maps
+        case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK):
+          Log.d("JPER duck");
+          if (afspillerstatus != Status.STOPPET) {
+            // Vi 'dukker' lyden mens den vigtigere lyd høres
+            // Sæt lydstyrken ned til en 1/3-del
+            //lydstyreFørDuck = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+            //am.setStreamVolume(AudioManager.STREAM_MUSIC, (lydstyreFørDuck + 2) / 3, 0);
+            mediaPlayer.setVolume(0.1f, 0.1f); // logaritmisk skala - 0.1 svarer til 1/3-del
           }
-        }
-      };
-    return (OnAudioFocusChangeListener) onAudioFocusChangeListener;
-  }
+          break;
+
+        // Dette sker ved f.eks. opkald
+        case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT):
+          Log.d("JPER pause");
+          if (afspillerstatus != Status.STOPPET) {
+            pauseAfspilning(); // sætter afspilningPåPause=false
+            if (afspillerlyde) afspillerlyd.stop.start();
+            afspilningPåPause = true;
+          }
+          break;
+
+        // Dette sker hvis en anden app med lyd startes, f.eks. et spil
+        case (AudioManager.AUDIOFOCUS_LOSS):
+          Log.d("JPER stop");
+          // stopAfspilning();
+          pauseAfspilning();
+          am.abandonAudioFocus(this);
+          break;
+
+        // Dette sker når opkaldet er slut og ved f.eks. opkald
+        case (AudioManager.AUDIOFOCUS_GAIN):
+          Log.d("JPER Gain");
+          if (afspillerstatus == Status.STOPPET) {
+            if (afspilningPåPause) startAfspilningIntern();
+          } else {
+            // Genskab lydstyrke før den blev dukket
+            mediaPlayer.setVolume(1f, 1f);
+          }
+      }
+    }
+  };
 
   long setDataSourceTid = 0;
   boolean setDataSourceLyd = false;
@@ -371,7 +322,6 @@ public class Afspiller {
             return;
           }
           lydstream = bs.get(0);
-          gemiusStatistik.setLydkilde(lydkilde);
           DRData.instans.senestLyttede.registrérLytning(lydkilde);
           Log.d("mediaPlayer.setDataSource( " + lydstream);
 
@@ -436,7 +386,6 @@ public class Afspiller {
       App.instans.unregisterReceiver(hovedtelefonFjernetReciever);
     }
     if (wifilock != null) wifilock.release();
-    gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Pause, pos / 1000);
     if (vækkeurWakeLock != null) {
       vækkeurWakeLock.release();
       vækkeurWakeLock = null;
@@ -462,7 +411,6 @@ public class Afspiller {
 
   synchronized public void stopAfspilning() {
     Log.d("Afspiller stopAfspilning");
-    gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Stopped, getCurrentPosition() / 1000);
     Sidevisning.vist("afspilning_stop");
     gemPosition();
     pauseAfspilningIntern();
@@ -577,7 +525,6 @@ public class Afspiller {
   public void seekTo(long offsetMs) {
     Log.d("afspiler seekTo " + offsetMs);
     mediaPlayer.seekTo(offsetMs);
-    gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Seeking, offsetMs / 1000);
     for (Runnable runnable : positionsobservatører) {
       runnable.run();
     }
@@ -684,17 +631,12 @@ public class Afspiller {
               Log.d("mediaPlayer nej, det er for langt henne, starter ved starten");
               startposition = 0;
             }
-            gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Play, startposition / 1000);
             if (startposition > 0) {
               mediaPlayer.seekTo(startposition);
             }
             mediaPlayer.start();
             if (afspillerlyde) afspillerlyd.spiller.start();
             Log.d("mediaPlayer.start() slut " + mpTils());
-            Thread.sleep(5000); // Vent lidt før data sendes
-            if (App.netværk.erOnline()) {
-              gemiusStatistik.startSendData();
-            } // Ellers venter vi, det kan være vi er heldige at brugeren er online ved næste hændelse
           } catch (Exception e) {
             Log.rapporterFejl(e);
           }
@@ -733,7 +675,6 @@ public class Afspiller {
           if (afspillerlyde) afspillerlyd.forbinder.start();
         } else {
           DRData.instans.senestLyttede.sætStartposition(lydkilde, 0);
-          gemiusStatistik.registérHændelse(GemiusStatistik.PlayerAction.Completed, getCurrentPosition() / 1000);
           stopAfspilning();
         }
       }
@@ -810,15 +751,6 @@ public class Afspiller {
       //opdaterObservatører();
     }
   }
-
-  Runnable tjekLydAktiv = new Runnable() {
-    @Override
-    public void run() {
-      App.forgrundstråd.removeCallbacks(this);
-      Log.d("tjekLydAktiv " + audioManager.isMusicActive() + " " + mediaPlayer.isPlaying() + " " + getCurrentPosition() + " " + getDuration() + " " + new Date());
-      App.forgrundstråd.postDelayed(this, 10000);
-    }
-  };
 
   void ringDenAlarm() {
     // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/2819028090

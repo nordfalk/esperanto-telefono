@@ -1,148 +1,145 @@
-
 {
-    "intervals": {
-        "playlist": 30,
-        "settings": 1800
-    },
-    "language": {},
-    "android" : {
-        "udeluk_HLS_kommentar" : "Bliver brugt t.o.m app 3.5.2 beta6",
-        "udeluk_HLS" : "D5803 D5803/21, D6603 D6603/21, D6503 D6503/21, E6553 E6553/21, E5823 E5823/21, D5803 D5803/22, D6603 D6603/22, D6503 D6503/22, E6553 E6553/22, E5823 E5823/22, C6603 C6603/22, C6603 C6603/18, A1010 A1010/16, IdeaPadA10 A10/17, LIFETAB_E7312 LIFETAB_E7310/17, LIFETAB_E10310 LIFETAB_E10310/16, LIFETAB_E10320 LIFETAB_E10320/17, LIFETAB_E10312 LIFETAB_E10310/17, ARCHOS 97b PLATINUM RK31AC97BPL/17, HUAWEI G700-U20 G700-U20/17, GT-I9100 GT-I9100/16",
+  "oprindelig_adresse_på_DR" : "http://www.dr.dk/tjenester/iphone/radio/settings/iphone200d.drxml",
+  "intervals": {
+    "playlist": 30,
+    "settings": 1800
+  },
+  "android" : {
+    "serverapi_ret_forkerte_offsets_i_playliste" : true,
+    "servertidsformatAndre": [ "yyyy-MM-dd'T'HH:mm:ss.SSSz" ],
+    "servertidsformatPlaylisteAndre": [ "yyyy-MM-dd'T'HH:mm:ssz" ],
+    "kontakt_url": "https://docs.google.com/document/d/1PzaeVuaH0OOuIYWFELlDTVDaxR_TAr4f_aA2YhNZse8/pub",
+    "kontakt_url_tidligere": "http://www.dr.dk/tjenester/iphone/radio/about/android30.drxml",
+    "kontakt_modtagere": ["jacob.nordfalk@gmail.com" ],
+    "kontakt_titel": "Angående Radio-app'en",
+    "kontakt_brugerspørgsmål": "\nHvis du oplever problemer, så vil vi meget gerne kontaktes.\nSkriv herunder\n-------------\n\n\n\n\n\n\n\n----- teknisk info til udviklerne -----\n\n",
+    "drift_statusmeddelelse": "",
+    "drift_statusmeddelelse_tidligere": "Radio BETA\nOpgradering nødvendig igen, igen\n\
+    Hent <a href='http://javabog.dk/privat/EoRadio.apk'>nyeste beta her</a> eller i venstremenuen nederst.<br/>\
+    <br/>\
+    <br/>\
+    "
+  },
+  "ios": {
 
-        "kommentar" : "udeluk_HLS2, tving_*player Bliver brugt fra v 3.5.3",
-        "udeluk_HLS2" : "",
-        "tving_mediaplayer" : "",
-        "tving_emaplayer" : "",
-
-        "serverapi_ret_forkerte_offsets_i_playliste" : true,
-        "servertidsformatAndre": [ "yyyy-MM-dd'T'HH:mm:ss.SSSz" ],
-        "servertidsformatPlaylisteAndre": [ "yyyy-MM-dd'T'HH:mm:ssz" ],
-        "kontakt_url": "http://www.dr.dk/tjenester/iphone/radio/about/android30.drxml",
-        "kontakt_modtagere": ["android@lundogbendsen.dk", "mobil@dr.dk" ],
-        "kontakt_titel": "Angående DR Radio",
-        "kontakt_brugerspørgsmål": "\nHvis du oplever problemer, så vil vi meget gerne kontaktes.\nSkriv herunder\n-------------\n\n\n\n\n\n\n\n----- teknisk info til udviklerne -----\n\n",
-        "drift_statusmeddelelse": ""
-    },
-    "ios": {
-
-    },
+  },
+  "channels": [{
+    "title": "P1",
+    "logo": "channel-logo-p1",
+    "scheduleIdent": "P1D",
+    "slug": "p1",
+    "urn": "urn:dr:mu:bundle:4f3b8918860d9a33ccfdaf4d",
+    "hideLatestTrack": true
+  }, {
+    "title": "P2",
+    "logo": "channel-logo-p2",
+    "scheduleIdent": "P2D",
+    "slug": "p2",
+    "urn": "urn:dr:mu:bundle:4f3b8919860d9a33ccfdaf54"
+  }, {
+    "title": "P3",
+    "logo": "channel-logo-p3",
+    "scheduleIdent": "P3",
+    "slug": "p3",
+    "urn": "urn:dr:mu:bundle:4f3b891b860d9a33ccfdaf74",
+    "isDefault": true
+  }, {
+    "title": "P4",
+    "logo": "channel-logo-p4",
+    "urn": "urn:dr:mu:bundle:4f3b8920860d9a33ccfdaf7c",
+    "isRegional": true,
     "channels": [{
-        "title": "P1",
-        "logo": "channel-logo-p1",
-        "scheduleIdent": "P1D",
-        "slug": "p1",
-        "urn": "urn:dr:mu:bundle:4f3b8918860d9a33ccfdaf4d",
-        "hideLatestTrack": true
+      "title": "P4 Bornholm",
+      "logo": "channel-logo-p4-bornholm",
+      "scheduleIdent": "RØ4",
+      "slug": "p4bornholm",
+      "urn": "urn:dr:mu:bundle:4f3b892b860d9a33ccfdafd2"
     }, {
-        "title": "P2",
-        "logo": "channel-logo-p2",
-        "scheduleIdent": "P2D",
-        "slug": "p2",
-        "urn": "urn:dr:mu:bundle:4f3b8919860d9a33ccfdaf54"
+      "title": "P4 Esbjerg",
+      "logo": "channel-logo-p4-esbjerg",
+      "scheduleIdent": "ES4",
+      "slug": "p4esbjerg",
+      "urn": "urn:dr:mu:bundle:4f3b88fe860d9a33ccfdaf06"
     }, {
-        "title": "P3",
-        "logo": "channel-logo-p3",
-        "scheduleIdent": "P3",
-        "slug": "p3",
-        "urn": "urn:dr:mu:bundle:4f3b891b860d9a33ccfdaf74",
-        "isDefault": true
+      "title": "P4 Fyn",
+      "logo": "channel-logo-p4-fyn",
+      "scheduleIdent": "OD4",
+      "slug": "p4fyn",
+      "urn": "urn:dr:mu:bundle:4f3b8911860d9a33ccfdaf41"
     }, {
-        "title": "P4",
-        "logo": "channel-logo-p4",
-        "urn": "urn:dr:mu:bundle:4f3b8920860d9a33ccfdaf7c",
-        "isRegional": true,
-        "channels": [{
-            "title": "P4 Bornholm",
-            "logo": "channel-logo-p4-bornholm",
-            "scheduleIdent": "RØ4",
-            "slug": "p4bornholm",
-            "urn": "urn:dr:mu:bundle:4f3b892b860d9a33ccfdafd2"
-        }, {
-            "title": "P4 Esbjerg",
-            "logo": "channel-logo-p4-esbjerg",
-            "scheduleIdent": "ES4",
-            "slug": "p4esbjerg",
-            "urn": "urn:dr:mu:bundle:4f3b88fe860d9a33ccfdaf06"
-        }, {
-            "title": "P4 Fyn",
-            "logo": "channel-logo-p4-fyn",
-            "scheduleIdent": "OD4",
-            "slug": "p4fyn",
-            "urn": "urn:dr:mu:bundle:4f3b8911860d9a33ccfdaf41"
-        }, {
-            "title": "P4 København",
-            "logo": "channel-logo-p4-kbh",
-            "scheduleIdent": "KH4",
-            "slug": "p4kbh",
-            "urn": "urn:dr:mu:bundle:4f3b890a860d9a33ccfdaf39"
-        }, {
-            "title": "P4 Midt & Vest",
-            "logo": "channel-logo-p4-midtvest",
-            "scheduleIdent": "HO4",
-            "slug": "p4vest",
-            "urn": "urn:dr:mu:bundle:4f3b8907860d9a33ccfdaf34"
-        }, {
-            "title": "P4 Nordjylland",
-            "logo": "channel-logo-p4-nordjylland",
-            "scheduleIdent": "ÅL4",
-            "slug": "p4nord",
-            "urn": "urn:dr:mu:bundle:4f3b8937860d9a33ccfdafdc"
-        }, {
-            "title": "P4 Sjælland",
-            "logo": "channel-logo-p4-sjaelland",
-            "scheduleIdent": "NV4",
-            "slug": "p4sjaelland",
-            "urn": "urn:dr:mu:bundle:4f3b890d860d9a33ccfdaf3e"
-        }, {
-            "title": "P4 Syd",
-            "logo": "channel-logo-p4-syd",
-            "scheduleIdent": "ÅB4",
-            "slug": "p4syd",
-            "urn": "urn:dr:mu:bundle:4f3b8934860d9a33ccfdafd9"
-        }, {
-            "title": "P4 Trekanten",
-            "logo": "channel-logo-p4-trekanten",
-            "scheduleIdent": "TR4",
-            "slug": "p4trekanten",
-            "urn": "urn:dr:mu:bundle:4f3b892f860d9a33ccfdafd7"
-        }, {
-            "title": "P4 Østjylland",
-            "logo": "channel-logo-p4-oestjylland",
-            "scheduleIdent": "ÅR4",
-            "slug": "p4aarhus",
-            "urn": "urn:dr:mu:bundle:4f3b893a860d9a33ccfdafdf"
-        }]
+      "title": "P4 København",
+      "logo": "channel-logo-p4-kbh",
+      "scheduleIdent": "KH4",
+      "slug": "p4kbh",
+      "urn": "urn:dr:mu:bundle:4f3b890a860d9a33ccfdaf39"
     }, {
-        "title": "P5",
-        "logo": "channel-logo-p5",
-        "scheduleIdent": "P5D",
-        "slug": "p5",
-        "urn": "urn:dr:mu:bundle:4f3b8922860d9a33ccfdaf96"
+      "title": "P4 Midt & Vest",
+      "logo": "channel-logo-p4-midtvest",
+      "scheduleIdent": "HO4",
+      "slug": "p4vest",
+      "urn": "urn:dr:mu:bundle:4f3b8907860d9a33ccfdaf34"
     }, {
-        "title": "P6 BEAT",
-        "logo": "channel-logo-p6",
-        "scheduleIdent": "P6B",
-        "slug": "p6beat",
-        "urn": "urn:dr:mu:bundle:4f3b8922860d9a33ccfdaf9f"
+      "title": "P4 Nordjylland",
+      "logo": "channel-logo-p4-nordjylland",
+      "scheduleIdent": "ÅL4",
+      "slug": "p4nord",
+      "urn": "urn:dr:mu:bundle:4f3b8937860d9a33ccfdafdc"
     }, {
-        "title": "P7 MIX",
-        "logo": "channel-logo-p7",
-        "scheduleIdent": "P7M",
-        "slug": "p7mix",
-        "urn": "urn:dr:mu:bundle:4f3b8924860d9a33ccfdafa9"
+      "title": "P4 Sjælland",
+      "logo": "channel-logo-p4-sjaelland",
+      "scheduleIdent": "NV4",
+      "slug": "p4sjaelland",
+      "urn": "urn:dr:mu:bundle:4f3b890d860d9a33ccfdaf3e"
     }, {
-        "title": "P8 JAZZ",
-        "logo": "channel-logo-p8",
-        "scheduleIdent": "P8J",
-        "slug": "p8jazz",
-        "urn": "urn:dr:mu:bundle:4f3b8926860d9a33ccfdafb9"
+      "title": "P4 Syd",
+      "logo": "channel-logo-p4-syd",
+      "scheduleIdent": "ÅB4",
+      "slug": "p4syd",
+      "urn": "urn:dr:mu:bundle:4f3b8934860d9a33ccfdafd9"
     }, {
-        "title": "DR Nyheder",
-        "description": "Her kan du altid høre den seneste radioavis og sportsnyt",
-        "hideEPG": true,
-        "logo": "channel-logo-news",
-        "scheduleIdent": "DRN",
-        "slug": "nyhederradio",
-        "urn": "urn:dr:mu:bundle:4f3b88fb860d9a33ccfdaee5"
+      "title": "P4 Trekanten",
+      "logo": "channel-logo-p4-trekanten",
+      "scheduleIdent": "TR4",
+      "slug": "p4trekanten",
+      "urn": "urn:dr:mu:bundle:4f3b892f860d9a33ccfdafd7"
+    }, {
+      "title": "P4 Østjylland",
+      "logo": "channel-logo-p4-oestjylland",
+      "scheduleIdent": "ÅR4",
+      "slug": "p4aarhus",
+      "urn": "urn:dr:mu:bundle:4f3b893a860d9a33ccfdafdf"
     }]
+  }, {
+    "title": "P5",
+    "logo": "channel-logo-p5",
+    "scheduleIdent": "P5D",
+    "slug": "p5",
+    "urn": "urn:dr:mu:bundle:4f3b8922860d9a33ccfdaf96"
+  }, {
+    "title": "P6 BEAT",
+    "logo": "channel-logo-p6",
+    "scheduleIdent": "P6B",
+    "slug": "p6beat",
+    "urn": "urn:dr:mu:bundle:4f3b8922860d9a33ccfdaf9f"
+  }, {
+    "title": "P7 MIX",
+    "logo": "channel-logo-p7",
+    "scheduleIdent": "P7M",
+    "slug": "p7mix",
+    "urn": "urn:dr:mu:bundle:4f3b8924860d9a33ccfdafa9"
+  }, {
+    "title": "P8 JAZZ",
+    "logo": "channel-logo-p8",
+    "scheduleIdent": "P8J",
+    "slug": "p8jazz",
+    "urn": "urn:dr:mu:bundle:4f3b8926860d9a33ccfdafb9"
+  }, {
+    "title": "DR Nyheder",
+    "description": "Her kan du altid høre den seneste radioavis og sportsnyt",
+    "hideEPG": true,
+    "logo": "channel-logo-news",
+    "scheduleIdent": "DRN",
+    "slug": "nyhederradio",
+    "urn": "urn:dr:mu:bundle:4f3b88fb860d9a33ccfdaee5"
+  }]
 }

@@ -52,7 +52,6 @@ public class AlleUdsendelserAtilAA_frag extends Basisfragment implements Adapter
     DRData.instans.programserierAtilÅ.observatører.add(this);
     run();
 
-    udvikling_checkDrSkrifter(rod, this + " rod");
     return rod;
   }
 
@@ -107,7 +106,6 @@ public class AlleUdsendelserAtilAA_frag extends Basisfragment implements Adapter
         v.setBackgroundResource(0);
 
 
-        udvikling_checkDrSkrifter(v, this.getClass() + " ");
       } catch (Exception e) {
         Log.rapporterFejl(e);
       }

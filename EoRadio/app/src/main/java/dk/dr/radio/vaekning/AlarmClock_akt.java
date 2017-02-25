@@ -38,7 +38,6 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import dk.dr.radio.akt.Basisaktivitet;
-import dk.dr.radio.akt.Basisfragment;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.v3.R;
 
@@ -136,7 +135,6 @@ public class AlarmClock_akt extends Basisaktivitet implements OnItemClickListene
         labelView.setVisibility(View.GONE);
       }
       ((TextView) view.findViewById(R.id.timeDisplay)).setTypeface(App.skrift_gibson);
-      Basisfragment.udvikling_checkDrSkrifter(view, this.toString());
       return view;
     }
   }
@@ -233,7 +231,6 @@ public class AlarmClock_akt extends Basisaktivitet implements OnItemClickListene
     doneButton.setTypeface(App.skrift_gibson);
     ((TextView) findViewById(R.id.tilføj_alarm)).setTypeface(App.skrift_gibson);
     ((TextView) findViewById(R.id.advarsel)).setTypeface(App.skrift_gibson);
-    Basisfragment.udvikling_checkDrSkrifter(findViewById(R.id.base_layout), ""+this);
   }
 
   @Override

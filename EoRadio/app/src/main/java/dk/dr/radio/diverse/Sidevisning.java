@@ -34,20 +34,6 @@ public class Sidevisning {
 
   private static Sidevisning instans = null;
   public static Sidevisning i() {
-    if (instans==null && App.ÆGTE_DR) try {
-    /*
-    Klasserne til Gallup er ikke med i offentligt repo, derfor indlæses klassen dynamisk
-    instans = new GallupSidevisning();
-
-    Generér ny version af Gallup JAR-fil med
-    unzip /home/j/android/dr-radio-android/gallupstatistik/build/outputs/aar/gallupstatistik-debug.aar classes.jar -d /tmp
-    mv /tmp/classes.jar /home/j/android/dr-radio-android/DRRadiov35/app/libs/gallupstatistik.jar
-    */
-      instans = ((Class<? extends Sidevisning>) Class.forName("dk.dr.radio.diverse.GallupSidevisning")).newInstance();
-    } catch (Exception e) {
-      Log.rapporterFejl(e);
-    }
-
     if (instans==null) {
       instans = new Sidevisning();
     }
@@ -70,19 +56,8 @@ public class Sidevisning {
 
   public void vist(String side, String slug) {
     //if (!App.PRODUKTION) App.kortToast("vist "+side+" "+slug);
-    // Gemius sidevisningsstatistik
-    // appname=MyApp|version=1.0.0
-    // app=DRRadio|platform=Android|page=Z|action=W|version=1.0.0
-    // app = DRNyheder/DRRadio/DRTV/DRRamasjang/DRUltra
-    // Z = notset (gælder alle apps, undtagen nyhedsappen)
-    // W = begin/background/termination (gælder alle apps, undtagen nyhedsappen)
     besøgt.add(side);
 
-    String data = "app=DRRadio|platform=Android|page="+side+(slug==null ? "" : "/" + slug)+"|action=pageload|version="+App.versionsnavn;
-    sendTilGemius(data);
-  }
-
-  private void sendTilGemius(String data) {
   }
 
 
@@ -119,8 +94,5 @@ public class Sidevisning {
 
   public void synlig(boolean synligNu) {
     if (App.fejlsøgning) App.kortToast("synligNu = "+synligNu);
-
-    String data = "app=DRRadio|platform=Android|page=notset|action="+(synligNu?"begin":"background")+"|version="+App.versionsnavn;
-    sendTilGemius(data);
   }
 }

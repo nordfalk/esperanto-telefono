@@ -62,7 +62,6 @@ public class Kanal_nyheder_frag extends Basisfragment implements View.OnClickLis
     aq.id(R.id.titel).typeface(App.skrift_gibson);
 
 
-    udvikling_checkDrSkrifter(rod, this + " rod");
     DRData.instans.afspiller.observatører.add(this);
     App.netværk.observatører.add(this);
     //Log.d(this + " onCreateView færdig efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");

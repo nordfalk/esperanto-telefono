@@ -1,6 +1,5 @@
 package dk.dr.radio.akt;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -47,7 +46,6 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
     TextView overskrift = aq.id(R.id.overskrift).typeface(App.skrift_gibson_fed).text(R.string.Senest_lyttede).getTextView();
     overskrift.setVisibility(View.VISIBLE);
 
-    udvikling_checkDrSkrifter(rod, this + " rod");
     // Vi ændrer ikke i listen imens den vises, så vi behøver ikke observere afspilleren
     //DRData.instans.afspiller.observatører.add(this);
     //App.netværk.observatører.add(this);
@@ -148,8 +146,6 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
         Log.rapporterFejl(new Exception("forkert type"), sl.lydkilde);
       }
       vh.varighed.setText(getString(R.string.LYTTET_)+ getString(R.string._kl_, DRJson.getDagsbeskrivelse(vh.sl.tidpunkt) , DRJson.klokkenformat.format(vh.sl.tidpunkt)).toUpperCase());
-
-      udvikling_checkDrSkrifter(v, this.getClass() + " ");
 
       return v;
     }

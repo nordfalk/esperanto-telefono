@@ -34,6 +34,7 @@ public class Basisaktivitet extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    getResources().updateConfiguration(App.sprogKonfig, null);
     super.onCreate(savedInstanceState);
   }
 
@@ -43,7 +44,7 @@ public class Basisaktivitet extends AppCompatActivity {
     super.setContentView(layoutResID);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     if (toolbar != null) {
-      toolbar.setLogo(R.drawable.dr_logo);
+      toolbar.setLogo(App.ÆGTE_DR ? R.drawable.dr_logo : R.drawable.appikon_eo);
       setSupportActionBar(toolbar);
       ActionBar ab = getSupportActionBar();
       ab.setDisplayShowTitleEnabled(false);

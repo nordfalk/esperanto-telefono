@@ -237,7 +237,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
       if (kanal.eo_emblemo!=null) {
         kanallogo.setImageBitmap(kanal.eo_emblemo);
       } else {
-        kanallogo.setImageResource(R.drawable.dr_logo);
+        kanallogo.setImageResource(App.ÆGTE_DR ? R.drawable.dr_logo : 0);
         Kanal lk = DRData.instans.grunddata.kanalFraSlug.get(kanal.slug);
         String eraro = "Mankas emblemo por "+kanal+ "  "+lk.eo_emblemo;
         Log.rapporterFejl(new IllegalStateException(eraro));

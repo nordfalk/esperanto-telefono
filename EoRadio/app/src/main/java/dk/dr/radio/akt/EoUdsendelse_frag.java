@@ -110,7 +110,6 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
     afspiller.observatører.add(this);
     DRData.instans.hentedeUdsendelser.observatører.add(this);
     DRData.instans.favoritter.observatører.add(opdaterFavoritter);
-    udvikling_checkDrSkrifter(rod, this + " rod");
     return rod;
   }
 
@@ -487,7 +486,6 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
         }
         aq.id(R.id.hør).visibility(udsendelse.kanHøres && ple.offsetMs >= 0 ? View.VISIBLE : View.GONE);
       }
-      udvikling_checkDrSkrifter(v, this + " position " + position);
       return v;
     }
   };

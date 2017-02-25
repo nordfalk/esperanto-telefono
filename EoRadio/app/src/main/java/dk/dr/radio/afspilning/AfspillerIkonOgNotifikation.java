@@ -177,7 +177,7 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
 
     NotificationCompat.Builder b = new NotificationCompat.Builder(ctx)
         .setSmallIcon(R.drawable.dr_notifikation)
-        .setContentTitle(ctx.getString(R.string.dr_radio))
+        .setContentTitle(ctx.getString(R.string.appnavn))
         .setContentText(kanalNavn)
         .setOngoing(true)
         .setAutoCancel(false)

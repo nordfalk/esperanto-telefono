@@ -87,7 +87,6 @@ public class DRData {
   public static String getProgramserieUrl(Programserie ps, String programserieSlug) {
     if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
     if (App.TJEK_ANTAGELSER && ps!=null && !programserieSlug.equals(ps.slug)) Log.fejlantagelse(programserieSlug + " !=" + ps.slug);
-    // svarer til v3_programserie.json
     // http://www.dr.dk/tjenester/mu-apps/series/monte-carlo?type=radio&includePrograms=true
     // http://www.dr.dk/tjenester/mu-apps/series/monte-carlo?type=radio&includePrograms=true&includeStreams=true
     if (BRUG_URN && ps != null)
@@ -103,7 +102,7 @@ public class DRData {
 
   public static String getKanalUdsendelserUrlFraKode(String kode, String datoStr) {
     if (!App.ÆGTE_DR) throw new IllegalStateException("!App.ÆGTE_DR");
-    return BASISURL + "/schedule/" + URLEncoder.encode(kode) + "/date/" + datoStr;  // svarer til v3_kanalside__p3.json;
+    return BASISURL + "/schedule/" + URLEncoder.encode(kode) + "/date/" + datoStr;
   }
 
   public static String getAtilÅUrl() {

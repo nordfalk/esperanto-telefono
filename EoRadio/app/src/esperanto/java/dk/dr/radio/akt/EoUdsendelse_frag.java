@@ -6,7 +6,6 @@ import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,7 +38,6 @@ import dk.dr.radio.afspilning.Status;
 import dk.dr.radio.data.DRData;
 import dk.dr.radio.data.DRJson;
 import dk.dr.radio.data.EoDiverse;
-import dk.dr.radio.data.HentedeUdsendelser;
 import dk.dr.radio.data.HentetStatus;
 import dk.dr.radio.data.Indslaglisteelement;
 import dk.dr.radio.data.Kanal;
@@ -269,7 +267,7 @@ public class EoUdsendelse_frag extends Basisfragment implements View.OnClickList
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
 //    inflater.inflate(R.menu.udsendelse, menu);
-    inflater.inflate(R.menu.ludado_menuo, menu);
+    inflater.inflate(R.menu.eo_ludado_menuo, menu);
     //menu.findItem(R.id.hør).setVisible(udsendelse.kanNokHøres).setEnabled(streamsKlar());
     //menu.findItem(R.id.hent).setVisible(DRData.instans.hentedeUdsendelser.virker() && udsendelse.kanNokHøres && udsendelse.hentetStream==null);
   }

@@ -9,7 +9,6 @@
   <uses-permission android:name="android.permission.VIBRATE"/>
 
   <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.READ_PHONE_STATE"/><!-- TODO Android 6 tjek-->
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
   <!-- For at kunne gemme podcasts -->
@@ -23,7 +22,7 @@
       android:name="dk.dr.radio.diverse.App"
       android:icon="@drawable/ic_launcher"
       android:logo="@drawable/dr_logo"
-      android:label="@string/dr_radio"
+      android:label="@string/appnavn_beta"
       android:theme="@style/Theme.Dr"
       tools:ignore="UnusedAttribute">
 
@@ -97,7 +96,7 @@
 
     <receiver
         android:name="dk.dr.radio.afspilning.AfspillerIkonOgNotifikation"
-        android:label="@string/dr_radio">
+        android:label="@string/appnavn">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
       </intent-filter>
@@ -151,7 +150,7 @@
 
     <receiver android:name="dk.dr.radio.vaekning.AlarmReceiver"
               android:exported="false">
-      <intent-filter><!-- XXXX -->
+      <intent-filter>
         <action android:name="dk.dr.radio.ALARM_ALERT"/>
       </intent-filter>
     </receiver>
@@ -167,13 +166,6 @@
         <action android:name="android.intent.action.LOCALE_CHANGED"/>   -->
       </intent-filter>
     </receiver>
-
-    <!-- Eksperiment - bruge ExoPlayer i stedet for indbygget MediaPlayer
-    <activity android:name="dk.dr.exoplayer.PlayerActivity"
-              android:configChanges="keyboardHidden|orientation|screenSize"
-              android:label="@string/application_name"
-              android:theme="@style/PlayerTheme">
-    </activity>  -->
 
 
     <meta-data

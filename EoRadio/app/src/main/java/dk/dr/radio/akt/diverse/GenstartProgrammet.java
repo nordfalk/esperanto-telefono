@@ -1,4 +1,4 @@
-package dk.dr.radio.akt;
+package dk.dr.radio.akt.diverse;
 
 import android.app.Activity;
 import android.os.Bundle;

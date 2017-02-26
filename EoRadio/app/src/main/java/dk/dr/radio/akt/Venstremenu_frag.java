@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import dk.dr.radio.akt.diverse.Basisadapter;
+import dk.dr.radio.akt.diverse.GenstartProgrammet;
 import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.dr_v3.Backend;
 import dk.dr.radio.diverse.App;

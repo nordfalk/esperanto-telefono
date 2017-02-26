@@ -38,7 +38,7 @@
       </intent-filter>
     </activity>
 
-    <activity android:name="dk.dr.radio.akt.GenstartProgrammet" />
+    <activity android:name="dk.dr.radio.akt.diverse.GenstartProgrammet" />
 
     <activity
         android:name="dk.dr.radio.akt.Indstillinger_akt"

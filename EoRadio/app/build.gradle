@@ -25,6 +25,9 @@ android {
             storeFile file('/home/j/android/A_signaturer/jacobnordfalk.keystore')
         }
     }
+    lintOptions {
+        abortOnError false
+    }
     compileSdkVersion 23
     buildToolsVersion '25.0.0'
     useLibrary  'org.apache.http.legacy'
@@ -32,8 +35,8 @@ android {
         applicationId "dk.nordfalk.esperanto.radio"
         minSdkVersion 10 // eble fakte 7 ??
         targetSdkVersion 21
-        versionCode 35
-        versionName '2.0.6 februaro 2017'
+        versionCode 36
+        versionName '2.0.7'
     }
     buildTypes {
         release {

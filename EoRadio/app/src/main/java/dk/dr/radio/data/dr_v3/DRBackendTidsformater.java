@@ -1,4 +1,4 @@
-package dk.dr.radio.data;
+package dk.dr.radio.data.dr_v3;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -81,11 +81,11 @@ public class DRBackendTidsformater {
     }
   }
 
-  public static Date parseUpålideigtServertidsformat(String tid) {
+  static Date parseUpålideigtServertidsformat(String tid) {
     return parseUpålideigtServertidsformat(tid, servertidsformat, servertidsformatAndre);
   }
 
-  public static Date parseUpålideigtServertidsformatPlayliste(String tid) {
+  static Date parseUpålideigtServertidsformatPlayliste(String tid) {
     return parseUpålideigtServertidsformat(tid, servertidsformatPlayliste, servertidsformatPlaylisteAndre2);
   }
 

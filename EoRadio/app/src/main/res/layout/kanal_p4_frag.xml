@@ -32,7 +32,7 @@ http://stackoverflow.com/questions/2949407/can-i-increase-a-buttons-onclick-area
                android:layout_weight="1"
       >
 
-  <dk.dr.radio.diverse.PinnedSectionListView
+  <dk.dr.radio.akt.diverse.PinnedSectionListView
       android:id="@+id/listView"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"/>

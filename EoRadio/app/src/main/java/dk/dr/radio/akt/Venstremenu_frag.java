@@ -33,8 +33,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
@@ -118,16 +118,16 @@ public class Venstremenu_frag extends Fragment implements Runnable {
     venstremenuAdapter = new VenstremenuAdapter(getActivity());
     listView.setAdapter(venstremenuAdapter);
     listView.setItemChecked(mCurrentSelectedPosition, true);
-    DRData.instans.favoritter.observatører.add(this);
-    DRData.instans.hentedeUdsendelser.observatører.add(this);
+    Programdata.instans.favoritter.observatører.add(this);
+    Programdata.instans.hentedeUdsendelser.observatører.add(this);
     Alarms.setNextAlert(getActivity());
     return listView;
   }
 
   @Override
   public void onDestroyView() {
-    DRData.instans.favoritter.observatører.remove(this);
-    DRData.instans.hentedeUdsendelser.observatører.remove(this);
+    Programdata.instans.favoritter.observatører.remove(this);
+    Programdata.instans.hentedeUdsendelser.observatører.remove(this);
     super.onDestroyView();
   }
 
@@ -401,7 +401,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
         @Override
         public View getView() {
           TextView tekst2 = (TextView) view.findViewById(R.id.tekst2);
-          int antal = DRData.instans.favoritter.getAntalNyeUdsendelser();
+          int antal = Programdata.instans.favoritter.getAntalNyeUdsendelser();
           tekst2.setText(
               antal < 0 ? "" : // i gang med at indlæse
               getString(antal==0? R.string._ingen_nye_udsendelser_: antal==1? R.string._1_ny_udsendelse_ : R.string.___nye_udsendelser_, antal));
@@ -410,12 +410,12 @@ public class Venstremenu_frag extends Fragment implements Runnable {
       });
       aq.id(R.id.tekst).typeface(App.skrift_gibson_fed).id(R.id.tekst2).typeface(App.skrift_gibson);
 
-      if (DRData.instans.hentedeUdsendelser.virker()) {
+      if (Programdata.instans.hentedeUdsendelser.virker()) {
         tilføj(new MenuElement(layoutInflater.inflate(R.layout.venstremenu_elem_hentede_udsendendelser, null), null, Hentede_udsendelser_frag.class) {
           @Override
           public View getView() {
             TextView tekst2 = (TextView) view.findViewById(R.id.tekst2);
-            int antal = DRData.instans.hentedeUdsendelser.getUdsendelser().size();
+            int antal = Programdata.instans.hentedeUdsendelser.getUdsendelser().size();
             tekst2.setText(" (" + antal + ")");
             return view;
           }
@@ -448,7 +448,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
           else {
             tekst2.setVisibility(View.VISIBLE);
             Date d = new Date(Alarms.næsteAktiveAlarm);
-            tekst2.setText(getString(R.string._kl_, DRJson.getDagsbeskrivelse(d).toLowerCase(), DRJson.klokkenformat.format(d)));
+            tekst2.setText(getString(R.string._kl_, Backend.getDagsbeskrivelse(d).toLowerCase(), Backend.klokkenformat.format(d)));
           }
           return view;
         }
@@ -495,7 +495,7 @@ public class Venstremenu_frag extends Fragment implements Runnable {
           @Override
           public void run() {
             App.prefs.edit().putBoolean("ÆGTE_DR", !App.ÆGTE_DR).commit();
-            System.exit(0);
+            startActivity(new Intent(getActivity(), GenstartProgrammet.class));
           }
         });
         aq.id(R.id.tekst).text("Skift udseende").typeface(App.skrift_gibson_fed);

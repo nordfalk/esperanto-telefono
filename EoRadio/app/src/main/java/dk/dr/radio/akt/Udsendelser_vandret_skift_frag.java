@@ -18,8 +18,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.data.Udsendelse;
@@ -53,8 +54,8 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
 
     View rod = inflater.inflate(R.layout.udsendelser_vandret_skift_frag, container, false);
 
-    kanal = DRData.instans.grunddata.kanalFraKode.get(getArguments().getString(Kanal_frag.P_kode));
-    startudsendelse = DRData.instans.udsendelseFraSlug.get(getArguments().getString(DRJson.Slug.name()));
+    kanal = Programdata.instans.grunddata.kanalFraKode.get(getArguments().getString(Kanal_frag.P_kode));
+    startudsendelse = Programdata.instans.udsendelseFraSlug.get(getArguments().getString(DRJson.Slug.name()));
     if (startudsendelse == null) { // Fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/805598045
       if (!App.PRODUKTION) { // https://www.bugsense.com/dashboard/project/cd78aa05/errors/822628124
         App.langToast("startudsendelse==null");
@@ -70,7 +71,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
       ft.commit();
       return rod;
     }
-    programserie = DRData.instans.programserieFraSlug.get(startudsendelse.programserieSlug);
+    programserie = Programdata.instans.programserieFraSlug.get(startudsendelse.programserieSlug);
     Log.d("onCreateView " + this + " viser " + " / " + startudsendelse);
 
 
@@ -81,7 +82,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
     // Da ViewPager er indlejret i et fragment skal adapteren virke på den indlejrede (child)
     // fragmentmanageren - ikke på aktivitens (getFragmentManager)
     adapter = new UdsendelserAdapter(getChildFragmentManager());
-    DRJson.opdateriDagIMorgenIGårDatoStr(App.serverCurrentTimeMillis());
+    Backend.opdateriDagIMorgenIGårDatoStr(App.serverCurrentTimeMillis());
 
     udsendelser = new ArrayList<Udsendelse>();
     udsendelser.add(startudsendelse);
@@ -152,7 +153,7 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
       opdaterUdsendelser();
       return;
     }
-    String url = DRData.getProgramserieUrl(programserie, startudsendelse.programserieSlug) + "&offset=" + offset;
+    String url = Backend.getProgramserieUrl(programserie, startudsendelse.programserieSlug) + "&offset=" + offset;
     Log.d("hentUdsendelser url=" + url);
 
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
@@ -163,11 +164,11 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
         if (json != null && !"null".equals(json)) {
           JSONObject data = new JSONObject(json);
           if (offset == 0) {
-            programserie = DRJson.parsProgramserie(data, programserie);
-            DRData.instans.programserieFraSlug.put(startudsendelse.programserieSlug, programserie);
+            programserie = Backend.parsProgramserie(data, programserie);
+            Programdata.instans.programserieFraSlug.put(startudsendelse.programserieSlug, programserie);
           }
           JSONArray prg = data.getJSONArray(DRJson.Programs.name());
-          ArrayList<Udsendelse> udsendelser = DRJson.parseUdsendelserForProgramserie(prg, kanal, DRData.instans);
+          ArrayList<Udsendelse> udsendelser = Backend.parseUdsendelserForProgramserie(prg, kanal, Programdata.instans);
           programserie.tilføjUdsendelser(offset, udsendelser);
           //programserie.tilføjUdsendelser(Arrays.asList(startudsendelse));
           opdaterUdsendelser();
@@ -263,10 +264,10 @@ public class Udsendelser_vandret_skift_frag extends Basisfragment implements Vie
         return getString(R.string.i_dag);
       }
       if (u.startTidKl.equals("REKTA")) return u.startTidKl;
-      String dato = DRJson.datoformat.format(u.startTid);
-      if (dato.equals(DRJson.iDagDatoStr)) dato = getString(R.string.i_dag);
-      else if (dato.equals(DRJson.iMorgenDatoStr)) dato = getString(R.string.i_morgen);
-      else if (dato.equals(DRJson.iGårDatoStr)) dato = getString(R.string.i_går);
+      String dato = Backend.datoformat.format(u.startTid);
+      if (dato.equals(Backend.iDagDatoStr)) dato = getString(R.string.i_dag);
+      else if (dato.equals(Backend.iMorgenDatoStr)) dato = getString(R.string.i_morgen);
+      else if (dato.equals(Backend.iGårDatoStr)) dato = getString(R.string.i_går);
       return dato;
       //return DRJson.datoformat.format(u.startTid);
       //return ""+u.episodeIProgramserie+" "+u.slug;

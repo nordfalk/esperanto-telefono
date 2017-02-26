@@ -38,15 +38,15 @@ public class SenestLyttede {
         if (sl.lydkilde instanceof Kanal) {
           // Serialiserede kanaler skal altid erstattes med instansværdier
           Kanal serialiseretKanal = (Kanal) sl.lydkilde;
-          sl.lydkilde = DRData.instans.grunddata.kanalFraKode.get(serialiseretKanal.kode);
+          sl.lydkilde = Programdata.instans.grunddata.kanalFraKode.get(serialiseretKanal.kode);
           // Forsvundne kanaler fjernes bare
           if (sl.lydkilde==null || sl.lydkilde==Grunddata.ukendtKanal) sli.remove();
         }
         else if (sl.lydkilde instanceof Udsendelse) {
           // Serialiserede udsendelser skal med i slug-listen
           Udsendelse serialiseretUds = (Udsendelse) sl.lydkilde;
-          if (!DRData.instans.udsendelseFraSlug.containsKey(serialiseretUds.slug)) {
-            DRData.instans.udsendelseFraSlug.put(serialiseretUds.slug, serialiseretUds);
+          if (!Programdata.instans.udsendelseFraSlug.containsKey(serialiseretUds.slug)) {
+            Programdata.instans.udsendelseFraSlug.put(serialiseretUds.slug, serialiseretUds);
           }
         }
       }

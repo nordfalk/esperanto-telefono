@@ -1,11 +1,10 @@
-package dk.dr.radio.data;
+package dk.dr.radio.data.esperanto;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
-
-import dk.dr.radio.diverse.App;
+import dk.dr.radio.data.Kanal;
+import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.Log;
 
 /**

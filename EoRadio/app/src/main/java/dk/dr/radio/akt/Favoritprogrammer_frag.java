@@ -22,8 +22,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Favoritter;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.data.Udsendelse;
@@ -39,7 +40,7 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
   private ListView listView;
   private ArrayList<Object> liste = new ArrayList<Object>(); // Indeholder både udsendelser og -serier
   protected View rod;
-  Favoritter favoritter = DRData.instans.favoritter;
+  Favoritter favoritter = Programdata.instans.favoritter;
   private static long sidstOpdateretAntalNyeUdsendelser;
 
   @Override
@@ -62,7 +63,7 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
     run();
     if (favoritter.getAntalNyeUdsendelser() < 0 || sidstOpdateretAntalNyeUdsendelser > System.currentTimeMillis() + 1000 * 60 * 10) {
       // Opdatering af nye antal udsendelser er ikke sket endnu - eller det er mere end end ti minutter siden.
-      DRData.instans.favoritter.startOpdaterAntalNyeUdsendelser.run();
+      Programdata.instans.favoritter.startOpdaterAntalNyeUdsendelser.run();
       sidstOpdateretAntalNyeUdsendelser = System.currentTimeMillis();
     }
 
@@ -85,13 +86,13 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
       Collections.sort(pss);
       Log.d(this + " psss = " + pss);
       for (final String programserieSlug : pss) {
-        Programserie programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+        Programserie programserie = Programdata.instans.programserieFraSlug.get(programserieSlug);
         if (programserie != null) liste.add(programserie);
         else {
-          if (DRData.instans.programserieSlugFindesIkke.contains(programserieSlug)) continue;
+          if (Programdata.instans.programserieSlugFindesIkke.contains(programserieSlug)) continue;
           Log.d("programserieSlug gav ingen værdi, henter for " + programserieSlug);
           final int offset = 0;
-          String url = DRData.getProgramserieUrl(programserie, programserieSlug) + "&offset=" + offset;
+          String url = Backend.getProgramserieUrl(programserie, programserieSlug) + "&offset=" + offset;
           Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
             @Override
             public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
@@ -99,13 +100,13 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
               if (uændret) return;
               if (json != null && !"null".equals(json)) {
                 JSONObject data = new JSONObject(json);
-                Programserie programserie = DRJson.parsProgramserie(data, null);
+                Programserie programserie = Backend.parsProgramserie(data, null);
                 JSONArray prg = data.getJSONArray(DRJson.Programs.name());
-                ArrayList<Udsendelse> udsendelser = DRJson.parseUdsendelserForProgramserie(prg, null, DRData.instans);
+                ArrayList<Udsendelse> udsendelser = Backend.parseUdsendelserForProgramserie(prg, null, Programdata.instans);
                 programserie.tilføjUdsendelser(offset, udsendelser);
-                DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
+                Programdata.instans.programserieFraSlug.put(programserieSlug, programserie);
               } else {
-                DRData.instans.programserieSlugFindesIkke.add(programserieSlug);
+                Programdata.instans.programserieSlugFindesIkke.add(programserieSlug);
                 Log.d("programserieSlugFindesIkke for " + programserieSlug);
               }
               App.forgrundstråd.postDelayed(Favoritprogrammer_frag.this, 250); // Vent 1/4 sekund på eventuelt andre svar
@@ -145,7 +146,7 @@ public class Favoritprogrammer_frag extends Basisfragment implements AdapterView
           aq.id(R.id.stiplet_linje).visibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
         } else {
           Udsendelse udsendelse = (Udsendelse) obj;
-          aq.id(R.id.linje1).text(DRJson.datoformat.format(udsendelse.startTid)).typeface(App.skrift_gibson);
+          aq.id(R.id.linje1).text(Backend.datoformat.format(udsendelse.startTid)).typeface(App.skrift_gibson);
           aq.id(R.id.linje2).text(udsendelse.titel).typeface(App.skrift_gibson);
           aq.id(R.id.stiplet_linje).visibility(View.VISIBLE);
         }

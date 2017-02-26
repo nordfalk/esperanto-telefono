@@ -22,7 +22,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -57,13 +57,13 @@ public class HoldAppIHukommelsenService extends Service implements Runnable {
   public void onCreate() {
     Log.d("AfspillerService onCreate()");
     super.onCreate();
-    DRData.instans.afspiller.observatører.add(this);
+    Programdata.instans.afspiller.observatører.add(this);
   }
 
   @Override
   public void onDestroy() {
     Log.d("AfspillerService onDestroy()");
-    DRData.instans.afspiller.observatører.remove(this);
+    Programdata.instans.afspiller.observatører.remove(this);
     stopForeground(true);
   }
 

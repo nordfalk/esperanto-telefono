@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.dr.radio.diverse;
+package dk.dr.radio.akt.diverse;
 
 import android.content.Context;
 import android.content.res.Resources;

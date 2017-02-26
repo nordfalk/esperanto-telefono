@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,10 +20,8 @@ import com.androidquery.AQuery;
 
 import java.util.Date;
 
-import dk.dr.radio.data.DRData;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.diverse.P4Stedplacering;
 import dk.dr.radio.v3.R;
 
 public class Basisaktivitet extends AppCompatActivity {
@@ -65,7 +62,6 @@ public class Basisaktivitet extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     if (App.fejlsøgning) {
       menu.add(0, 644, 0, "Hent nyeste udvikler-version");
-      menu.add(0, 1644, 0, "Tjek P4-område ud fra IP-adresse");
       menu.add(0, 642, 0, "Fejlsøgning");
       menu.add(0, 643, 0, "Vis log");
       menu.add(0, 646, 0, "Send fejlrapport");
@@ -100,24 +96,6 @@ public class Basisaktivitet extends AppCompatActivity {
         // scp /home/j/android/dr-radio-android/DRRadiov3/out/production/DRRadiov3/DRRadiov3.apk j:../lundogbendsen/hjemmeside/
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://android.lundogbendsen.dk/DRRadiov3.apk")));
         return true;
-      case 1644:
-        new AsyncTask() {
-          @Override
-          protected Object doInBackground(Object[] params) {
-            try {
-              String p4kanal = P4Stedplacering.findP4KanalnavnFraIP();
-              App.langToast("p4kanal: " + p4kanal);
-            } catch (Exception e) {
-              e.printStackTrace();
-              App.langToast("p4kanal: " + e);
-            }
-            return null;
-          }
-        }.execute();
-        return true;
-//      case 2645:
-//        DRData.instans.hentedeUdsendelser.status();
-//        return true;
       case 13643:
         App.langToast("Server:\n" + new Date(App.serverCurrentTimeMillis()) + "\n/Lokalt:\n" + new Date());
         return true;

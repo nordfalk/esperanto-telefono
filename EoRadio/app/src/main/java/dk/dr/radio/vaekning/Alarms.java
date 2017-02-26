@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -168,8 +168,7 @@ public class Alarms {
       alarmer = new ArrayList<Alarm>();
       String alarmoj = prefs(context).getString("alarmoj", null);
       if (alarmoj == null) try {
-        if (App.ÆGTE_DR) alarmoj = DRData.instans.grunddata.json.getJSONObject("vækning").getString("forslag");
-        else alarmoj = DRData.instans.grunddata.json.getString("sugestoj_por_alarmoj");
+        alarmoj = Programdata.instans.grunddata.json.getString("sugestoj_por_alarmoj");
       } catch (Exception e) {
         Log.e("Rezignas pri sugestoj_por_alarmoj!", e);
         alarmoj = "";
@@ -235,10 +234,10 @@ public class Alarms {
     Calendar c = Calendar.getInstance();
     c.setTimeInMillis(atTimeInMillis);
 
-    Kanal nyKanal = DRData.instans.grunddata.kanalFraKode.get(alarm.kanalo);
+    Kanal nyKanal = Programdata.instans.grunddata.kanalFraKode.get(alarm.kanalo);
     if (nyKanal == null) {
-      Log.rapporterFejl(new IllegalStateException("Alarm: Kanal findes ikke!"), alarm.kanalo + " var ikke i "+DRData.instans.grunddata.kanalFraKode.keySet() );
-      nyKanal = DRData.instans.grunddata.forvalgtKanal;
+      Log.rapporterFejl(new IllegalStateException("Alarm: Kanal findes ikke!"), alarm.kanalo + " var ikke i "+ Programdata.instans.grunddata.kanalFraKode.keySet() );
+      nyKanal = Programdata.instans.grunddata.forvalgtKanal;
     }
 
     String message = nyKanal.navn +"\n"+DateFormat.format(DM24, c);

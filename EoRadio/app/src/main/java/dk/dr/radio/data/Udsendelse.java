@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -75,13 +77,13 @@ public class Udsendelse extends Lydkilde implements Comparable<Udsendelse>, Clon
   public String getStreamsUrl() {
     if (!App.ÆGTE_DR) Log.rapporterFejl(new IllegalStateException("Eo getStreamsUrl ne devus okazi "+this));
     Log.d("getStreamsUrl "+this);
-    return DRData.getUdsendelseStreamsUrl(this);
+    return Backend.getUdsendelseStreamsUrl(this);
   }
 
 
   @Override
   public Kanal getKanal() {
-    Kanal k = DRData.instans.grunddata.kanalFraSlug.get(kanalSlug);
+    Kanal k = Programdata.instans.grunddata.kanalFraSlug.get(kanalSlug);
     if (k == null) {
       Log.d(kanalSlug + " manglede i grunddata.kanalFraSlug");
       return Grunddata.ukendtKanal;

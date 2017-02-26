@@ -35,7 +35,7 @@ import android.widget.RemoteViews;
 import java.util.Arrays;
 
 import dk.dr.radio.akt.Hovedaktivitet;
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Udsendelse;
@@ -110,7 +110,7 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
     remoteViews.setOnClickPendingIntent(R.id.yderstelayout, åbnAktivitetPI);
 
 
-    Lydkilde lydkilde = DRData.instans.afspiller.getLydkilde();
+    Lydkilde lydkilde = Programdata.instans.afspiller.getLydkilde();
     Kanal kanal = lydkilde.getKanal();
     Udsendelse udsendelse = lydkilde.getUdsendelse();
     if (kanal.kanallogo_resid==0 && kanal.eo_emblemo==null) {
@@ -128,7 +128,7 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
     if (Build.VERSION.SDK_INT >= 15) {
       remoteViews.setContentDescription(R.id.metainformation, App.instans.getString(R.string.D_R_Radio)+" " + kanal.navn);
     }
-    switch (DRData.instans.afspiller.getAfspillerstatus()) {
+    switch (Programdata.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:
         remoteViews.setImageViewResource(R.id.startStopKnap, R.drawable.afspiller_spil);
         if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, App.instans.getString(R.string.Start_afspilning));
@@ -139,7 +139,7 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
         remoteViews.setImageViewResource(R.id.startStopKnap, R.drawable.afspiller_pause);
         if (Build.VERSION.SDK_INT >= 15) remoteViews.setContentDescription(R.id.startStopKnap, App.instans.getString(R.string.Stop_afspilning));
         remoteViews.setViewVisibility(R.id.progressBar, View.VISIBLE);
-        int fpct = DRData.instans.afspiller.getForbinderProcent();
+        int fpct = Programdata.instans.afspiller.getForbinderProcent();
         remoteViews.setTextViewText(R.id.metainformation, App.instans.getString(R.string.Forbinder) + (fpct > 0 ? fpct : ""));
         //remoteViews.setTextColor(R.id.metainformation, type == TYPE_hjemmeskærm ? App.color.grå60 : App.color.blå);
         break;
@@ -173,7 +173,7 @@ public class AfspillerIkonOgNotifikation extends AppWidgetProvider {
 
   @SuppressLint("NewApi")
   public static Notification lavNotification(Context ctx) {
-    String kanalNavn = DRData.instans.afspiller.getLydkilde().getKanal().navn;
+    String kanalNavn = Programdata.instans.afspiller.getLydkilde().getKanal().navn;
 
     NotificationCompat.Builder b = new NotificationCompat.Builder(ctx)
         .setSmallIcon(R.drawable.dr_notifikation)

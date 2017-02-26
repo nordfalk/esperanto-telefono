@@ -1,10 +1,11 @@
-package dk.dr.radio.diverse;
+package dk.dr.radio.skrald;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import dk.dr.radio.diverse.Log;
 import dk.dr.radio.net.Diverse;
 
 /**

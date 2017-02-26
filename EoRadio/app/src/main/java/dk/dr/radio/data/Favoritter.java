@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import dk.dr.radio.data.dr_v3.Backend;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
@@ -25,7 +26,7 @@ import dk.dr.radio.net.volley.DrVolleyStringRequest;
 public class Favoritter {
   private static final String PREF_NØGLE = "favorit til startdato";
   private HashMap<String, String> favoritTilStartdato;
-  HashMap<String, Integer> favoritTilAntalDagsdato = new HashMap<String, Integer>();
+  public HashMap<String, Integer> favoritTilAntalDagsdato = new HashMap<String, Integer>();
   private int antalNyeUdsendelser = -1;
   public List<Runnable> observatører = new ArrayList<Runnable>();
   private SharedPreferences prefs;
@@ -65,7 +66,7 @@ public class Favoritter {
         iMorgen -= 24 * 60 * 60 * 1000 * 7;
       }
       */
-      favoritTilStartdato.put(programserieSlug, DRJson.apiDatoFormat.format(new Date(iMorgen)));
+      favoritTilStartdato.put(programserieSlug, Backend.apiDatoFormat.format(new Date(iMorgen)));
       favoritTilAntalDagsdato.put(programserieSlug, 0);
     } else {
       favoritTilStartdato.remove(programserieSlug);
@@ -107,7 +108,7 @@ public class Favoritter {
   };
 
   void startOpdaterAntalNyeUdsendelserForProgramserie(final String programserieSlug, String dato) {
-    String url = DRData.getNyeProgrammerSiden(programserieSlug, dato);
+    String url = Backend.getNyeProgrammerSiden(programserieSlug, dato);
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
@@ -126,7 +127,7 @@ public class Favoritter {
     App.volleyRequestQueue.add(req);
   }
 
-  Runnable beregnAntalNyeUdsendelser = new Runnable() {
+  public Runnable beregnAntalNyeUdsendelser = new Runnable() {
     @Override
     public void run() {
       App.forgrundstråd.removeCallbacks(this);

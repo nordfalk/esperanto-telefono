@@ -22,7 +22,7 @@ import android.content.Intent;
 import java.util.Date;
 
 import dk.dr.radio.akt.Hovedaktivitet;
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -44,9 +44,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     try {
       Log.d("AlarmReceiver onReceive(" + intent);
       if (App.fejlsøgning) App.langToast("AlarmReceiver onReceive(" + intent);
-      DRData.instans.afspiller.vækningIGang = true;
-      DRData.instans.afspiller.vækkeurWakeLock = AlarmAlertWakeLock.createPartialWakeLock(context);
-      DRData.instans.afspiller.vækkeurWakeLock.acquire(); // preferus temon, eble 120000 ĉi tie,
+      Programdata.instans.afspiller.vækningIGang = true;
+      Programdata.instans.afspiller.vækkeurWakeLock = AlarmAlertWakeLock.createPartialWakeLock(context);
+      Programdata.instans.afspiller.vækkeurWakeLock.acquire(); // preferus temon, eble 120000 ĉi tie,
       Log.d("AlarmReceiver AlarmAlertWakeLock.createPartialWakeLock()");
 
       if (!Alarms.ALARM_ALERT_ACTION.equals(intent.getAction())) {
@@ -111,16 +111,16 @@ public class AlarmReceiver extends BroadcastReceiver {
       context.startActivity(playAlarm);
 
 
-      Kanal nyKanal = DRData.instans.grunddata.kanalFraKode.get(alarm.kanalo);
+      Kanal nyKanal = Programdata.instans.grunddata.kanalFraKode.get(alarm.kanalo);
       if (nyKanal == null) {
         Log.rapporterFejl(new IllegalStateException("Alarm: Kanal findes ikke!" + alarm.kanalo + " for alarmstr=" + data));
-        nyKanal = DRData.instans.grunddata.forvalgtKanal;
+        nyKanal = Programdata.instans.grunddata.forvalgtKanal;
       }
-      DRData.instans.afspiller.setLydkilde(nyKanal);
-      DRData.instans.afspiller.startAfspilning();
+      Programdata.instans.afspiller.setLydkilde(nyKanal);
+      Programdata.instans.afspiller.startAfspilning();
 
       // Skru op til 2/5 styrke hvis volumen er lavere end det
-      DRData.instans.afspiller.tjekVolumenMindst5tedele(2);
+      Programdata.instans.afspiller.tjekVolumenMindst5tedele(2);
 
     } catch (Exception ex) {
       Log.rapporterFejl(ex);

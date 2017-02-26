@@ -16,7 +16,7 @@
 
  */
 
-package dk.dr.radio.data;
+package dk.dr.radio.data.esperanto;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package dk.dr.radio.data;
+package dk.dr.radio.data.dr_v3;
 
 import com.android.volley.Request;
 
@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.Programserie;
+import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
@@ -25,14 +28,14 @@ public class DramaOgBog {
   public HashSet<String> karuselSerieSlug = new HashSet<String>();
 
   public List<Runnable> observatører = new ArrayList<Runnable>();
-  public final String url = DRData.getBogOgDramaUrl();
+  public final String url = Backend.getBogOgDramaUrl();
 
   /**
    * Parser JSON-svar og opdaterer data derefter. Bør ikke kaldes udefra, udover i afprøvningsøjemed
    * @param json
    * @throws JSONException
    */
-  void parseSvar(String json) throws JSONException {
+  public void parseSvar(String json) throws JSONException {
     JSONArray jsonArray = new JSONArray(json);
     overskrifter.clear();
     lister.clear();
@@ -44,7 +47,7 @@ public class DramaOgBog {
       if (karuselJson!=null) for (int n = 0; n < karuselJson.length(); n++) try {
         JSONObject udsendelseJson = karuselJson.getJSONObject(n);
         // TODO mangler
-        Udsendelse u = DRJson.parseUdsendelse(null, DRData.instans, udsendelseJson);
+        Udsendelse u = Backend.parseUdsendelse(null, Programdata.instans, udsendelseJson);
         karusel.add(u);
         karuselSerieSlug.add(u.programserieSlug);
       } catch (JSONException je) {
@@ -61,12 +64,12 @@ public class DramaOgBog {
         JSONObject programserieJson = jsonArray2.getJSONObject(n);
         String programserieSlug = programserieJson.getString(DRJson.Slug.name());
         //Log.d("\n DramaOgBog =========================================== programserieSlug = " + programserieSlug);
-        Programserie programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+        Programserie programserie = Programdata.instans.programserieFraSlug.get(programserieSlug);
         if (programserie == null) {
           programserie = new Programserie();
-          DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
+          Programdata.instans.programserieFraSlug.put(programserieSlug, programserie);
         }
-        res.add(DRJson.parsProgramserie(programserieJson, programserie));
+        res.add(Backend.parsProgramserie(programserieJson, programserie));
 //            Log.d("DramaOgBogD "+sektionsnummer+" "+n+programserie+" "+programserie.antalUdsendelser+" "+programserie.billedeUrl);
       }
       if (!res.isEmpty()) {

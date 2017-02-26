@@ -1,7 +1,6 @@
 package dk.dr.radio.akt;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
@@ -32,14 +31,11 @@ import com.androidquery.AQuery;
 
 import dk.dr.radio.afspilning.Afspiller;
 import dk.dr.radio.afspilning.Status;
-import dk.dr.radio.afspilning.wrapper.AndroidMediaPlayerWrapper;
-import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Udsendelse;
-import dk.dr.radio.diverse.AnimationAdapter;
+import dk.dr.radio.akt.diverse.AnimationAdapter;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 import dk.dr.radio.diverse.Sidevisning;
@@ -71,7 +67,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     public void run() {
       App.forgrundstråd.removeCallbacks(this);
       try {
-        Afspiller afspiller = DRData.instans.afspiller;
+        Afspiller afspiller = Programdata.instans.afspiller;
         if (afspiller.getAfspillerstatus()!=Status.STOPPET && viserUdvidetOmråde()) App.forgrundstråd.postDelayed(this, 1000);
         /*
         boolean denneUdsSpiller = udsendelse.equals(afspiller.getLydkilde()) && afspiller.getAfspillerstatus() != Status.STOPPET;
@@ -79,7 +75,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
           return;
         }
         */
-        Udsendelse u = DRData.instans.afspiller.getLydkilde().getUdsendelse();
+        Udsendelse u = Programdata.instans.afspiller.getLydkilde().getUdsendelse();
         //long passeret = App.serverCurrentTimeMillis() - u.startTid.getTime();
         //long længde = u.slutTid.getTime() - u.startTid.getTime();
         //int passeretPct = længde > 0 ? (int) (passeret * 100 / længde) : 0;
@@ -130,7 +126,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
   @Override
   public void onProgressChanged(SeekBar seekBarx, int progress, boolean fromUser) {
     if (fromUser) {
-      DRData.instans.afspiller.seekTo(progress);
+      Programdata.instans.afspiller.seekTo(progress);
       starttid.setText(DateUtils.formatElapsedTime(progress / 1000));
     }
   }
@@ -198,10 +194,10 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     });
     aq.id(R.id.forrige).clicked(this);
     aq.id(R.id.næste).clicked(this);
-    DRData.instans.afspiller.observatører.add(this);
-    DRData.instans.afspiller.forbindelseobservatører.add(this);
-    DRData.instans.afspiller.positionsobservatører.add(this);
-    DRData.instans.grunddata.observatører.add(this);
+    Programdata.instans.afspiller.observatører.add(this);
+    Programdata.instans.afspiller.forbindelseobservatører.add(this);
+    Programdata.instans.afspiller.positionsobservatører.add(this);
+    Programdata.instans.grunddata.observatører.add(this);
     lydstyrke.init(aq.id(R.id.lydstyrke).getSeekBar());
     run(); // opdatér views
     if (App.accessibilityManager.isEnabled()) setHasOptionsMenu(true);
@@ -210,10 +206,10 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
 
   @Override
   public void onDestroyView() {
-    DRData.instans.afspiller.observatører.remove(this);
-    DRData.instans.afspiller.forbindelseobservatører.remove(this);
-    DRData.instans.afspiller.positionsobservatører.remove(this);
-    DRData.instans.grunddata.observatører.remove(this);
+    Programdata.instans.afspiller.observatører.remove(this);
+    Programdata.instans.afspiller.forbindelseobservatører.remove(this);
+    Programdata.instans.afspiller.positionsobservatører.remove(this);
+    Programdata.instans.grunddata.observatører.remove(this);
     super.onDestroyView();
   }
 
@@ -224,7 +220,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
   @Override
   public void run() {
     App.forgrundstråd.postDelayed(opdaterSeekBar, 1000);
-    Lydkilde lydkilde = DRData.instans.afspiller.getLydkilde();
+    Lydkilde lydkilde = Programdata.instans.afspiller.getLydkilde();
     Kanal kanal = lydkilde.getKanal();
     if (kanal == null) {
       Log.rapporterFejl(new IllegalStateException("kanal er null for "+lydkilde+ " "+lydkilde.getClass()));
@@ -238,16 +234,14 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
         kanallogo.setImageBitmap(kanal.eo_emblemo);
       } else {
         kanallogo.setImageResource(App.ÆGTE_DR ? R.drawable.dr_logo : 0);
-        Kanal lk = DRData.instans.grunddata.kanalFraSlug.get(kanal.slug);
-        String eraro = "Mankas emblemo por "+kanal+ "  "+lk.eo_emblemo;
-        Log.rapporterFejl(new IllegalStateException(eraro));
-        if (App.fejlsøgning) App.kortToast(eraro);
+        Kanal lk = Programdata.instans.grunddata.kanalFraSlug.get(kanal.slug);
+        Log.d("Mankas emblemo por "+kanal+ "  (lk "+lk.eo_emblemo+")");
       }
     }
 
     direktetekst.setVisibility(lydkilde.erDirekte()?View.VISIBLE:View.GONE);
     metainformation.setText(Html.fromHtml(udsendelse!=null?udsendelse.titel:kanal.navn));
-    switch (DRData.instans.afspiller.getAfspillerstatus()) {
+    switch (Programdata.instans.afspiller.getAfspillerstatus()) {
       case STOPPET:
         startStopKnapNyImageResource = R.drawable.afspiller_spil;
         startStopKnap.setContentDescription(getString(R.string.Start_afspilning));
@@ -257,7 +251,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
         startStopKnapNyImageResource = R.drawable.afspiller_pause;
         startStopKnap.setContentDescription(getString(R.string.Stop_afspilning));
         progressbar.setVisibility(View.VISIBLE);
-        int fpct = DRData.instans.afspiller.getForbinderProcent();
+        int fpct = Programdata.instans.afspiller.getForbinderProcent();
         metainformation.setText(getString(R.string.Forbinder) + (fpct > 0 ? " "+fpct : ""));
         break;
       case SPILLER:
@@ -295,8 +289,8 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
       inflater.inflate(R.menu.tilg_afspiller, menu);
       MenuItem menuItem = menu.findItem(R.id.startStopKnap);
 
-      if (DRData.instans.afspiller.getAfspillerstatus() == Status.STOPPET) {
-        menuItem.setTitle(getString(R.string.Start) + DRData.instans.afspiller.getLydkilde().getNavn());
+      if (Programdata.instans.afspiller.getAfspillerstatus() == Status.STOPPET) {
+        menuItem.setTitle(getString(R.string.Start) + Programdata.instans.afspiller.getLydkilde().getNavn());
       } else {
         menuItem.setTitle(R.string.Stop_afspilning);
         menuItem.setIcon(R.drawable.dri_radio_stop_graa40);
@@ -308,10 +302,10 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.startStopKnap) {
-      if (DRData.instans.afspiller.afspillerstatus == Status.STOPPET) {
-        DRData.instans.afspiller.startAfspilning();
+      if (Programdata.instans.afspiller.afspillerstatus == Status.STOPPET) {
+        Programdata.instans.afspiller.startAfspilning();
       } else {
-        DRData.instans.afspiller.stopAfspilning();
+        Programdata.instans.afspiller.stopAfspilning();
       }
     }
     return super.onOptionsItemSelected(item);
@@ -380,7 +374,7 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
     if (!viserUdvidetOmråde()) {
       Sidevisning.vist(Afspiller_frag.class);
       indhold_overskygge.setOnTouchListener(indhold_overskygge_onTouchListener);
-      int forrigeNæsteSynlighed = DRData.instans.afspiller.getLydkilde().erDirekte() ? View.GONE : View.VISIBLE;
+      int forrigeNæsteSynlighed = Programdata.instans.afspiller.getLydkilde().erDirekte() ? View.GONE : View.VISIBLE;
       aq.id(R.id.forrige).visibility(forrigeNæsteSynlighed).id(R.id.næste).visibility(forrigeNæsteSynlighed);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         indhold_overskygge.setVisibility(View.VISIBLE);
@@ -437,18 +431,18 @@ public class Afspiller_frag extends Basisfragment implements Runnable, View.OnCl
   @Override
   public void onClick(View v) {
     if (v == startStopKnap) {
-      if (DRData.instans.afspiller.afspillerstatus == Status.STOPPET) {
-        DRData.instans.afspiller.startAfspilning();
+      if (Programdata.instans.afspiller.afspillerstatus == Status.STOPPET) {
+        Programdata.instans.afspiller.startAfspilning();
       } else {
-        DRData.instans.afspiller.stopAfspilning();
+        Programdata.instans.afspiller.stopAfspilning();
       }
     } else if (v.getId() == R.id.forrige) {
-      DRData.instans.afspiller.forrige();
+      Programdata.instans.afspiller.forrige();
     } else if (v.getId() == R.id.næste) {
-      DRData.instans.afspiller.næste();
+      Programdata.instans.afspiller.næste();
     } else if (v== kanallogo || v==direktetekst || v==metainformation) try {
       // Ved klik på baggrunden skal kanalforside eller aktuel udsendelsesside vises
-      Lydkilde lydkilde = DRData.instans.afspiller.getLydkilde();
+      Lydkilde lydkilde = Programdata.instans.afspiller.getLydkilde();
       FragmentManager fm = getFragmentManager();
       if (lydkilde.erDirekte()) {
         // Fjern backstak - så vi starter forfra i 'roden'

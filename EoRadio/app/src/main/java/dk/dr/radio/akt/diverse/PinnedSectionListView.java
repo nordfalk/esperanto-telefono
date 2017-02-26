@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dk.dr.radio.diverse;
+package dk.dr.radio.akt.diverse;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -36,6 +36,8 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
+
+import dk.dr.radio.diverse.Log;
 
 
 /**

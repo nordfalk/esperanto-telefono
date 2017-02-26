@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dk.dr.radio.diverse;
+package dk.dr.radio.akt.diverse;
 
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
@@ -51,6 +51,8 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import dk.dr.radio.akt.Kanal_frag;
+import dk.dr.radio.akt.diverse.AnimationAdapter;
+import dk.dr.radio.diverse.App;
 import dk.dr.radio.v3.R;
 
 
@@ -71,8 +73,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
   // @formatter:off
   private static final int[] ATTRS = new int[]{
-      android.R.attr.textSize,
-      android.R.attr.textColor
+          android.R.attr.textSize,
+          android.R.attr.textColor
   };
   // @formatter:on
 
@@ -93,7 +95,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   private Paint rectPaint;
   private Paint dividerPaint;
 
-  private int indicatorColor = 0xFF666666; // 0xFFFFFFFF;//DR
+  private int indicatorColor = 0xFFFFFFFF;//0xFF666666; // 0xFFFFFFFF;//DR
   private int underlineColor = 0xFFFFFFFF; // 0xFFCCCCCC; //0x1A000000;
   private int dividerColor = 0xFFCCCCCC; // 0x1A000000;
 
@@ -101,10 +103,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   private boolean textAllCaps = true;
 
   private int scrollOffset = 52;
-  private int indicatorHeight = 8; //64;//DR
+  private int indicatorHeight = 64;// 8; //64;//DR
   private int underlineHeight = 1;// 2;
   private int dividerPadding = 0;//12;
-  private int tabPadding = 4;//16;//24;
+  private int tabPadding = 16;//24;
   private int dividerWidth = 1;
   private int minBredde = 44; // dip
 
@@ -222,9 +224,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       if (adapter instanceof IconTabProvider) {
         IconTabProvider ipa = ((IconTabProvider) adapter);
         if (TEKST_DER_FADER_OVER_I_IKONER) {
-          Bitmap res = ipa.getPageIconBitmap(i);
+          Bitmap bitmap = ipa.getPageIconBitmap(i);
           int resId = ipa.getPageIconResId(i);
-          if (resId!=0 || res!=null) addIconTabBådeTekstOgBillede(i, resId, res, ipa.getPageContentDescription(i));
+          if (resId!=0 || bitmap!=null) addIconTabBådeTekstOgBillede(i, resId, bitmap, ipa.getPageContentDescription(i));
           else addTextTab(i, adapter.getPageTitle(i).toString());
         } else {
           addIconTab(i, ipa.getPageIconResId(i), ipa.getPageContentDescription(i));
@@ -283,7 +285,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   // EO ŝanĝo
   private void addIconTabBådeTekstOgBillede(final int position, int resId, Bitmap res, String title) {
     FrameLayout tabfl = new FrameLayout(getContext());
-    if (Build.VERSION.SDK_INT>11) tabfl.setLayoutTransition(new LayoutTransition());
     ImageView tabi = new ImageView(getContext());
     tabi.setContentDescription(title);
     if (res!=null) {
@@ -306,6 +307,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     LayoutParams lp = (LayoutParams) tabi.getLayoutParams();
     lp.gravity=Gravity.CENTER;
+    lp.width=lp.height=ViewGroup.LayoutParams.MATCH_PARENT;
     lp = (LayoutParams) tabt.getLayoutParams();
     lp.width=lp.height=ViewGroup.LayoutParams.MATCH_PARENT;
     lp.gravity=Gravity.CENTER;
@@ -491,7 +493,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       final FrameLayout fl = (FrameLayout) t;
       fl.getChildAt(0).clearAnimation();
       fl.getChildAt(1).clearAnimation();
-      fl.getChildAt(0).setVisibility(View.GONE); // EO ŝanĝo
+      fl.getChildAt(0).setVisibility(View.INVISIBLE);
       fl.getChildAt(1).setVisibility(View.VISIBLE);
         /*
         fl.getChildAt(0).startAnimation(fadeUd);

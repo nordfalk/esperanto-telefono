@@ -12,8 +12,9 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
@@ -58,10 +59,10 @@ public class FangBrowseIntent_akt extends Activity {
       } else if (urlFraIntent.contains("/radio/live")) {
         String[] bidder = urlFraIntent.split("/");
         final String kanalSlug = bidder[bidder.length - 1];
-        Kanal kanal = DRData.instans.grunddata.kanalFraSlug.get(kanalSlug);
+        Kanal kanal = Programdata.instans.grunddata.kanalFraSlug.get(kanalSlug);
         if (kanal != null) {
-          DRData.instans.afspiller.setLydkilde(kanal);
-          DRData.instans.afspiller.startAfspilning();
+          Programdata.instans.afspiller.setLydkilde(kanal);
+          Programdata.instans.afspiller.startAfspilning();
         }
         Intent intent = new Intent(this, Hovedaktivitet.class)
             .putExtra(Hovedaktivitet.VIS_FRAGMENT_KLASSE, Kanaler_frag.class.getName())
@@ -100,20 +101,20 @@ public class FangBrowseIntent_akt extends Activity {
     final int tidsangivelse = tidsangivelse0;
 
 
-    final Udsendelse udsendelse = DRData.instans.udsendelseFraSlug.get(udsendelseSlug);
+    final Udsendelse udsendelse = Programdata.instans.udsendelseFraSlug.get(udsendelseSlug);
     if (udsendelse != null) {
       visUdsendelseFrag(kanalSlug, udsendelse, tidsangivelse);
     } else {
-      Request<?> req = new DrVolleyStringRequest(DRData.getUdsendelseStreamsUrlFraSlug(udsendelseSlug), new DrVolleyResonseListener() {
+      Request<?> req = new DrVolleyStringRequest(Backend.getUdsendelseStreamsUrlFraSlug(udsendelseSlug), new DrVolleyResonseListener() {
         @Override
         public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
           if (uændret) return;
           Log.d("hentStreams fikSvar(" + fraCache + " " + url);
           if (json != null && !"null".equals(json)) {
             JSONObject o = new JSONObject(json);
-            Udsendelse udsendelse2 = DRJson.parseUdsendelse(null, DRData.instans, o);
+            Udsendelse udsendelse2 = Backend.parseUdsendelse(null, Programdata.instans, o);
             udsendelse2.setStreams(o);
-            udsendelse2.indslag = DRJson.parsIndslag(o.optJSONArray(DRJson.Chapters.name()));
+            udsendelse2.indslag = Backend.parsIndslag(o.optJSONArray(DRJson.Chapters.name()));
             udsendelse2.produktionsnummer = o.optString(DRJson.ProductionNumber.name());
             udsendelse2.shareLink = o.optString(DRJson.ShareLink.name());
 
@@ -133,10 +134,10 @@ public class FangBrowseIntent_akt extends Activity {
   }
 
   private void visUdsendelseFrag(String kanalSlug, Udsendelse udsendelse, int tidsangivelse) {
-    DRData.instans.senestLyttede.registrérLytning(udsendelse);
-    DRData.instans.senestLyttede.sætStartposition(udsendelse, tidsangivelse);
-    DRData.instans.afspiller.setLydkilde(udsendelse);
-    DRData.instans.afspiller.startAfspilning();
+    Programdata.instans.senestLyttede.registrérLytning(udsendelse);
+    Programdata.instans.senestLyttede.sætStartposition(udsendelse, tidsangivelse);
+    Programdata.instans.afspiller.setLydkilde(udsendelse);
+    Programdata.instans.afspiller.startAfspilning();
     Intent intent = new Intent(this, Hovedaktivitet.class)
         .putExtra(Kanal_frag.P_kode, kanalSlug)
         .putExtra(DRJson.Slug.name(), udsendelse.slug)

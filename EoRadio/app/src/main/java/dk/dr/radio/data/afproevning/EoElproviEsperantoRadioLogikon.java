@@ -7,9 +7,9 @@ package dk.dr.radio.data.afproevning;
 import java.io.File;
 import java.io.FileInputStream;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.EoDiverse;
-import dk.dr.radio.data.EoRssParsado;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.esperanto.EoDiverse;
+import dk.dr.radio.data.esperanto.EoRssParsado;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.diverse.FilCache;
@@ -35,7 +35,7 @@ public class EoElproviEsperantoRadioLogikon {
     System.out.println(EoDiverse.unescapeHtml3("Nikolin&#8217; dum la intervjuo."));
     //Date.parse("Mon, 13 Aug 2012 05:25:10 +0000");
     //Date.parse("Thu, 01 Aug 2013 12:01:01 +02:00");
-    DRData.instans = new DRData();
+    Programdata.instans = new Programdata();
 
     FilCache.init(new File("datumoj"));
     //String grunddata = Kasxejo.hentUrlSomStreng(kanalojUrl);
@@ -43,11 +43,11 @@ public class EoElproviEsperantoRadioLogikon {
         "src/esperanto/res/raw/esperantoradio_kanaloj_v" + ĉefdatumojID + ".json"));
     System.out.println("===================================================================1");
     System.out.println("===================================================================");
-    Grunddata ĉefdatumoj2 = DRData.instans.grunddata = new Grunddata();
+    Grunddata ĉefdatumoj2 = Programdata.instans.grunddata = new Grunddata();
     System.out.println("===================================================================2");
     System.out.println("===================================================================");
     ĉefdatumoj2.eo_parseFællesGrunddata(grunddata);
-    DRData.instans.grunddata.parseFællesGrunddata(grunddata);
+    Programdata.instans.grunddata.parseFællesGrunddata(grunddata);
 
     System.out.println("===================================================================3");
     System.out.println("===================================================================");

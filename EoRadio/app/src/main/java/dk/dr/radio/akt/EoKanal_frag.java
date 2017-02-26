@@ -35,9 +35,10 @@ import java.util.Collections;
 import java.util.Date;
 
 import dk.dr.radio.afspilning.Status;
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
-import dk.dr.radio.data.EoRssParsado;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
+import dk.dr.radio.data.esperanto.EoRssParsado;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
@@ -74,7 +75,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     //Log.d(this + " onCreateView startet efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
     String kanalkode = getArguments().getString(P_kode);
     rod = null;
-    kanal = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
+    kanal = Programdata.instans.grunddata.kanalFraKode.get(kanalkode);
     //Log.d(this + " onCreateView 2 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
     if (rod == null) rod = inflater.inflate(R.layout.kanal_frag, container, false);
     if (kanal == null) {
@@ -84,7 +85,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       return rod;
     }
 
-    DRData.instans.senestLyttede.getListe();
+    Programdata.instans.senestLyttede.getListe();
 
     AQuery aq = new AQuery(rod);
     listView = aq.id(R.id.listView).adapter(adapter).itemClicked(this).getListView();
@@ -150,7 +151,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     }
 
     //Log.d(this + " onCreateView 4 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
-    DRData.instans.afspiller.observatører.add(this);
+    Programdata.instans.afspiller.observatører.add(this);
     App.netværk.observatører.add(this);
     run(); // opdater HØR-knap
     // Log.d(this + " onCreateView færdig efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
@@ -161,7 +162,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    DRData.instans.afspiller.observatører.remove(this);
+    Programdata.instans.afspiller.observatører.remove(this);
     App.netværk.observatører.remove(this);
     if (listView!=null) listView.setAdapter(null); // Fix hukommelseslæk
     rod = null; listView = null; aktuelUdsendelseViewholder = null;
@@ -177,8 +178,8 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
       App.forgrundstråd.post(new Runnable() {
         @Override
         public void run() {
-          if (DRData.instans.afspiller.getAfspillerstatus() == Status.STOPPET && DRData.instans.afspiller.getLydkilde() != kanal) {
-            DRData.instans.afspiller.setLydkilde(kanal);
+          if (Programdata.instans.afspiller.getAfspillerstatus() == Status.STOPPET && Programdata.instans.afspiller.getLydkilde() != kanal) {
+            Programdata.instans.afspiller.setLydkilde(kanal);
           }
         }
       });
@@ -201,7 +202,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
     if (App.fejlsøgning) Log.d("run() synlig=" + getUserVisibleHint()+" "+this);
     App.forgrundstråd.removeCallbacks(this);
     if (getActivity()==null) return; // Fragment ikke mere synligt
-    App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
+    App.forgrundstråd.postDelayed(this, Programdata.instans.grunddata.opdaterPlaylisteEfterMs);
 
     if (aktuelUdsendelseViewholder == null) return;
     Viewholder vh = aktuelUdsendelseViewholder;
@@ -225,7 +226,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           nyListe.add(u.dagsbeskrivelse);
           // Overskriften I DAG skal ikke 'blive hængende' øverst,
           // det løses ved at tilføje en tom overskrift lige under den
-          if (u.dagsbeskrivelse == DRJson.I_DAG) nyListe.add("");
+          if (u.dagsbeskrivelse == Backend.I_DAG) nyListe.add("");
         }
         nyListe.add(u);
         EoGeoblokaDetektilo.esploruĈuEstasBlokata(u);
@@ -441,7 +442,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
           spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), klPos+2, klPos+2+udsendelse.titel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
           vh.starttid.setText(spannable);
-          vh.starttid.setTextColor(DRData.instans.senestLyttede.getStartposition(udsendelse) == 0 ? Color.BLACK : App.color.grå60);
+          vh.starttid.setTextColor(Programdata.instans.senestLyttede.getStartposition(udsendelse) == 0 ? Color.BLACK : App.color.grå60);
           a.id(R.id.stiplet_linje);
           if (position == liste.size() - 1) a.visibility(View.INVISIBLE);
           else if (position > 0 && liste.get(position - 1) instanceof String) a.visibility(View.INVISIBLE);
@@ -497,7 +498,7 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
   public void onClick(View v) {
     Viewholder vh = (Viewholder) v.getTag();
     Udsendelse udsendelse = vh.udsendelse;
-    DRData.instans.afspiller.setLydkilde(udsendelse);
+    Programdata.instans.afspiller.setLydkilde(udsendelse);
 
     if (EoGeoblokaDetektilo.estasBlokata(udsendelse)) {
       new AlertDialog.Builder(getActivity())
@@ -505,9 +506,9 @@ public class EoKanal_frag extends Basisfragment implements AdapterView.OnItemCli
               .setMessage("Ŝajnas ke tiu ĉi elsendo ne estas havebla en via lando")
               .show();
     } else {
-      DRData.instans.afspiller.startAfspilning();
+      Programdata.instans.afspiller.startAfspilning();
       vh.starttid.setTextColor(App.color.grå60);
-      DRData.instans.senestLyttede.registrérLytning(udsendelse);
+      Programdata.instans.senestLyttede.registrérLytning(udsendelse);
     }
   }
 

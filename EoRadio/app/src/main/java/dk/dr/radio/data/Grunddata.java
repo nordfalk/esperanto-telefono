@@ -20,7 +20,6 @@ package dk.dr.radio.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +37,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import dk.dr.radio.data.dr_v3.DRBackendTidsformater;
+import dk.dr.radio.data.dr_v3.DRJson;
+import dk.dr.radio.data.esperanto.EoKanal;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.FilCache;
 import dk.dr.radio.diverse.Log;
@@ -135,10 +137,10 @@ public class Grunddata {
   public static final DateFormat datoformato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
 
-  static void eoElsendoAlDaUdsendelse(Udsendelse e, Kanal k) {
+  public static void eoElsendoAlDaUdsendelse(Udsendelse e, Kanal k) {
     e.programserieSlug = e.kanalSlug = k.slug;
     if (e.slug==null) e.slug = e.kanalSlug + ":" + e.startTidKl;
-    DRData.instans.udsendelseFraSlug.put(e.slug, e);
+    Programdata.instans.udsendelseFraSlug.put(e.slug, e);
 
     e.kanHentes = e.kanHøres = true;
     e.streams = new ArrayList<Lydstream>();
@@ -223,19 +225,19 @@ public class Grunddata {
     }
 
     for (Kanal k : kanaler) {
-      opdaterProgramserieFraKanal(k);
+      eo_opdaterProgramserieFraKanal(k);
     }
   }
 
-  static void opdaterProgramserieFraKanal(Kanal k) {
-    Programserie ps = DRData.instans.programserieFraSlug.get(k.slug);
+  public static void eo_opdaterProgramserieFraKanal(Kanal k) {
+    Programserie ps = Programdata.instans.programserieFraSlug.get(k.slug);
     if (ps==null) {
       ps = new Programserie();
       ps.billedeUrl = k.eo_emblemoUrl;
       ps.beskrivelse = k.getNavn();
       ps.slug = k.slug;
       ps.titel = k.getNavn();
-      DRData.instans.programserieFraSlug.put(k.slug, ps);
+      Programdata.instans.programserieFraSlug.put(k.slug, ps);
     } else {
       ps.getUdsendelser().clear();
     }
@@ -327,15 +329,6 @@ public class Grunddata {
         Log.rapporterFejl(new IllegalStateException(), "k.eo_udsendelserFraRadioTxt.size()>k.udsendelser.size() for "+k+": "+k.eo_udsendelserFraRadioTxt.size()+" > " +k.udsendelser.size());
       }
     }
-  }
-
-
-
-  private void fjernKanalMedFejl(Kanal k) {
-    kanaler.remove(k);
-    p4koder.remove(k.kode);
-    kanalFraKode.remove(k.kode);
-    kanalFraSlug.remove(k.slug);
   }
 
 

@@ -16,8 +16,8 @@ import com.androidquery.AQuery;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
 import dk.dr.radio.data.Grunddata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
@@ -75,7 +75,7 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
   private void opdaterListe() {
     try {
       liste.clear();
-      liste.addAll(DRData.instans.senestLyttede.getListe());
+      liste.addAll(Programdata.instans.senestLyttede.getListe());
       Collections.reverse(liste);
     } catch (Exception e1) {
       Log.rapporterFejl(e1);
@@ -86,8 +86,8 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
   @Override
   public void onClick(View v) {
     Lydkilde udsendelse = ((Viewholder) v.getTag()).sl.lydkilde;
-    DRData.instans.afspiller.setLydkilde(udsendelse);
-    DRData.instans.afspiller.startAfspilning();
+    Programdata.instans.afspiller.setLydkilde(udsendelse);
+    Programdata.instans.afspiller.startAfspilning();
   }
 
   private static class Viewholder {
@@ -141,11 +141,11 @@ public class Senest_lyttede_frag extends Basisfragment implements AdapterView.On
         vh.titel.setText(u.titel);
         vh.dato.setVisibility(View.VISIBLE);
         Kanal k = u.getKanal();
-        vh.dato.setText((k == Grunddata.ukendtKanal ? "" : (k.navn + " - ")) + getString(R.string._kl_, DRJson.getDagsbeskrivelse(u.startTid).toLowerCase(), u.startTidKl));
+        vh.dato.setText((k == Grunddata.ukendtKanal ? "" : (k.navn + " - ")) + getString(R.string._kl_, Backend.getDagsbeskrivelse(u.startTid).toLowerCase(), u.startTidKl));
       } else {
         Log.rapporterFejl(new Exception("forkert type"), sl.lydkilde);
       }
-      vh.varighed.setText(getString(R.string.LYTTET_)+ getString(R.string._kl_, DRJson.getDagsbeskrivelse(vh.sl.tidpunkt) , DRJson.klokkenformat.format(vh.sl.tidpunkt)).toUpperCase());
+      vh.varighed.setText(getString(R.string.LYTTET_)+ getString(R.string._kl_, Backend.getDagsbeskrivelse(vh.sl.tidpunkt) , Backend.klokkenformat.format(vh.sl.tidpunkt)).toUpperCase());
 
       return v;
     }

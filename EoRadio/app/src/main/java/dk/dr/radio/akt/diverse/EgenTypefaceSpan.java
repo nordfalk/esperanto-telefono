@@ -1,4 +1,4 @@
-package dk.dr.radio.diverse;
+package dk.dr.radio.akt.diverse;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;

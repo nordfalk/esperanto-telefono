@@ -5,21 +5,18 @@
 package dk.dr.radio.akt;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.net.URL;
 import java.net.URLEncoder;
 
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.data.Udsendelse;
+import dk.dr.radio.data.dr_v3.Backend;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
 
@@ -246,7 +243,7 @@ Jeg bruger selv følgende macro'er i C til generering af URIs:
 
   /**
    * Billedeskalering til LastFM og discogs til playlister.
-   * @see dk.dr.radio.data.DRJson#parsePlayliste(org.json.JSONArray)
+   * @see Backend#parsePlayliste(org.json.JSONArray)
    * Image: "http://api.discogs.com/image/A-4970-1339439274-8053.jpeg",
    * ScaledImage: "http://asset.dr.dk/discoImages/?discoserver=api.discogs.com&file=%2fimage%2fA-4970-1339439274-8053.jpeg&h=400&w=400&scaleafter=crop&quality=85",
    */

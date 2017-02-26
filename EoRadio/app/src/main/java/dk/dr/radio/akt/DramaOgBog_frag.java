@@ -20,13 +20,13 @@ import com.androidquery.AQuery;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.diverse.App;
-import dk.dr.radio.diverse.CirclePageIndicator;
+import dk.dr.radio.akt.diverse.CirclePageIndicator;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.diverse.PinnedSectionListView;
+import dk.dr.radio.akt.diverse.PinnedSectionListView;
 import dk.dr.radio.diverse.Sidevisning;
 import dk.dr.radio.v3.R;
 
@@ -44,19 +44,19 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
   public void run() {
     karruselListe.clear();
     liste.clear();
-    if (DRData.instans.dramaOgBog.lister == null) {
-      DRData.instans.dramaOgBog.startHentData();
+    if (Programdata.instans.dramaOgBog.lister == null) {
+      Programdata.instans.dramaOgBog.startHentData();
       return; // run() kaldes igen når der er data
     } else {
       int sektionsnummer = 0;
-      for (ArrayList<Programserie> sektion : DRData.instans.dramaOgBog.lister) {
-        liste.add(DRData.instans.dramaOgBog.overskrifter.get(sektionsnummer)+" ("+sektion.size()+")");
+      for (ArrayList<Programserie> sektion : Programdata.instans.dramaOgBog.lister) {
+        liste.add(Programdata.instans.dramaOgBog.overskrifter.get(sektionsnummer)+" ("+sektion.size()+")");
         int n = 0;
         for (Programserie programserie : sektion) {
           //Log.d("DramaOgBogF "+sektionsnummer+" "+n+programserie+" "+programserie.antalUdsendelser+" "+programserie.billedeUrl);
           n++;
           if (programserie.antalUdsendelser>0 && programserie.billedeUrl!=null
-                  && DRData.instans.dramaOgBog.karuselSerieSlug.contains(programserie.slug)) {
+                  && Programdata.instans.dramaOgBog.karuselSerieSlug.contains(programserie.slug)) {
             karruselListe.add(programserie);
           }
           if (n < 3  || listesektionerUdvidet.contains(sektionsnummer)) liste.add(programserie);
@@ -88,7 +88,7 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
     karruselIndikator.setFillColor(App.color.blå);
     karruselIndikator.setStrokeColor(0);
     karruselIndikator.setStrokeWidth(0);
-    DRData.instans.dramaOgBog.observatører.add(this);
+    Programdata.instans.dramaOgBog.observatører.add(this);
     run();
     viewPager.setOnTouchListener(new View.OnTouchListener() {
       @Override
@@ -125,7 +125,7 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
     viewPager = null;
     karruselAdapter = null;
     karruselIndikator = null;
-    DRData.instans.dramaOgBog.observatører.remove(this);
+    Programdata.instans.dramaOgBog.observatører.remove(this);
     super.onDestroyView();
   }
 
@@ -161,7 +161,7 @@ public class DramaOgBog_frag extends Basisfragment implements Runnable, AdapterV
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       programserieSlug = getArguments().getString(DRJson.SeriesSlug.name());
       View rod = inflater.inflate(R.layout.kanal_elem0_inkl_billede_titel, container, false);
-      programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+      programserie = Programdata.instans.programserieFraSlug.get(programserieSlug);
       if (programserie==null) {
         // Fix for https://mint.splunk.com/dashboard/project/cd78aa05/errors/4024198209
         Log.rapporterFejl(new IllegalStateException(programserieSlug + " fandtes ikke i DRData.instans.programserieFraSlug"));

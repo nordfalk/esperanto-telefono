@@ -18,8 +18,6 @@
 
 package dk.dr.radio.afspilning;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -43,14 +41,13 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import dk.dr.radio.afspilning.wrapper.MediaPlayerLytter;
 import dk.dr.radio.afspilning.wrapper.MediaPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.EoKanal;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.esperanto.EoKanal;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Lydstream;
@@ -214,8 +211,8 @@ public class Afspiller {
     // Hvis det er en favorit så opdater favoritter så der ikke mere optræder nye udsendelser i denne programserie
     if (lydkilde instanceof Udsendelse) {
       String programserieSlug = ((Udsendelse) lydkilde).programserieSlug;
-      if (DRData.instans.favoritter.erFavorit(programserieSlug)) {
-        DRData.instans.favoritter.sætFavorit(programserieSlug, true);
+      if (Programdata.instans.favoritter.erFavorit(programserieSlug)) {
+        Programdata.instans.favoritter.sætFavorit(programserieSlug, true);
       }
     }
 
@@ -322,7 +319,7 @@ public class Afspiller {
             return;
           }
           lydstream = bs.get(0);
-          DRData.instans.senestLyttede.registrérLytning(lydkilde);
+          Programdata.instans.senestLyttede.registrérLytning(lydkilde);
           Log.d("mediaPlayer.setDataSource( " + lydstream);
 
           mediaPlayer.setDataSource(lydstream.url);
@@ -401,7 +398,7 @@ public class Afspiller {
       if (pos > 0) {
         //senestLyttet.getUdsendelse().startposition = pos;
         Log.d("senestLyttede.sætStartposition("+lydkilde+" , "+pos);
-        DRData.instans.senestLyttede.sætStartposition(lydkilde, (int) pos);
+        Programdata.instans.senestLyttede.sætStartposition(lydkilde, (int) pos);
       }
       return pos;
     } catch (Exception e) { Log.rapporterFejl(e); }
@@ -437,7 +434,7 @@ public class Afspiller {
     }
     // Tjek om der er en hentet udsendelse - det sker også i brugergrænsefladen men det kan være den ikke har været i spil
     if (lydkilde.hentetStream==null && lydkilde instanceof Udsendelse) {
-      DRData.instans.hentedeUdsendelser.tjekOmHentet((Udsendelse) lydkilde);
+      Programdata.instans.hentedeUdsendelser.tjekOmHentet((Udsendelse) lydkilde);
     }
 
 
@@ -548,12 +545,12 @@ public class Afspiller {
     if (lydkilde.erDirekte()) {
       Kanal k = lydkilde.getKanal();
       // Skift til forrige kanal
-      if (k.p4underkanal) k = DRData.instans.grunddata.kanalFraKode.get(Kanal.P4kode); // P4 overkanal
-      int index = DRData.instans.grunddata.kanaler.indexOf(k) - 1;
-      if (index < 0) index = DRData.instans.grunddata.kanaler.size() - 1;
-      k = DRData.instans.grunddata.kanaler.get(index);
+      if (k.p4underkanal) k = Programdata.instans.grunddata.kanalFraKode.get(Kanal.P4kode); // P4 overkanal
+      int index = Programdata.instans.grunddata.kanaler.indexOf(k) - 1;
+      if (index < 0) index = Programdata.instans.grunddata.kanaler.size() - 1;
+      k = Programdata.instans.grunddata.kanaler.get(index);
       if (k.p4underkanal) { // Vi er kommet til P4 - vælg brugerens foretrukne underkanal
-        k = DRData.instans.grunddata.kanalFraKode.get(App.tjekP4OgVælgUnderkanal(Kanal.P4kode));
+        k = Programdata.instans.grunddata.kanalFraKode.get(App.tjekP4OgVælgUnderkanal(Kanal.P4kode));
       }
       setLydkilde(k);
       return;
@@ -579,13 +576,13 @@ public class Afspiller {
     if (lydkilde.erDirekte()) {
       // Skift til næste kanal
       Kanal k = lydkilde.getKanal();
-      int index = DRData.instans.grunddata.kanaler.indexOf(k) + 1;
-      if (index == DRData.instans.grunddata.kanaler.size()) index = 0;
-      while (k.p4underkanal && DRData.instans.grunddata.kanaler.get(index).p4underkanal) index++; // skip underkanaler
-      k = DRData.instans.grunddata.kanaler.get(index);
+      int index = Programdata.instans.grunddata.kanaler.indexOf(k) + 1;
+      if (index == Programdata.instans.grunddata.kanaler.size()) index = 0;
+      while (k.p4underkanal && Programdata.instans.grunddata.kanaler.get(index).p4underkanal) index++; // skip underkanaler
+      k = Programdata.instans.grunddata.kanaler.get(index);
       // Tjek om vi er kommet til P4 - vælg brugerens foretrukne underkanal
       String kanalkode = App.tjekP4OgVælgUnderkanal(k.kode);
-      k = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
+      k = Programdata.instans.grunddata.kanalFraKode.get(kanalkode);
       if (k==null) {
         Log.rapporterFejl(new IllegalStateException(
             "næste() fra "+lydkilde.getKanal().kode+" gav null i="+index+" kk="+kanalkode));
@@ -624,7 +621,7 @@ public class Afspiller {
         public void run() {
           try { // Fix for https://www.bugsense.com/dashboard/project/cd78aa05/errors/825188032
             Log.d("mediaPlayer.start() " + mpTils());
-            int startposition = DRData.instans.senestLyttede.getStartposition(lydkilde);
+            int startposition = Programdata.instans.senestLyttede.getStartposition(lydkilde);
             long varighed = mediaPlayer.getDuration();
             Log.d("mediaPlayer genoptager afspilning ved " + startposition + " varighed="+varighed);
             if (varighed>0 && startposition>0.95*varighed) {
@@ -674,7 +671,7 @@ public class Afspiller {
           startAfspilningIntern();
           if (afspillerlyde) afspillerlyd.forbinder.start();
         } else {
-          DRData.instans.senestLyttede.sætStartposition(lydkilde, 0);
+          Programdata.instans.senestLyttede.sætStartposition(lydkilde, 0);
           stopAfspilning();
         }
       }

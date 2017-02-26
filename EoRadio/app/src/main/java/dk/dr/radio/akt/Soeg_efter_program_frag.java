@@ -29,8 +29,9 @@ import com.androidquery.AQuery;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
@@ -142,8 +143,8 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     });
 
     // Indlæs A-Å-liste hvis den ikke allerede er det, så vi har en komplet programliste
-    if (App.ÆGTE_DR && DRData.instans.programserierAtilÅ.liste == null) {
-      DRData.instans.programserierAtilÅ.startHentData();
+    if (App.ÆGTE_DR && Programdata.instans.programserierAtilÅ.liste == null) {
+      Programdata.instans.programserierAtilÅ.startHentData();
     }
     return rod;
   }
@@ -180,7 +181,7 @@ public class Soeg_efter_program_frag extends Basisfragment implements
           aq.id(R.id.linje2).text("Indsnævr din søgning").typeface(App.skrift_gibson);
         } else {
           Udsendelse udsendelse = (Udsendelse) obj;
-          aq.id(R.id.linje1).text(DRJson.datoformat.format(udsendelse.startTid)).typeface(App.skrift_gibson);
+          aq.id(R.id.linje1).text(Backend.datoformat.format(udsendelse.startTid)).typeface(App.skrift_gibson);
           aq.id(R.id.linje2).text(udsendelse.titel).typeface(App.skrift_gibson);
         }
         v.setBackgroundResource(0);
@@ -259,16 +260,16 @@ public class Soeg_efter_program_frag extends Basisfragment implements
     }
 
     if (søgelistecache == null) {
-      søgelistecache = new ArrayList<SoegElement>(DRData.instans.programserieFraSlug.size());
-      Log.d("DRData.instans.programserieFraSlug?=" + DRData.instans.programserieFraSlug);
-      if (App.ÆGTE_DR) for (Programserie ps : DRData.instans.programserieFraSlug.values()) {
+      søgelistecache = new ArrayList<SoegElement>(Programdata.instans.programserieFraSlug.size());
+      Log.d("DRData.instans.programserieFraSlug?=" + Programdata.instans.programserieFraSlug);
+      if (App.ÆGTE_DR) for (Programserie ps : Programdata.instans.programserieFraSlug.values()) {
         SoegElement se = new SoegElement();
         se.programserie = ps;
         se.titel = " "+ps.titel.toLowerCase() + " " + ps.undertitel.toLowerCase();
         se.beskrivelse = " "+ps.beskrivelse.toLowerCase();
         søgelistecache.add(se);
       }
-      else for (Udsendelse ps : DRData.instans.udsendelseFraSlug.values()) {  // EO ŝanĝo
+      else for (Udsendelse ps : Programdata.instans.udsendelseFraSlug.values()) {  // EO ŝanĝo
         SoegElement se = new SoegElement();
         se.udsendelse = ps;
         se.titel = " "+(ps.titel==null?"":ps.titel.toLowerCase());

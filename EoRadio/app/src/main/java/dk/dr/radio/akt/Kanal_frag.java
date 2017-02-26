@@ -35,8 +35,9 @@ import java.util.Date;
 import java.util.List;
 
 import dk.dr.radio.afspilning.Status;
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Lydstream;
 import dk.dr.radio.data.Playlisteelement;
@@ -80,12 +81,11 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     if (p4) {
       kanalkode = App.prefs.getString(App.P4_FORETRUKKEN_AF_BRUGER, null);
       if (kanalkode == null) {
-        kanalkode = App.prefs.getString(App.P4_FORETRUKKEN_GÆT_FRA_STEDPLACERING, "KH4");
-        kanal = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
+        kanalkode = "KH4";
+        kanal = Programdata.instans.grunddata.kanalFraKode.get(kanalkode);
         if (kanal == null) {
-          Log.d("P4 IKKE FUNDET kanalkode=" + kanalkode);
-          kanalkode = DRData.instans.grunddata.p4koder.get(3); // KH4
-          kanal = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
+          Log.d("FRAGMENT AFBRYDES " + this + " " + getArguments());
+          return rod;
         }
         rod = inflater.inflate(R.layout.kanal_p4_frag, container, false);
         AQuery aq = new AQuery(rod);
@@ -95,13 +95,11 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
         aq.id(R.id.p4_ok).clicked(this).typeface(App.skrift_gibson);
       }
     }
-    kanal = DRData.instans.grunddata.kanalFraKode.get(kanalkode);
+    kanal = Programdata.instans.grunddata.kanalFraKode.get(kanalkode);
     //Log.d(this + " onCreateView 2 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
     if (rod == null) rod = inflater.inflate(R.layout.kanal_frag, container, false);
     if (kanal == null) {
-      if (!App.PRODUKTION)
-        Log.rapporterFejl(new IllegalStateException("afbrydManglerData()"), "for kanal " + kanalkode);
-      afbrydManglerData();
+      Log.d("FRAGMENT AFBRYDES " + this + " " + getArguments());
       return rod;
     }
 
@@ -145,7 +143,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     // Hent sendeplan for den pågældende dag. Døgnskifte sker kl 5, så det kan være dagen før
     hentSendeplanForDag(new Date(App.serverCurrentTimeMillis() - 5 * 60 * 60 * 1000));
     //Log.d(this + " onCreateView 4 efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
-    DRData.instans.afspiller.observatører.add(this);
+    Programdata.instans.afspiller.observatører.add(this);
     App.netværk.observatører.add(this);
     run(); // opdater HØR-knap
     // Log.d(this + " onCreateView færdig efter " + (System.currentTimeMillis() - App.opstartstidspunkt) + " ms");
@@ -156,7 +154,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    DRData.instans.afspiller.observatører.remove(this);
+    Programdata.instans.afspiller.observatører.remove(this);
     App.netværk.observatører.remove(this);
     if (listView!=null) listView.setAdapter(null); // Fix hukommelseslæk
     rod = null; listView = null; aktuelUdsendelseViewholder = null;
@@ -164,12 +162,12 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
 
 
   private void hentSendeplanForDag(final Date dato) {
-    final String datoStr = DRJson.apiDatoFormat.format(dato);
+    final String datoStr = Backend.apiDatoFormat.format(dato);
     if (kanal.harUdsendelserForDag(datoStr)) { // brug værdier i RAMen
       opdaterListe();
     }
 
-    final String url = DRData.getKanalUdsendelserUrlFraKode(kanal.kode, datoStr);
+    final String url = Backend.getKanalUdsendelserUrlFraKode(kanal.kode, datoStr);
     if (App.fejlsøgning) Log.d("hentSendeplanForDag url=" + url);
 
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
@@ -182,7 +180,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
         if (json != null && !"null".equals(json)) {
           int næstøversteSynligPos = listView.getFirstVisiblePosition() + 1;
           if (!brugerHarNavigeret || næstøversteSynligPos >= liste.size()) {
-            kanal.setUdsendelserForDag(DRJson.parseUdsendelserForKanal(new JSONArray(json), kanal, dato, DRData.instans), datoStr);
+            kanal.setUdsendelserForDag(Backend.parseUdsendelserForKanal(new JSONArray(json), kanal, dato, Programdata.instans), datoStr);
             opdaterListe();
           } else {
             // Nu ændres der i listen for at vise en dag før eller efter - sørg for at det synlige indhold ikke rykker sig
@@ -191,7 +189,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
             View v = listView.getChildAt(1);
             int næstøversteSynligOffset = (v == null) ? 0 : v.getTop();
 
-            kanal.setUdsendelserForDag(DRJson.parseUdsendelserForKanal(new JSONArray(json), kanal, dato, DRData.instans), datoStr);
+            kanal.setUdsendelserForDag(Backend.parseUdsendelserForKanal(new JSONArray(json), kanal, dato, Programdata.instans), datoStr);
             opdaterListe();
 
             int næstøversteSynligNytIndex = liste.indexOf(næstøversteSynlig);
@@ -233,8 +231,8 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
       App.forgrundstråd.post(new Runnable() {
         @Override
         public void run() {
-          if (DRData.instans.afspiller.getAfspillerstatus() == Status.STOPPET && DRData.instans.afspiller.getLydkilde() != kanal) {
-            DRData.instans.afspiller.setLydkilde(kanal);
+          if (Programdata.instans.afspiller.getAfspillerstatus() == Status.STOPPET && Programdata.instans.afspiller.getLydkilde() != kanal) {
+            Programdata.instans.afspiller.setLydkilde(kanal);
           }
         }
       });
@@ -262,7 +260,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
     if (App.fejlsøgning) Log.d("run() synlig=" + getUserVisibleHint()+" "+this);
     App.forgrundstråd.removeCallbacks(this);
     if (getActivity()==null) return; // Fragment ikke mere synligt
-    App.forgrundstråd.postDelayed(this, DRData.instans.grunddata.opdaterPlaylisteEfterMs);
+    App.forgrundstråd.postDelayed(this, Programdata.instans.grunddata.opdaterPlaylisteEfterMs);
 
     if (!kanal.harStreams()) { // ikke && App.erOnline(), det kan være vi har en cachet udgave
       Request<?> req = new DrVolleyStringRequest(kanal.getStreamsUrl(), new DrVolleyResonseListener() {
@@ -282,7 +280,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
       App.volleyRequestQueue.add(req);
     }
 
-    boolean spillerDenneKanal = DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && DRData.instans.afspiller.getLydkilde() == kanal;
+    boolean spillerDenneKanal = Programdata.instans.afspiller.getAfspillerstatus() != Status.STOPPET && Programdata.instans.afspiller.getLydkilde() == kanal;
     boolean online = App.netværk.erOnline();
 
     hør_live.setEnabled(online && kanal.harStreams() && !spillerDenneKanal);
@@ -327,7 +325,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
           nyListe.add(u.dagsbeskrivelse);
           // Overskriften I DAG skal ikke 'blive hængende' øverst,
           // det løses ved at tilføje en tom overskrift lige under den
-          if (u.dagsbeskrivelse == DRJson.I_DAG) nyListe.add("");
+          if (u.dagsbeskrivelse == Backend.I_DAG) nyListe.add("");
         }
         nyListe.add(u);
       }
@@ -565,7 +563,7 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
       opdaterSenestSpilletViews(aq2, u2);
       return;
     }
-    Request<?> req = new DrVolleyStringRequest(DRData.getPlaylisteUrl(u2), new DrVolleyResonseListener() {
+    Request<?> req = new DrVolleyStringRequest(Backend.getPlaylisteUrl(u2), new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         if (App.fejlsøgning) Log.d("KAN fikSvar playliste(" + fraCache + uændret + " " + url);
@@ -573,8 +571,8 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
         // Fix: Senest spillet blev ikke opdateret.
         if (u2.playliste != null && uændret) return; // så har vi allerede den nyeste liste i MEM
         if (json != null && !"null".equals(json)) {
-          u2.playliste = DRJson.parsePlayliste(new JSONArray(json));
-          if (DRData.instans.grunddata.serverapi_ret_forkerte_offsets_i_playliste) DRJson.retForkerteOffsetsIPlayliste(u2);
+          u2.playliste = Backend.parsePlayliste(new JSONArray(json));
+          if (Programdata.instans.grunddata.serverapi_ret_forkerte_offsets_i_playliste) Backend.retForkerteOffsetsIPlayliste(u2);
         }
         if (aktuelUdsendelseViewholder == null) return;
         opdaterSenestSpilletViews(aq2, u2);
@@ -621,13 +619,13 @@ public class Kanal_frag extends Basisfragment implements AdapterView.OnItemClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
               lydstreamList.get(which).foretrukken = true;
-              DRData.instans.afspiller.setLydkilde(kanal);
-              DRData.instans.afspiller.startAfspilning();
+              Programdata.instans.afspiller.setLydkilde(kanal);
+              Programdata.instans.afspiller.startAfspilning();
             }
           }).show();
     } else {
-      DRData.instans.afspiller.setLydkilde(kanal);
-      DRData.instans.afspiller.startAfspilning();
+      Programdata.instans.afspiller.setLydkilde(kanal);
+      Programdata.instans.afspiller.startAfspilning();
     }
   }
 

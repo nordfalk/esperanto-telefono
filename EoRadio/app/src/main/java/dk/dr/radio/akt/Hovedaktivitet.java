@@ -3,7 +3,6 @@ package dk.dr.radio.akt;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -20,8 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import dk.dr.radio.afspilning.Status;
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.App;
@@ -80,8 +78,8 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
             .replace(R.id.indhold_frag, new Kanaler_frag())
             .commit();
         // Hvis det ikke er en direkte udsendelse, så hop ind i den pågældende udsendelsesside
-        if (DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET) {
-          Lydkilde lydkilde = DRData.instans.afspiller.getLydkilde();
+        if (Programdata.instans.afspiller.getAfspillerstatus() != Status.STOPPET) {
+          Lydkilde lydkilde = Programdata.instans.afspiller.getLydkilde();
           if (lydkilde instanceof Udsendelse) {
             Udsendelse udsendelse = lydkilde.getUdsendelse();
             Fragment f = Fragmentfabrikering.udsendelse(udsendelse);
@@ -99,12 +97,12 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
       }
 
       //Log.d("getIntent()="+getIntent().getFlags());
-      if (App.prefs.getBoolean("startAfspilningMedDetSammme", false) && DRData.instans.afspiller.getAfspillerstatus() == Status.STOPPET) {
+      if (App.prefs.getBoolean("startAfspilningMedDetSammme", false) && Programdata.instans.afspiller.getAfspillerstatus() == Status.STOPPET) {
         App.forgrundstråd.post(new Runnable() {
           @Override
           public void run() {
             try {
-              DRData.instans.afspiller.startAfspilning();
+              Programdata.instans.afspiller.startAfspilning();
             } catch (Exception e) {
               Log.rapporterFejl(e);
             }
@@ -133,7 +131,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
   @Override
   protected void onResume() {
     super.onResume();
-    DRData.instans.grunddata.observatører.add(this);
+    Programdata.instans.grunddata.observatører.add(this);
     run();
     App.netværk.observatører.add(visSkjulSkilt_ingen_forbindelse);
     visSkjulSkilt_ingen_forbindelse.run();
@@ -141,7 +139,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
 
   @Override
   protected void onPause() {
-    DRData.instans.grunddata.observatører.remove(this);
+    Programdata.instans.grunddata.observatører.remove(this);
     App.netværk.observatører.remove(visSkjulSkilt_ingen_forbindelse);
     super.onPause();
   }
@@ -169,7 +167,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
   public void run() {
     if (viser_drift_statusmeddelelse) return;
     if (vis_drift_statusmeddelelse == null) {
-      String drift_statusmeddelelse = DRData.instans.grunddata.android_json.optString(drift_statusmeddelelse_NØGLE).trim();
+      String drift_statusmeddelelse = Programdata.instans.grunddata.android_json.optString(drift_statusmeddelelse_NØGLE).trim();
       // Tjek i prefs om denne drifmeddelelse allerede er vist.
       // Der er 1 ud af en millards chance for at hashkoden ikke er ændret, den risiko tør vi godt løbe
       int drift_statusmeddelelse_hash = drift_statusmeddelelse.hashCode();
@@ -232,11 +230,11 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
     int volumen = App.audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
     // Hvis der er skruet helt ned så stop afspilningen
-    if (volumen == 0 && DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET) {
-      DRData.instans.afspiller.stopAfspilning();
+    if (volumen == 0 && Programdata.instans.afspiller.getAfspillerstatus() != Status.STOPPET) {
+      Programdata.instans.afspiller.stopAfspilning();
     }
 
-    if (DRData.instans.afspiller.getAfspillerstatus() != Status.STOPPET && getIntent().getBooleanExtra(SPØRG_OM_STOP, true)) {
+    if (Programdata.instans.afspiller.getAfspillerstatus() != Status.STOPPET && getIntent().getBooleanExtra(SPØRG_OM_STOP, true)) {
       // Spørg brugeren om afspilningen skal stoppes
       showDialog(0, null);
       return;
@@ -270,7 +268,7 @@ public class Hovedaktivitet extends Basisaktivitet implements Runnable {
     ab.setMessage(R.string.Stop_afspilningen_);
     ab.setPositiveButton(R.string.Stop_afspilning, new AlertDialog.OnClickListener() {
       public void onClick(DialogInterface arg0, int arg1) {
-        DRData.instans.afspiller.stopAfspilning();
+        Programdata.instans.afspiller.stopAfspilning();
         Hovedaktivitet.super.finish();
       }
     });

@@ -1,19 +1,18 @@
-package dk.dr.radio.data;
+package dk.dr.radio.data.esperanto;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import dk.dr.radio.data.Grunddata;
+import dk.dr.radio.data.Kanal;
+import dk.dr.radio.data.Udsendelse;
 import dk.dr.radio.diverse.Log;
-import dk.dr.radio.net.Diverse;
 
 
 /**
@@ -222,7 +221,7 @@ public class EoRssParsado {
     } catch (Exception ex) {
       Log.e("Eraro parsante " + k.kode, ex);
     }
-    Grunddata.opdaterProgramserieFraKanal(k);
+    Grunddata.eo_opdaterProgramserieFraKanal(k);
   }
 
 }

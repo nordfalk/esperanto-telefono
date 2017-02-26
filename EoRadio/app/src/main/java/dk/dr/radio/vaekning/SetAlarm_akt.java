@@ -39,7 +39,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.diverse.Log;
@@ -99,7 +99,7 @@ public class SetAlarm_akt extends PreferenceActivity implements Preference.OnPre
 
     ArrayList<String> kk = new ArrayList<String>();
     ArrayList<String> kn = new ArrayList<String>();
-    for (Kanal k : DRData.instans.grunddata.kanaler) {
+    for (Kanal k : Programdata.instans.grunddata.kanaler) {
       kk.add(k.kode);
       kn.add(k.navn);
     }
@@ -119,7 +119,7 @@ public class SetAlarm_akt extends PreferenceActivity implements Preference.OnPre
     if (alarm == null) {
       // No alarm means create a new alarm.
       alarm = new Alarm();
-      alarm.kanalo = DRData.instans.grunddata.forvalgtKanal.kode;
+      alarm.kanalo = Programdata.instans.grunddata.forvalgtKanal.kode;
     }
     mOriginalAlarm = alarm;
 

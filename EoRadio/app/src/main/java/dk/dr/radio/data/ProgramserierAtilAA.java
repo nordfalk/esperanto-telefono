@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.diverse.App;
 import dk.dr.radio.net.volley.DrVolleyResonseListener;
 import dk.dr.radio.net.volley.DrVolleyStringRequest;
@@ -32,12 +34,12 @@ public class ProgramserierAtilAA {
       JSONObject programserieJson = jsonArray.getJSONObject(n);
       String programserieSlug = programserieJson.getString(DRJson.Slug.name());
       //Log.d("\n=========================================== programserieSlug = " + programserieSlug);
-      Programserie programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+      Programserie programserie = Programdata.instans.programserieFraSlug.get(programserieSlug);
       if (programserie == null) {
         // Hvis der allerede er et programserie-element fra anden side indeholder den mere information end denne her
         programserie = new Programserie();
-        DRJson.parsProgramserie(programserieJson, programserie);
-        DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
+        Backend.parsProgramserie(programserieJson, programserie);
+        Programdata.instans.programserieFraSlug.put(programserieSlug, programserie);
       }
       res.add(programserie);
     }
@@ -49,7 +51,7 @@ public class ProgramserierAtilAA {
 
 
   public void startHentData() {
-    Request<?> req = new DrVolleyStringRequest(DRData.getAtilÅUrl(), new DrVolleyResonseListener() {
+    Request<?> req = new DrVolleyStringRequest(Backend.getAtilÅUrl(), new DrVolleyResonseListener() {
       @Override
       public void fikSvar(String json, boolean fraCache, boolean uændret) throws Exception {
         //Log.d("programserierAtilÅ fikSvar " + fraCache+uændret+json);

@@ -37,9 +37,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import dk.dr.radio.afspilning.wrapper.AndroidMediaPlayerWrapper;
 import dk.dr.radio.afspilning.wrapper.Wrapperfabrikering;
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 import dk.dr.radio.data.HentedeUdsendelser;
 import dk.dr.radio.data.Lydkilde;
 import dk.dr.radio.diverse.App;
@@ -80,7 +79,7 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
     }
 
     // Fix for crash på Android 2.1 - se https://www.bugsense.com/dashboard/project/cd78aa05/errors/1474018028
-    if (!DRData.instans.hentedeUdsendelser.virker()) {
+    if (!Programdata.instans.hentedeUdsendelser.virker()) {
       findPreference(HentedeUdsendelser.NØGLE_placeringAfHentedeFiler).setEnabled(false);
     } else {
       new AsyncTask() {
@@ -191,8 +190,8 @@ public class Indstillinger_akt extends PreferenceActivity implements OnPreferenc
 
     Log.d("Lydformatet blev ændret fra " + aktueltLydformat + " til " + nytLydformat);
     aktueltLydformat = nytLydformat;
-    DRData drdata = DRData.instans;
+    Programdata drdata = Programdata.instans;
     //String url = drdata.findKanalUrlFraKode(drdata.aktuelKanal);
-    DRData.instans.afspiller.setLydkilde(DRData.instans.afspiller.getLydkilde());
+    Programdata.instans.afspiller.setLydkilde(Programdata.instans.afspiller.getLydkilde());
   }
 }

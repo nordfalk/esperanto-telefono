@@ -30,11 +30,9 @@ import com.crashlytics.android.Crashlytics;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
-import dk.dr.radio.data.DRData;
+import dk.dr.radio.data.Programdata;
 
 /**
  * Loggerklasse
@@ -197,7 +195,7 @@ public class Log {
       ret += "\nFunktioner brugt: "+ Sidevisning.getViste();
   //    ret += "\nFunktioner ej brugt: "+ Sidevisning.getIkkeViste();
       ret += "\nIndstillinger: "+ App.prefs.getAll();
-      ret += "\nAfspiller: "+ DRData.instans.afspiller.toString();
+      ret += "\nAfspiller: "+ Programdata.instans.afspiller.toString();
       ret += "\nUdgange: "+ udgange;
     } catch (Exception e) {
       Log.rapporterFejl(e);

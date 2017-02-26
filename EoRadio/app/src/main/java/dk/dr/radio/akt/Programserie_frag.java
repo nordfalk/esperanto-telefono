@@ -23,8 +23,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import dk.dr.radio.data.DRData;
-import dk.dr.radio.data.DRJson;
+import dk.dr.radio.data.Programdata;
+import dk.dr.radio.data.dr_v3.Backend;
+import dk.dr.radio.data.dr_v3.DRJson;
 import dk.dr.radio.data.Kanal;
 import dk.dr.radio.data.Programserie;
 import dk.dr.radio.data.Udsendelse;
@@ -55,11 +56,11 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     programserieSlug = getArguments().getString(DRJson.SeriesSlug.name());
     Log.d("onCreateView " + this + " viser " + programserieSlug);
-    kanal = DRData.instans.grunddata.kanalFraKode.get(getArguments().getString(Kanal_frag.P_kode));
+    kanal = Programdata.instans.grunddata.kanalFraKode.get(getArguments().getString(Kanal_frag.P_kode));
     rod = inflater.inflate(R.layout.udsendelse_frag, container, false);
     aq = new AQuery(rod);
 
-    programserie = DRData.instans.programserieFraSlug.get(programserieSlug);
+    programserie = Programdata.instans.programserieFraSlug.get(programserieSlug);
     if (programserie == null || programserie.getUdsendelser()==null) {
       hentUdsendelser(0); // hent kun en frisk udgave hvis vi ikke allerede har en
     } else if (programserie.getUdsendelser().size()==0 && programserie.antalUdsendelser>0) {
@@ -84,7 +85,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
   }
 
   private void hentUdsendelser(final int offset) {
-    String url = DRData.getProgramserieUrl(programserie, programserieSlug) + "&offset=" + offset;
+    String url = Backend.getProgramserieUrl(programserie, programserieSlug) + "&offset=" + offset;
     //Log.d("XXX url=" + url);
 
     Request<?> req = new DrVolleyStringRequest(url, new DrVolleyResonseListener() {
@@ -93,10 +94,10 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
         if (uændret) return;
         JSONObject data = new JSONObject(json);
         if (offset == 0) {
-          programserie = DRJson.parsProgramserie(data, programserie);
-          DRData.instans.programserieFraSlug.put(programserieSlug, programserie);
+          programserie = Backend.parsProgramserie(data, programserie);
+          Programdata.instans.programserieFraSlug.put(programserieSlug, programserie);
         }
-        ArrayList<Udsendelse> uds = DRJson.parseUdsendelserForProgramserie(data.getJSONArray(DRJson.Programs.name()), kanal, DRData.instans);
+        ArrayList<Udsendelse> uds = Backend.parseUdsendelserForProgramserie(data.getJSONArray(DRJson.Programs.name()), kanal, Programdata.instans);
         programserie.tilføjUdsendelser(offset, uds);
         bygListe();
       }
@@ -118,13 +119,13 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
   public void onClick(View v) {
     if (v.getId()==R.id.favorit) {
       CheckBox favorit = (CheckBox) v;
-      DRData.instans.favoritter.sætFavorit(programserieSlug, favorit.isChecked());
+      Programdata.instans.favoritter.sætFavorit(programserieSlug, favorit.isChecked());
       if (favorit.isChecked()) App.kortToast(getString(R.string.Programserien_er_føjet_til_favoritter));
       Log.registrérTestet("Valg af favoritprogram", programserieSlug);
     } else {
       Udsendelse udsendelse = ((Viewholder) v.getTag()).udsendelse;
-      DRData.instans.afspiller.setLydkilde(udsendelse);
-      DRData.instans.afspiller.startAfspilning();
+      Programdata.instans.afspiller.setLydkilde(udsendelse);
+      Programdata.instans.afspiller.startAfspilning();
     }
   }
 
@@ -248,7 +249,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
           aq.id(R.id.alle_udsendelser).typeface(App.skrift_gibson);
           aq.id(R.id.beskrivelse).text(programserie.beskrivelse).typeface(App.skrift_georgia);
           Linkify.addLinks(aq.getTextView(), Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES | Linkify.PHONE_NUMBERS);
-          aq.id(R.id.favorit).clicked(Programserie_frag.this).typeface(App.skrift_gibson).checked(DRData.instans.favoritter.erFavorit(programserieSlug));
+          aq.id(R.id.favorit).clicked(Programserie_frag.this).typeface(App.skrift_gibson).checked(Programdata.instans.favoritter.erFavorit(programserieSlug));
         } else { // if (type == UDSENDELSE eller TIDLIGERE) {
           vh.titel = aq.id(R.id.titel).typeface(App.skrift_gibson_fed).getTextView();
           vh.dato = aq.id(R.id.dato).typeface(App.skrift_gibson).getTextView();
@@ -281,7 +282,7 @@ public class Programserie_frag extends Basisfragment implements AdapterView.OnIt
           // Vis hvilke udsendelser der kan hentes
           vh.titel.setTextColor(u.kanHentes ? Color.BLACK : App.color.grå60);
         }
-        vh.dato.setText(DRJson.datoformat.format(u.startTid));
+        vh.dato.setText(Backend.datoformat.format(u.startTid));
         //Log.d("DRJson.datoformat.format(u.startTid)=" + DRJson.datoformat.format(u.startTid));
 
         //String txt = u.getKanal().navn + ", " + ((u.slutTid.getTime() - u.startTid.getTime())/1000/60 + " MIN");

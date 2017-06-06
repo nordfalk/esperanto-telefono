@@ -10,7 +10,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -24,17 +26,19 @@ public class Instrukcioj_akt extends Activity {
 
   public class ReVokoDeJavaskripto
   {
+    @JavascriptInterface
     public void lingvajAgordoj() {
       Intent intent = new Intent();
       intent.setAction(Intent.ACTION_MAIN);
       ComponentName com = new ComponentName("com.android.settings", "com.android.settings.LanguageSettings");
       intent.setComponent(com);
 
-      Toast.makeText(Instrukcioj_akt.this, "Iru malsupren kaj enŝaltu AnySoftKeyboard'on.", Toast.LENGTH_LONG).show();
-      Toast.makeText(Instrukcioj_akt.this, "Post tio vi devas agordi AnySoftKeyboard'on kaj enŝalti Esperanton.", Toast.LENGTH_LONG).show();
+      Toast.makeText(Instrukcioj_akt.this, "Aktivigu Swiftkey", Toast.LENGTH_LONG).show();
+      Toast.makeText(Instrukcioj_akt.this, "Post tio vi devas agordi la klavaron kaj enŝalti Esperanton.", Toast.LENGTH_LONG).show();
       startActivity(intent);
     }
 
+    @JavascriptInterface
     public void elektiEniganMetodon() {
       try {
         ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).showInputMethodPicker();
@@ -48,17 +52,20 @@ public class Instrukcioj_akt extends Activity {
     }
 
 
+    @JavascriptInterface
     public void agordoj() {
       startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
     }
 
 
+    @JavascriptInterface
     public String androjdVersio() {
       return Build.VERSION.SDK;
     }
 
 
 
+    @JavascriptInterface
     public void kontakti() {
       String mesaĝo = "Skribu vian mesaĝon ĉi tie:\n\n\n---\n"
               +"\nModelo: "+Build.MODEL
@@ -80,6 +87,10 @@ public class Instrukcioj_akt extends Activity {
   public void onCreate(Bundle icicle) {
       super.onCreate(icicle);
 
+
+      StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+      StrictMode.setVmPolicy(builder.build());
+
       wv = new WebView(this);
       wv.loadUrl("file:///android_asset/bonvenon.html");
 
@@ -90,6 +101,7 @@ public class Instrukcioj_akt extends Activity {
       wv.setWebViewClient(null);
 
       wv.setWebChromeClient(new WebChromeClient() {
+        /*
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
           wv.loadUrl("javascript:document.getElementById('malnovaKlavarElekto').style.display="
@@ -97,6 +109,7 @@ public class Instrukcioj_akt extends Activity {
           wv.loadUrl("javascript:document.getElementById('novaKlavarElekto').style.display="
             +(!novaKlavarElekto?"'none';":"'block';"));
         }
+        */
       });
 
       /*

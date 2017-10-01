@@ -8,8 +8,8 @@ android {
         applicationId "dk.nordfalk.esperanta_telefono"
         minSdkVersion 9
         targetSdkVersion 25
-        versionCode 21
-        versionName "2.1"
+        versionCode 22
+        versionName "2.2"
     }
 
     buildTypes {
